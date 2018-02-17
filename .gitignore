@@ -2,3 +2,4 @@
 build
 *.gradle
 tellus.iml
+education/out
