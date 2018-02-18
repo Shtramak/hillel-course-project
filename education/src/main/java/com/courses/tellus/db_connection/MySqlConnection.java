@@ -20,7 +20,7 @@ public class MySqlConnection {
         return createConnection(hostName, dbName, userName, password);
     }
 
-    public static Connection createConnection(String hostName, String dbName, String userName, String password)
+    private static Connection createConnection(String hostName, String dbName, String userName, String password)
             throws ClassNotFoundException, SQLException  {
 
         Connection conn;
