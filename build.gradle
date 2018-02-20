@@ -1,20 +1,56 @@
 group 'com.courses.tellus'
 version '1.0-SNAPSHOT'
 
-
 apply plugin: 'java'
+apply plugin: 'war'
+
+sourceCompatibility = 1.8
 
 task wrapper(type: Wrapper) {
     gradleVersion = '4.4'
 }
 
 repositories {
+    maven { url 'http://repo.spring.io/libs-milestone' }
+    maven { url 'http://repo.spring.io/libs-release' }
     mavenCentral()
+    jcenter()
+    mavenLocal()
+}
+
+configurations {
+    testCompile.extendsFrom compileOnly
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile 'org.springframework:spring-context:+',
+
+            // JDBC
+            // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+//            'mysql:mysql-connector-java:+',
+
+            'com.h2database:h2:+',
+            'org.springframework:spring-jdbc:+',
+
+            // Common
+            'org.apache.logging.log4j:log4j-core:+',
+            'io.vavr:vavr:+'
+
+    compileOnly 'org.apache.tomcat:tomcat-api:+',
+            'org.apache.tomcat:tomcat-jsp-api:+',
+            'org.projectlombok:lombok:+',
+            'edu.washington.cs.types.checker:checker-framework:+'
+
+    testRuntime 'com.h2database:h2:+'
+
+    testCompile 'org.junit.jupiter:junit-jupiter-api:+',
+            'org.hamcrest:java-hamcrest:+',
+            'org.springframework:spring-test:+'
 }
+
+//dependencies {
+//    testCompile group: 'junit', name: 'junit', version: '4.12'
+//}
 
 task testTwo() {
     doFirst {
