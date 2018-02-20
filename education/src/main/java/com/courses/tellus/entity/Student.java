@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -14,9 +15,9 @@ public class Student {
     @Id
     @GeneratedValue
     private long id;
-    private String firstName;
-    private String lastName;
-    private String uniqueRegistrationNumber;
+    private @NotNull String firstName;
+    private @NotNull String lastName;
+    private @NotNull String uniqueRegistrationNumber;
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
