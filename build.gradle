@@ -1,8 +1,19 @@
-group 'com.courses.tellus'
-version '1.0-SNAPSHOT'
+buildscript {
+    apply from: "buildSrc/repositories.gradle"
+    repositories extRepositories
+    apply from: "buildSrc/buildscript-dependencies.gradle"
+    dependencies extDependencies
+}
 
+apply from: "buildSrc/dependencies.gradle"
+allprojects shared.globalRepositories
+subprojects shared.globalJavaConfig
 
 apply plugin: 'java'
+
+allprojects {
+    apply from: "${rootProject.projectDir}/buildSrc/analyze.gradle"
+}
 
 task wrapper(type: Wrapper) {
     gradleVersion = '4.4'
@@ -14,13 +25,4 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-}
-
-task testTwo() {
-    doFirst {
-        println "first"
-    }
-    doLast {
-        println "last"
-    }
 }
