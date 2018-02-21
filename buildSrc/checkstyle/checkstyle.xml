@@ -29,9 +29,7 @@
     <property name="fileExtensions" value="java, properties, xml"/>
     <!-- Checks for whitespace                               -->
     <!-- See http://checkstyle.sf.net/config_whitespace.html -->
-    <module name="FileTabCharacter">
-        <property name="eachLine" value="true"/>
-    </module>
+
 
     <module name="TreeWalker">
         <!--
@@ -325,6 +323,13 @@
             <message key="name.invalidPattern" value="Method type name ''{0}'' must match pattern ''{1}''."/>
         </module>
 
+
+        <!--
+        Description:    Validates Interface name.
+        -->
+        <module name="InterfaceTypeParameterName">
+            <property name="format" value="^[A-Z]+$"/>
+        </module>
         <!--
         Description:    Verifies there are no finalize() methods defined in a class.
         Example:        Obviously.
@@ -549,13 +554,13 @@
                         By default, does not check for author or version tags.
         Doc ref:        http://checkstyle.sourceforge.net/config_javadoc.html#JavadocType
         -->
-        <module name="JavadocType"/>
+        <!--<module name="JavadocType"/>-->
 
         <!--
         Description:    Checks that variables have Javadoc comments. Ignores serialVersionUID fields.
         Doc ref:        http://checkstyle.sourceforge.net/config_javadoc.html#JavadocVariable
         -->
-        <module name="JavadocVariable"/>
+        <!--<module name="JavadocVariable"/>-->
 
         <!--
         Description:    Validates Javadoc comments to help ensure they are well formed. Check Doc for details.

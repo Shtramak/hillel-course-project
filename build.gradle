@@ -6,7 +6,7 @@ buildscript {
 }
 
 apply from: "buildSrc/dependencies.gradle"
-allprojects shared.globalRepositories
+//allprojects shared.globalRepositories
 subprojects shared.globalJavaConfig
 
 apply plugin: 'java'

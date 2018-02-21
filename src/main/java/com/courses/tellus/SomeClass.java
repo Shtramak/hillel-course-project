@@ -1,8 +1,8 @@
 package com.courses.tellus;
 
-public class SomeTest {
+public class SomeClass {
 
-	public void setSomething() {
+	public void build() {
 		System.out.println("Test");
 	}
 }
