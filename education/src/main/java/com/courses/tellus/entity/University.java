@@ -1,10 +1,4 @@
-package com.courses.tellus.dao.University;
-
-import com.courses.tellus.dao.AbstractDao;
-
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.List;
+package com.courses.tellus.entity;
 
 public class  University  {
 

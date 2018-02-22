@@ -1,7 +1,7 @@
 package com.courses.tellus.dao;
 
 import com.courses.tellus.db_connection.ConnectionUtils;
-import com.courses.tellus.models.Subject;
+import com.courses.tellus.entity.Subject;
 
 
 import java.sql.Connection;

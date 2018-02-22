@@ -1,5 +1,4 @@
-.idea/
+.idea
 build
-*.gradle
-tellus.iml
-education/out
+*.iml
+.gradle

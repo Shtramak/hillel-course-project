@@ -1,18 +1,52 @@
 package com.courses.tellus.dao;
 
 import com.courses.tellus.entity.Student;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface StudentDao {
+@Repository
+public class StudentDao implements AbstractDao<Student, Long> {
+    private final SessionFactory sessionFactory;
 
-    List<Student> getAll();
+    @Autowired
+    public StudentDao(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
-    Student getById(long id);
+    @Override
+    public List<Student> getAll() {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createCriteria(Student.class)
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .list();
+    }
 
-    Student save(Student student);
+    @Override
+    public Student getById(long id) {
+        Session session = sessionFactory.getCurrentSession();
+        return (Student) session.get(Student.class, id);
+    }
 
-    void update(Student student);
+    @Override
+    public Student save(Student student) {
+        Session session = sessionFactory.getCurrentSession();
+        return (Student) session.merge(student);
+    }
 
-    void delete(Student student);
+    @Override
+    public void update(Student student) {
+        Session session = sessionFactory.getCurrentSession();
+        session.update(student);
+    }
+
+    @Override
+    public void delete(Student student) {
+        Session session = sessionFactory.getCurrentSession();
+        session.delete(student);
+    }
 }

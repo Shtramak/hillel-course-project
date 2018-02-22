@@ -1,14 +1,15 @@
-package com.courses.tellus.dao.University;
+package com.courses.tellus.dao;
 
 import com.courses.tellus.dao.AbstractDao;
 import com.courses.tellus.db_connection.ConnectionUtils;
-import com.courses.tellus.db_connection.MySqlConnection;
+import com.courses.tellus.entity.University;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UniversityDAOImpl implements AbstractDao {
+public class UniversityDao implements AbstractDao<University, Integer> {
+
     private Connection connection = ConnectionUtils.getConnection();
 
     @Override

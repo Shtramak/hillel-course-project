@@ -1,4 +1,4 @@
-package com.courses.tellus.models;
+package com.courses.tellus.entity;
 
 import java.util.Date;
 
