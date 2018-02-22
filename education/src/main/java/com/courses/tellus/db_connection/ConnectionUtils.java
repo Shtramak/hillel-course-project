@@ -1,7 +1,6 @@
 package com.courses.tellus.db_connection;
 
-
-
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -13,10 +12,13 @@ public class ConnectionUtils {
 
         try {
             conn = MySqlConnection.getMySQLConnection();
-        } catch (ClassNotFoundException except) {
-            except.printStackTrace();
-        } catch (SQLException except) {
-            except.printStackTrace();
+            System.out.println("Connection OK!");
+        } catch (IOException except) {
+            System.err.println("Wrong properties");
+        }  catch (ClassNotFoundException e) {
+            System.err.println("Can't find JDBC Driver");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return conn;

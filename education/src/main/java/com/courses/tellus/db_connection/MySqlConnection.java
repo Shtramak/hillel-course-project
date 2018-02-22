@@ -1,34 +1,30 @@
 package com.courses.tellus.db_connection;
 
 
-
-
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
+
 
 public class MySqlConnection {
 
-    public static Connection getMySQLConnection()
-            throws ClassNotFoundException, SQLException {
+    public static Connection getMySQLConnection() throws IOException, ClassNotFoundException, SQLException {
 
-        String hostName = "localhost";
-        String dbName = "education";
-        String userName = "root";
-        String password = "admin";
+            Properties props = new Properties();
 
-        return createConnection(hostName, dbName, userName, password);
+            FileInputStream in = new FileInputStream("tellus/education/src/main/resources/db.properties");
+            props.load(in);
+
+            Class.forName(props.getProperty("DB_DRIVER_CLASS"));
+
+            Connection connection = DriverManager.getConnection(
+                    props.getProperty("DB_URL"),
+                    props.getProperty("DB_USERNAME"),
+                    props.getProperty("DB_PASSWORD"));
+
+            return connection;
+        }
     }
-
-    private static Connection createConnection(String hostName, String dbName, String userName, String password)
-            throws ClassNotFoundException, SQLException  {
-
-        Connection conn;
-        Class.forName("com.mysql.jdbc.Driver");
-        String connectionURL = "jdbc:mysql://" + hostName + ":3306/" + dbName;
-
-        conn = DriverManager.getConnection(connectionURL, userName, password);
-
-        return conn;
-    }
-}
