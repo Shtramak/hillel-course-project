@@ -1,0 +1,128 @@
+import java.sql.*;
+import java.util.Date;
+
+public class TicketDAO {
+
+    //Create ticket method
+    public void createTicket (int id, String ticketCode, String passName, String passSurname, String flightDate, String dispPoint, String destPoint, String plainCode) {
+        PreparedStatement st = null;
+        MainConnection mainConnection = new MainConnection();
+        Connection con = mainConnection.getConnection();
+        String insertQuerry = "INSERT INTO airport_tickets.tickets VALUES ("
+                + id +          ", '"
+                + ticketCode +  "', '"
+                + passName +    "', '"
+                + passSurname + "', '"
+                + flightDate +  "', '"
+                + dispPoint +   "', '"
+                + destPoint +   "', '"
+                + plainCode +   "');";
+        try {
+            st = con.prepareStatement(insertQuerry);
+            int count = st.executeUpdate(insertQuerry);
+            mainConnection.closeConnection();
+            System.out.println("Success! " + count + " rows affected");
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Wrong data inserted");
+        } catch (SQLException e) {
+            System.out.println("Error while transfering querry");
+            e.printStackTrace();
+        } finally {
+            mainConnection.closeConnection();
+        }
+    }
+
+    // Read ticket №id from table
+    public Ticket readTicket(int ticketId) {
+        Ticket ticket = null;
+        Statement st = null;
+        ResultSet resultSet = null;
+        MainConnection mainConnection = new MainConnection();
+        Connection con = mainConnection.getConnection();
+        String readQuerry = "SELECT * FROM airport_tickets.tickets WHERE ticket_id = " + ticketId + ";";
+
+        try {
+            st = con.createStatement();
+            resultSet = st.executeQuery(readQuerry );
+            resultSet.next();
+            ticket = new Ticket(                // Creating ticket object. Filling constructor with data from Db
+                    ticketId,
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getDate(5),
+                    resultSet.getString(6),
+                    resultSet.getString(7),
+                    resultSet.getString(8));
+            resultSet.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            mainConnection.closeConnection();
+        }
+
+        return ticket;
+    }
+
+    // Updating record in 'tickets' table
+    public void updateTicket (int id, String ticketCode, String passName, String passSurname, String flightDate, String dispPoint, String destPoint, String plainCode) {
+
+        PreparedStatement st = null;
+        MainConnection mainConnection = new MainConnection();
+        Connection con = mainConnection.getConnection();
+        String updateQuerry = "" +
+                "UPDATE airport_tickets.tickets " +
+                "SET " +
+                    "ticket_code = '"   + ticketCode  + "', " +
+                    "pass_Name = '"     + passName    + "', " +
+                    "pass_Surname = '"  + passSurname + "', " +
+                    "flight_date = '"   + flightDate  + "', " +
+                    "dispach_point = '" + dispPoint   + "', " +
+                    "dest_point = '"    + destPoint   + "', " +
+                    "plane_code = '"    + plainCode   + "' " +
+                "WHERE " +
+                    "ticket_id = " + id + ";";
+
+
+        try {
+            st = con.prepareStatement(updateQuerry);
+            int count = st.executeUpdate(updateQuerry);
+            System.out.println("Successfully updated " + count + " raws");
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Wrong data inserted.");
+        } catch (SQLException e) {
+            System.out.println("Error while transfering querry");
+            e.printStackTrace();
+        } finally {
+            mainConnection.closeConnection();
+        }
+    }
+
+    // Deleting record №id from table
+    public void deleteTicket (int id) {
+        PreparedStatement st = null;
+        String deleteQuerry = "DELETE FROM  airport_tickets.tickets WHERE ticket_id =" + id + ";";
+        MainConnection mainConnection = new MainConnection();
+        Connection con = mainConnection.getConnection();
+
+        try {
+            st = con.prepareStatement(deleteQuerry);
+            int count = st.executeUpdate(deleteQuerry);
+            System.out.println("Success! " + count + " rows affected");
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Wrong data inserted");
+        } catch (SQLException e) {
+            System.out.println("Error while transfering querry");
+            e.printStackTrace();
+        } finally {
+            mainConnection.closeConnection();
+        }
+
+
+    }
+
+}
