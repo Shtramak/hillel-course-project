@@ -81,10 +81,10 @@ public class Ticket {
     }
 
     public String getPlane() {
-        return Plane;
+        return plane;
     }
 
     public void setPlane(String plane) {
-        Plane = plane;
+        plane = plane;
     }
 }
