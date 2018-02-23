@@ -91,7 +91,24 @@ public class TicketDAO {
         } finally {
             mainConnection.closeConnection();
         }
-
     }
 
+    public int getLastId() {   // Method, that detects and returnes the last Id in the table
+        int lastIndex = 0;
+        MainConnection mainConnection = new MainConnection();
+        Connection con = mainConnection.getConnection();
+        Statement st = null;
+        try {
+            st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM airport_tickets.tickets");
+            rs.last();
+            lastIndex = rs.getInt(1);
+        } catch (SQLException e) {
+            System.out.println("Error while detecting last index");
+            e.printStackTrace();
+        } finally {
+            mainConnection.closeConnection();
+        }
+        return lastIndex;
+    }
 }
