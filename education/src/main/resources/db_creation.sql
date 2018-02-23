@@ -24,3 +24,12 @@ CREATE TABLE Universities(
      address VARCHAR (100),
       specialization VARCHAR(75)
       );
+
+CREATE TABLE Student (
+  id     INT PRIMARY KEY AUTO_INCREMENT,
+  firstName   VARCHAR(20) NOT NULL,
+  lastName  VARCHAR(20) NOT NULL,
+  uniqueRegistrationNumber  VARCHAR(20),
+  address  VARCHAR(255) NOT NULL,
+
+);
