@@ -18,7 +18,7 @@ public class TicketDAO {
     }
 
     // Read ticket №id from table
-    public Ticket readTicket(int ticketId) {
+    public Ticket getTicketById(int ticketId) {
         Ticket ticket = null;
         Statement st = null;
         ResultSet resultSet = null;
