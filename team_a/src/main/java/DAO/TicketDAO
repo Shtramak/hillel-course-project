@@ -4,19 +4,19 @@ import java.util.Date;
 public class TicketDAO {
 
     //Create ticket method
-    public void createTicket (int id, String ticketCode, String passName, String passSurname, String flightDate, String dispPoint, String destPoint, String plainCode) {
+    public void createTicket (Ticket ticket) {
         PreparedStatement st = null;
         MainConnection mainConnection = new MainConnection();
         Connection con = mainConnection.getConnection();
         String insertQuerry = "INSERT INTO airport_tickets.tickets VALUES ("
-                + id +          ", '"
-                + ticketCode +  "', '"
-                + passName +    "', '"
-                + passSurname + "', '"
-                + flightDate +  "', '"
-                + dispPoint +   "', '"
-                + destPoint +   "', '"
-                + plainCode +   "');";
+                + ticket.getTicketId()          + ", '"
+                + ticket.getTicketCode()        + "', '"
+                + ticket.getPasName()           + "', '"
+                + ticket.getPasSurname()        + "', '"
+                + ticket.getFlightDate()        + "', '"
+                + ticket.getDispachPoint()      + "', '"
+                + ticket.getDestinationPoint()  + "', '"
+                + ticket.getPlane()             + "');";
         try {
             st = con.prepareStatement(insertQuerry);
             int count = st.executeUpdate(insertQuerry);
@@ -67,7 +67,7 @@ public class TicketDAO {
     }
 
     // Updating record in 'tickets' table
-    public void updateTicket (int id, String ticketCode, String passName, String passSurname, String flightDate, String dispPoint, String destPoint, String plainCode) {
+    public void updateTicket (int id, Ticket ticket) {
 
         PreparedStatement st = null;
         MainConnection mainConnection = new MainConnection();
@@ -75,13 +75,13 @@ public class TicketDAO {
         String updateQuerry = "" +
                 "UPDATE airport_tickets.tickets " +
                 "SET " +
-                    "ticket_code = '"   + ticketCode  + "', " +
-                    "pass_Name = '"     + passName    + "', " +
-                    "pass_Surname = '"  + passSurname + "', " +
-                    "flight_date = '"   + flightDate  + "', " +
-                    "dispach_point = '" + dispPoint   + "', " +
-                    "dest_point = '"    + destPoint   + "', " +
-                    "plane_code = '"    + plainCode   + "' " +
+                    "ticket_code = '"   + ticket.getTicketCode()        + "', " +
+                    "pass_Name = '"     + ticket.getPasName()           + "', " +
+                    "pass_Surname = '"  + ticket.getPasSurname()        + "', " +
+                    "flight_date = '"   + ticket.getFlightDate()        + "', " +
+                    "dispach_point = '" + ticket.getDispachPoint()      + "', " +
+                    "dest_point = '"    + ticket.getDestinationPoint()  + "', " +
+                    "plane_code = '"    + ticket.getPlane()             + "' " +
                 "WHERE " +
                     "ticket_id = " + id + ";";
 
