@@ -7,13 +7,13 @@ public class Ticket {
     private String ticketCode;
     private String pasName;
     private String pasSurname;
-    private Date flightDate;
+    private String flightDate;
     private String dispachPoint;
     private String destinationPoint;
     private String plane;
 
 
-    public Ticket(int ticketId, String ticketCode, String pasName, String pasSurname, Date flightDate, String dispachPoint, String destinationPoint, String plane) {
+    public Ticket(int ticketId, String ticketCode, String pasName, String pasSurname, String flightDate, String dispachPoint, String destinationPoint, String plane) {
         this.ticketId = ticketId;
         this.ticketCode = ticketCode;
         this.pasName = pasName;
