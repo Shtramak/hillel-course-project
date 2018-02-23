@@ -1,4 +1,5 @@
 buildscript {
+
     repositories {
         mavenCentral()
     }
@@ -14,9 +15,25 @@ apply plugin: 'java'
 
 sourceCompatibility = 1.8
 
-//task wrapper(type: Wrapper) {
-//    gradleVersion = '4.5.1'
-//}
+    apply from: "buildSrc/repositories.gradle"
+    repositories extRepositories
+    apply from: "buildSrc/buildscript-dependencies.gradle"
+    dependencies extDependencies
+
+
+apply from: "buildSrc/dependencies.gradle"
+//all projects shared.globalRepositories
+subprojects shared.globalJavaConfig
+
+apply plugin: 'java'
+
+allprojects {
+    apply from: "${rootProject.projectDir}/buildSrc/analyze.gradle"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.4'
+}
 
 repositories {
     mavenCentral()
@@ -68,22 +85,9 @@ dependencies {
     testCompileOnly 'org.apiguardian:apiguardian-api:+'
 }
 
-//dependencies {
-//    testCompile group: 'junit', name: 'junit', version: '4.12'
-//}
-
 // type in terminal: gradle wrapper --gradle-version=4.5.1
 task wrapper(type: Wrapper) {
     description = 'Generates gradlew[.bat] scripts'
     gradleVersion = '4.5.1'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
-}
-
-task testTwo() {
-    doFirst {
-        println "first"
-    }
-    doLast {
-        println "last"
-    }
 }

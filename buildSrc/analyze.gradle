@@ -1,0 +1,77 @@
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+apply plugin: 'jdepend'
+apply plugin: "jacoco"
+apply plugin: 'com.palantir.jacoco-coverage'
+
+
+checkstyle {
+    ignoreFailures = false
+    configProperties.samedir = "${rootProject.projectDir}/buildSrc/checkstyle"
+    sourceSets = [sourceSets.main]
+    configFile = new File("${rootProject.projectDir}/buildSrc/checkstyle/checkstyle.xml")
+    toolVersion = "7.8.2"
+}
+
+
+pmd {
+    toolVersion = "5.5.3"
+    consoleOutput = true
+    ruleSetFiles = rootProject.files('buildSrc/pmd/pmd_checks.xml')
+}
+
+findbugs {
+    toolVersion = "3.0.1"
+    sourceSets = [sourceSets.main]
+    effort = "max"
+    reportLevel = "high"
+    excludeFilter = file("${rootProject.projectDir}/buildSrc/findbugs/exclude.xml")
+}
+
+jdepend {
+    toolVersion = "2.9.1"
+    sourceSets = [sourceSets.main]
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+}
+
+jacoco {
+    toolVersion = "0.7.9"
+}
+
+test {
+    jacoco {
+        append = false
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        excludes = ['**/model/**']
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = false
+        csv.enabled = false
+        html.destination "${buildDir}/jacocoHtml"
+    }
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['**/model/**', '**/*Main*.*'])
+        })
+    }
+}
+
+jacocoCoverage {
+    // Enforce minimum code coverage of 90% for every Java file.
+    fileThreshold 0.9
+    fileThreshold 0.9, LINE
+    fileThreshold 0.9, COMPLEXITY
+    fileThreshold 0.9, METHOD
+}
+
+check.dependsOn test
