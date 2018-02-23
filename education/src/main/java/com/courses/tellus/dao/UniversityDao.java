@@ -1,6 +1,5 @@
 package com.courses.tellus.dao;
 
-import com.courses.tellus.dao.AbstractDao;
 import com.courses.tellus.db_connection.ConnectionUtils;
 import com.courses.tellus.entity.University;
 
@@ -35,9 +34,9 @@ public class UniversityDao implements AbstractDao<University, Integer> {
 
 
     @Override
-    public Object getEntityById(Object id) {
+    public University getEntityById(Integer id) {
         int idForSearch;
-        List<University> listOfUniversitiesById = new ArrayList<University>();
+        University universityById = new University();
         try (PreparedStatement ps=connection.prepareStatement("SELECT*FROM Universities WHERE id=?")){
             idForSearch = (int)id;
             ps.setInt(1,idForSearch);
@@ -49,18 +48,18 @@ public class UniversityDao implements AbstractDao<University, Integer> {
                     university.setNameOfUniversity(rSet.getString("nameOfUniversity"));
                     university.setAddress(rSet.getString("address"));
                     university.setSpecialization(rSet.getString("specialization"));
-                    listOfUniversitiesById.add(university);
-                    listOfUniversitiesById.add(university);}}
+                   universityById=university;
+                }}
 
         } catch (SQLException | ClassCastException e){
             e.printStackTrace();
         }
-        return listOfUniversitiesById;
+        return universityById;
     }
 
 
     @Override
-    public void update(Object entity) {
+    public void update(University entity) {
         University u;
 
         try (PreparedStatement ps= connection.prepareStatement
@@ -83,7 +82,7 @@ public class UniversityDao implements AbstractDao<University, Integer> {
 
 
     @Override
-    public void delete(Object id) {
+    public void delete(Integer id) {
         int idForDelete;
         try (PreparedStatement ps=connection.prepareStatement("DELETE FROM Universities " +
                 "WHERE id=?")){
@@ -98,7 +97,7 @@ public class UniversityDao implements AbstractDao<University, Integer> {
 
 
     @Override
-    public  void create(Object entity) {
+    public  void create(University entity) {
         University u;
 
         try (PreparedStatement ps = connection.prepareStatement
