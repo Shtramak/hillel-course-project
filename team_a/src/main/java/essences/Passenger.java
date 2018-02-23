@@ -1,4 +1,4 @@
-package essences;
+package main.java.essences;
 
 public class Passenger {
     private int passengerId;

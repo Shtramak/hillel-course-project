@@ -1,4 +1,12 @@
-package DAO;
+package main.java.DAO;
+
+import main.java.MySQLConnection.MainConnection;
+import main.java.essences.Passenger;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.sql.*;
 
 public class PassengerDAO {
 
