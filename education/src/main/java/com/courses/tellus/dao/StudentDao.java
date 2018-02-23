@@ -1,13 +1,7 @@
 package com.courses.tellus.dao;
 
 import com.courses.tellus.entity.Student;
-import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -50,7 +44,7 @@ public class StudentDao implements AbstractDao<Student, Long> {
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName"),
                         resultSet.getString("uniqueRegistrationNumber"),
-                        resultSet.getString("address"));
+                        resultSet.getString("address")) : null;
             }
         }
     }
@@ -61,10 +55,10 @@ public class StudentDao implements AbstractDao<Student, Long> {
              PreparedStatement statement = connection.prepareStatement(
                      "INSERT INTO Student (firstName, lastName, uniqueRegistrationNumber, address) " +
                              "VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, entity.getFirstName().toString());
-            statement.setString(2, entity.getLastName().toString());
-            statement.setString(3, entity.getUniqueRegistrationNumber().toString());
-            statement.setString(4, entity.getAddress().toString());
+            statement.setString(1, entity.getFirstName());
+            statement.setString(2, entity.getLastName());
+            statement.setString(3, entity.getUniqueRegistrationNumber());
+            statement.setString(4, entity.getAddress());
             statement.executeUpdate();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 generatedKeys.next();
@@ -111,5 +105,6 @@ public class StudentDao implements AbstractDao<Student, Long> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
 }

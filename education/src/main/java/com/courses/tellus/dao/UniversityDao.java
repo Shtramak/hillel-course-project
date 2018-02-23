@@ -10,7 +10,7 @@ import java.util.List;
 
 public class UniversityDao implements AbstractDao<University, Integer> {
 
-    private Connection connection = ConnectionUtils.getConnection();
+    private Connection connection = get();
 
     @Override
     public List<University> getAll()  {
@@ -116,4 +116,10 @@ public class UniversityDao implements AbstractDao<University, Integer> {
         } catch (SQLException | ClassCastException e) {
             e.printStackTrace();
         }
-    }}
+    }
+
+    @Override
+    public Connection get() {
+        return ConnectionUtils.getConnection();
+    }
+}

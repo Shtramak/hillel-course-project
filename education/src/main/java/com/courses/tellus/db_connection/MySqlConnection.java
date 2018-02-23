@@ -19,7 +19,6 @@ public class MySqlConnection {
             props.load(in);
 
             Class.forName(props.getProperty("DB_DRIVER_CLASS"));
-
             Connection connection = DriverManager.getConnection(
                     props.getProperty("DB_URL"),
                     props.getProperty("DB_USERNAME"),

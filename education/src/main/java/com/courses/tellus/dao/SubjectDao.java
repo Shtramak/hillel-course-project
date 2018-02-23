@@ -17,7 +17,7 @@ public class SubjectDao implements AbstractDao<Subject, Integer> {
     private Connection conn;
 
     public SubjectDao() {
-        conn = ConnectionUtils.getConnection();
+        conn = get();
     }
 
     public Connection getConnForClose() {
@@ -105,5 +105,10 @@ public class SubjectDao implements AbstractDao<Subject, Integer> {
         ps.setDate(4, new java.sql.Date(subject.getDateOfCreation().getTime()));
 
         ps.executeUpdate();
+    }
+
+    @Override
+    public Connection get() {
+        return ConnectionUtils.getConnection();
     }
 }
