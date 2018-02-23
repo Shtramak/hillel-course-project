@@ -5,9 +5,6 @@ public class TicketDAO {
 
     //Create ticket method
     public void createTicket (Ticket ticket) {
-        PreparedStatement st = null;
-        MainConnection mainConnection = new MainConnection();
-        Connection con = mainConnection.getConnection();
         String insertQuerry = "INSERT INTO airport_tickets.tickets VALUES ("
                 + ticket.getTicketId()          + ", '"
                 + ticket.getTicketCode()        + "', '"
@@ -17,20 +14,7 @@ public class TicketDAO {
                 + ticket.getDispachPoint()      + "', '"
                 + ticket.getDestinationPoint()  + "', '"
                 + ticket.getPlane()             + "');";
-        try {
-            st = con.prepareStatement(insertQuerry);
-            int count = st.executeUpdate(insertQuerry);
-            mainConnection.closeConnection();
-            System.out.println("Success! " + count + " rows affected");
-
-        } catch (SQLIntegrityConstraintViolationException e) {
-            System.out.println("Wrong data inserted");
-        } catch (SQLException e) {
-            System.out.println("Error while transfering querry");
-            e.printStackTrace();
-        } finally {
-            mainConnection.closeConnection();
-        }
+        updateTable(createRawQuerry);
     }
 
     // Read ticket №id from table
@@ -68,10 +52,6 @@ public class TicketDAO {
 
     // Updating record in 'tickets' table
     public void updateTicket (int id, Ticket ticket) {
-
-        PreparedStatement st = null;
-        MainConnection mainConnection = new MainConnection();
-        Connection con = mainConnection.getConnection();
         String updateQuerry = "" +
                 "UPDATE airport_tickets.tickets " +
                 "SET " +
@@ -84,35 +64,25 @@ public class TicketDAO {
                     "plane_code = '"    + ticket.getPlane()             + "' " +
                 "WHERE " +
                     "ticket_id = " + id + ";";
-
-
-        try {
-            st = con.prepareStatement(updateQuerry);
-            int count = st.executeUpdate(updateQuerry);
-            System.out.println("Successfully updated " + count + " raws");
-
-        } catch (SQLIntegrityConstraintViolationException e) {
-            System.out.println("Wrong data inserted.");
-        } catch (SQLException e) {
-            System.out.println("Error while transfering querry");
-            e.printStackTrace();
-        } finally {
-            mainConnection.closeConnection();
-        }
+        updateTable(updateQuerry);
     }
 
     // Deleting record №id from table
     public void deleteTicket (int id) {
-        PreparedStatement st = null;
         String deleteQuerry = "DELETE FROM  airport_tickets.tickets WHERE ticket_id =" + id + ";";
+        updateTable(deleteQuerry);
+    }
+
+    private void updateTable (String querry) { // Creates connection and updates table with querries: "create", "update", "delete"
+        PreparedStatement st = null;
         MainConnection mainConnection = new MainConnection();
         Connection con = mainConnection.getConnection();
 
         try {
-            st = con.prepareStatement(deleteQuerry);
-            int count = st.executeUpdate(deleteQuerry);
+            st = con.prepareStatement(querry);
+            int count = st.executeUpdate(querry);
             System.out.println("Success! " + count + " rows affected");
-
+            con.close();
         } catch (SQLIntegrityConstraintViolationException e) {
             System.out.println("Wrong data inserted");
         } catch (SQLException e) {
@@ -121,7 +91,6 @@ public class TicketDAO {
         } finally {
             mainConnection.closeConnection();
         }
-
 
     }
 
