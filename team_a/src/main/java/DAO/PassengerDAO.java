@@ -48,12 +48,12 @@ public class PassengerDAO {
         updateQuerry(updatePassegerQuery);
     }
 
-
     public void deletePassenger (int id) {
         String deleteQuery = "DELETE FROM " + passengierTableName + " WHERE passengerId=" + id +";";
         updateQuerry(deleteQuery);
 
     }
+
     public void addPassenger (Passenger passenger) {
         String addPassQuery = "INSERT INTO " + passengierTableName +
                 " VALUES " +
@@ -83,4 +83,28 @@ public class PassengerDAO {
             }
         }
     }
+
+    public Passenger getById (int passId) {
+        Statement statement = null;
+        ResultSet resultSet = null;
+        Passenger uploadedPass = null;
+        MainConnection mainConnection = new MainConnection();
+        Connection connection = (Connection) mainConnection.getConnection();
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM " + passengierTableName + " WHERE passengerId = " + passId +";");
+            resultSet.next();
+            uploadedPass = new Passenger(   passId,
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getInt(4),
+                    resultSet.getInt(5),
+                    resultSet.getInt(6));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return uploadedPass;
+    }
+
 }
