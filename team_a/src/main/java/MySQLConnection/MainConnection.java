@@ -1,7 +1,10 @@
-package MySQLConnection;
-import java.sql.*;
+package main.java.MySQLConnection;
 
-public class MySQLConnection {
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class MainConnection {
     private Connection con = null;
     private String urlDb = "";
     private String userNameDb ="";
@@ -15,7 +18,7 @@ public class MySQLConnection {
         //JDBC driver registration and autentification to database
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(url, userNameDb, pswDb);
+            con = DriverManager.getConnection(urlDb, userNameDb, pswDb);
         } catch (ClassNotFoundException e) {
             System.out.println("Error while connectiong JDBC driver.");
             e.printStackTrace();

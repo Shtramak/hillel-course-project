@@ -1,5 +1,4 @@
-package essences;
-import java.util.Date;
+package main.java.essences;
 
 public class Ticket {
 
@@ -11,7 +10,6 @@ public class Ticket {
     private String dispachPoint;
     private String destinationPoint;
     private String plane;
-
 
     public Ticket(int ticketId, String ticketCode, String pasName, String pasSurname, String flightDate, String dispachPoint, String destinationPoint, String plane) {
         this.ticketId = ticketId;
@@ -56,11 +54,11 @@ public class Ticket {
         this.pasSurname = pasSurname;
     }
 
-    public Date getFlightDate() {
+    public String getFlightDate() {
         return flightDate;
     }
 
-    public void setFlightDate(Date flightDate) {
+    public void setFlightDate(String flightDate) {
         this.flightDate = flightDate;
     }
 

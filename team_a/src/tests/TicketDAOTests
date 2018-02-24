@@ -1,13 +1,14 @@
 package tests;
 
-import TestingDAO.MainConnection;
-import TestingDAO.Ticket;
-import TestingDAO.TicketDAO;
+import main.java.DAO.TicketDAO;
+import main.java.MySQLConnection.MainConnection;
+import main.java.essences.Ticket;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
-public class TicketDAOTest {
+public class TicketDAOTests {
     @Before
     public void testingDriverManager () { // Checking if mysql-connector is uploaded to the project
         boolean thrown = false;
