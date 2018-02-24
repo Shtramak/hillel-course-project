@@ -6,9 +6,8 @@ buildscript {
 }
 
 apply from: "buildSrc/dependencies.gradle"
-//allprojects shared.globalRepositories
 subprojects shared.globalJavaConfig
-
+subprojects shared.globalRepositories
 apply plugin: 'java'
 
 allprojects {
@@ -17,6 +16,12 @@ allprojects {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '4.5.1'
+}
+
+project("autosalon") {
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
 }
 
 repositories {
