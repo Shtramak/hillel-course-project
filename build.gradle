@@ -1,0 +1,34 @@
+buildscript {
+    apply from: "buildSrc/repositories.gradle"
+    repositories extRepositories
+    apply from: "buildSrc/buildscript-dependencies.gradle"
+    dependencies extDependencies
+}
+
+apply from: "buildSrc/dependencies.gradle"
+subprojects shared.globalJavaConfig
+subprojects shared.globalRepositories
+apply plugin: 'java'
+
+allprojects {
+    apply from: "${rootProject.projectDir}/buildSrc/analyze.gradle"
+    dependencies shared.dataBaseDependencies
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.5.1'
+}
+
+project("autosalon") {
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
