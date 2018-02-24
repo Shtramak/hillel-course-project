@@ -12,6 +12,7 @@ apply plugin: 'java'
 
 allprojects {
     apply from: "${rootProject.projectDir}/buildSrc/analyze.gradle"
+    dependencies shared.dataBaseDependencies
 }
 
 task wrapper(type: Wrapper) {
