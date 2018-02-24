@@ -1,6 +1,5 @@
-package com.courses.tellus;
+package main.java.com.courses.tellus;
 
-import com.courses.tellus.airoport.Airoport;
 
 import java.util.Scanner;
 
