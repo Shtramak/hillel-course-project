@@ -1,6 +1,6 @@
-package main.java.com.courses.tellus.dao;
+package main.java.DAO;
 
-import main.java.com.courses.tellus.airoport.Airport;
+import main.java.airoport.Airport;
 
 import java.sql.SQLException;
 import java.util.List;

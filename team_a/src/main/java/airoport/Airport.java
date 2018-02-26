@@ -1,4 +1,4 @@
-package main.java.com.courses.tellus.airoport;
+package main.java.airoport;
 
 public class Airport {
 

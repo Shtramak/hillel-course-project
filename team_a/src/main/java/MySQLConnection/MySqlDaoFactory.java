@@ -1,7 +1,7 @@
-package main.java.com.courses.tellus.MySqlConn;
+package main.java.MySQLConnection;
 
-import main.java.com.courses.tellus.dao.AirDao;
-import main.java.com.courses.tellus.dao.DaoFactory;
+import main.java.DAO.AirDao;
+import main.java.DAO.DaoFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

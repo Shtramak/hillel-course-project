@@ -1,4 +1,4 @@
-package main.java.com.courses.tellus.dao;
+package main.java.DAO;
 
 import java.io.Serializable;
 import java.sql.SQLException;

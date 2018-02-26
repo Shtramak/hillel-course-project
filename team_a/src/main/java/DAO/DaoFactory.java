@@ -1,4 +1,6 @@
-package main.java.com.courses.tellus.dao;
+package main.java.DAO;
+
+import main.java.DAO.AirDao;
 
 import java.sql.Connection;
 import java.sql.SQLException;

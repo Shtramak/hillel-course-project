@@ -1,7 +1,7 @@
-package main.java.com.courses.tellus.MySqlConn;
+package main.java.MySQLConnection;
 
-import main.java.com.courses.tellus.airoport.Airport;
-import main.java.com.courses.tellus.dao.AirDao;
+import main.java.airoport.Airport;
+import main.java.DAO.AirDao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
