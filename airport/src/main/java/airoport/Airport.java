@@ -1,4 +1,4 @@
-package main.java.airoport;
+package airoport;
 
 public class Airport {
 

@@ -1,4 +1,4 @@
-package main.java.MySQLConnection;
+package MySQLConnection;
 
 import main.java.airoport.Airport;
 import main.java.DAO.AirDao;

@@ -1,4 +1,4 @@
-package main.java.DAO;
+package DAO;
 
 import java.io.Serializable;
 import java.sql.SQLException;

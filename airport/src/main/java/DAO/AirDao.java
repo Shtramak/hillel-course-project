@@ -1,4 +1,4 @@
-package main.java.DAO;
+package DAO;
 
 import main.java.airoport.Airport;
 
