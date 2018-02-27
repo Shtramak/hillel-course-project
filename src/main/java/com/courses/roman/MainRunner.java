@@ -1,4 +1,4 @@
-package com.courses.tellus;
+package com.courses.roman;
 
 public class MainRunner {
 }
