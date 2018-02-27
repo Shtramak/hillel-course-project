@@ -1,7 +1,7 @@
-package main.java.DAO;
+package DAO;
 
-import main.java.MySQLConnection.MainConnection;
-import main.java.essences.Passenger;
+import MySQLConnection.MainConnection;
+import essences.Passenger;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -10,16 +10,16 @@ import java.sql.*;
 
 public class PassengerDAO {
 
-    private String passengierTableName = "airport.passenger";
+//    private String passengierTableName = "";
     public List<Passenger> getAllPassengiers() {
-        Statement statement = null;
+        Statement statement;
         ResultSet resultSet = null;
         MainConnection mainConnection = new MainConnection();
-        Connection connection = (Connection) mainConnection.getConnection();
+        Connection connection = mainConnection.getConnection();
         List<Passenger> passengerList = new ArrayList<>();
         try {
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM " + passengierTableName + ";");
+            resultSet = statement.executeQuery("SELECT * FROM  airports ;");
             while (resultSet.next()) {
                 passengerList.add(new Passenger(resultSet.getInt(1),
                         resultSet.getString(2),
@@ -44,7 +44,7 @@ public class PassengerDAO {
     public void updatePassenger(int id, Passenger passenger) {
         MainConnection mainConnection = new MainConnection();
         Connection connection = (Connection) mainConnection.getConnection();
-        String updatePassegerQuery = "UPDATE "+ passengierTableName +" SET " +
+        String updatePassegerQuery = "UPDATE airports SET " +
                 "passengerId = " + passenger.getPassengerId() +", " +
                 "name = '" + passenger.getName() + "', " +
                 "lastName = '" + passenger.getLastName() + "' , " +
@@ -57,14 +57,13 @@ public class PassengerDAO {
     }
 
     public void deletePassenger (int id) {
-        String deleteQuery = "DELETE FROM " + passengierTableName + " WHERE passengerId=" + id +";";
+        String deleteQuery = "DELETE FROM airports WHERE passengerId=" + id +";";
         updateQuerry(deleteQuery);
 
     }
 
     public void addPassenger (Passenger passenger) {
-        String addPassQuery = "INSERT INTO " + passengierTableName +
-                " VALUES " +
+        String addPassQuery = "INSERT INTO airports VALUES " +
                 "(" +   passenger.getPassengerId() +", '" +
                 passenger.getName() + "', '" +
                 passenger.getLastName() + "', " +
@@ -101,7 +100,7 @@ public class PassengerDAO {
 
         try {
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM " + passengierTableName + " WHERE passengerId = " + passId +";");
+            resultSet = statement.executeQuery("SELECT * FROM airports WHERE passengerId = " + passId +";");
             resultSet.next();
             uploadedPass = new Passenger(   passId,
                     resultSet.getString(2),

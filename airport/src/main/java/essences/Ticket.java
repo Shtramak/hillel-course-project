@@ -1,4 +1,4 @@
-package main.java.essences;
+package essences;
 
 public class Ticket {
 

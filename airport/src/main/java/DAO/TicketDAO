@@ -1,9 +1,8 @@
-package main.java.DAO;
+package DAO;
 
-import main.java.MySQLConnection.MainConnection;
-import main.java.essences.Ticket;
+import MySQLConnection.MainConnection;
+import essences.Ticket;
 import java.sql.*;
-import java.util.Date;
 
 public class TicketDAO {
 
