@@ -7,7 +7,7 @@ import java.util.Properties;
 
 import org.h2.jdbcx.JdbcDataSource;
 
-public class ConnectionFactory {
+public final class ConnectionFactory {
 
 	private static ConnectionFactory connectionFactory = null;
 	private static JdbcDataSource dataSource;
@@ -15,15 +15,19 @@ public class ConnectionFactory {
 	private ConnectionFactory() {
 	}
 
+	/**
+	 * Method to produce singleton connection factory.
+	 *
+	 * @return ConnectionFactory instance
+	 */
 	public static ConnectionFactory getInstance() {
-		if(connectionFactory == null) {
+		if (connectionFactory == null) {
 			connectionFactory = new ConnectionFactory();
 			Properties dataBaseProperties = new Properties();
 			try {
 				dataBaseProperties.load(ClassLoader.getSystemResourceAsStream("data-base.properties"));
-			}
-			catch (IOException e) {
-				System.err.print("Error In reading file");
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 			dataSource = new JdbcDataSource();
 			dataSource.setPassword(dataBaseProperties.getProperty("jdbc.pass"));
@@ -33,7 +37,14 @@ public class ConnectionFactory {
 		return connectionFactory;
 	}
 
-	public Connection getConnection() throws SQLException {
+	/**
+	 * Returns new connection.
+	 *
+	 * @return java.sql.Connection
+	 * @throws SQLException exception
+	 */
+	public Connection getConnection()
+			throws SQLException {
 		return dataSource.getConnection();
 	}
 
