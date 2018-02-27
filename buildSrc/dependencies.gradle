@@ -12,8 +12,8 @@ class SharedDependencies {
     Closure globalJavaConfig = {
         apply plugin: 'java'
         apply plugin: 'idea'
-        sourceCompatibility = 1.9
-        targetCompatibility = 1.9
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
     }
 
     Closure globalRepositories = {
@@ -60,10 +60,7 @@ class SharedDependencies {
     }
 
     Closure dataBaseDependencies = {
-        compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
-        compile group: 'com.h2database', name: 'h2', version: '1.4.196'
-        compile group: 'org.hibernate', name: 'hibernate-validator', version: '5.4.1.Final'
-        compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
+        compile group: 'com.h2database', name: 'h2', version: "+"
     }
 
     Closure unitTestDependencies = {
