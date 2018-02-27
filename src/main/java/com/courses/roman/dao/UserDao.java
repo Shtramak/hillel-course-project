@@ -24,15 +24,20 @@ public class UserDao {
 		return new ArrayList<>();
 	}
 
+	/**
+	 * User to be saved in database.
+	 *
+	 * @param user to save
+	 * @return qty inserted records
+	 */
 	public int insertUser(User user) {
 		ConnectionFactory connectionFactory = ConnectionFactory.getInstance();
 		try (Connection connection = connectionFactory.getConnection()) {
-			final PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO USER(id, name) VALUES(?,?)");
-			preparedStatement.setLong(1, user.getId());
-			preparedStatement.setString(2, user.getName());
-			return preparedStatement.executeUpdate();
-		}
-		catch (SQLException exception) {
+			final PreparedStatement statement = connection.prepareStatement("INSERT INTO USER(id, name) VALUES(?,?)");
+			statement.setLong(1, user.getId());
+			statement.setString(2, user.getName());
+			return statement.executeUpdate();
+		} catch (SQLException exception) {
 			exception.printStackTrace();
 		}
 		return 0;
