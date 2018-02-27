@@ -782,7 +782,7 @@
                         Doesn't check for classes nested in interfaces or annotations, as they are always final there.
         Doc ref:        http://checkstyle.sourceforge.net/config_design.html#FinalClass
         -->
-        <module name="FinalClass"/>
+        <!--<module name="FinalClass"/>-->
 
         <!--
         Description:    Implements Joshua Bloch, Effective Java, Item 17 - Use Interfaces only to define types.
