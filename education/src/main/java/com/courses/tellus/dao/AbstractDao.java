@@ -6,16 +6,10 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public interface AbstractDao<E, K> extends Supplier<Connection> {
-
-    List<E> getAll() throws SQLException;
-
-    E getEntityById(K id) throws SQLException;
-
-    void update(E entity) throws SQLException;
-
-    void delete(K id) throws SQLException;
-
-    void create(E entity) throws SQLException;
-
+    List<E> getAll();
+    E getEntityById(K id);
+    void update(E entity);
+    void delete(K id);
+    void create(E entity);
 }
 

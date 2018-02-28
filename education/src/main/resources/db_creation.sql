@@ -28,17 +28,6 @@ create table Subject (
   date_of_cretion date not null
 );
 
--- Test of exist table
-  -- Universities table
-  select * from universities;
-
-  -- Students table
-  select * from Student;
-
-	-- Subject table 
-  select * from subject;
-  select * from subject where id = 100;
-
 
 
 
