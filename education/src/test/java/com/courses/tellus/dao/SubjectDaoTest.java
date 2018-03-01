@@ -13,6 +13,7 @@ public class SubjectDaoTest {
 
     @BeforeAll
     static void before() throws Exception{
-        RunScript.execute(ConnectionFactory.getInstance().getConnection(), new FileReader("src/test/resources/db_creation.sql"));
+        RunScript.execute(ConnectionFactory.getInstance().getConnection(),
+                new FileReader("src/test/resources/db_creation.sql"));
     }
 }

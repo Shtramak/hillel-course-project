@@ -10,9 +10,9 @@ import org.h2.jdbcx.JdbcDataSource;
 
 public final class ConnectionFactory {
 
-    static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
-
-    private static ConnectionFactory connectionFactory;
+    private static final String DB_PROPERTIES = "db.properties";
+    private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
+    private static ConnectionFactory connFactory;
     private static JdbcDataSource dataSource;
 
     /**
@@ -21,23 +21,31 @@ public final class ConnectionFactory {
      * @return connection factory
      */
     public static ConnectionFactory getInstance() {
-        if (connectionFactory != null) {
-            return connectionFactory;
+        if (connFactory != null) {
+            return connFactory;
         }
             synchronized (ConnectionFactory.class) {
-                connectionFactory = new ConnectionFactory();
-                final Properties props = new Properties();
-                try {
-                    props.load(ClassLoader.getSystemResourceAsStream("db.properties"));
-                } catch (IOException except) {
-                    LOGGER.error(except.getMessage());
-                }
-                dataSource = new JdbcDataSource();
-                dataSource.setUrl(props.getProperty("h2.url"));
-                dataSource.setUser(props.getProperty("h2.user"));
-                dataSource.setPassword("h2.password");
+                connFactory = new ConnectionFactory();
             }
-        return connectionFactory;
+        return connFactory;
+    }
+
+    /**
+     * Initializing new data source with properties from file.
+     *
+     * @param propFileName path to file with properties of database
+     */
+    private void loadDatabaseProperties(final String propFileName) {
+        final Properties properties = new Properties();
+        try {
+            properties.load(ClassLoader.getSystemResourceAsStream(propFileName));
+        } catch (IOException except) {
+            LOGGER.error(except.getMessage());
+        }
+        dataSource = new JdbcDataSource();
+        dataSource.setUrl(properties.getProperty("h2.url"));
+        dataSource.setUser(properties.getProperty("h2.user"));
+        dataSource.setPassword(properties.getProperty("h2.password"));
     }
 
     /**
@@ -47,6 +55,7 @@ public final class ConnectionFactory {
      * @throws SQLException exception
      */
     public Connection getConnection() throws SQLException {
+        loadDatabaseProperties(DB_PROPERTIES);
         return dataSource.getConnection();
     }
 }

@@ -4,37 +4,17 @@ import java.util.Date;
 
 public class Subject {
 
-    private int subjectId;
+    private transient int subjectId;
     private String name;
     private String description;
     private boolean valid;
     private Date dateOfCreation;
 
-    public Subject() {
-        super();
-    }
-
-    public Subject(final String name, final String description, final boolean valid, final Date dateOfCreation) {
-        this.name = name;
-        this.description = description;
-        this.valid = valid;
-        this.dateOfCreation = dateOfCreation;
-    }
-
-    public Subject(final int subjectId, final String name, final String description,
-                   final boolean valid, final Date dateOfCreation) {
-        this.subjectId = subjectId;
-        this.name = name;
-        this.description = description;
-        this.valid = valid;
-        this.dateOfCreation = dateOfCreation;
-    }
-
-    public int getId() {
+    public int getSubjectId() {
         return subjectId;
     }
 
-    public void setId(final int subjectId) {
+    public void setSubjectId(final int subjectId) {
         this.subjectId = subjectId;
     }
 
@@ -68,16 +48,5 @@ public class Subject {
 
     public void setDateOfCreation(final Date dateOfCreation) {
         this.dateOfCreation = dateOfCreation;
-    }
-
-    @Override
-    public String toString() {
-        return "Subject{"
-                + "id=" + subjectId
-                + ", name='" + name + '\''
-                + ", description='" + description + '\''
-                + ", valid=" + valid
-                + ", dateOfCreation=" + dateOfCreation
-                + '}';
     }
 }
