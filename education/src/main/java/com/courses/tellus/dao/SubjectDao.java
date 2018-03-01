@@ -1,35 +1,34 @@
 package com.courses.tellus.dao;
 
-import com.courses.tellus.db_connection.ConnectionFactory;
+import com.courses.tellus.dbconnection.ConnectionFactory;
 import com.courses.tellus.entity.Subject;
 
-
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class SubjectDao implements AbstractDao<Subject, Integer> {
 
-    ConnectionFactory connectionFactory = null;
+    private ConnectionFactory connectionFactory = null;
 
     @Override
-    public List<Subject> getAll(){
+    public List<Subject> getAll() {
         connectionFactory = new ConnectionFactory();
         List<Subject> subjectList = new ArrayList<>();
         try (Connection conn = get()) {
-            final PreparedStatement ps = conn.prepareStatement("SELECT * FROM subject");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                String description = rs.getString("descr");
-                boolean valid = rs.getBoolean("valid");
-                Date date = new Date(rs.getDate("date_of_creation").getTime());
-                subjectList.add(new Subject(id, name, description, valid, date));
+            final PreparedStatement preState = conn.prepareStatement("SELECT * FROM subject");
+            ResultSet resultSet = preState.executeQuery();
+            while (resultSet.next()) {
+                int subjId = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("descr");
+                boolean valid = resultSet.getBoolean("valid");
+                Date date = new Date(resultSet.getDate("date_of_creation").getTime());
+                subjectList.add(new Subject(subjId, name, description, valid, date));
             }
         } catch (SQLException except) {
             except.printStackTrace();
@@ -42,16 +41,16 @@ public class SubjectDao implements AbstractDao<Subject, Integer> {
         connectionFactory = new ConnectionFactory();
         Subject subject = null;
         try (Connection conn = get()) {
-            final PreparedStatement ps = conn.prepareStatement("SELECT * FROM subject a WHERE a.id = ?");
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            final PreparedStatement preState = conn.prepareStatement("SELECT * FROM subject a WHERE a.id = ?");
+            preState.setInt(1, id);
+            ResultSet resultSet = preState.executeQuery();
+            if (resultSet.next()) {
                 subject = new Subject();
-                subject.setId(rs.getInt("id"));
-                subject.setName(rs.getString("name"));
-                subject.setDescription(rs.getString("descr"));
-                subject.setValid(rs.getBoolean("valid"));
-                subject.setDateOfCreation(new Date(rs.getDate("date_of_creation").getTime()));
+                subject.setId(resultSet.getInt("id"));
+                subject.setName(resultSet.getString("name"));
+                subject.setDescription(resultSet.getString("descr"));
+                subject.setValid(resultSet.getBoolean("valid"));
+                subject.setDateOfCreation(new Date(resultSet.getDate("date_of_creation").getTime()));
             }
         } catch (SQLException except) {
             except.printStackTrace();
@@ -60,43 +59,45 @@ public class SubjectDao implements AbstractDao<Subject, Integer> {
     }
 
     @Override
-    public void update (Subject subject) {
+    public void update(Subject subject) {
         connectionFactory = new ConnectionFactory();
         try (Connection conn = get()) {
-            final PreparedStatement ps = conn.prepareStatement("UPDATE subject SET name = ?, descr = ?, valid = ?, date_of_creation = ? WHERE id = ?");
-            ps.setString(1, subject.getName());
-            ps.setString(2, subject.getDescription());
-            ps.setBoolean(3, subject.isValid());
-            ps.setDate(4, new java.sql.Date(subject.getDateOfCreation().getTime()));
-            ps.setInt(5, subject.getId());
-            ps.executeUpdate();
+            final PreparedStatement preState = conn.prepareStatement(
+                    "UPDATE subject SET name = ?, descr = ?, valid = ?, date_of_creation = ? WHERE id = ?");
+            preState.setString(1, subject.getName());
+            preState.setString(2, subject.getDescription());
+            preState.setBoolean(3, subject.isValid());
+            preState.setDate(4, new java.sql.Date(subject.getDateOfCreation().getTime()));
+            preState.setInt(5, subject.getId());
+            preState.executeUpdate();
         } catch (SQLException except) {
             except.printStackTrace();
         }
     }
 
     @Override
-    public void delete (Integer id) {
+    public void delete(Integer id) {
         connectionFactory = new ConnectionFactory();
         try (Connection conn = get()) {
-            final PreparedStatement ps = conn.prepareStatement("DELETE FROM subject WHERE id = ?");
-            ps.setInt(1, id);
-            ps.executeUpdate();
+            final PreparedStatement preState = conn.prepareStatement("DELETE FROM subject WHERE id = ?");
+            preState.setInt(1, id);
+            preState.executeUpdate();
         } catch (SQLException except) {
             except.printStackTrace();
         }
     }
 
     @Override
-    public void create (Subject subject) {
+    public void create(Subject subject) {
         connectionFactory = new ConnectionFactory();
         try (Connection conn = get()) {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO subject(name, descr, valid, date_of_creation) VALUES (?, ?, ?, ?)");
-            ps.setString(1, subject.getName());
-            ps.setString(2, subject.getDescription());
-            ps.setBoolean(3, subject.isValid());
-            ps.setDate(4, new java.sql.Date(subject.getDateOfCreation().getTime()));
-            ps.executeUpdate();
+            PreparedStatement preState = conn.prepareStatement(
+                    "INSERT INTO subject(name, descr, valid, date_of_creation) VALUES (?, ?, ?, ?)");
+            preState.setString(1, subject.getName());
+            preState.setString(2, subject.getDescription());
+            preState.setBoolean(3, subject.isValid());
+            preState.setDate(4, new java.sql.Date(subject.getDateOfCreation().getTime()));
+            preState.executeUpdate();
         } catch (SQLException except) {
             except.printStackTrace();
         }

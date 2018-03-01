@@ -1,14 +1,11 @@
-package com.courses.tellus.db_connection;
-
+package com.courses.tellus.dbconnection;
 
 import org.h2.jdbcx.JdbcDataSource;
 
 import java.io.IOException;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
-
 
 public final class ConnectionFactory {
 
@@ -18,7 +15,7 @@ public final class ConnectionFactory {
     private static JdbcDataSource dataSource;
 
     /**
-     * Method to produce singleton connection factory
+     * Method to produce singleton connection factory.
      *
      * @return connection factory
      */
@@ -40,7 +37,7 @@ public final class ConnectionFactory {
     }
 
     /**
-     * Return connection
+     * Return connection.
      *
      * @return java.sql.Connection
      * @throws SQLException exception

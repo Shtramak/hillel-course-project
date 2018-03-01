@@ -1,7 +1,7 @@
 package com.courses.tellus.dao;
 
 
-import com.courses.tellus.db_connection.ConnectionFactory;
+import com.courses.tellus.dbconnection.ConnectionFactory;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.BeforeAll;
 
