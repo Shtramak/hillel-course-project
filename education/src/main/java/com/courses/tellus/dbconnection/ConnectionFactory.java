@@ -1,17 +1,18 @@
 package com.courses.tellus.dbconnection;
 
-import org.h2.jdbcx.JdbcDataSource;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+import org.h2.jdbcx.JdbcDataSource;
+
 public final class ConnectionFactory {
 
-    public static final long serialVersionUID = 1L;
+    static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
 
-    private static ConnectionFactory connectionFactory = null;
+    private static ConnectionFactory connectionFactory;
     private static JdbcDataSource dataSource;
 
     /**
@@ -20,19 +21,22 @@ public final class ConnectionFactory {
      * @return connection factory
      */
     public static ConnectionFactory getInstance() {
-        if (connectionFactory == null) {
-            connectionFactory = new ConnectionFactory();
-            Properties props = new Properties();
-            try {
-                props.load(ClassLoader.getSystemResourceAsStream("db.properties"));
-            } catch (IOException except) {
-                except.printStackTrace();
-            }
-            dataSource = new JdbcDataSource();
-            dataSource.setUrl(props.getProperty("h2.url"));
-            dataSource.setUser(props.getProperty("h2.user"));
-            dataSource.setPassword("h2.password");
+        if (connectionFactory != null) {
+            return connectionFactory;
         }
+            synchronized (ConnectionFactory.class) {
+                connectionFactory = new ConnectionFactory();
+                final Properties props = new Properties();
+                try {
+                    props.load(ClassLoader.getSystemResourceAsStream("db.properties"));
+                } catch (IOException except) {
+                    LOGGER.error(except.getMessage());
+                }
+                dataSource = new JdbcDataSource();
+                dataSource.setUrl(props.getProperty("h2.url"));
+                dataSource.setUser(props.getProperty("h2.user"));
+                dataSource.setPassword("h2.password");
+            }
         return connectionFactory;
     }
 

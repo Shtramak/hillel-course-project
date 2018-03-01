@@ -4,22 +4,22 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.function.Supplier;
 
-public interface AbstractDao<E, K> extends Supplier<Connection> {
+public interface BasicDao<E, K> extends Supplier<Connection> {
 
     /**
      * Method for returning all object from database.
      *
      * @return list with all Object
      */
-    List<E> getAll();
+    List<E> getAllObject();
 
     /**
      * Method for returning object by unique id from database.
      *
-     * @param id unique id for object query
+     * @param entityId unique id for object query
      * @return Object
      */
-    E getEntityById(K id);
+    E getEntityById(K entityId);
 
     /**
      * Method for updating object in database.
@@ -30,9 +30,9 @@ public interface AbstractDao<E, K> extends Supplier<Connection> {
 
     /**
      * Method for deleting object from database.
-     * @param id unique id for object query
+     * @param entityId unique id for object query
      */
-    void delete(K id);
+    void delete(K entityId);
 
     /**
      * Method for creating new object into database.
