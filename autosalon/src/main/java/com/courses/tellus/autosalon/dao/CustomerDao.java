@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,13 @@ import com.courses.tellus.autosalon.exception.DaoException;
 import com.courses.tellus.autosalon.model.Customer;
 
 public class CustomerDao {
+
+    private static final int INDEX_NAME = 1;
+    private static final int INDEX_SURNAME = 2;
+    private static final int INDEX_BIRTHDAY = 3;
+    private static final int INDEX_PHONE_NUMBER = 4;
+    private static final int INDEX_AVAILABLE_FUNDS = 5;
+    private static final int INDEX_ID = 6;
 
     private final transient Connection connection;
 
@@ -94,7 +102,7 @@ public class CustomerDao {
      * @throws DaoException if remove operation fails with SQLException
      */
     public boolean update(final Customer customer) throws DaoException {
-        if (customer==null){
+        if (customer == null) {
             throw new DaoException("Customer must be not null!");
         }
         final String sql = "UPDATE customer "
@@ -129,14 +137,14 @@ public class CustomerDao {
         }
     }
 
-    private void setStatementValues(final PreparedStatement statement, final Customer customer) throws SQLException {
-        statement.setString(CustomerColumns.NAME.index(), customer.getName());
-        statement.setString(CustomerColumns.SURNAME.index(), customer.getSurname());
+    void setStatementValues(final PreparedStatement statement, final Customer customer) throws SQLException {
+        statement.setString(INDEX_NAME, customer.getName());
+        statement.setString(INDEX_SURNAME, customer.getSurname());
         final Date dateOfBirth = Date.valueOf(customer.getDateOfBirth());
-        statement.setDate(CustomerColumns.BIRTHDAY.index(), dateOfBirth);
-        statement.setString(CustomerColumns.PHONE_NUMBER.index(), customer.getPhoneNumber());
-        statement.setDouble(CustomerColumns.AVAILABLE_FUNDS.index(), customer.getAvailableFunds());
-        statement.setLong(CustomerColumns.ID.index(), customer.getId());
+        statement.setDate(INDEX_BIRTHDAY, dateOfBirth);
+        statement.setString(INDEX_PHONE_NUMBER, customer.getPhoneNumber());
+        statement.setDouble(INDEX_AVAILABLE_FUNDS, customer.getAvailableFunds());
+        statement.setLong(INDEX_ID, customer.getId());
     }
 
     private Customer customerFromResultSet(final ResultSet resultSet) throws SQLException {
@@ -146,6 +154,10 @@ public class CustomerDao {
         final Date birthday = resultSet.getDate("date_of_birth");
         final String phoneNumber = resultSet.getString("phone_number");
         final Double availableFund = resultSet.getDouble("available_funds");
-        return new Customer(customerId, name, surname, birthday.toLocalDate(), phoneNumber, availableFund);
+        return new Customer(customerId, name, surname, localDate(birthday), phoneNumber, availableFund);
+    }
+
+    private LocalDate localDate(final Date birthday) {
+        return birthday.toLocalDate();
     }
 }
