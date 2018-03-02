@@ -21,7 +21,7 @@ public final class ConnectionFactory {
      * @return ConnectionFactory instance.
      */
     public static ConnectionFactory getInstance() throws IOException {
-        synchronized (connFactory) {
+        synchronized (ConnectionFactory.class) {
             if (connFactory == null) {
                connFactory = new ConnectionFactory();
                final Properties dbProperties = new Properties();
