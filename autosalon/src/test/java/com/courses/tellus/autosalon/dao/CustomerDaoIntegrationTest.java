@@ -25,7 +25,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CustomerDaoTest {
+public class CustomerDaoIntegrationTest {
     private Connection connection;
     private CustomerDao customerDao;
 
@@ -80,8 +80,8 @@ public class CustomerDaoTest {
     @Test
     public void findAllWhenTableHasDataReturnsListOfCustomers() throws DaoException {
         insertCustomersToDb(2);
-        Customer customer1 = new Customer(1, "name1", "surname1", LocalDate.of(2018, 2, 20),"phoneNumber1", 1000);
-        Customer customer2 = new Customer(2, "name2", "surname2", LocalDate.of(2018, 2, 20),"phoneNumber2", 2000);
+        Customer customer1 = new Customer(1, "name1", "surname1", LocalDate.of(2018, 2, 20), "phoneNumber1", 1000);
+        Customer customer2 = new Customer(2, "name2", "surname2", LocalDate.of(2018, 2, 20), "phoneNumber2", 2000);
         List<Customer> expected = Arrays.asList(customer1, customer2);
         List<Customer> actual = customerDao.findAll();
         assertEquals(expected, actual);
@@ -95,14 +95,14 @@ public class CustomerDaoTest {
     @Test
     public void updateWhenEntryExistsReturnsTrue() throws DaoException {
         insertCustomersToDb(3);
-        Customer updatedCustomer = new Customer(2, "updateName", "updateSurname", LocalDate.of(2018, 2, 20),"phoneNumber2", 2000);
+        Customer updatedCustomer = new Customer(2, "updateName", "updateSurname", LocalDate.of(2018, 2, 20), "phoneNumber2", 2000);
         assertTrue(customerDao.update(updatedCustomer));
     }
 
     @Test
     public void updateWhenEntryNotExistsReturnsFalse() throws DaoException {
         insertCustomersToDb(2);
-        Customer updatedCustomer = new Customer(3, "updateName", "updateSurname", LocalDate.of(2018, 2, 20),"phoneNumber3", 2000);
+        Customer updatedCustomer = new Customer(3, "updateName", "updateSurname", LocalDate.of(2018, 2, 20), "phoneNumber3", 2000);
         assertFalse(customerDao.update(updatedCustomer));
     }
 
