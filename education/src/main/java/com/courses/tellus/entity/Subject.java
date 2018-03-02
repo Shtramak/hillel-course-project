@@ -11,6 +11,44 @@ public class Subject {
     private boolean valid;
     private Date dateOfCreation;
 
+    /**
+     * Empty Object constructor
+     */
+    public Subject() {
+    }
+
+    /**
+     * Constructor for creating new Object
+     *
+     * @param name title of the subject
+     * @param description small description
+     * @param valid deprecation mark
+     * @param dateOfCreation date of creation this object
+     */
+    public Subject(String name, String description, boolean valid, Date dateOfCreation) {
+        this.name = name;
+        this.description = description;
+        this.valid = valid;
+        this.dateOfCreation = dateOfCreation;
+    }
+
+    /**
+     * Constructor for creating new Object obtained from database
+     *
+     * @param subjectId object database id
+     * @param name title of the subject
+     * @param description small description
+     * @param valid deprecation mark
+     * @param dateOfCreation date of creation this object
+     */
+    public Subject(Integer subjectId, String name, String description, boolean valid, Date dateOfCreation) {
+        this.subjectId = subjectId;
+        this.name = name;
+        this.description = description;
+        this.valid = valid;
+        this.dateOfCreation = dateOfCreation;
+    }
+
     public Integer getSubjectId() {
         return subjectId;
     }

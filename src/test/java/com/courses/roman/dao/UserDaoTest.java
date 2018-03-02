@@ -15,7 +15,7 @@ import com.courses.roman.model.User;
 
 public class UserDaoTest {
 
-	private UserDao userDao = new UserDao();
+	private UserDao userDao = new UserDao(ConnectionFactory.getInstance());
 
 	@BeforeAll
 	public static void before() throws Exception {

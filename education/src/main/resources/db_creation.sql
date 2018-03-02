@@ -1,6 +1,3 @@
-create database education;
-use education;
-
 -- Creating table block
   -- Universities table
 CREATE TABLE Universities(
