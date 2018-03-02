@@ -68,7 +68,6 @@ class SharedDependencies {
         testCompile group: "org.assertj", name: "assertj-core", version: "3.3.0"
         testCompile group: "org.hamcrest", name: "hamcrest-core", version: "1.3"
         testCompile group: "org.hamcrest", name: "hamcrest-library", version: "1.3"
-        testCompile group: "org.mockito", name: "mockito-core", version: "2.7.22"
         testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
         testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
     }
