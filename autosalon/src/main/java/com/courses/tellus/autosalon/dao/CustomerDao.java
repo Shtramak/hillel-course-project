@@ -1,6 +1,5 @@
 package com.courses.tellus.autosalon.dao;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -10,17 +9,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.courses.tellus.autosalon.config.ConnectionFactory;
 import com.courses.tellus.autosalon.exception.DaoException;
 import com.courses.tellus.autosalon.model.Customer;
 
 public class CustomerDao {
 
     private final transient Connection connection;
-
-    public CustomerDao() throws IOException, SQLException {
-        this.connection = ConnectionFactory.getInstance().getConnection();
-    }
 
     public CustomerDao(final Connection connection) {
         this.connection = connection;
@@ -100,6 +94,9 @@ public class CustomerDao {
      * @throws DaoException if remove operation fails with SQLException
      */
     public boolean update(final Customer customer) throws DaoException {
+        if (customer==null){
+            throw new DaoException("Customer must be not null!");
+        }
         final String sql = "UPDATE customer "
                 + "SET name=?,surname=?,date_of_birth=?,phone_number=?,available_funds=?"
                 + "WHERE id=?";
