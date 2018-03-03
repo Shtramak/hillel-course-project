@@ -18,8 +18,8 @@ public class CustomerDao {
     private static final int INDEX_NAME = 1;
     private static final int INDEX_SURNAME = 2;
     private static final int INDEX_BIRTHDAY = 3;
-    private static final int INDEX_PHONE_NUMBER = 4;
-    private static final int INDEX_AVAILABLE_FUNDS = 5;
+    private static final int INDEX_PHONE = 4;
+    private static final int INDEX_FUNDS = 5;
     private static final int INDEX_ID = 6;
 
     private final transient Connection connection;
@@ -142,8 +142,8 @@ public class CustomerDao {
         statement.setString(INDEX_SURNAME, customer.getSurname());
         final Date dateOfBirth = Date.valueOf(customer.getDateOfBirth());
         statement.setDate(INDEX_BIRTHDAY, dateOfBirth);
-        statement.setString(INDEX_PHONE_NUMBER, customer.getPhoneNumber());
-        statement.setDouble(INDEX_AVAILABLE_FUNDS, customer.getAvailableFunds());
+        statement.setString(INDEX_PHONE, customer.getPhoneNumber());
+        statement.setDouble(INDEX_FUNDS, customer.getAvailableFunds());
         statement.setLong(INDEX_ID, customer.getId());
     }
 
