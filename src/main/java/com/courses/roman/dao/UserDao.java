@@ -12,6 +12,12 @@ import com.courses.roman.model.User;
 
 public class UserDao {
 
+	private ConnectionFactory connectionFactory;
+
+	public UserDao(final ConnectionFactory connectionFactory) {
+		this.connectionFactory = connectionFactory;
+	}
+
 	/**
 	 * Returns list of users from Data Base.
 	 *
@@ -31,7 +37,6 @@ public class UserDao {
 	 * @return qty inserted records
 	 */
 	public int insertUser(User user) {
-		ConnectionFactory connectionFactory = ConnectionFactory.getInstance();
 		try (Connection connection = connectionFactory.getConnection()) {
 			final PreparedStatement statement = connection.prepareStatement("INSERT INTO USER(id, name) VALUES(?,?)");
 			statement.setLong(1, user.getId());
