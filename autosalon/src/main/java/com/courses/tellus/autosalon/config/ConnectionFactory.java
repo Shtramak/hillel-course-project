@@ -23,14 +23,14 @@ public final class ConnectionFactory {
     public static ConnectionFactory getInstance() throws IOException {
         synchronized (ConnectionFactory.class) {
             if (connFactory == null) {
-               connFactory = new ConnectionFactory();
-               final Properties dbProperties = new Properties();
-               dbProperties.load(ClassLoader.getSystemResourceAsStream("config.properties"));
-               dataSource = new JdbcDataSource();
-               dataSource.setURL(dbProperties.getProperty("jdbc.url"));
-               dataSource.setUser(dbProperties.getProperty("jdbc.user"));
-               dataSource.setPassword(dbProperties.getProperty("jdbc.pass"));
-           }
+                connFactory = new ConnectionFactory();
+                final Properties dbProperties = new Properties();
+                dbProperties.load(ClassLoader.getSystemResourceAsStream("config.properties"));
+                dataSource = new JdbcDataSource();
+                dataSource.setURL(dbProperties.getProperty("jdbc.url"));
+                dataSource.setUser(dbProperties.getProperty("jdbc.user"));
+                dataSource.setPassword(dbProperties.getProperty("jdbc.pass"));
+            }
         }
         return connFactory;
     }
