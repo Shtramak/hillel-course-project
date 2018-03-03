@@ -1,6 +1,5 @@
 package DAO;
 
-import main.java.DAO.AirDao;
 
 import java.sql.Connection;
 import java.sql.SQLException;

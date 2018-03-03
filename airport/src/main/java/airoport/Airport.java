@@ -38,4 +38,13 @@ public class Airport {
     public void setNameAirport(String nameAirport) {
         this.nameAirport = nameAirport;
     }
+
+    @Override
+    public String toString() {
+        return "Airport{" +
+                "airportId=" + airportId +
+                ", numberTerminal=" + numberTerminal +
+                ", nameAirport='" + nameAirport + '\'' +
+                '}';
+    }
 }

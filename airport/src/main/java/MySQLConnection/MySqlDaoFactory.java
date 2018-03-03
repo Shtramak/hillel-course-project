@@ -1,7 +1,8 @@
 package MySQLConnection;
 
-import main.java.DAO.AirDao;
-import main.java.DAO.DaoFactory;
+
+import DAO.AirDao;
+import DAO.DaoFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,8 +11,8 @@ import java.sql.SQLException;
 public class MySqlDaoFactory implements DaoFactory {
 
     private String user = "root";
-    private String password = "";
-    private String url = "";//URL адрес
+    private String password = "admin";
+    private String url = "jdbc:mysql://localhost:3306/airport";//URL адрес
     private String driver = "com.mysql.jdbc.Driver";//Имя драйвера
 
 

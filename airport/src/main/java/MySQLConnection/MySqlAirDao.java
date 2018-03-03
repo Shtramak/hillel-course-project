@@ -1,7 +1,8 @@
 package MySQLConnection;
 
-import main.java.airoport.Airport;
-import main.java.DAO.AirDao;
+
+import DAO.AirDao;
+import airoport.Airport;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +15,7 @@ public class MySqlAirDao implements AirDao {
 
     private final Connection connection;
 
+
     @Override
     public Airport create() {
         return null;
@@ -21,7 +23,7 @@ public class MySqlAirDao implements AirDao {
 
     @Override
     public Airport read(int key) throws SQLException{
-        String sql = "SELECT * FROM tellus.Airport WHERE id = ?;";
+        String sql = "SELECT * FROM airoport.Airport WHERE id = ?;";
         PreparedStatement stm = connection.prepareStatement(sql);
 
         stm.setInt(1, key);
@@ -50,7 +52,7 @@ public class MySqlAirDao implements AirDao {
         String sql = "SELECT * FROM tellus.Airport;";
         PreparedStatement stm = connection.prepareStatement(sql);
         ResultSet rs = stm.executeQuery();
-        List<Airport> list = new ArrayList<Airport>();
+        List<Airport> list = new ArrayList<>();
         while (rs.next()) {
             Airport g = new Airport();
             g.setAirportId(rs.getInt("id Airport"));
