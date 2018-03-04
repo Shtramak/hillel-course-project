@@ -1,4 +1,4 @@
-package com.courses.airport.MySQLConnection;
+package com.courses.airport.mysqlconnection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
