@@ -9,10 +9,12 @@ import java.util.List;
 
 import com.courses.tellus.dbconnection.ConnectionFactory;
 import com.courses.tellus.entity.University;
+import org.apache.log4j.Logger;
 
 public class UniversityDao implements BasicDao<University, Integer> {
 
-    private transient Connection connection = get();
+    private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
+    private transient final Connection connection = get();
     private transient ConnectionFactory connectionFactory;
 
     public UniversityDao(final ConnectionFactory connectionFactory) {
@@ -29,7 +31,7 @@ public class UniversityDao implements BasicDao<University, Integer> {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         return universityList;
     }
@@ -46,7 +48,7 @@ public class UniversityDao implements BasicDao<University, Integer> {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         return universityById;
     }
@@ -62,7 +64,7 @@ public class UniversityDao implements BasicDao<University, Integer> {
             prepSt.setInt(OrderUtil.FOURTH_STATEMENT.getOrder(), university.getUniId());
             prepSt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         return 0;
     }
@@ -74,7 +76,7 @@ public class UniversityDao implements BasicDao<University, Integer> {
             prepSt.setInt(OrderUtil.FIRST_STATEMENT.getOrder(), entityId);
             prepSt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         return  0;
     }
@@ -92,7 +94,7 @@ public class UniversityDao implements BasicDao<University, Integer> {
                 prepSt.setString(OrderUtil.THIRD_STATEMENT.getOrder(), specialization);
                 prepSt.executeUpdate();
             } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         return 0;
     }
@@ -106,7 +108,7 @@ public class UniversityDao implements BasicDao<University, Integer> {
             university.setSpecialization(resultSet.getString("specialization"));
             university.setUniId(resultSet.getInt("Id"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         return university;
     }
@@ -116,7 +118,7 @@ public class UniversityDao implements BasicDao<University, Integer> {
         try {
             return connectionFactory.getConnection();
         } catch (SQLException e) {
-        e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         return null;
     }
