@@ -1,3 +1,4 @@
 package com.courses.tellus;
 
-public class Main {}
+public class MainRunner {
+}

@@ -27,6 +27,7 @@ project("education") {
 
         testCompile group: 'junit', name: 'junit', version: '4.12'
     }
+}
 
     junitPlatform {
         filters {
@@ -36,6 +37,7 @@ project("education") {
         }
         details 'tree'
     }
+
     dependencies {
         compile project(':autosalon')
     }
@@ -226,4 +228,3 @@ project("education") {
                 hsqldb: "org.hsqldb:hsqldb:2.4.0"
         ]
     }
-}
