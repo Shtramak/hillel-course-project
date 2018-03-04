@@ -8,7 +8,7 @@ buildscript {
 apply from: "buildSrc/dependencies.gradle"
 subprojects shared.globalJavaConfig
 subprojects shared.globalRepositories
-apply plugin: 'java'
+apply plugin: 'org.junit.platform.gradle.plugin'
 
 allprojects {
     apply from: "${rootProject.projectDir}/buildSrc/analyze.gradle"
@@ -21,27 +21,21 @@ task wrapper(type: Wrapper) {
 }
 
 project("autosalon") {
-    dependencies {
-        testCompile group: 'junit', name: 'junit', version: '4.12'
-    }
+
 }
 
+junitPlatform {
+    filters {
+        engines {
+            include 'junit-jupiter'
+        }
+    }
+    details 'tree'
+}
+dependencies {
+    compile project(':autosalon')
+}
 
-//project("autosalon-test") {
-//    apply plugin: 'org.junit.platform.gradle.plugin'
-//    junitPlatform {
-//        filters {
-//            engines {
-//                include 'junit-jupiter'
-//            }
-//        }
-//        details 'tree'
-//    }
-//    dependencies {
-//        compile project(':autosalon')
-//    }
-//
-//}
 
 repositories {
     mavenCentral()
