@@ -1,4 +1,4 @@
-package com.courses.airport.MySQLConnection;
+package com.courses.airport.mysqlconnection;
 
 
 import com.courses.airport.dao.AirDao;
