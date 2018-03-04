@@ -32,9 +32,9 @@
         </priority>
     </rule>-->
     <!--<rule ref="rulesets/java/design.xml">-->
-    <!--<priority>-->
-    <!--5-->
-    <!--</priority>-->
+        <!--<priority>-->
+        <!--5-->
+        <!--</priority>-->
     <!--</rule>-->
     <!--<rule ref="rulesets/java/empty.xml">
         <priority>
