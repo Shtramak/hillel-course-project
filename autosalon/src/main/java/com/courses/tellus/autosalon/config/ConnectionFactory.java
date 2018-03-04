@@ -29,7 +29,7 @@ public final class ConnectionFactory {
      *
      * @return ConnectionFactory instance.
      */
-    public static ConnectionFactory getInstance() throws IOException {
+    public static ConnectionFactory getInstance() {
         synchronized (ConnectionFactory.class) {
             if (connFactory == null) {
                 connFactory = new ConnectionFactory();
@@ -47,7 +47,7 @@ public final class ConnectionFactory {
      *
      * @return Connection.
      */
-    public Connection getConnection()  {
+    public Connection getConnection() {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
