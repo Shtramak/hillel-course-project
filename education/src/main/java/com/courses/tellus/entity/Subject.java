@@ -1,6 +1,5 @@
 package com.courses.tellus.entity;
 
-import java.util.Date;
 import java.util.Objects;
 
 public class Subject {
@@ -9,23 +8,23 @@ public class Subject {
     private String name;
     private String description;
     private boolean valid;
-    private Date dateOfCreation;
+    private Long dateOfCreation;
 
     /**
-     * Empty Object constructor
+     * Empty Object constructor.
      */
     public Subject() {
     }
 
     /**
-     * Constructor for creating new Object
+     * Constructor for creating new Object.
      *
      * @param name title of the subject
      * @param description small description
      * @param valid deprecation mark
      * @param dateOfCreation date of creation this object
      */
-    public Subject(String name, String description, boolean valid, Date dateOfCreation) {
+    public Subject(final String name, final String description, final boolean valid, final Long dateOfCreation) {
         this.name = name;
         this.description = description;
         this.valid = valid;
@@ -33,7 +32,7 @@ public class Subject {
     }
 
     /**
-     * Constructor for creating new Object obtained from database
+     * Constructor for creating new Object obtained from database.
      *
      * @param subjectId object database id
      * @param name title of the subject
@@ -41,7 +40,8 @@ public class Subject {
      * @param valid deprecation mark
      * @param dateOfCreation date of creation this object
      */
-    public Subject(Integer subjectId, String name, String description, boolean valid, Date dateOfCreation) {
+    public Subject(final Integer subjectId, final String name, final String description,
+                   final boolean valid, final Long dateOfCreation) {
         this.subjectId = subjectId;
         this.name = name;
         this.description = description;
@@ -81,11 +81,11 @@ public class Subject {
         this.valid = valid;
     }
 
-    public Date getDateOfCreation() {
+    public Long getDateOfCreation() {
         return dateOfCreation;
     }
 
-    public void setDateOfCreation(final Date dateOfCreation) {
+    public void setDateOfCreation(final Long dateOfCreation) {
         this.dateOfCreation = dateOfCreation;
     }
 

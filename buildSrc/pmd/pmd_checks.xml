@@ -11,111 +11,6 @@
     <exclude-pattern>.*/test/.*</exclude-pattern>
     <exclude-pattern>.*/model/.*</exclude-pattern>
     <exclude-pattern>.*/roman/.*</exclude-pattern>
-    <!--<rule ref="rulesets/java/basic.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/braces.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/clone.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/codesize.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/design.xml">-->
-        <!--<priority>-->
-            <!--5-->
-        <!--</priority>-->
-    <!--</rule>-->
-    <!--<rule ref="rulesets/java/empty.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/finalizers.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/imports.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/j2ee.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/javabeans.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/junit.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/logging-java.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/migrating.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/naming.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/optimizations.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/strictexception.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/strings.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/sunsecure.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/typeresolution.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/unnecessary.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
-    <!--<rule ref="rulesets/java/unusedcode.xml">
-        <priority>
-            5
-        </priority>
-    </rule>-->
 
     <!--<rule ref="rulesets/java/basic.xml">-->
     <rule ref="category/java/errorprone.xml/AvoidBranchingStatementAsLastInLoop" />
@@ -191,7 +86,7 @@
     <rule ref="category/java/design.xml/FinalFieldCouldBeStatic" />
     <rule ref="category/java/design.xml/GodClass" />
     <rule ref="category/java/design.xml/ImmutableField" />
-    <rule ref="category/java/design.xml/LawOfDemeter" />
+    <!--<rule ref="category/java/design.xml/LawOfDemeter" /> wtf with it-->
     <rule ref="category/java/design.xml/LogicInversion" />
     <rule ref="category/java/design.xml/LoosePackageCoupling" />
     <rule ref="category/java/design.xml/NcssConstructorCount" />

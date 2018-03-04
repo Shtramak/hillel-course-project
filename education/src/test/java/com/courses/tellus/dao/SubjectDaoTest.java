@@ -9,7 +9,7 @@ import java.io.FileReader;
 
 public class SubjectDaoTest {
 
-    private SubjectDao sd = new SubjectDao();
+    //private SubjectDao sd = new SubjectDao();
 
     @BeforeAll
     static void before() throws Exception{

@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.courses.tellus.dbconnection.ConnectionFactory;
@@ -15,11 +14,15 @@ import org.apache.log4j.Logger;
 public class SubjectDao implements BasicDao<Subject, Integer> {
 
     private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
-    private transient ConnectionFactory connectionFactory;
+    private static ConnectionFactory connectionFactory;
+
+    @SuppressWarnings("PMD.MethodArgumentCouldBeFinal")
+    public SubjectDao(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
+    }
 
     @Override
     public List<Subject> getAllObject() throws SQLException {
-        connectionFactory = new ConnectionFactory();
         final List<Subject> subjectList = new ArrayList<>();
         ResultSet resultSet = null;
         try (Connection conn = get()) {
@@ -35,7 +38,6 @@ public class SubjectDao implements BasicDao<Subject, Integer> {
 
     @Override
     public Subject getEntityById(final Integer entityId) throws SQLException {
-        connectionFactory = new ConnectionFactory();
         ResultSet resultSet = null;
         try (Connection conn = get()) {
             final PreparedStatement preState = conn.prepareStatement("SELECT * FROM subject a WHERE a.id = ?");
@@ -52,7 +54,6 @@ public class SubjectDao implements BasicDao<Subject, Integer> {
 
     @Override
     public void update(final Subject subject) throws SQLException {
-        connectionFactory = new ConnectionFactory();
         try (Connection conn = get()) {
             final PreparedStatement preState = conn.prepareStatement(
                     "UPDATE subject SET name = ?, descr = ?, valid = ?, date_of_creation = ? WHERE id = ?");
@@ -60,7 +61,7 @@ public class SubjectDao implements BasicDao<Subject, Integer> {
             preState.setString(OrderUtil.SECOND_STATEMENT.getOrder(), subject.getDescription());
             preState.setBoolean(OrderUtil.THIRD_STATEMENT.getOrder(), subject.isValid());
             preState.setDate(OrderUtil.FOURTH_STATEMENT.getOrder(),
-                    new java.sql.Date(subject.getDateOfCreation().getTime()));
+                    new java.sql.Date(subject.getDateOfCreation()));
             preState.setInt(OrderUtil.FIFTH_STATEMENT.getOrder(), subject.getSubjectId());
             preState.executeUpdate();
         }
@@ -68,7 +69,6 @@ public class SubjectDao implements BasicDao<Subject, Integer> {
 
     @Override
     public void delete(final Integer entityId) throws SQLException {
-        connectionFactory = new ConnectionFactory();
         try (Connection conn = get()) {
             final PreparedStatement preState = conn.prepareStatement("DELETE FROM subject WHERE id = ?");
             preState.setInt(OrderUtil.FIRST_STATEMENT.getOrder(), entityId);
@@ -78,7 +78,6 @@ public class SubjectDao implements BasicDao<Subject, Integer> {
 
     @Override
     public void create(final Subject subject) throws SQLException {
-        connectionFactory = new ConnectionFactory();
         try (Connection conn = get()) {
             final PreparedStatement preState = conn.prepareStatement(
                     "INSERT INTO subject(name, descr, valid, date_of_creation) VALUES (?, ?, ?, ?)");
@@ -86,7 +85,7 @@ public class SubjectDao implements BasicDao<Subject, Integer> {
             preState.setString(OrderUtil.SECOND_STATEMENT.getOrder(), subject.getDescription());
             preState.setBoolean(OrderUtil.THIRD_STATEMENT.getOrder(), subject.isValid());
             preState.setDate(OrderUtil.FOURTH_STATEMENT.getOrder(),
-                    new java.sql.Date(subject.getDateOfCreation().getTime()));
+                    new java.sql.Date(subject.getDateOfCreation()));
             preState.executeUpdate();
         }
     }
@@ -98,7 +97,7 @@ public class SubjectDao implements BasicDao<Subject, Integer> {
         subject.setName(resultSet.getString("name"));
         subject.setDescription(resultSet.getString("descr"));
         subject.setValid(resultSet.getBoolean("valid"));
-        subject.setDateOfCreation(new Date(resultSet.getDate("date_of_creation").getTime()));
+        subject.setDateOfCreation(resultSet.getDate("date_of_creation").getTime());
         return subject;
     }
 
