@@ -1,4 +1,4 @@
-package DAO;
+package com.courses.airport.dao;
 
 import java.io.Serializable;
 import java.sql.SQLException;

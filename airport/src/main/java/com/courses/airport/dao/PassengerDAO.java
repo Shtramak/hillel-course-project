@@ -1,7 +1,7 @@
-package DAO;
+package com.courses.airport.dao;
 
-import MySQLConnection.MainConnection;
-import essences.Passenger;
+import com.courses.airport.MySQLConnection.MainConnection;
+import com.courses.airport.essences.Passenger;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;

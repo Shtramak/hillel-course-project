@@ -1,4 +1,4 @@
-package essences;
+package com.courses.airport.essences;
 
 public class Passenger {
     private int passengerId;

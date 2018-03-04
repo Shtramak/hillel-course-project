@@ -1,8 +1,8 @@
-package MySQLConnection;
+package com.courses.airport.MySQLConnection;
 
 
-import DAO.AirDao;
-import DAO.DaoFactory;
+import com.courses.airport.dao.AirDao;
+import com.courses.airport.dao.DaoFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
