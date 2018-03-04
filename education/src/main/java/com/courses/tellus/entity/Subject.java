@@ -109,8 +109,8 @@ public class Subject {
             return false;
         }
         final Subject subject = (Subject) obj;
-        return getSubjectId() == subject.getSubjectId()
-                && isValid() == subject.isValid()
+        return isValid() == subject.isValid()
+                && Objects.equals(getSubjectId(), subject.getSubjectId())
                 && Objects.equals(getName(), subject.getName())
                 && Objects.equals(getDescription(), subject.getDescription())
                 && Objects.equals(getDateOfCreation(), subject.getDateOfCreation());

@@ -26,18 +26,26 @@ public final class ConnectionFactory {
         }
             synchronized (ConnectionFactory.class) {
                 connFactory = new ConnectionFactory();
-                final Properties properties = new Properties();
-                try {
-                    properties.load(ClassLoader.getSystemResourceAsStream(DB_PROPERTIES));
-                } catch (IOException except) {
-                    LOGGER.error(except.getMessage());
-                }
-                dataSource = new JdbcDataSource();
-                dataSource.setUrl(properties.getProperty("h2.url"));
-                dataSource.setUser(properties.getProperty("h2.user"));
-                dataSource.setPassword(properties.getProperty("h2.password"));
             }
         return connFactory;
+    }
+
+    /**
+     * Initializing new data source with properties from file.
+     *
+     * @param propFileName path to file with properties of database
+     */
+    private void loadDatabaseProperties(final String propFileName) {
+        final Properties properties = new Properties();
+        try {
+            properties.load(ClassLoader.getSystemResourceAsStream(propFileName));
+        } catch (IOException except) {
+            LOGGER.error(except);
+        }
+        dataSource = new JdbcDataSource();
+        dataSource.setUrl(properties.getProperty("h2.url"));
+        dataSource.setUser(properties.getProperty("h2.user"));
+        dataSource.setPassword(properties.getProperty("h2.password"));
     }
 
     /**
@@ -47,6 +55,7 @@ public final class ConnectionFactory {
      * @throws SQLException exception
      */
     public Connection getConnection() throws SQLException {
+        loadDatabaseProperties(DB_PROPERTIES);
         return dataSource.getConnection();
     }
 }

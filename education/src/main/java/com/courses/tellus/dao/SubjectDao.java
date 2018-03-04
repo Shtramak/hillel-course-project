@@ -14,10 +14,9 @@ import org.apache.log4j.Logger;
 public class SubjectDao implements BasicDao<Subject, Integer> {
 
     private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
-    private static ConnectionFactory connectionFactory;
+    private final transient ConnectionFactory connectionFactory;
 
-    @SuppressWarnings("PMD.MethodArgumentCouldBeFinal")
-    public SubjectDao(ConnectionFactory connectionFactory) {
+    public SubjectDao(final ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
     }
 
