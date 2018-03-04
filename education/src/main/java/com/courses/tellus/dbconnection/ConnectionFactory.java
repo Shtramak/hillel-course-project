@@ -1,11 +1,11 @@
-package com.courses.tellus.db_connection;
+package com.courses.tellus.dbconnection;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import org.h2.jdbcx.JdbcDataSource;;
+import org.h2.jdbcx.JdbcDataSource;
 
 public class ConnectionFactory {
     private static final String DB_PROPERTIES = "data-base.properties";

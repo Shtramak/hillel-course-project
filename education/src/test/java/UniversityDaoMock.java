@@ -1,5 +1,5 @@
 import com.courses.tellus.dao.UniversityDao;
-import com.courses.tellus.db_connection.ConnectionFactory;
+import com.courses.tellus.dbconnection.ConnectionFactory;
 import com.courses.tellus.entity.University;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -36,7 +36,7 @@ public class UniversityDaoMock {
     @Test
     public void testCreateUniversity() throws Exception {
         University university =new University();
-        university.setId(1);
+        university.setUniId(1);
         university.setNameOfUniversity("KPI");
         university.setAddress("pr.Peremohy");
         university.setSpecialization("Technical");

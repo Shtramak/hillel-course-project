@@ -1,8 +1,10 @@
 package com.courses.tellus.entity;
 
+import java.util.Objects;
+
 public class  University  {
 
-    private int id;
+    private int uniId;
 
     private String nameOfUniversity;
 
@@ -13,31 +15,32 @@ public class  University  {
     public University() {
     }
 
-    public University(int id, String nameOfUniversity) {
-        this.id = id;
+    public University(final int uniId, final String nameOfUniversity) {
+        this.uniId = uniId;
         this.nameOfUniversity = nameOfUniversity;
     }
 
-    public University(int id, String nameOfUniversity, String address, String specialization) {
-        this.id = id;
+    public University(final int uniId, final String nameOfUniversity, final String address,
+                      final String specialization) {
+        this.uniId = uniId;
         this.nameOfUniversity = nameOfUniversity;
         this.address = address;
         this.specialization = specialization;
     }
 
-    public int getId() {
-        return id;
+    public int getUniId() {
+        return uniId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUniId(final int uniId) {
+        this.uniId = uniId;
     }
 
     public String getNameOfUniversity() {
         return nameOfUniversity;
     }
 
-    public void setNameOfUniversity(String nameOfUniversity) {
+    public void setNameOfUniversity(final String nameOfUniversity) {
         this.nameOfUniversity = nameOfUniversity;
     }
 
@@ -45,7 +48,7 @@ public class  University  {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(final String address) {
         this.address = address;
     }
 
@@ -53,14 +56,14 @@ public class  University  {
         return specialization;
     }
 
-    public void setSpecialization(String specialization) {
+    public void setSpecialization(final String specialization) {
         this.specialization = specialization;
     }
 
     @Override
     public String toString() {
         return "University{"
-                + "id=" + id
+                + "uniId=" + uniId
                 + ", nameOfUniversity='" + nameOfUniversity + '\''
                 + ", address='" + address + '\''
                 + ", specialization='" + specialization + '\''
@@ -68,24 +71,22 @@ public class  University  {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        University that = (University) o;
-
-        if (id != that.id) return false;
-        if (!nameOfUniversity.equals(that.nameOfUniversity)) return false;
-        if (address != null ? !address.equals(that.address) : that.address != null) return false;
-        return specialization != null ? specialization.equals(that.specialization) : that.specialization == null;
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof University)) {
+            return false;
+        }
+        final University that = (University) obj;
+        return getUniId() == that.getUniId()
+                && Objects.equals(getNameOfUniversity(), that.getNameOfUniversity())
+                && Objects.equals(getAddress(), that.getAddress())
+                && Objects.equals(getSpecialization(), that.getSpecialization());
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + nameOfUniversity.hashCode();
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + (specialization != null ? specialization.hashCode() : 0);
-        return result;
+        return Objects.hash(getUniId(), getNameOfUniversity(), getAddress(), getSpecialization());
     }
 }
