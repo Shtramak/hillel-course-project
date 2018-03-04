@@ -1,3 +1,7 @@
 include 'autosalon'
+<<<<<<< HEAD
 include 'autosalon-integration-test'
+=======
+include 'autosalon-test'
+>>>>>>> 71b6f2df7db35dceddec41ed1ed49bc2eb49de9c
 
