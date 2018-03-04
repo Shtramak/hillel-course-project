@@ -94,5 +94,4 @@ public class AutoDaoMock {
         int rezult = autoDao.removeAutoById(2L);
         Assertions.assertTrue( rezult == 1);
     }
-
 }

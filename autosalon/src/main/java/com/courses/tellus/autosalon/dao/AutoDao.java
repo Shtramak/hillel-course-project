@@ -9,13 +9,19 @@ import java.util.List;
 
 import com.courses.tellus.autosalon.config.ConnectionFactory;
 import com.courses.tellus.autosalon.model.Auto;
-import com.courses.tellus.autosalon.utils.AutoUtil;
 import org.apache.log4j.Logger;
 
 public class AutoDao {
 
     private static final Logger LOGGER = Logger.getLogger(AutoDao.class);
     private final transient ConnectionFactory connFactory;
+
+    private static final Integer AUTO_BRAND = 1;
+    private static final Integer AUTO_MODEL = 2;
+    private static final Integer MANUFACT_YEAR = 3;
+    private static final Integer COUNTRY = 4;
+    private static final Integer PRICE = 5;
+    private static final Integer ID_AUTO = 6;
 
     public AutoDao(final ConnectionFactory connFactory) {
         this.connFactory = connFactory;
@@ -41,6 +47,26 @@ public class AutoDao {
         }
         return auto;
     }
+
+    /**
+     * Set Statement values.
+     *
+     * @param pstm to save.
+     * @param auto to save.
+     */
+    private void setStatementValues(final PreparedStatement pstm, final Auto auto)  {
+        try {
+            pstm.setString(AUTO_BRAND, auto.getBrand());
+            pstm.setString(AUTO_MODEL, auto.getModel());
+            pstm.setInt(MANUFACT_YEAR, auto.getManufactYear());
+            pstm.setString(COUNTRY, auto.getProducerCountry());
+            pstm.setBigDecimal(PRICE, auto.getPrice());
+            pstm.setLong(ID_AUTO, auto.getId());
+        } catch (SQLException e) {
+            LOGGER.debug(e.getMessage());
+        }
+    }
+
 
     /**
      * Return list of auto from DataBase.
@@ -74,7 +100,7 @@ public class AutoDao {
         try (Connection connection = connFactory.getConnection()) {
             final PreparedStatement pstm = connection.prepareStatement(
                     "select ID, AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE from AUTO  where ID = ?");
-            pstm.setLong(AutoUtil.ID_AUTO.getIndex(), idAuto);
+            pstm.setLong(1, idAuto);
             resultSet = pstm.executeQuery();
             if (resultSet.next()) {
                 return getAutoFromResultSet(resultSet);
@@ -95,11 +121,11 @@ public class AutoDao {
         try (Connection connection = connFactory.getConnection()) {
             final PreparedStatement pstm = connection.prepareStatement(
                     "insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?)");
-            pstm.setString(AutoUtil.AUTO_BRAND.getIndex(), auto.getBrand());
-            pstm.setString(AutoUtil.AUTO_MODEL.getIndex(), auto.getModel());
-            pstm.setInt(AutoUtil.MANUFACT_YEAR.getIndex(), auto.getManufactYear());
-            pstm.setString(AutoUtil.COUNTRY.getIndex(), auto.getProducerCountry());
-            pstm.setBigDecimal(AutoUtil.PRICE.getIndex(), auto.getPrice());
+            pstm.setString(AUTO_BRAND, auto.getBrand());
+            pstm.setString(AUTO_MODEL, auto.getModel());
+            pstm.setInt(MANUFACT_YEAR, auto.getManufactYear());
+            pstm.setString(COUNTRY, auto.getProducerCountry());
+            pstm.setBigDecimal(PRICE, auto.getPrice());
             return pstm.executeUpdate();
         } catch (SQLException e) {
             LOGGER.debug(e.getMessage());
@@ -117,12 +143,7 @@ public class AutoDao {
         try (Connection connection = connFactory.getConnection()) {
             final PreparedStatement pstm = connection.prepareStatement(
                     "update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ?");
-            pstm.setString(AutoUtil.AUTO_BRAND.getIndex(), auto.getBrand());
-            pstm.setString(AutoUtil.AUTO_MODEL.getIndex(), auto.getModel());
-            pstm.setInt(AutoUtil.MANUFACT_YEAR.getIndex(), auto.getManufactYear());
-            pstm.setString(AutoUtil.COUNTRY.getIndex(), auto.getProducerCountry());
-            pstm.setBigDecimal(AutoUtil.PRICE.getIndex(), auto.getPrice());
-            pstm.setLong(AutoUtil.ID.getIndex(), auto.getId());
+            setStatementValues(pstm, auto);
             return pstm.executeUpdate();
         } catch (SQLException e) {
             LOGGER.debug(e.getMessage());
@@ -139,7 +160,7 @@ public class AutoDao {
     public int removeAutoById(final Long idAuto) {
         try (Connection connection = connFactory.getConnection()) {
             final PreparedStatement pstm = connection.prepareStatement("delete from AUTO where ID = ?");
-            pstm.setLong(AutoUtil.ID_AUTO.getIndex(), idAuto);
+            pstm.setLong(1, idAuto);
             return pstm.executeUpdate();
         } catch (SQLException e) {
             LOGGER.debug(e.getMessage());

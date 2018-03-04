@@ -33,7 +33,7 @@
     </rule>-->
     <!--<rule ref="rulesets/java/design.xml">-->
         <!--<priority>-->
-        <!--5-->
+            <!--5-->
         <!--</priority>-->
     <!--</rule>-->
     <!--<rule ref="rulesets/java/empty.xml">
@@ -191,7 +191,6 @@
     <rule ref="category/java/design.xml/FinalFieldCouldBeStatic" />
     <rule ref="category/java/design.xml/GodClass" />
     <rule ref="category/java/design.xml/ImmutableField" />
-    <rule ref="category/java/design.xml/LawOfDemeter" />
     <rule ref="category/java/design.xml/LogicInversion" />
     <rule ref="category/java/design.xml/LoosePackageCoupling" />
     <rule ref="category/java/design.xml/NcssConstructorCount" />
@@ -370,3 +369,4 @@
     <rule ref="category/java/bestpractices.xml/UnusedPrivateMethod" />
 
 </ruleset>
+
