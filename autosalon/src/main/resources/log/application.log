@@ -1,0 +1,20 @@
+04.03.2018 16:38:25 DEBUG AutoDao:83 - Table "AUTO" not found; SQL statement:
+select ID, AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE from AUTO  where ID = ? [42102-196]
+04.03.2018 16:38:47 DEBUG AutoDao:83 - Table "AUTO" not found; SQL statement:
+select ID, AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE from AUTO  where ID = ? [42102-196]
+04.03.2018 16:39:14 DEBUG AutoDao:83 - Table "AUTO" not found; SQL statement:
+select ID, AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE from AUTO  where ID = ? [42102-196]
+04.03.2018 16:39:48 DEBUG AutoDao:83 - Table "AUTO" not found; SQL statement:
+select ID, AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE from AUTO  where ID = ? [42102-196]
+04.03.2018 16:40:27 DEBUG AutoDao:83 - Table "AUTO" not found; SQL statement:
+select ID, AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE from AUTO  where ID = ? [42102-196]
+04.03.2018 16:40:27 DEBUG AutoDao:105 - Table "AUTO" not found; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [42102-196]
+04.03.2018 16:40:27 DEBUG AutoDao:83 - Table "AUTO" not found; SQL statement:
+select ID, AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE from AUTO  where ID = ? [42102-196]
+04.03.2018 16:40:27 DEBUG AutoDao:61 - Table "AUTO" not found; SQL statement:
+select * from AUTO [42102-196]
+04.03.2018 16:40:27 DEBUG AutoDao:128 - Table "AUTO" not found; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [42102-196]
+04.03.2018 16:40:27 DEBUG AutoDao:145 - Table "AUTO" not found; SQL statement:
+delete from AUTO where ID = ? [42102-196]

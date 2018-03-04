@@ -58,4 +58,43 @@ public class Auto {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Auto)) {
+            return false;
+        }
+        Auto auto = (Auto) o;
+        if (id != auto.id) {
+            return false;
+        }
+        if (!getBrand().equals(auto.getBrand())) {
+            return false;
+        }
+        if (!getModel().equals(auto.getModel())) {
+            return false;
+        }
+        if (!getManufactYear().equals(auto.getManufactYear())) {
+            return false;
+        }
+        if (!getProducerCountry().equals(auto.getProducerCountry())) {
+            return false;
+        }
+        return getPrice().equals(auto.getPrice());
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + getBrand().hashCode();
+        result = prime * result + getModel().hashCode();
+        result = prime * result + getManufactYear().hashCode();
+        result = prime * result + getProducerCountry().hashCode();
+        result = prime * result + getPrice().hashCode();
+        return result;
+    }
 }
