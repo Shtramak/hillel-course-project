@@ -4,7 +4,11 @@ import com.courses.airport.MySQLConnection.MainConnection;
 import com.courses.airport.essences.Ticket;
 import java.sql.*;
 
-public class TicketDAO {
+public class TicketDao {
+
+    public String printHello() {
+        return "Hello";
+    }
 
     //Create ticket method
     public void createTicket (Ticket ticket) {
@@ -58,15 +62,15 @@ public class TicketDAO {
         String updateQuerry = "" +
                 "UPDATE airport_tickets.tickets " +
                 "SET " +
-                    "ticket_code = '"   + ticket.getTicketCode()        + "', " +
-                    "pass_Name = '"     + ticket.getPasName()           + "', " +
-                    "pass_Surname = '"  + ticket.getPasSurname()        + "', " +
-                    "flight_date = '"   + ticket.getFlightDate()        + "', " +
-                    "dispach_point = '" + ticket.getDispachPoint()      + "', " +
-                    "dest_point = '"    + ticket.getDestinationPoint()  + "', " +
-                    "plane_code = '"    + ticket.getPlane()             + "' " +
+                "ticket_code = '"   + ticket.getTicketCode()        + "', " +
+                "pass_Name = '"     + ticket.getPasName()           + "', " +
+                "pass_Surname = '"  + ticket.getPasSurname()        + "', " +
+                "flight_date = '"   + ticket.getFlightDate()        + "', " +
+                "dispach_point = '" + ticket.getDispachPoint()      + "', " +
+                "dest_point = '"    + ticket.getDestinationPoint()  + "', " +
+                "plane_code = '"    + ticket.getPlane()             + "' " +
                 "WHERE " +
-                    "ticket_id = " + id + ";";
+                "ticket_id = " + id + ";";
         updateTable(updateQuerry);
     }
 
