@@ -10,25 +10,32 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UniversityDao implements BasicDao<University,Integer> {
+public class UniversityDao implements BasicDao<University , Integer> {
 
     private Connection connection =get();
     private transient ConnectionFactory connectionFactory;
 
+    public UniversityDao(ConnectionFactory connectionFactory) {
+    this.connectionFactory=connectionFactory;
+    }
+
     @Override
-    public List<University> getAllObject() throws SQLException {
+    public List<University> getAllObject()  {
         List<University> listOfUniversities = new ArrayList<University>();
         try (PreparedStatement ps=connection.prepareStatement("SELECT*FROM Universities")){
             try(ResultSet rSet=ps.executeQuery()) {
                 while (rSet.next()) {
                     getNewObjectFromResultSet(rSet);
-                }}
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return listOfUniversities;
     }
 
     @Override
-    public University getEntityById(Integer entityId) throws SQLException {
+    public University getEntityById(Integer entityId)  {
 
         University universityById = new University();
         try (PreparedStatement ps=connection.prepareStatement("SELECT*FROM Universities WHERE id=?")) {
@@ -39,14 +46,14 @@ public class UniversityDao implements BasicDao<University,Integer> {
                     getNewObjectFromResultSet(rSet);
                 }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return universityById;
     }
 
     @Override
-    public void update(University university) throws SQLException {
-
-
+    public int update(University university) {
         try (PreparedStatement ps= connection.prepareStatement
                 ("UPDATE Universities SET" + " nameOfUniversity = ? , address =?, specialization =?" +
                         "WHERE id= ?")) {
@@ -57,20 +64,27 @@ public class UniversityDao implements BasicDao<University,Integer> {
             ps.setInt(4,university.getId());
             ps.executeUpdate();
 
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return 0;
     }
 
     @Override
-    public void delete(Integer entityId) throws SQLException {
+    public int delete(Integer entityId)  {
         try (PreparedStatement ps=connection.prepareStatement("DELETE FROM Universities " +
-                "WHERE id=?")){
+                "WHERE id=?"))
+        {
             ps.setInt(1,entityId);
             ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return  0;
     }
 
     @Override
-    public void create(University entity) throws SQLException {
+    public int create(University entity) {
         University university;
         try (PreparedStatement ps = connection.prepareStatement
                     ("INSERT INTO Universities(nameOfUniversity,address,specialization)" +
@@ -83,17 +97,24 @@ public class UniversityDao implements BasicDao<University,Integer> {
                 ps.setString(2, address);
                 ps.setString(3, specialization);
                 ps.executeUpdate();
-            }
+            } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return 0;
+    }
 
 
     @Override
-    public University getNewObjectFromResultSet(ResultSet resultSet) throws SQLException {
+    public University getNewObjectFromResultSet(ResultSet resultSet)  {
         final University university = new University();
-        university.setId(resultSet.getInt("Id"));
-        university.setNameOfUniversity(resultSet.getString("nameOfUniversity"));
-        university.setAddress(resultSet.getString("address"));
-        university.setSpecialization(resultSet.getString("specialization"));
+        try {
+            university.setNameOfUniversity(resultSet.getString("nameOfUniversity"));
+            university.setAddress(resultSet.getString("address"));
+            university.setSpecialization(resultSet.getString("specialization"));
+            university.setId(resultSet.getInt("Id"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return university;
     }
 

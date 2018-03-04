@@ -59,12 +59,12 @@ public class  University  {
 
     @Override
     public String toString() {
-        return "University{" +
-                "id=" + id +
-                ", nameOfUniversity='" + nameOfUniversity + '\'' +
-                ", address='" + address + '\'' +
-                ", specialization='" + specialization + '\'' +
-                '}';
+        return "University{"
+                + "id=" + id
+                + ", nameOfUniversity='" + nameOfUniversity + '\''
+                + ", address='" + address + '\''
+                + ", specialization='" + specialization + '\''
+                + '}';
     }
 
     @Override
