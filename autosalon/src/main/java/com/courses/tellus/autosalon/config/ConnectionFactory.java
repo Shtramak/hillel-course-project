@@ -5,23 +5,16 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
 import org.h2.jdbcx.JdbcDataSource;
 
 public final class ConnectionFactory {
-
-    private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
     private static ConnectionFactory connFactory;
     private static JdbcDataSource dataSource;
     private static Properties dbProperties;
 
-    private ConnectionFactory() {
-        try {
+    private ConnectionFactory() throws IOException {
             dbProperties = new Properties();
             dbProperties.load(ClassLoader.getSystemResourceAsStream("config.properties"));
-        } catch (IOException e) {
-            LOGGER.debug(e.getMessage());
-        }
     }
 
     /**
@@ -29,7 +22,7 @@ public final class ConnectionFactory {
      *
      * @return ConnectionFactory instance.
      */
-    public static ConnectionFactory getInstance() {
+    public static ConnectionFactory getInstance() throws IOException {
         synchronized (ConnectionFactory.class) {
             if (connFactory == null) {
                 connFactory = new ConnectionFactory();
@@ -47,12 +40,7 @@ public final class ConnectionFactory {
      *
      * @return Connection.
      */
-    public Connection getConnection() {
-        try {
+    public Connection getConnection() throws SQLException {
             return dataSource.getConnection();
-        } catch (SQLException e) {
-            LOGGER.debug(e.getMessage());
-        }
-        return null;
     }
 }
