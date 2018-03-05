@@ -8,7 +8,7 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.h2.jdbcx.JdbcDataSource;
 
-public final class ConnectionFactory {
+public class ConnectionFactory {
 
     private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
     private static ConnectionFactory connFactory;
