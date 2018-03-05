@@ -15,11 +15,13 @@ package com.courses.tellus.autosalon.dao;
         import java.sql.SQLException;
         import java.util.List;
 
+        import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class AutoDaoTest {
 
     private AutoDao autoDao ;
 
-    public AutoDaoTest() throws IOException {
+    public AutoDaoTest() {
         this.autoDao = new AutoDao(ConnectionFactory.getInstance());
     }
 
@@ -120,14 +122,15 @@ public class AutoDaoTest {
      *
      */
     @Test
-    public void testRemoveAutoWhenResultFalse() {
-        MatcherAssert.assertThat(autoDao.removeAutoById(-9L), CoreMatchers.is(0));
+    public void testRemoveAutoWhenResultFalse() throws SQLException {
+        Auto newAuto = new Auto();
+        newAuto.setId(-1L);
+        MatcherAssert.assertThat(autoDao.removeAutoById(newAuto.getId()), CoreMatchers.is(0));
     }
 
     /**
      * Testing method get auto by id from DataBase
      *
-     * @throws SQLException
      */
     @Test
     public void testGetAutoById() {
@@ -150,5 +153,12 @@ public class AutoDaoTest {
     public void testGetAutoByIdWhenResultfalse() {
         Assertions.assertEquals(null, autoDao.getAutoById(8l));
     }
+
+    @Test
+    public void testGetAutoByIdWhenResultfals1e() {
+        Assertions.assertEquals(null, autoDao.getAutoById(8l));
+    }
+
+
 }
 

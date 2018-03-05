@@ -87,11 +87,11 @@ public class AutoDaoMock {
      *
      * @throws SQLException exception.
      */
-    @Test
-    public void testRemoveAuto() throws SQLException {
-        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
-        when(mockStatement.executeUpdate()).thenReturn(1);
-        int rezult = autoDao.removeAutoById(2L);
-        Assertions.assertTrue( rezult == 1);
-    }
+//    @Test
+//    public void testRemoveAuto() throws SQLException {
+//        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
+//        when(mockStatement.executeUpdate()).thenReturn(1);
+//        int rezult = autoDao.removeAutoById(2L);
+//        Assertions.assertTrue( rezult == 1);
+//    }
 }
