@@ -6,10 +6,6 @@ import java.sql.*;
 
 public class TicketDao {
 
-    public String printHello() {
-        return "Hello";
-    }
-
     //Create ticket method
     public void createTicket (Ticket ticket) {
         String createRawQuerry = "INSERT INTO airport_tickets.tickets VALUES ("
@@ -30,7 +26,7 @@ public class TicketDao {
         Statement st = null;
         ResultSet resultSet = null;
         MainConnection mainConnection = new MainConnection();
-        Connection con = mainConnection.getConnection();
+        Connection con = mainConnection.connect();
         String readQuerry = "SELECT * FROM airport_tickets.tickets WHERE ticket_id = " + ticketId + ";";
 
         try {
@@ -51,7 +47,7 @@ public class TicketDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            mainConnection.closeConnection();
+            mainConnection.disconnect();
         }
 
         return ticket;
@@ -83,7 +79,7 @@ public class TicketDao {
     private void updateTable (String querry) { // Creates connection and updates table with querries: "create", "update", "delete"
         PreparedStatement st = null;
         MainConnection mainConnection = new MainConnection();
-        Connection con = mainConnection.getConnection();
+        Connection con = mainConnection.connect();
 
         try {
             st = con.prepareStatement(querry);
@@ -96,14 +92,14 @@ public class TicketDao {
             System.out.println("Error while transfering querry");
             e.printStackTrace();
         } finally {
-            mainConnection.closeConnection();
+            mainConnection.disconnect();
         }
     }
 
     public int getLastId() {   // Method, that detects and returnes the last Id in the table
         int lastIndex = 0;
         MainConnection mainConnection = new MainConnection();
-        Connection con = mainConnection.getConnection();
+        Connection con = mainConnection.connect();
         Statement st = null;
         try {
             st = con.createStatement();
@@ -114,7 +110,7 @@ public class TicketDao {
             System.out.println("Error while detecting last index");
             e.printStackTrace();
         } finally {
-            mainConnection.closeConnection();
+            mainConnection.disconnect();
         }
         return lastIndex;
     }
