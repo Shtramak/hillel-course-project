@@ -33,18 +33,14 @@ public class AutoDao {
      * @param resultSet to save.
      * @return auto.
      */
-    private Auto getAutoFromResultSet(final ResultSet resultSet) {
+    private Auto getAutoFromResultSet(final ResultSet resultSet) throws SQLException {
         final Auto auto = new Auto();
-        try {
-            auto.setId(resultSet.getLong("ID"));
-            auto.setBrand(resultSet.getString("AUTO_BRAND"));
-            auto.setModel(resultSet.getString("AUTO_MODEL"));
-            auto.setManufactYear(resultSet.getInt("MANUFACT_YEAR"));
-            auto.setProducerCountry(resultSet.getString("COUNTRY"));
-            auto.setPrice(resultSet.getBigDecimal("PRICE"));
-        } catch (SQLException e) {
-            LOGGER.debug(e.getMessage());
-        }
+        auto.setId(resultSet.getLong("ID"));
+        auto.setBrand(resultSet.getString("AUTO_BRAND"));
+        auto.setModel(resultSet.getString("AUTO_MODEL"));
+        auto.setManufactYear(resultSet.getInt("MANUFACT_YEAR"));
+        auto.setProducerCountry(resultSet.getString("COUNTRY"));
+        auto.setPrice(resultSet.getBigDecimal("PRICE"));
         return auto;
     }
 
@@ -54,17 +50,13 @@ public class AutoDao {
      * @param pstm to save.
      * @param auto to save.
      */
-    private void setStatementValues(final PreparedStatement pstm, final Auto auto)  {
-        try {
+    private void setStatementValues(final PreparedStatement pstm, final Auto auto) throws SQLException {
             pstm.setString(AUTO_BRAND, auto.getBrand());
             pstm.setString(AUTO_MODEL, auto.getModel());
             pstm.setInt(MANUFACT_YEAR, auto.getManufactYear());
             pstm.setString(COUNTRY, auto.getProducerCountry());
             pstm.setBigDecimal(PRICE, auto.getPrice());
             pstm.setLong(ID_AUTO, auto.getId());
-        } catch (SQLException e) {
-            LOGGER.debug(e.getMessage());
-        }
     }
 
 
@@ -161,7 +153,10 @@ public class AutoDao {
         try (Connection connection = connFactory.getConnection()) {
             final PreparedStatement pstm = connection.prepareStatement("delete from AUTO where ID = ?");
             pstm.setLong(1, idAuto);
-            return pstm.executeUpdate();
+            final int rowsDeleted = pstm.executeUpdate();
+            if (rowsDeleted > 0) {
+                return 1;
+            }
         } catch (SQLException e) {
             LOGGER.debug(e.getMessage());
         }
