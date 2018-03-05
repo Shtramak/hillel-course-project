@@ -1,8 +1,9 @@
 package com.courses.tellus.autosalon.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -21,22 +22,22 @@ import com.courses.tellus.autosalon.config.ConnectionFactory;
 import com.courses.tellus.autosalon.exception.DaoException;
 import com.courses.tellus.autosalon.model.Customer;
 import org.h2.tools.RunScript;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class CustomerDaoIntegrationTest {
     private Connection connection;
     private CustomerDao customerDao;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException, SQLException {
         connection = ConnectionFactory.getInstance().getConnection();
         RunScript.execute(connection, new FileReader("src/test/resources/test.sql"));
         customerDao = new CustomerDao(connection);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws SQLException {
         executeSqlQuery("DROP TABLE CUSTOMER");
     }
@@ -47,15 +48,20 @@ public class CustomerDaoIntegrationTest {
         assertTrue(customerDao.insert(customer));
     }
 
-    @Test(expected = DaoException.class)
+    @Test
     public void insertWhenCustomerHasNullElementThrowsDAOException() throws DaoException {
         Customer customer = new Customer(1, "John", null, LocalDate.of(2018, 2, 20), "(012)345-67-89", 10000.50);
-        assertTrue(customerDao.insert(customer));
+        assertThrows(DaoException.class, () -> {
+            customerDao.insert(customer);
+        });
     }
 
-    @Test(expected = DaoException.class)
+    @Test
     public void insertWhenCustomerIsNullThrowsDaoException() throws DaoException {
-        assertTrue(customerDao.insert(null));
+        Throwable exception = assertThrows(DaoException.class, () -> {
+            customerDao.insert(null);
+        });
+        assertEquals("Customer must be not null!", exception.getMessage());
     }
 
     @Test
@@ -72,9 +78,12 @@ public class CustomerDaoIntegrationTest {
         assertEquals(null, customerDao.findById(2));
     }
 
-    @Test(expected = DaoException.class)
+    @Test
     public void findByIdWithNegativeIdThrowsDaoException() throws DaoException {
-        customerDao.findById(-1);
+        Throwable exception = assertThrows(DaoException.class, () -> {
+            customerDao.findById(-1);
+        });
+        assertEquals("Customer id must be positive, but entered: -1", exception.getMessage());
     }
 
     @Test
@@ -106,26 +115,32 @@ public class CustomerDaoIntegrationTest {
         assertFalse(customerDao.update(updatedCustomer));
     }
 
-    @Test(expected = DaoException.class)
+    @Test
     public void updateWhenCustomerIsNullThrowsDaoException() throws DaoException {
-        customerDao.update(null);
+        Throwable exception = assertThrows(DaoException.class, () -> {
+            customerDao.update(null);
+        });
+        assertEquals("Customer must be not null!", exception.getMessage());
     }
 
     @Test
-    public void deleteByIdWithExistingIdReturnsTrue() throws DaoException {
+    public void removeByIdWithExistingIdReturnsTrue() throws DaoException {
         insertCustomersToDb(3);
         assertTrue(customerDao.removeById(2));
     }
 
     @Test
-    public void deleteByIdWithNotExistingReturnsFalse() throws DaoException {
+    public void removeByIdWithNotExistingReturnsFalse() throws DaoException {
         insertCustomersToDb(1);
         assertFalse(customerDao.removeById(2));
     }
 
-    @Test(expected = DaoException.class)
-    public void deleteByIdWithNegativeIdThrowsDaoException() throws DaoException {
-        customerDao.removeById(-1);
+    @Test
+    public void removeByIdWithNegativeIdThrowsDaoException() throws DaoException {
+        Throwable exception = assertThrows(DaoException.class, () -> {
+            customerDao.removeById(-1);
+        });
+        assertEquals("Customer id must be positive, but entered: -1", exception.getMessage());
     }
 
     private void executeSqlQuery(String sqlQuery) throws SQLException {

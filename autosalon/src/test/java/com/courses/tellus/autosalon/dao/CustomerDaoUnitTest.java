@@ -1,8 +1,9 @@
 package com.courses.tellus.autosalon.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -17,21 +18,21 @@ import java.time.LocalDate;
 
 import com.courses.tellus.autosalon.exception.DaoException;
 import com.courses.tellus.autosalon.model.Customer;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class CustomerDaoUnitTest {
     private Connection connection;
     private CustomerDao customerDao;
 
-    @BeforeClass
+    @BeforeAll
     public static void disableWarning() {
         System.err.close();
         System.setErr(System.out);
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         connection = mock(Connection.class);
         customerDao = new CustomerDao(connection);
@@ -46,11 +47,11 @@ public class CustomerDaoUnitTest {
         assertTrue(customerDao.insert(customer));
     }
 
-    @Test(expected = DaoException.class)
+    @Test
     public void insertWhenBadConnectionThrowsDAOException() throws DaoException, SQLException {
         Customer customer = mock(Customer.class);
         when(connection.prepareStatement(anyString())).thenThrow(SQLException.class);
-        customerDao.insert(customer);
+        assertThrows(DaoException.class, () -> customerDao.insert(customer));
     }
 
     @Test
@@ -81,34 +82,44 @@ public class CustomerDaoUnitTest {
         assertNull(customerDao.findById(1L));
     }
 
-    @Test(expected = DaoException.class)
+    @Test
     public void findByIdWithNegativeIdThrowsDaoException() throws DaoException {
-        customerDao.findById(-1);
-    }
+        Throwable exception = assertThrows(DaoException.class, () -> {
+            customerDao.findById(-1);
+        });
+        assertEquals("Customer id must be positive, but entered: -1", exception.getMessage());    }
 
-    @Test(expected = DaoException.class)
+    @Test
     public void findByIdWhenBadConnectionThrowsDaoException() throws DaoException, SQLException {
         when(connection.createStatement()).thenThrow(SQLException.class);
-        customerDao.findById(1L);
+        assertThrows(DaoException.class, () -> customerDao.findById(1L));
     }
 
-    @Test(expected = DaoException.class)
+    @Test
     public void findAllWhenBadConnectionThrowsDaoException() throws DaoException, SQLException {
         when(connection.createStatement()).thenThrow(SQLException.class);
-        customerDao.findAll();
+        assertThrows(DaoException.class, () -> customerDao.findAll());
     }
 
-    @Test(expected = DaoException.class)
+    @Test
     public void updateWhenBadConnectionThrowsDaoException() throws DaoException, SQLException {
         Customer customer = mock(Customer.class);
         when(connection.prepareStatement(anyString())).thenThrow(SQLException.class);
-        customerDao.update(customer);
+        assertThrows(DaoException.class, () -> customerDao.update(customer));
     }
 
-    @Test(expected = DaoException.class)
+    @Test
+    public void removeByIdWithNegativeIdThrowsDaoException() throws DaoException {
+        Throwable exception = assertThrows(DaoException.class, () -> {
+            customerDao.findById(-1L);
+        });
+        assertEquals("Customer id must be positive, but entered: -1", exception.getMessage());
+    }
+
+    @Test
     public void removeByIdWhenBadConnectionThrowsDaoException() throws DaoException, SQLException {
         when(connection.createStatement()).thenThrow(SQLException.class);
-        customerDao.removeById(1L);
+        assertThrows(DaoException.class, () -> customerDao.removeById(1L));
     }
 
 }
