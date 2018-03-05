@@ -5,11 +5,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.h2.jdbcx.JdbcDataSource;
 
 public class ConnectionFactory {
     private static final String DB_PROPERTIES = "data-base.properties";
     private static ConnectionFactory connFactory;
+    private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
     private static JdbcDataSource dataSource;
 
     /**
@@ -37,7 +39,7 @@ public class ConnectionFactory {
         try {
             properties.load(ClassLoader.getSystemResourceAsStream(propFileName));
         } catch (IOException e) {
-            e.printStackTrace();
+           LOGGER.error(e);
         }
         dataSource = new JdbcDataSource();
         dataSource.setUrl(properties.getProperty("h2.url"));

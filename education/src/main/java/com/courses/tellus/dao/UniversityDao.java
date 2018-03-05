@@ -14,8 +14,8 @@ import org.apache.log4j.Logger;
 public class UniversityDao implements BasicDao<University, Integer> {
 
     private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
-    private transient final Connection connection = get();
-    private transient ConnectionFactory connectionFactory;
+    private final transient Connection connection = get();
+    private final transient ConnectionFactory connectionFactory;
 
     public UniversityDao(final ConnectionFactory connectionFactory) {
     this.connectionFactory = connectionFactory;
