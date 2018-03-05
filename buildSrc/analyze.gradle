@@ -4,6 +4,7 @@ apply plugin: 'pmd'
 apply plugin: 'jdepend'
 apply plugin: "jacoco"
 apply plugin: 'com.palantir.jacoco-coverage'
+apply plugin: 'org.junit.platform.gradle.plugin'
 
 checkstyle {
     ignoreFailures = false
@@ -18,6 +19,7 @@ checkstyle {
 pmd {
     toolVersion = "6.1.0"
     consoleOutput = true
+    sourceSets = [sourceSets.main]
     ruleSetFiles = rootProject.files('buildSrc/pmd/pmd_checks.xml')
 }
 
@@ -43,13 +45,14 @@ jdepend {
 
 jacoco {
     toolVersion = "0.8.0"
+    applyTo junitPlatformTest
 }
 
 test {
-    jacoco {
-        append = false
-        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
-        excludes = ['**/model/**']
+    junitPlatformTest {
+        jacoco {
+            destinationFile = file("$buildDir/jacoco/test.exec")
+        }
     }
 }
 
