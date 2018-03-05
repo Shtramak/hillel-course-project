@@ -46,3 +46,79 @@ update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, 
 insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
 05.03.2018 09:35:48 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
 update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 16:48:31 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 16:48:31 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 16:50:34 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 16:50:34 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 16:52:35 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 16:52:35 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 16:56:10 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 16:56:10 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 17:22:46 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 17:22:46 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 17:23:03 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 17:23:03 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 17:25:11 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 17:25:11 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 17:25:26 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 17:25:26 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 17:37:38 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 17:37:38 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 17:39:45 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 17:39:45 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 17:40:17 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 17:40:17 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 17:44:54 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 17:44:54 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 17:51:10 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 17:51:10 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 17:55:28 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 17:55:28 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 17:55:53 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 17:55:53 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 17:56:21 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 17:56:21 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 18:00:25 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 18:00:25 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 20:16:34 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 20:16:34 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]
+05.03.2018 20:17:27 DEBUG AutoDao:131 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+insert into AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE)values(?, ?, ?, ?, ?) [23502-196]
+05.03.2018 20:17:27 DEBUG AutoDao:149 - NULL not allowed for column "AUTO_MODEL"; SQL statement:
+update AUTO set AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? where ID = ? [23502-196]

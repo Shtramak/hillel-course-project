@@ -5,7 +5,6 @@ package com.courses.tellus.autosalon.dao;
         import org.h2.tools.RunScript;
         import org.hamcrest.CoreMatchers;
         import org.hamcrest.MatcherAssert;
-        import org.junit.Assert;
         import org.junit.jupiter.api.Assertions;
         import org.junit.jupiter.api.BeforeAll;
         import org.junit.jupiter.api.Test;
