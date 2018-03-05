@@ -6,7 +6,14 @@ import com.courses.airport.essences.Ticket;
 public class MainTester {
     public static void main(String[] args) {
         TicketDao ticketDao = new TicketDao();
-        Ticket ticket = ticketDao.getTicketById(1);
-        System.out.println(ticket);
+        ticketDao.createTable();
+
+        Ticket ticket = new Ticket(02, "Igor", "Repnii", "2018-01-02", "AH-1");
+
+        ticketDao.createTicket(ticket);
+
+//        ticketDao.dropTable();
+
+
     }
 }

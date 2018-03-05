@@ -1,24 +1,20 @@
 package com.courses.airport.essences;
 
+import java.util.Date;
+
 public class Ticket {
 
     private int ticketId;
-    private String ticketCode;
     private String pasName;
     private String pasSurname;
     private String flightDate;
-    private String dispachPoint;
-    private String destinationPoint;
     private String plane;
 
-    public Ticket(int ticketId, String ticketCode, String pasName, String pasSurname, String flightDate, String dispachPoint, String destinationPoint, String plane) {
+    public Ticket(int ticketId,  String pasName, String pasSurname, String flightDate, String plane) {
         this.ticketId = ticketId;
-        this.ticketCode = ticketCode;
         this.pasName = pasName;
         this.pasSurname = pasSurname;
         this.flightDate = flightDate;
-        this.dispachPoint = dispachPoint;
-        this.destinationPoint = destinationPoint;
         this.plane = plane;
     }
 
@@ -28,14 +24,6 @@ public class Ticket {
 
     public void setTicketId(int ticketId) {
         this.ticketId = ticketId;
-    }
-
-    public String getTicketCode() {
-        return ticketCode;
-    }
-
-    public void setTicketCode(String ticketCode) {
-        this.ticketCode = ticketCode;
     }
 
     public String getPasName() {
@@ -54,28 +42,10 @@ public class Ticket {
         this.pasSurname = pasSurname;
     }
 
-    public String getFlightDate() {
-        return flightDate;
-    }
+    public String getFlightDate() { return flightDate; }
 
     public void setFlightDate(String flightDate) {
         this.flightDate = flightDate;
-    }
-
-    public String getDispachPoint() {
-        return dispachPoint;
-    }
-
-    public void setDispachPoint(String dispachPoint) {
-        this.dispachPoint = dispachPoint;
-    }
-
-    public String getDestinationPoint() {
-        return destinationPoint;
-    }
-
-    public void setDestinationPoint(String destinationPoint) {
-        this.destinationPoint = destinationPoint;
     }
 
     public String getPlane() {
@@ -84,5 +54,16 @@ public class Ticket {
 
     public void setPlane(String plane) {
         plane = plane;
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "ticketId=" + ticketId +
+                ", pasName='" + pasName + '\'' +
+                ", pasSurname='" + pasSurname + '\'' +
+                ", flightDate='" + flightDate + '\'' +
+                ", plane='" + plane + '\'' +
+                '}';
     }
 }

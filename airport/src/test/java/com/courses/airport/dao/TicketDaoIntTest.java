@@ -1,23 +1,20 @@
 package com.courses.airport.dao;
 
-import com.courses.airport.mysqlconnection.MainConnection;
-import com.sun.tools.javac.Main;
-import org.junit.Before;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import com.courses.airport.essences.Ticket;
+import org.junit.jupiter.api.*;
 
-import java.sql.Connection;
+import java.sql.SQLException;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.jupiter.api.Assertions.*;
 
-class TicketDAOTest {
-    private TicketDao ticketDao;
+class TicketDaoIntTest {
+    private TicketDao ticketDao = new TicketDao();
+    private Ticket ticket = new Ticket(1, "Igor", "Repnii", "2018-01-02", "AH-1");
 
-    @Before
+    @BeforeEach
     public void createTable() {
-        MainConnection mainConnection = new MainConnection();
-        Connection connection = (Connection) new MainConnection();
+        ticketDao.dropTable();
+        ticketDao.createTable();
     }
 
     @Test
@@ -34,24 +31,34 @@ class TicketDAOTest {
     }
 
     @Test
-    void createTicket() {
-        ticketDao = new TicketDao();
-
+    void createTicket() throws SQLException {
+        ticketDao.createTicket(ticket);
+        Assertions.assertTrue(ticketDao.getLastId() == 1);
     }
 
     @Test
     void getTicketById() {
+        ticketDao.createTicket(ticket);
+        Assertions.assertTrue(ticket.toString().equals(ticketDao.getTicketById(ticket.getTicketId()).toString()));
     }
 
     @Test
     void updateTicket() {
+        ticketDao.createTicket(ticket);
+        int id = ticket.getTicketId();
+        String updatedName = "Avraam";
+        ticket.setPasName(updatedName);
+        ticketDao.updateTicket(id, ticket);
+        Assertions.assertTrue(ticketDao.getTicketById(id).getPasName().equals(updatedName));
     }
 
     @Test
-    void deleteTicket() {
-    }
+    void deleteTicket() throws SQLException {
+        Ticket newTicket = new Ticket(2, "Name", "Surname", "2018-03-01", "AH-1");
+        ticketDao.createTicket(ticket);
+        ticketDao.createTicket(newTicket);
+        ticketDao.deleteTicket(newTicket.getTicketId());
+        Assertions.assertTrue(ticketDao.getLastId() == ticket.getTicketId());
 
-    @Test
-    void getLastId() {
     }
 }

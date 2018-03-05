@@ -6,42 +6,34 @@ import java.sql.*;
 
 public class TicketDao {
 
-    //Create ticket method
     public void createTicket (Ticket ticket) {
-        String createRawQuerry = "INSERT INTO airport_tickets.tickets VALUES ("
+        String createRawQuerry = "INSERT INTO `airport_tickets`.`abracadabra` VALUES ("
                 + ticket.getTicketId()          + ", '"
-                + ticket.getTicketCode()        + "', '"
                 + ticket.getPasName()           + "', '"
                 + ticket.getPasSurname()        + "', '"
                 + ticket.getFlightDate()        + "', '"
-                + ticket.getDispachPoint()      + "', '"
-                + ticket.getDestinationPoint()  + "', '"
                 + ticket.getPlane()             + "');";
         updateTable(createRawQuerry);
     }
 
-    // Read ticket №id from table
     public Ticket getTicketById(int ticketId) {
         Ticket ticket = null;
         Statement st = null;
         ResultSet resultSet = null;
         MainConnection mainConnection = new MainConnection();
         Connection con = mainConnection.connect();
-        String readQuerry = "SELECT * FROM airport_tickets.tickets WHERE ticket_id = " + ticketId + ";";
+        String readQuerry = "SELECT * FROM airport_tickets.abracadabra WHERE ticket_id = " + ticketId + ";";
 
         try {
             st = con.createStatement();
             resultSet = st.executeQuery(readQuerry );
             resultSet.next();
-            ticket = new Ticket(                // Creating ticket object. Filling constructor with data from Db
+            ticket = new Ticket(
                     ticketId,
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getString(4),
-                    resultSet.getString(5),
-                    resultSet.getString(6),
-                    resultSet.getString(7),
-                    resultSet.getString(8));
+                    resultSet.getString(5));
             resultSet.close();
 
         } catch (SQLException e) {
@@ -53,26 +45,21 @@ public class TicketDao {
         return ticket;
     }
 
-    // Updating record in 'tickets' table
     public void updateTicket (int id, Ticket ticket) {
         String updateQuerry = "" +
-                "UPDATE airport_tickets.tickets " +
+                "UPDATE airport_tickets.abracadabra " +
                 "SET " +
-                "ticket_code = '"   + ticket.getTicketCode()        + "', " +
                 "pass_Name = '"     + ticket.getPasName()           + "', " +
                 "pass_Surname = '"  + ticket.getPasSurname()        + "', " +
                 "flight_date = '"   + ticket.getFlightDate()        + "', " +
-                "dispach_point = '" + ticket.getDispachPoint()      + "', " +
-                "dest_point = '"    + ticket.getDestinationPoint()  + "', " +
                 "plane_code = '"    + ticket.getPlane()             + "' " +
                 "WHERE " +
                 "ticket_id = " + id + ";";
         updateTable(updateQuerry);
     }
 
-    // Deleting record №id from table
     public void deleteTicket (int id) {
-        String deleteQuerry = "DELETE FROM  airport_tickets.tickets WHERE ticket_id =" + id + ";";
+        String deleteQuerry = "DELETE FROM airport_tickets.abracadabra WHERE ticket_id =" + id + ";";
         updateTable(deleteQuerry);
     }
 
@@ -96,22 +83,56 @@ public class TicketDao {
         }
     }
 
-    public int getLastId() {   // Method, that detects and returnes the last Id in the table
+    public int getLastId() throws SQLException {   // Method, that detects and returnes the last Id in the table
         int lastIndex = 0;
         MainConnection mainConnection = new MainConnection();
         Connection con = mainConnection.connect();
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery("SELECT * FROM `airport_tickets`.`abracadabra`");
+        rs.last();
+        lastIndex = rs.getInt(1);
+        mainConnection.disconnect();
+
+        return lastIndex;
+    }
+
+    public void createTable() {
+        String sql = "CREATE TABLE `airport_tickets`.`abracadabra` (\n" +
+                "  `ticket_id` INT(11) NOT NULL,\n" +
+                "  `pass_Name` VARCHAR(45) NULL,\n" +
+                "  `pass_Surname` VARCHAR(45) NULL,\n" +
+                "  `flight_date` VARCHAR(45) NULL,\n" +
+                "  `plane_code` VARCHAR(45) NULL,\n" +
+                "  PRIMARY KEY (`ticket_id`));";
         Statement st = null;
+        MainConnection mainConnection = new MainConnection();
+        Connection con = mainConnection.connect();
         try {
             st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM airport_tickets.tickets");
-            rs.last();
-            lastIndex = rs.getInt(1);
+            st.executeUpdate(sql);
         } catch (SQLException e) {
-            System.out.println("Error while detecting last index");
             e.printStackTrace();
-        } finally {
+        }
+        finally {
             mainConnection.disconnect();
         }
-        return lastIndex;
+
+    }
+
+    public void dropTable() {
+        String sql = "DROP TABLE `airport_tickets`.`abracadabra`;";
+        Statement st = null;
+        MainConnection mainConnection = new MainConnection();
+        Connection con = mainConnection.connect();
+        try {
+            st = con.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            mainConnection.disconnect();
+        }
+
     }
 }
