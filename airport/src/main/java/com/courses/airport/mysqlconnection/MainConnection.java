@@ -14,8 +14,8 @@ public class MainConnection {
     private static final String DATABASE_DRIVER = "com.mysql.jdbc.Driver";
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/airport_tickets?useSSL=true";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "2439134";
-    private Connection connection;
+    private static final String PASSWORD = "2469134";
+    private Connection connection = null;
 
     public Connection connect() {
         try {
