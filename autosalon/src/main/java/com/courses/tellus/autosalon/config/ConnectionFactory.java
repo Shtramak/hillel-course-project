@@ -22,7 +22,7 @@ public final class ConnectionFactory {
      *
      * @return ConnectionFactory instance.
      */
-    public static ConnectionFactory getInstance() {
+    public static ConnectionFactory getInstance() throws IOException {
         synchronized (ConnectionFactory.class) {
             if (connFactory == null) {
                 connFactory = new ConnectionFactory();

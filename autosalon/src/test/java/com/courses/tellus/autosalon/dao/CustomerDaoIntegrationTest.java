@@ -40,6 +40,7 @@ public class CustomerDaoIntegrationTest {
     @AfterEach
     public void tearDown() throws SQLException {
         executeSqlQuery("DROP TABLE CUSTOMER");
+        executeSqlQuery("DROP TABLE AUTO");
     }
 
     @Test
