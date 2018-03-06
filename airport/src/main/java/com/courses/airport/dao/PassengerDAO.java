@@ -1,7 +1,7 @@
-package DAO;
+package com.courses.airport.dao;
 
-import MySQLConnection.MainConnection;
-import essences.Passenger;
+import com.courses.airport.mysqlconnection.MainConnection;
+import com.courses.airport.essences.Passenger;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class PassengerDAO {
         Statement statement;
         ResultSet resultSet = null;
         MainConnection mainConnection = new MainConnection();
-        Connection connection = mainConnection.getConnection();
+        Connection connection = mainConnection.connect();
         List<Passenger> passengerList = new ArrayList<>();
         try {
             statement = connection.createStatement();
@@ -43,7 +43,7 @@ public class PassengerDAO {
 
     public void updatePassenger(int id, Passenger passenger) {
         MainConnection mainConnection = new MainConnection();
-        Connection connection = (Connection) mainConnection.getConnection();
+        Connection connection = (Connection) mainConnection.connect();
         String updatePassegerQuery = "UPDATE airports SET " +
                 "passengerId = " + passenger.getPassengerId() +", " +
                 "name = '" + passenger.getName() + "', " +
@@ -75,7 +75,7 @@ public class PassengerDAO {
 
     private void updateQuerry (String query) {
         MainConnection mainConnection = new MainConnection();
-        Connection connection = (Connection) mainConnection.getConnection();
+        Connection connection = (Connection) mainConnection.connect();
 
         try {
             Statement statement = connection.createStatement();
@@ -96,7 +96,7 @@ public class PassengerDAO {
         ResultSet resultSet = null;
         Passenger uploadedPass = null;
         MainConnection mainConnection = new MainConnection();
-        Connection connection = (Connection) mainConnection.getConnection();
+        Connection connection = (Connection) mainConnection.connect();
 
         try {
             statement = connection.createStatement();

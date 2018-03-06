@@ -1,7 +1,7 @@
-package DAO;
+package com.courses.airport.dao;
 
 
-import airoport.Airport;
+import com.courses.airport.essences.Airport;
 
 import java.sql.SQLException;
 import java.util.List;
