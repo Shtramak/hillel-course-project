@@ -1,4 +1,3 @@
 include 'autosalon'
-include 'autosalon-test'
 include 'airport'
 
