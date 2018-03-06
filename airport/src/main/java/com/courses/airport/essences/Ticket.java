@@ -18,6 +18,9 @@ public class Ticket {
         this.plane = plane;
     }
 
+    public Ticket() {
+    }
+
     public int getTicketId() {
         return ticketId;
     }

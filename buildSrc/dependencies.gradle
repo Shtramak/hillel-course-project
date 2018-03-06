@@ -61,7 +61,6 @@ class SharedDependencies {
 
     Closure dataBaseDependencies = {
         compile group: 'com.h2database', name: 'h2', version: "1.4.196"
-        compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.45'
     }
 
     Closure unitTestDependencies = {
