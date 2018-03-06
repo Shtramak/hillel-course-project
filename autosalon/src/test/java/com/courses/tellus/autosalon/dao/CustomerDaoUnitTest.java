@@ -1,6 +1,7 @@
 package com.courses.tellus.autosalon.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,12 +40,20 @@ public class CustomerDaoUnitTest {
     }
 
     @Test
-    public void insertWithValidDataReturnsTrue() throws DaoException, SQLException {
+    public void insertWhenExecuteUpdatePositiveDataReturnsTrue() throws DaoException, SQLException {
         Customer customer = new Customer(1, "John", "Smith", LocalDate.of(2018, 2, 20), "(012)345-67-89", 10000.50);
         PreparedStatement statement = mock(PreparedStatement.class);
         when(connection.prepareStatement(anyString())).thenReturn(statement);
         when(statement.executeUpdate()).thenReturn(1);
         assertTrue(customerDao.insert(customer));
+    }
+    @Test
+    public void insertWhenExecuteUpdateNegativeDataReturnsTrue() throws DaoException, SQLException {
+        Customer customer = new Customer(1, "John", "Smith", LocalDate.of(2018, 2, 20), "(012)345-67-89", 10000.50);
+        PreparedStatement statement = mock(PreparedStatement.class);
+        when(connection.prepareStatement(anyString())).thenReturn(statement);
+        when(statement.executeUpdate()).thenReturn(-1);
+        assertFalse(customerDao.insert(customer));
     }
 
     @Test

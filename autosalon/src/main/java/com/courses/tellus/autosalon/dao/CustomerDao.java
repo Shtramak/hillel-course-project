@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.courses.tellus.autosalon.exception.DaoException;
 import com.courses.tellus.autosalon.model.Customer;
+import org.apache.log4j.Logger;
 
 public class CustomerDao {
 
@@ -21,6 +22,7 @@ public class CustomerDao {
     private static final int INDEX_PHONE = 4;
     private static final int INDEX_FUNDS = 5;
     private static final int INDEX_ID = 6;
+    private static final Logger LOGGER = Logger.getLogger(CustomerDao.class);
 
     private final transient Connection connection;
 
@@ -47,7 +49,9 @@ public class CustomerDao {
             final int rowsInserted = statement.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
-            throw new DaoException("Insertion failed! Reason: " + e.getMessage(), e);
+            final String message = "Insertion failed! Reason: " + e.getMessage();
+            LOGGER.error(message);
+            throw new DaoException(message, e);
         }
     }
 
@@ -70,7 +74,9 @@ public class CustomerDao {
             }
             return null;
         } catch (SQLException e) {
-            throw new DaoException("Selection failed! Reason: " + e.getMessage(), e);
+            final String message = "Selection failed! Reason: " + e.getMessage();
+            LOGGER.error(message);
+            throw new DaoException(message, e);
         }
     }
 
@@ -90,7 +96,9 @@ public class CustomerDao {
             }
             return customers;
         } catch (SQLException e) {
-            throw new DaoException("Selection failed! Reason: " + e.getMessage(), e);
+            final String message = "Selection failed! Reason: " + e.getMessage();
+            LOGGER.error(message);
+            throw new DaoException(message, e);
         }
     }
 
@@ -113,7 +121,9 @@ public class CustomerDao {
             final int rowsAffected = statement.executeUpdate();
             return rowsAffected == 1;
         } catch (SQLException e) {
-            throw new DaoException("Update failed! Reason: " + e.getMessage(), e);
+            final String message = "Update failed! Reason: " + e.getMessage();
+            LOGGER.error(message);
+            throw new DaoException(message, e);
         }
     }
 
@@ -133,7 +143,9 @@ public class CustomerDao {
             final int rowsAffected = statement.executeUpdate(sql);
             return rowsAffected == 1;
         } catch (SQLException e) {
-            throw new DaoException("Remove failed! Reason: " + e.getMessage(), e);
+            final String message = "Remove failed! Reason: " + e.getMessage();
+            LOGGER.error(message);
+            throw new DaoException(message, e);
         }
     }
 
