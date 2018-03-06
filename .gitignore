@@ -3,5 +3,6 @@
 .gradle
 */build
 build
-
-
+out
+education/out
+*.log
