@@ -1,5 +1,6 @@
 package com.courses.tellus.entity;
 
+import java.util.GregorianCalendar;
 import java.util.Objects;
 
 public class Subject {
@@ -22,13 +23,14 @@ public class Subject {
      * @param name title of the subject
      * @param description small description
      * @param valid deprecation mark
-     * @param dateOfCreation date of creation this object
+     * @param gregCalendar date of creation this object
      */
-    public Subject(final String name, final String description, final boolean valid, final Long dateOfCreation) {
+    public Subject(final String name, final String description, final boolean valid,
+                   final GregorianCalendar gregCalendar) {
         this.name = name;
         this.description = description;
         this.valid = valid;
-        this.dateOfCreation = dateOfCreation;
+        this.dateOfCreation = gregCalendar.getTimeInMillis();
     }
 
     /**
@@ -38,15 +40,15 @@ public class Subject {
      * @param name title of the subject
      * @param description small description
      * @param valid deprecation mark
-     * @param dateOfCreation date of creation this object
+     * @param gregCalendar date of creation this object
      */
     public Subject(final Integer subjectId, final String name, final String description,
-                   final boolean valid, final Long dateOfCreation) {
+                   final boolean valid, final GregorianCalendar gregCalendar) {
         this.subjectId = subjectId;
         this.name = name;
         this.description = description;
         this.valid = valid;
-        this.dateOfCreation = dateOfCreation;
+        this.dateOfCreation = gregCalendar.getTimeInMillis();
     }
 
     public Integer getSubjectId() {

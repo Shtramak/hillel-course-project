@@ -21,72 +21,81 @@ public class SubjectDao implements BasicDao<Subject, Integer> {
     }
 
     @Override
-    public List<Subject> getAllObject() throws SQLException {
+    public List<Subject> getAllEntity() {
+        ResultSet resultSet;
         final List<Subject> subjectList = new ArrayList<>();
-        ResultSet resultSet = null;
-        try (Connection conn = get()) {
-            resultSet = conn.prepareStatement("SELECT * FROM subject").executeQuery();
-                while (resultSet.next()) {
-                    subjectList.add(getNewObjectFromResultSet(resultSet));
-                }
-        } finally {
-            resultSet.close();
+        try (Connection conn = connectionFactory.getConnection()) {
+            final PreparedStatement preState = conn.prepareStatement("SELECT * FROM SUBJECT");
+            resultSet = preState.executeQuery();
+            while (resultSet.next()) {
+                subjectList.add(getNewObjectFromResultSet(resultSet));
+            }
+        } catch (SQLException except) {
+            LOGGER.error(except);
         }
         return subjectList;
     }
 
     @Override
-    public Subject getEntityById(final Integer entityId) throws SQLException {
-        ResultSet resultSet = null;
-        try (Connection conn = get()) {
-            final PreparedStatement preState = conn.prepareStatement("SELECT * FROM subject a WHERE a.id = ?");
-            preState.setInt(OrderUtil.FIFTH_STATEMENT.getOrder(), entityId);
+    public Subject getEntityById(final Integer entityId) {
+        ResultSet resultSet;
+        try (Connection conn = connectionFactory.getConnection()) {
+            final PreparedStatement preState = conn.prepareStatement("SELECT * FROM SUBJECT a WHERE a.id = ?");
+            preState.setInt(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
             resultSet = preState.executeQuery();
             if (resultSet.next()) {
                 return getNewObjectFromResultSet(resultSet);
             }
-        } finally {
-            resultSet.close();
+        } catch (SQLException except) {
+            LOGGER.error(except);
         }
         return null;
     }
 
     @Override
-    public void update(final Subject subject) throws SQLException {
-        try (Connection conn = get()) {
+    public boolean update(final Subject subject) {
+        try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement(
-                    "UPDATE subject SET name = ?, descr = ?, valid = ?, date_of_creation = ? WHERE id = ?");
-            preState.setString(OrderUtil.FIRST_STATEMENT.getOrder(), subject.getName());
-            preState.setString(OrderUtil.SECOND_STATEMENT.getOrder(), subject.getDescription());
-            preState.setBoolean(OrderUtil.THIRD_STATEMENT.getOrder(), subject.isValid());
-            preState.setDate(OrderUtil.FOURTH_STATEMENT.getOrder(),
-                    new java.sql.Date(subject.getDateOfCreation()));
-            preState.setInt(OrderUtil.FIFTH_STATEMENT.getOrder(), subject.getSubjectId());
+                    "UPDATE SUBJECT SET name = ?, descr = ?, valid = ?, date_of_creation = ? WHERE id = ?");
+            preState.setString(OrderUtils.FIRST_STATEMENT.getOrder(), subject.getName());
+            preState.setString(OrderUtils.SECOND_STATEMENT.getOrder(), subject.getDescription());
+            preState.setBoolean(OrderUtils.THIRD_STATEMENT.getOrder(), subject.isValid());
+            preState.setDate(OrderUtils.FOURTH_STATEMENT.getOrder(), new java.sql.Date(subject.getDateOfCreation()));
+            preState.setInt(OrderUtils.FIFTH_STATEMENT.getOrder(), subject.getSubjectId());
             preState.executeUpdate();
+        } catch (SQLException except) {
+            LOGGER.error(except);
         }
+        return true;
     }
 
     @Override
-    public void delete(final Integer entityId) throws SQLException {
-        try (Connection conn = get()) {
-            final PreparedStatement preState = conn.prepareStatement("DELETE FROM subject WHERE id = ?");
-            preState.setInt(OrderUtil.FIRST_STATEMENT.getOrder(), entityId);
+    public boolean delete(final Integer entityId) {
+        try (Connection conn = connectionFactory.getConnection()) {
+            final PreparedStatement preState = conn.prepareStatement("DELETE FROM SUBJECT WHERE id = ?");
+            preState.setInt(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
             preState.executeUpdate();
+        } catch (SQLException except) {
+            LOGGER.error(except);
         }
+        return true;
     }
 
     @Override
-    public void create(final Subject subject) throws SQLException {
-        try (Connection conn = get()) {
+    public boolean insert(final Subject subject) {
+        try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement(
-                    "INSERT INTO subject(name, descr, valid, date_of_creation) VALUES (?, ?, ?, ?)");
-            preState.setString(OrderUtil.FIRST_STATEMENT.getOrder(), subject.getName());
-            preState.setString(OrderUtil.SECOND_STATEMENT.getOrder(), subject.getDescription());
-            preState.setBoolean(OrderUtil.THIRD_STATEMENT.getOrder(), subject.isValid());
-            preState.setDate(OrderUtil.FOURTH_STATEMENT.getOrder(),
+                    "INSERT INTO PUBLIC.SUBJECT(name, descr, valid, date_of_creation) VALUES (?, ?, ?, ?)");
+            preState.setString(OrderUtils.FIRST_STATEMENT.getOrder(), subject.getName());
+            preState.setString(OrderUtils.SECOND_STATEMENT.getOrder(), subject.getDescription());
+            preState.setBoolean(OrderUtils.THIRD_STATEMENT.getOrder(), subject.isValid());
+            preState.setDate(OrderUtils.FOURTH_STATEMENT.getOrder(),
                     new java.sql.Date(subject.getDateOfCreation()));
             preState.executeUpdate();
+        } catch (SQLException except) {
+            LOGGER.error(except);
         }
+        return true;
     }
 
     @Override
@@ -98,15 +107,5 @@ public class SubjectDao implements BasicDao<Subject, Integer> {
         subject.setValid(resultSet.getBoolean("valid"));
         subject.setDateOfCreation(resultSet.getDate("date_of_creation").getTime());
         return subject;
-    }
-
-    @Override
-    public Connection get() {
-        try {
-            return connectionFactory.getConnection();
-        } catch (SQLException except) {
-            LOGGER.error(except.getMessage());
-        }
-        return null;
     }
 }

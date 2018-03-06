@@ -1,6 +1,7 @@
 package com.courses.tellus.dbconnection;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -8,12 +9,19 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.h2.jdbcx.JdbcDataSource;
 
-public final class ConnectionFactory {
+@SuppressWarnings("PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal")
+public class ConnectionFactory {
 
     private static final String DB_PROPERTIES = "db.properties";
     private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
     private static ConnectionFactory connFactory;
     private static JdbcDataSource dataSource;
+
+    /**
+     * Simple empty constructor.
+     */
+    private ConnectionFactory() {
+    }
 
     /**
      * Method to produce singleton connection factory.
@@ -26,7 +34,8 @@ public final class ConnectionFactory {
         }
             synchronized (ConnectionFactory.class) {
                 connFactory = new ConnectionFactory();
-            }
+                loadDatabaseProperties(DB_PROPERTIES);
+        }
         return connFactory;
     }
 
@@ -35,10 +44,11 @@ public final class ConnectionFactory {
      *
      * @param propFileName path to file with properties of database
      */
-    private void loadDatabaseProperties(final String propFileName) {
+    public static void loadDatabaseProperties(final String propFileName) {
         final Properties properties = new Properties();
         try {
-            properties.load(ClassLoader.getSystemResourceAsStream(propFileName));
+            final InputStream inStream = ClassLoader.getSystemResourceAsStream(propFileName);
+            properties.load(inStream);
         } catch (IOException except) {
             LOGGER.error(except);
         }
@@ -55,7 +65,6 @@ public final class ConnectionFactory {
      * @throws SQLException exception
      */
     public Connection getConnection() throws SQLException {
-        loadDatabaseProperties(DB_PROPERTIES);
         return dataSource.getConnection();
     }
 }
