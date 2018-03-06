@@ -2,7 +2,7 @@
 *.iml
 .gradle
 */build
-build
+*/out
 out
-education/out
+build
 *.log

@@ -19,7 +19,6 @@ public class UserDaoTest {
 
 	@BeforeAll
 	public static void before() throws Exception {
-
 		RunScript.execute(ConnectionFactory.getInstance().getConnection(), new FileReader("src/test/resources/test.sql"));
 	}
 
