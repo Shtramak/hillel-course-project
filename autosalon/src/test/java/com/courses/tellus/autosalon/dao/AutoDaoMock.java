@@ -1,22 +1,24 @@
 package com.courses.tellus.autosalon.dao;
 
-import com.courses.tellus.autosalon.config.ConnectionFactory;
-import com.courses.tellus.autosalon.model.Auto;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import com.courses.tellus.autosalon.config.ConnectionFactory;
+import com.courses.tellus.autosalon.model.Auto;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class AutoDaoMock {
 
@@ -27,7 +29,7 @@ public class AutoDaoMock {
     private static AutoDao autoDao;
 
     @BeforeAll
-    public static void init(){
+    public static void init() {
         connectionFactory = mock(ConnectionFactory.class);
         autoDao = new AutoDao(connectionFactory);
     }
@@ -49,11 +51,10 @@ public class AutoDaoMock {
         auto.setManufactYear(2007);
         auto.setProducerCountry("Germany");
         auto.setPrice(new BigDecimal(500000));
-
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeUpdate()).thenReturn(1);
         int result = autoDao.addAuto(auto);
-        Assertions.assertTrue( result == 1);
+        Assertions.assertTrue(result == 1);
     }
 
     @Test
@@ -65,11 +66,10 @@ public class AutoDaoMock {
         auto.setManufactYear(1027);
         auto.setProducerCountry("Germany");
         auto.setPrice(new BigDecimal(500000));
-
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeUpdate()).thenReturn(1);
         int result = autoDao.updateAuto(auto);
-        Assertions.assertTrue( result == 1);
+        Assertions.assertTrue(result == 1);
     }
 
     @Test
@@ -77,28 +77,25 @@ public class AutoDaoMock {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeUpdate()).thenReturn(1);
         int rezult = autoDao.removeAutoById(2L);
-        Assertions.assertTrue( rezult == 1);
+        Assertions.assertTrue(rezult == 1);
     }
 
     @Test
-    public void findByIdWithExistingIdReturnsCustomer() throws SQLException {
-        when(mockConnection.createStatement()).thenReturn(mockStatement);
-        when(mockStatement.executeQuery(anyString())).thenReturn(mockResultSet);
-        when(mockResultSet.next()).thenReturn(true);
+    public void testQueryAuto() throws SQLException {
         Auto auto = new Auto();
-        auto.setId(1L);
-        auto.setBrand("BMW");
-        auto.setModel("X5");
-        auto.setManufactYear(2007);
-        auto.setProducerCountry("Germany");
-        auto.setPrice(new BigDecimal(500000));
-        when(mockResultSet.getLong("id")).thenReturn(auto.getId());
-        when(mockResultSet.getString("auto_brand")).thenReturn(auto.getBrand());
-        when(mockResultSet.getString("auto_model")).thenReturn(auto.getModel());
-        when(mockResultSet.getInt("manufact_year")).thenReturn(auto.getManufactYear());
-        when(mockResultSet.getString("country")).thenReturn(auto.getProducerCountry());
-        when(mockResultSet.getBigDecimal("price")).thenReturn(auto.getPrice());
-
-        Assertions.assertEquals(auto, autoDao.getAutoById(auto.getId()));
+        List<Auto> list = new ArrayList<Auto>();
+        List<Auto> spy = spy(list);
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
+        when(mockStatement.getResultSet()).thenReturn(mockResultSet);
+        while (mockResultSet.next()) {
+            auto.setId(mockResultSet.getLong("id"));
+            auto.setBrand(mockResultSet.getString("AUTO_BRAND"));
+            auto.setModel(mockResultSet.getString("AUTO_MODEL"));
+            auto.setManufactYear(mockResultSet.getInt("MANUFACT_YEAR"));
+            auto.setProducerCountry(mockResultSet.getString("COUNTRY"));
+            auto.setPrice(mockResultSet.getBigDecimal("PRICE"));
+            spy.add(auto);
+        }
+        Assertions.assertEquals(mockResultSet.getType(), spy.size());
     }
 }
