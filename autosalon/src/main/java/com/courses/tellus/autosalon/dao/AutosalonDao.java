@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.courses.tellus.autosalon.model.Autosalon;
+import org.apache.log4j.Logger;
 
 public class AutosalonDao {
 
@@ -15,6 +16,7 @@ public class AutosalonDao {
     private static final int INDEX_ADDRESS = 2;
     private static final int INDEX_TELEPHONE = 3;
     private final transient Connection connection;
+    private static final Logger LOGGER = Logger.getLogger(CustomerDao.class);
 
     public AutosalonDao(final Connection connection) {
         this.connection = connection;
@@ -31,6 +33,8 @@ public class AutosalonDao {
             preparedStatement.execute();
             return 1;
         } catch (SQLException e) {
+            final String message = "Add failed! Reason: " + e.getMessage();
+            LOGGER.error(message);
             return 0;
         }
     }
@@ -46,11 +50,13 @@ public class AutosalonDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "SELECT*FROM infoSalon WHERE id='" + identifier + "'");
              ResultSet resultSet = preparedStatement.executeQuery()) {
-            final boolean res = resultSet.next();
-            if (res) {
+            final boolean flag = resultSet.next();
+            if (flag) {
                 return autosalonFromResultSet(resultSet);
             }
         } catch (SQLException e) {
+            final String message = "Selection failed! Reason: " + e.getMessage();
+            LOGGER.error(message);
             return null;
         }
         return null;
@@ -70,6 +76,8 @@ public class AutosalonDao {
                 list.add(autosalonFromResultSet(resultSet));
             }
         } catch (SQLException e) {
+            final String message = "Selection failed! Reason: " + e.getMessage();
+            LOGGER.error(message);
             return null;
         }
         return list;
@@ -87,6 +95,8 @@ public class AutosalonDao {
             preparedStatement.executeUpdate();
             return 1;
         } catch (SQLException e) {
+            final String message = "Remove failed! Reason: " + e.getMessage();
+            LOGGER.error(message);
             return 0;
         }
     }
