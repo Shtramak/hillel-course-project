@@ -7,7 +7,8 @@ import java.util.Properties;
 
 import org.h2.jdbcx.JdbcDataSource;
 
-public final class ConnectionFactory {
+@SuppressWarnings("PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal")
+public class ConnectionFactory {
     private static ConnectionFactory connFactory;
     private static JdbcDataSource dataSource;
     private static Properties dbProperties;
