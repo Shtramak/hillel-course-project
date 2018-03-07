@@ -46,7 +46,7 @@ public class AutosalonDao {
      * @return autosalon
      */
 
-    public Autosalon getAutoSalonById(final int identifier) {
+    public Autosalon getAutoSalonById(final Long identifier) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "SELECT*FROM infoSalon WHERE id='" + identifier + "'");
              ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -89,7 +89,7 @@ public class AutosalonDao {
      * @param identifier to remove
      */
 
-    public int removeAutoSalonId(final int identifier) {
+    public int removeAutoSalonId(final Long identifier) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "DELETE FROM infoSalon WHERE id='" + identifier + "'")) {
             preparedStatement.executeUpdate();

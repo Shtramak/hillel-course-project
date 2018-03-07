@@ -3,6 +3,7 @@ package com.courses.tellus.autosalon.dao;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.courses.tellus.autosalon.config.ConnectionFactory;
@@ -37,9 +38,9 @@ public class AutosalonDaoTest {
     }
 
     @Test
-    public void testFindAotusalonById() throws SQLException {
-        Autosalon autosalon = new Autosalon(1L, "Lada", "Rusha", "70000");
-        Assertions.assertNotEquals(autosalon, autosalonDao.getAutoSalonById(1));
+    public void testFindAutosalonById() throws SQLException {
+        Autosalon autosalon = new Autosalon(1L, "Geely", "China", "00000");
+        Assertions.assertNotEquals(autosalon, autosalonDao.getAutoSalonById(autosalon.getId()));
     }
 
     @Test
@@ -49,10 +50,10 @@ public class AutosalonDaoTest {
 
     @Test
     public void testRemoveAutoSalonId() throws SQLException {
-        MatcherAssert.assertThat(autosalonDao.removeAutoSalonId(1), CoreMatchers.is(1));
+        MatcherAssert.assertThat(autosalonDao.removeAutoSalonId(1L), CoreMatchers.is(1));
     }
     @Test
     public void testGetAutoByIdWhenResultfalse() {
-        Assertions.assertEquals(null, autosalonDao.getAutoSalonById(18));
+        Assertions.assertEquals(null, autosalonDao.getAutoSalonById(18L));
     }
 }

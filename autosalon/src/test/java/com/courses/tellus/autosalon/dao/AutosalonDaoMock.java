@@ -49,13 +49,14 @@ public class AutosalonDaoMock {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeQuery()).thenReturn(mockResultset);
         when(mockResultset.next()).thenReturn(true);
-        Assertions.assertNotNull(autosalonDao.getAutoSalonById(mockResultset.getRow()));
+        Assertions.assertNotNull(autosalonDao.getAutoSalonById(1L));
+        Assertions.assertEquals(autosalonDao.getAutoSalonById(1L).toString(), autosalonDao.getAutoSalonById(1L).toString());
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeQuery()).thenReturn(mockResultset);
         when(mockResultset.next()).thenReturn(false);
-        Assertions.assertNull(autosalonDao.getAutoSalonById(mockResultset.getRow()));
+        Assertions.assertNull(autosalonDao.getAutoSalonById(1L));
         when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
-        Assertions.assertEquals(null, autosalonDao.getAutoSalonById(mockResultset.getRow()));
+        Assertions.assertEquals(null, autosalonDao.getAutoSalonById(1L));
 
     }
 
@@ -89,6 +90,18 @@ public class AutosalonDaoMock {
         int result = autosalonDao.addAutosalon(autosalon);
         Assertions.assertTrue(result == 1);
         when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
-        Assertions.assertEquals(0, autosalonDao.removeAutoSalonId(0));
+        Assertions.assertEquals(0, autosalonDao.removeAutoSalonId(0L));
+    }
+
+    @Test
+    public void testGetPreparedStatement() throws SQLException {
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
+        Assertions.assertNotNull(autosalonDao.getPreparedStatement(mockStatement,new Autosalon()));
+    }
+
+    @Test
+    public void testGetPreparedStatementIfNull() throws SQLException {
+        when(mockStatement.isClosed()).thenReturn(false);
+        Assertions.assertFalse(autosalonDao.getPreparedStatement(mockStatement,new Autosalon()).execute());
     }
 }
