@@ -47,7 +47,7 @@ public class AutosalonDaoMock {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeQuery()).thenReturn(mockResultset);
         when(mockResultset.next()).thenReturn(true);
-        Assertions.assertNull(autosalonDao.getAutoSalonById(1));
+        Assertions.assertNotNull(autosalonDao.getAutoSalonById(1));
 
     }
 
@@ -104,6 +104,6 @@ public class AutosalonDaoMock {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeQuery()).thenReturn(mockResultset);
         when(mockResultset.next()).thenReturn(false);
-        Assertions.assertNotNull(autosalonDao.getAutoSalonById(1));
+        Assertions.assertNull(autosalonDao.getAutoSalonById(1));
     }
 }

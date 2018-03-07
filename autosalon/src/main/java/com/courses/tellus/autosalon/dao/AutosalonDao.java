@@ -47,7 +47,7 @@ public class AutosalonDao {
                 "SELECT*FROM infoSalon WHERE id='" + identifier + "'");
              ResultSet resultSet = preparedStatement.executeQuery()) {
             final boolean res = resultSet.next();
-            if (!res) {
+            if (res) {
                 return autosalonFromResultSet(resultSet);
             }
         } catch (SQLException e) {
