@@ -3,54 +3,42 @@ package com.courses.tellus.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.GregorianCalendar;
 
 import com.courses.tellus.dbconnection.ConnectionFactory;
 
-import com.courses.tellus.entity.Subject;
-import org.junit.jupiter.api.Assertions;
+import org.h2.jdbc.JdbcSQLException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
-public class SubjectDaoExceptionMockTest {
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+class SubjectDaoExceptionMockTest {
 
     private static ConnectionFactory connectionFactory;
     private Connection mockConnection;
     private PreparedStatement mockStatement;
-    private static SubjectDao subjectDao;
+    private SubjectDao subjectDao;
+    private SQLException mockSQL;
 
     @BeforeAll
-    public static void init() {
-        connectionFactory = Mockito.mock(ConnectionFactory.class);
-        subjectDao = new SubjectDao(connectionFactory);
+    static void init() {
+        connectionFactory = mock(ConnectionFactory.class);
+
     }
 
     @BeforeEach
-    public void reInitDepartmentDao() throws SQLException {
-        mockConnection = Mockito.mock(Connection.class);
-        mockStatement = Mockito.mock(PreparedStatement.class);
-        Mockito.when(connectionFactory.getConnection()).thenReturn(mockConnection);
+    void reInitDepartmentDao() throws SQLException {
+        subjectDao = new SubjectDao(connectionFactory);
+        mockConnection = mock(Connection.class);
+        mockStatement = mock(PreparedStatement.class);
+        when(connectionFactory.getConnection()).thenThrow(new SQLException());
     }
 
     @Test
-    public void testCRUDExceptionThrows() {
-        try {
-            Mockito.when(mockConnection.prepareStatement(Mockito.anyString())).thenReturn(mockStatement);
-            Mockito.when(mockStatement.executeQuery()).thenThrow(new SQLException());
-            Mockito.when(mockStatement.executeUpdate()).thenThrow(new SQLException());
-            subjectDao.getAllEntity();
-            subjectDao.getEntityById(1);
-            subjectDao.delete(1);
-            subjectDao.insert(new Subject(
-                    3, "Math", "Teach how to calculate numbers", true,
-                    new GregorianCalendar(1996,5,12)));
-            subjectDao.update(new Subject(
-                    4, "Math", "Teach how to calculate numbers", true,
-                    new GregorianCalendar(1996,5,12)));
-        } catch (Exception except) {
-            Assertions.assertTrue(except instanceof SQLException);
-        }
+    void testCRUDExceptionThrows() {
+        assertThrows(SQLException.class, () -> subjectDao.delete(1));
     }
 }
