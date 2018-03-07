@@ -34,7 +34,7 @@ public class AutosalonDaoTest {
     }
 
     @Test
-    public void testFindAotusalonById() {
+    public void testFindAotusalonById() throws SQLException {
         Assertions.assertNotEquals(autosalon, autosalonDao.getAutoSalonById(1));
     }
 

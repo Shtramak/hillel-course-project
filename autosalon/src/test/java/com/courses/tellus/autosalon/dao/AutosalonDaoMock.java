@@ -45,9 +45,9 @@ public class AutosalonDaoMock {
     @Test
     public void testGetAutoSalonById() throws Exception {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
-        when(mockStatement.getResultSet()).thenReturn(mockResultset);
-        Long number = mockResultset.getLong(anyString());
-        Assertions.assertNotEquals(number, autosalon.getId());
+        when(mockStatement.executeQuery()).thenReturn(mockResultset);
+        when(mockResultset.next()).thenReturn(true);
+        Assertions.assertNull(autosalonDao.getAutoSalonById(1));
 
     }
 
@@ -97,5 +97,13 @@ public class AutosalonDaoMock {
     public void testSqlExceptionRemoveAutoSalonId() throws SQLException {
         when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
         Assertions.assertEquals(0, autosalonDao.removeAutoSalonId(0));
+    }
+
+    @Test
+    public void testIfResultSetNullGetAutoSalonId() throws SQLException {
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
+        when(mockStatement.executeQuery()).thenReturn(mockResultset);
+        when(mockResultset.next()).thenReturn(false);
+        Assertions.assertNotNull(autosalonDao.getAutoSalonById(1));
     }
 }

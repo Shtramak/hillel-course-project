@@ -46,13 +46,14 @@ public class AutosalonDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "SELECT*FROM infoSalon WHERE id='" + identifier + "'");
              ResultSet resultSet = preparedStatement.executeQuery()) {
-            if (resultSet.next()) {
-                autosalonFromResultSet(resultSet);
+            final boolean res = resultSet.next();
+            if (!res) {
+                return autosalonFromResultSet(resultSet);
             }
         } catch (SQLException e) {
             return null;
         }
-        return new Autosalon();
+        return null;
     }
 
     /**
