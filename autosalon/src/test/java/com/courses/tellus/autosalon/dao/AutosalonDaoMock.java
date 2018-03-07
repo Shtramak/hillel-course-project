@@ -40,6 +40,8 @@ public class AutosalonDaoMock {
         when(mockStatement.executeUpdate()).thenReturn(1);
         int result = autosalonDao.addAutosalon(autosalon);
         Assertions.assertTrue(result == 1);
+        when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
+        Assertions.assertEquals(0, autosalonDao.addAutosalon(autosalon));
     }
 
     @Test
@@ -47,7 +49,13 @@ public class AutosalonDaoMock {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeQuery()).thenReturn(mockResultset);
         when(mockResultset.next()).thenReturn(true);
-        Assertions.assertNotNull(autosalonDao.getAutoSalonById(1));
+        Assertions.assertNotNull(autosalonDao.getAutoSalonById(mockResultset.getRow()));
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
+        when(mockStatement.executeQuery()).thenReturn(mockResultset);
+        when(mockResultset.next()).thenReturn(false);
+        Assertions.assertNull(autosalonDao.getAutoSalonById(mockResultset.getRow()));
+        when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
+        Assertions.assertEquals(null, autosalonDao.getAutoSalonById(mockResultset.getRow()));
 
     }
 
@@ -56,15 +64,22 @@ public class AutosalonDaoMock {
         List<Autosalon> list = new ArrayList<Autosalon>();
         List<Autosalon> spy = spy(list);
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
-        when(mockStatement.getResultSet()).thenReturn(mockResultset);
+        when(mockStatement.executeQuery()).thenReturn(mockResultset);
         while (mockResultset.next()) {
             autosalon.setId(mockResultset.getLong("id"));
             autosalon.setName(mockResultset.getString("name"));
             autosalon.setAddress(mockResultset.getString("address"));
             autosalon.setTelophone(mockResultset.getString("telophone"));
-            spy.add(autosalon);
+            Autosalon autosalon1 = new Autosalon(autosalon.getId(), autosalon.getName(), autosalon.getAddress(), autosalon.getTelophone());
+            spy.add(autosalon1);
         }
-        Assertions.assertEquals(mockResultset.getType(), spy.size());
+        Assertions.assertEquals(autosalonDao.findAllAutosalon(), spy);
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
+        when(mockStatement.executeQuery()).thenReturn(mockResultset);
+        when(mockResultset.next()).thenReturn(false);
+        Assertions.assertNotNull(autosalonDao.findAllAutosalon());
+        when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
+        Assertions.assertEquals(null, autosalonDao.findAllAutosalon());
     }
 
     @Test
@@ -73,37 +88,7 @@ public class AutosalonDaoMock {
         when(mockStatement.executeUpdate()).thenReturn(1);
         int result = autosalonDao.addAutosalon(autosalon);
         Assertions.assertTrue(result == 1);
-    }
-
-    @Test
-    public void testSqlExceptionAddAutosalon() throws SQLException {
-        when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
-        Assertions.assertEquals(0, autosalonDao.addAutosalon(autosalon));
-    }
-
-    @Test
-    public void testSqlExceptionGetAutoSalonById() throws SQLException {
-        when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
-        Assertions.assertEquals(null, autosalonDao.getAutoSalonById(0));
-    }
-
-    @Test
-    public void testSqlExceptionGetAllAutoSalon() throws SQLException {
-        when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
-        Assertions.assertEquals(null, autosalonDao.findAllAutosalon());
-    }
-
-    @Test
-    public void testSqlExceptionRemoveAutoSalonId() throws SQLException {
         when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
         Assertions.assertEquals(0, autosalonDao.removeAutoSalonId(0));
-    }
-
-    @Test
-    public void testIfResultSetNullGetAutoSalonId() throws SQLException {
-        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
-        when(mockStatement.executeQuery()).thenReturn(mockResultset);
-        when(mockResultset.next()).thenReturn(false);
-        Assertions.assertNull(autosalonDao.getAutoSalonById(1));
     }
 }
