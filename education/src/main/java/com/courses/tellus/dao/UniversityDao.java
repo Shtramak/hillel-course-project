@@ -32,6 +32,7 @@ public class UniversityDao implements BasicDao<University, Integer> {
             }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
+            return null;
         }
         return universityList;
     }
@@ -49,12 +50,13 @@ public class UniversityDao implements BasicDao<University, Integer> {
             }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
+            return null;
         }
         return universityById;
     }
 
     @Override
-    public int update(final University university) {
+    public boolean update(final University university) {
         try (PreparedStatement prepSt = connection.prepareStatement("UPDATE Universities SET"
                 + " nameOfUniversity = ?, address = ?, specialization = ?"
                 + "WHERE id = ?")) {
@@ -63,26 +65,28 @@ public class UniversityDao implements BasicDao<University, Integer> {
             prepSt.setString(OrderUtil.THIRD_STATEMENT.getOrder(), university.getSpecialization());
             prepSt.setInt(OrderUtil.FOURTH_STATEMENT.getOrder(), university.getUniId());
             prepSt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
+            return false;
         }
-        return 0;
     }
 
     @Override
-    public int delete(final Integer entityId)  {
+    public boolean delete(final Integer entityId)  {
         try (PreparedStatement prepSt = connection.prepareStatement("DELETE FROM Universities "
                 + "WHERE id = ?")) {
             prepSt.setInt(OrderUtil.FIRST_STATEMENT.getOrder(), entityId);
             prepSt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
+            return false;
         }
-        return  0;
     }
 
     @Override
-    public int create(final University university) {
+    public boolean create(final University university) {
         try (PreparedStatement prepSt = connection.prepareStatement("INSERT INTO Universities(nameOfUniversity,"
                 + "address,specialization)"
                 + "VALUES (?,?,?)")) {
@@ -93,10 +97,11 @@ public class UniversityDao implements BasicDao<University, Integer> {
                 prepSt.setString(OrderUtil.SECOND_STATEMENT.getOrder(), address);
                 prepSt.setString(OrderUtil.THIRD_STATEMENT.getOrder(), specialization);
                 prepSt.executeUpdate();
+                return true;
             } catch (SQLException e) {
             LOGGER.error(e.getMessage());
+            return false;
         }
-        return 0;
     }
 
     @Override
@@ -109,6 +114,7 @@ public class UniversityDao implements BasicDao<University, Integer> {
             university.setUniId(resultSet.getInt("Id"));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
+            return null;
         }
         return university;
     }

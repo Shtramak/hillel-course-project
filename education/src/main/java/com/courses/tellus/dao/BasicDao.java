@@ -30,13 +30,13 @@ public interface BasicDao<E, K> extends Supplier<Connection> {
      * @param entity updating object
      */
 
-    int update(E entity);
+    boolean update(E entity);
 
     /**
      * Method for deleting object from database.
      * @param entityId unique id for object query
      */
-    int delete(K entityId);
+    boolean delete(K entityId);
 
     /**
      * Method for creating new object into database.
@@ -44,7 +44,7 @@ public interface BasicDao<E, K> extends Supplier<Connection> {
      * @param entity object for inserting
      */
 
-    int create(E entity);
+    boolean create(E entity);
 
     /**
      * Method for creating new own class Object.
