@@ -1,72 +1,107 @@
 package com.courses.airport.essences;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Ticket {
 
-    private int ticketId;
-    private String pasName;
-    private String pasSurname;
-    private String flightDate;
-    private String plane;
-
-    public Ticket(int ticketId,  String pasName, String pasSurname, String flightDate, String plane) {
-        this.ticketId = ticketId;
-        this.pasName = pasName;
-        this.pasSurname = pasSurname;
-        this.flightDate = flightDate;
-        this.plane = plane;
-    }
+    private long id;
+    private String name;
+    private String surname;
+    private LocalDate dateOfFlight;
+    private String destCity;
 
     public Ticket() {
     }
 
-    public int getTicketId() {
-        return ticketId;
+    public Ticket(long id, String name, String surname, LocalDate dateOfFlight, String destCity) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.dateOfFlight = dateOfFlight;
+        this.destCity = destCity;
     }
 
-    public void setTicketId(int ticketId) {
-        this.ticketId = ticketId;
+    public long getId() {
+        return id;
     }
 
-    public String getPasName() {
-        return pasName;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public void setPasName(String pasName) {
-        this.pasName = pasName;
+    public String getName() {
+        return name;
     }
 
-    public String getPasSurname() {
-        return pasSurname;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setPasSurname(String pasSurname) {
-        this.pasSurname = pasSurname;
+    public String getSurname() {
+        return surname;
     }
 
-    public String getFlightDate() { return flightDate; }
-
-    public void setFlightDate(String flightDate) {
-        this.flightDate = flightDate;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
-    public String getPlane() {
-        return plane;
+    public LocalDate getDateOfFlight() {
+        return dateOfFlight;
     }
 
-    public void setPlane(String plane) {
-        plane = plane;
+    public void setDateOfFlight(LocalDate dateOfFlight) {
+        this.dateOfFlight = dateOfFlight;
+    }
+
+    public String getDestCity() {
+        return destCity;
+    }
+
+    public void setDestCity(String destCity) {
+        this.destCity = destCity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Ticket ticket = (Ticket) o;
+        if (id != ticket.id) {
+            return false;
+        }
+        if (!name.equals(ticket.name)) {
+            return false;
+        }
+        if (!surname.equals(ticket.surname)) {
+            return false;
+        }
+        return dateOfFlight.equals(ticket.dateOfFlight);
+    }
+
+    @Override
+    public int hashCode() {
+        final int bits = 32;
+        int result = (int) (id ^ (id >>> bits));
+        final int primeNumber = 31;
+        result = primeNumber * result + name.hashCode();
+        result = primeNumber * result + surname.hashCode();
+        result = primeNumber * result + dateOfFlight.hashCode();
+        result = primeNumber * result + destCity.hashCode();
+        return result;
     }
 
     @Override
     public String toString() {
-        return "Ticket{" +
-                "ticketId=" + ticketId +
-                ", pasName='" + pasName + '\'' +
-                ", pasSurname='" + pasSurname + '\'' +
-                ", flightDate='" + flightDate + '\'' +
-                ", plane='" + plane + '\'' +
-                '}';
+        return "{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", surname='" + surname + '\''
+                + ", dateOfFlight=" + dateOfFlight
+                + ", destinationCity=" + destCity
+                + '}';
     }
 }

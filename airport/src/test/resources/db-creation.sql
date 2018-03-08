@@ -1,7 +1,8 @@
 CREATE TABLE airport_tickets(
-  ticket_Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  pass_Name VARCHAR (45),
-  pass_Surname VARCHAR (45),
-  flight_date VARCHAR(45),
-  plane_code VARCHAR(45)
+  id INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  name VARCHAR (45) NOT NULL,
+  surname VARCHAR (45) NOT NULL,
+  dateOfFlight VARCHAR(45) NOT NULL,
+  destCity VARCHAR(45)
 );
+

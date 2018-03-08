@@ -7,42 +7,39 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionFactory {
-    private static ConnectionFactory connectionFactory = null;
+    private static ConnectionFactory connFactory;
     private static JdbcDataSource dataSource;
+    private static Properties dbProperties;
 
-    private ConnectionFactory() {
+    private ConnectionFactory() throws IOException {
+        dbProperties = new Properties();
+        dbProperties.load(ClassLoader.getSystemResourceAsStream("config.properties"));
     }
 
     /**
-     * Method to produce singleton connection factory.
+     * Method to produce singleton config factory.
      *
-     * @return ConnectionFactory instance
+     * @return ConnectionFactory instance.
      */
-    public static ConnectionFactory getInstance() {
-        if (connectionFactory == null) {
-            connectionFactory = new ConnectionFactory();
-            Properties dataBaseProperties = new Properties();
-            try {
-                dataBaseProperties.load(ClassLoader.getSystemResourceAsStream("db.properties"));
-            } catch (IOException e) {
-                e.printStackTrace();
+    public static ConnectionFactory getInstance() throws IOException {
+        synchronized (ConnectionFactory.class) {
+            if (connFactory == null) {
+                connFactory = new ConnectionFactory();
+                dataSource = new JdbcDataSource();
+                dataSource.setURL(dbProperties.getProperty("jdbc.url"));
+                dataSource.setUser(dbProperties.getProperty("jdbc.user"));
+                dataSource.setPassword(dbProperties.getProperty("jdbc.pass"));
             }
-            dataSource = new JdbcDataSource();
-            dataSource.setPassword(dataBaseProperties.getProperty("jdbc.pass"));
-            dataSource.setUser(dataBaseProperties.getProperty("jdbc.user"));
-            dataSource.setURL(dataBaseProperties.getProperty("jdbc.url"));
         }
-        return connectionFactory;
+        return connFactory;
     }
 
     /**
-     * Returns new connection.
+     *Returns new config.
      *
-     * @return java.sql.Connection
-     * @throws SQLException exception
+     * @return Connection.
      */
-    public Connection getConnection()
-            throws SQLException {
+    public Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
 }
