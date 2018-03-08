@@ -1,10 +1,10 @@
 package com.courses.airport.connection;
 
-import org.h2.jdbcx.JdbcDataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
+import org.h2.jdbcx.JdbcDataSource;
 
 public class ConnectionFactory {
     private static ConnectionFactory connFactory;

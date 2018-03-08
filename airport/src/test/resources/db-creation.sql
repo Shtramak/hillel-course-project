@@ -6,3 +6,4 @@ CREATE TABLE airport_tickets(
   destCity VARCHAR(45)
 );
 
+-- insert into airport_tickets(id, name, surname, dateOfFlight, destCity)values(1,'Igor', 'Kuzii', '2018/01/01', 'Keln');
