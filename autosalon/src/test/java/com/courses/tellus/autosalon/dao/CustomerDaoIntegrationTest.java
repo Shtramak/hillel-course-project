@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -16,40 +15,46 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import com.courses.tellus.autosalon.config.ConnectionFactory;
 import com.courses.tellus.autosalon.exception.DaoException;
 import com.courses.tellus.autosalon.model.Customer;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CustomerDaoIntegrationTest {
-    private Connection connection;
     private CustomerDao customerDao;
+    private static ConnectionFactory connectionFactory;
+
+    @BeforeAll
+    static void initTables() throws Exception {
+        connectionFactory = ConnectionFactory.getInstance();
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/test.sql"));
+
+    }
 
     @BeforeEach
-    public void setUp() throws IOException, SQLException {
-        connection = ConnectionFactory.getInstance().getConnection();
-        RunScript.execute(connection, new FileReader("src/test/resources/test.sql"));
-        customerDao = new CustomerDao(connection);
+    void setUp() throws Exception {
+        connectionFactory = ConnectionFactory.getInstance();
+        customerDao = new CustomerDao(connectionFactory);
     }
 
     @AfterEach
-    public void tearDown() throws SQLException {
-        executeSqlQuery("DROP TABLE CUSTOMER");
+    void tearDown() throws Exception {
+        truncateTableCustomer();
     }
 
     @Test
-    public void insertWithValidDataReturnsTrue() throws DaoException {
+    void insertWithValidDataReturnsTrue() throws Exception {
         Customer customer = new Customer(1, "John", "Smith", LocalDate.of(2018, 2, 20), "(012)345-67-89", 10000.50);
         assertTrue(customerDao.insert(customer));
     }
 
     @Test
-    public void insertWhenCustomerHasNullElementThrowsDAOException() throws DaoException {
+    void insertWhenCustomerHasNullElementThrowsDAOException() throws Exception {
         Customer customer = new Customer(1, "John", null, LocalDate.of(2018, 2, 20), "(012)345-67-89", 10000.50);
         assertThrows(DaoException.class, () -> {
             customerDao.insert(customer);
@@ -57,7 +62,7 @@ public class CustomerDaoIntegrationTest {
     }
 
     @Test
-    public void insertWhenCustomerIsNullThrowsDaoException() throws DaoException {
+    void insertWhenCustomerIsNullThrowsDaoException() throws Exception {
         Throwable exception = assertThrows(DaoException.class, () -> {
             customerDao.insert(null);
         });
@@ -65,7 +70,7 @@ public class CustomerDaoIntegrationTest {
     }
 
     @Test
-    public void findByIdWithExistingIdReturnsCustomer() throws DaoException {
+    void findByIdWithExistingIdReturnsCustomer() throws Exception {
         insertCustomersToDb(3);
         Customer expected = new Customer(2, "name2", "surname2", LocalDate.of(2018, 2, 20), "phoneNumber2", 2000);
         Customer actual = customerDao.findById(2);
@@ -73,13 +78,13 @@ public class CustomerDaoIntegrationTest {
     }
 
     @Test
-    public void findByIdWithNotExistingIdReturnsNull() throws DaoException {
+    void findByIdWithNotExistingIdReturnsNull() throws Exception {
         insertCustomersToDb(1);
         assertEquals(null, customerDao.findById(2));
     }
 
     @Test
-    public void findByIdWithNegativeIdThrowsDaoException() throws DaoException {
+    void findByIdWithNegativeIdThrowsDaoException() throws Exception {
         Throwable exception = assertThrows(DaoException.class, () -> {
             customerDao.findById(-1);
         });
@@ -87,7 +92,7 @@ public class CustomerDaoIntegrationTest {
     }
 
     @Test
-    public void findAllWhenTableHasDataReturnsListOfCustomers() throws DaoException {
+    void findAllWhenTableHasDataReturnsListOfCustomers() throws Exception {
         insertCustomersToDb(2);
         Customer customer1 = new Customer(1, "name1", "surname1", LocalDate.of(2018, 2, 20), "phoneNumber1", 1000);
         Customer customer2 = new Customer(2, "name2", "surname2", LocalDate.of(2018, 2, 20), "phoneNumber2", 2000);
@@ -97,26 +102,26 @@ public class CustomerDaoIntegrationTest {
     }
 
     @Test
-    public void findAllWhenTableHasNoDataReturnsEmptyList() throws DaoException {
+    void findAllWhenTableHasNoDataReturnsEmptyList() throws DaoException {
         assertEquals(Collections.emptyList(), customerDao.findAll());
     }
 
     @Test
-    public void updateWhenEntryExistsReturnsTrue() throws DaoException {
+    void updateWhenEntryExistsReturnsTrue() throws Exception {
         insertCustomersToDb(3);
         Customer updatedCustomer = new Customer(2, "updateName", "updateSurname", LocalDate.of(2018, 2, 20), "phoneNumber2", 2000);
         assertTrue(customerDao.update(updatedCustomer));
     }
 
     @Test
-    public void updateWhenEntryNotExistsReturnsFalse() throws DaoException {
+    void updateWhenEntryNotExistsReturnsFalse() throws Exception {
         insertCustomersToDb(2);
         Customer updatedCustomer = new Customer(3, "updateName", "updateSurname", LocalDate.of(2018, 2, 20), "phoneNumber3", 2000);
         assertFalse(customerDao.update(updatedCustomer));
     }
 
     @Test
-    public void updateWhenCustomerIsNullThrowsDaoException() throws DaoException {
+    void updateWhenCustomerIsNullThrowsDaoException() throws DaoException {
         Throwable exception = assertThrows(DaoException.class, () -> {
             customerDao.update(null);
         });
@@ -124,33 +129,34 @@ public class CustomerDaoIntegrationTest {
     }
 
     @Test
-    public void removeByIdWithExistingIdReturnsTrue() throws DaoException {
+    void removeByIdWithExistingIdReturnsTrue() throws Exception {
         insertCustomersToDb(3);
         assertTrue(customerDao.removeById(2));
     }
 
     @Test
-    public void removeByIdWithNotExistingReturnsFalse() throws DaoException {
+    void removeByIdWithNotExistingReturnsFalse() throws Exception {
         insertCustomersToDb(1);
         assertFalse(customerDao.removeById(2));
     }
 
     @Test
-    public void removeByIdWithNegativeIdThrowsDaoException() throws DaoException {
+    void removeByIdWithNegativeIdThrowsDaoException() throws Exception {
         Throwable exception = assertThrows(DaoException.class, () -> {
             customerDao.removeById(-1);
         });
         assertEquals("Customer id must be positive, but entered: -1", exception.getMessage());
     }
 
-    private void executeSqlQuery(String sqlQuery) throws SQLException {
-        Objects.requireNonNull(connection);
+    private void truncateTableCustomer() throws SQLException {
+        Connection connection = connectionFactory.getConnection();
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(sqlQuery);
+            statement.executeUpdate("TRUNCATE TABLE CUSTOMER");
         }
     }
 
-    private void insertCustomersToDb(int numberOfCustomers) {
+    private void insertCustomersToDb(int numberOfCustomers) throws SQLException {
+        Connection connection = connectionFactory.getConnection();
         String sql = "INSERT INTO" +
                 " customer (id, name, surname, date_of_birth, phone_number, available_funds)" +
                 " VALUES (?, ?, ?, ?, ?, ?)";

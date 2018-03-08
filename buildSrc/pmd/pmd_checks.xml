@@ -367,6 +367,6 @@
     <rule ref="category/java/bestpractices.xml/UnusedLocalVariable" />
     <rule ref="category/java/bestpractices.xml/UnusedPrivateField" />
     <rule ref="category/java/bestpractices.xml/UnusedPrivateMethod" />
+    <rule ref="rulesets/java/junit.xml/TestClassWithoutTestCases"/>
 
 </ruleset>
-

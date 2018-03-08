@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.courses.tellus.autosalon.config.ConnectionFactory;
 import com.courses.tellus.autosalon.exception.DaoException;
 import com.courses.tellus.autosalon.model.Customer;
 import org.apache.log4j.Logger;
@@ -26,8 +27,14 @@ public class CustomerDao {
 
     private final transient Connection connection;
 
-    public CustomerDao(final Connection connection) {
-        this.connection = connection;
+    public CustomerDao(final ConnectionFactory connectionFactory) throws DaoException {
+        try {
+            this.connection = connectionFactory.getConnection();
+        } catch (SQLException e) {
+            final String message = "Connection to database failed! Reason:" + e.getMessage();
+            LOGGER.error(message);
+            throw new DaoException(message, e);
+        }
     }
 
     /**
