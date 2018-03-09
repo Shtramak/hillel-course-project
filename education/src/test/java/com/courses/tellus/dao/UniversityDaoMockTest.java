@@ -1,4 +1,6 @@
-import com.courses.tellus.dao.UniversityDao;
+package com.courses.tellus.dao;
+
+
 import com.courses.tellus.dbconnection.ConnectionFactory;
 import com.courses.tellus.entity.University;
 import org.junit.jupiter.api.Assertions;
@@ -14,14 +16,12 @@ import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 public class UniversityDaoMockTest {
-
 
     private static ConnectionFactory connectionFactory;
     private Connection mockConnection;
@@ -46,18 +46,16 @@ public class UniversityDaoMockTest {
         university = new University(1L,"KPI","pr.Peremohy","Technical");
     }
 
-
-
     @Test
     void testCreateUniversityExeption() throws Exception {
         when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
-        assertFalse(universityDao.create(university));
+        assertFalse(universityDao.insert(university));
     }
 
     @Test
     void testCreateUniversity() throws Exception {
         when(mockPreState.executeUpdate()).thenReturn(0);
-        assertTrue(universityDao.create(university));
+        assertTrue(universityDao.insert(university));
     }
 
     @Test
@@ -83,13 +81,13 @@ public class UniversityDaoMockTest {
         when(mockResultSet.next()).thenReturn(true).thenReturn(false);
         setUniversityInResultSetMock();
         when(spy.add(university)).thenReturn(false);
-        Assertions.assertEquals(spy.size(), universityDao.getAll().size());
+        Assertions.assertEquals(spy.size(), universityDao.getAllEntity().size());
     }
 
     @Test
     void testGetAllUniversitiesExeption() throws Exception {
         when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
-        assertNull(universityDao.getAll());
+        assertNull(universityDao.getAllEntity());
     }
 
 

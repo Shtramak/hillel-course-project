@@ -1,4 +1,5 @@
-import com.courses.tellus.dao.UniversityDao;
+package com.courses.tellus.dao;
+
 import com.courses.tellus.dbconnection.ConnectionFactory;
 import com.courses.tellus.entity.University;
 import org.h2.tools.RunScript;
@@ -8,11 +9,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileReader;
-import java.sql.SQLException;
 import java.util.List;
 
-public class TestDaoUniversity {
-
+public class UniversityIntegrationTest {
     private UniversityDao universityDao;
     private University university;
 
@@ -26,13 +25,13 @@ public class TestDaoUniversity {
     void beforeEach() {
         universityDao = new UniversityDao(ConnectionFactory.getInstance());
         university = new University(1L,"KPI","pr.Peremohy","Technical");
-        universityDao.create(university);
+        universityDao.insert(university);
     }
 
     @Test
     public void testGetAllObjects() {
-        List<University> subjectList = universityDao.getAll();
-        Assertions.assertTrue(!(subjectList.size() == 0));
+        List<University> universities = universityDao.getAllEntity();
+        Assertions.assertTrue(!(universities.size() == 0));
     }
 
     @Test
@@ -62,7 +61,7 @@ public class TestDaoUniversity {
 
     @Test
     public void testCreateUniversity() {
-        boolean result = universityDao.create(university);
+        boolean result = universityDao.insert(university);
         Assertions.assertTrue(result);
     }
 }
