@@ -7,12 +7,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
-
 import org.apache.log4j.Logger;
 import org.h2.jdbcx.JdbcDataSource;
 
-
-
+@SuppressWarnings("PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal")
 public class ConnectionFactory {
 
     private static final String DB_PROPERTIES = "db.properties";
@@ -44,17 +42,7 @@ public class ConnectionFactory {
 
     /**
      * Initializing new data source with properties from file.
-     *
-     * @param propFileName path to file with properties of database
      */
-    private void loadDatabaseProperties(final String propFileName) {
-        final Properties properties = new Properties();
-        try {
-            properties.load(ClassLoader.getSystemResourceAsStream(propFileName));
-        } catch (IOException e) {
-            LOGGER.error(e);
-        }
-    }
     private static void loadDatabaseProperties() {
         final Properties properties = new Properties();
         try {
@@ -68,6 +56,7 @@ public class ConnectionFactory {
         dataSource.setUser(properties.getProperty("h2.user"));
         dataSource.setPassword(properties.getProperty("h2.password"));
     }
+
     /**
      * Return connection.
      *
@@ -75,7 +64,6 @@ public class ConnectionFactory {
      * @throws SQLException exception
      */
     public Connection getConnection() throws SQLException {
-        loadDatabaseProperties(DB_PROPERTIES);
         return dataSource.getConnection();
     }
 }

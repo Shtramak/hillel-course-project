@@ -1,6 +1,7 @@
 package com.courses.tellus.dao;
 
 import com.courses.tellus.dbconnection.ConnectionFactory;
+import com.courses.tellus.entity.Subject;
 import com.courses.tellus.entity.University;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.*;
@@ -36,6 +37,11 @@ public class UniversityIntegrationTest {
     public void testGetEntityByIdWhenReturnEntity() {
         University university = universityDao.getEntityById(1L);
         Assertions.assertTrue(university != null);
+    }
+    @Test
+    void testGetEntityByIdWhenReturnNull() throws Exception {
+        University university = universityDao.getEntityById(81L);
+        Assertions.assertNull(university);
     }
 
 

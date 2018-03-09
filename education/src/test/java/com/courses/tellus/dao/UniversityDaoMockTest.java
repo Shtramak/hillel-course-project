@@ -66,6 +66,12 @@ public class UniversityDaoMockTest {
         setUniversityInResultSetMock();
         assertEquals(university, universityDao.getEntityById(university.getUniId()));
     }
+    @Test
+    void testGetEntityByIdWhenReturnNull() throws Exception {
+        when(mockPreState.executeQuery()).thenReturn(mockResultSet);
+        when(mockResultSet.next()).thenReturn(false);
+        Assertions.assertNull(universityDao.getEntityById(15L));
+    }
 
     @Test
     void testGetByIdExeption() throws Exception {

@@ -11,8 +11,6 @@ import com.courses.tellus.dbconnection.ConnectionFactory;
 import com.courses.tellus.entity.University;
 import org.apache.log4j.Logger;
 
-
-
 public class UniversityDao implements BasicDao<University> {
 
         private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
@@ -21,6 +19,7 @@ public class UniversityDao implements BasicDao<University> {
         public UniversityDao(final ConnectionFactory connectionFactory) {
             this.connectionFactory = connectionFactory;
         }
+
         @Override
         public List<University> getAllEntity() {
             ResultSet resultSet;
@@ -63,6 +62,7 @@ public class UniversityDao implements BasicDao<University> {
                 preState.setString(OrderUtils.FIRST_STATEMENT.getOrder(), university.getNameOfUniversity());
                 preState.setString(OrderUtils.SECOND_STATEMENT.getOrder(), university.getAddress());
                 preState.setString(OrderUtils.THIRD_STATEMENT.getOrder(), university.getSpecialization());
+                preState.setLong(OrderUtils.FOURTH_STATEMENT.getOrder(), university.getUniId());
                 preState.executeUpdate();
                 return true;
             } catch (SQLException e) {
