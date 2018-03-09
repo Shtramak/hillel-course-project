@@ -1,7 +1,7 @@
 .idea
-/build
 *.iml
 .gradle
-education/build
-autosalon/build
+*/build
+build
+
 
