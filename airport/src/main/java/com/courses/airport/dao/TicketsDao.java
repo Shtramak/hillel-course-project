@@ -1,6 +1,5 @@
 package com.courses.airport.dao;
 
-
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -151,10 +150,10 @@ public class TicketsDao {
     void setStatementValues(final PreparedStatement statement, final Ticket ticket) throws SQLException {
         statement.setString(INDEX_NAME, ticket.getName());
         statement.setString(INDEX_SURNAME, ticket.getSurname());
-        final Date flightDate = Date.valueOf(ticket.getDateOfFlight());
+        final Date flightDate = Date.valueOf(ticket.getDateFlight());
         statement.setDate(INDEX_FLIGHT_DATE, flightDate);
         statement.setString(INDEX_DEST_CITY, ticket.getDestCity());
-        statement.setLong(INDEX_ID, ticket.getId());
+        statement.setLong(INDEX_ID, ticket.getTicketId());
     }
 
     private Ticket ticketsFromResultSet(final ResultSet resultSet) throws SQLException {
@@ -169,6 +168,4 @@ public class TicketsDao {
     private LocalDate localDate(final Date flightDate) {
         return flightDate.toLocalDate();
     }
-
-
 }

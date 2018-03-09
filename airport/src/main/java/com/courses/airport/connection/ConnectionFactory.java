@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
+
 import org.h2.jdbcx.JdbcDataSource;
 
-public class ConnectionFactory {
+public final class ConnectionFactory {
     private static ConnectionFactory connFactory;
     private static JdbcDataSource dataSource;
     private static Properties dbProperties;
