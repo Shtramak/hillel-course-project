@@ -4,36 +4,36 @@ import java.time.LocalDate;
 
 public class Ticket {
 
-    private long id;
+    private long ticketId;
     private String name;
     private String surname;
-    private LocalDate dateOfFlight;
+    private LocalDate dateFlight;
     private String destCity;
 
     public Ticket() {
     }
 
-    public Ticket(long id, String name, String surname, LocalDate dateOfFlight, String destCity) {
-        this.id = id;
+    public Ticket(final long ticketId, final String name, final String sName, final LocalDate dateFlight, final String dest) {
+        this.ticketId = ticketId;
         this.name = name;
-        this.surname = surname;
-        this.dateOfFlight = dateOfFlight;
-        this.destCity = destCity;
+        this.surname = sName;
+        this.dateFlight = dateFlight;
+        this.destCity = dest;
     }
 
-    public long getId() {
-        return id;
+    public long getTicketId() {
+        return ticketId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setTicketId(final long ticketId) {
+        this.ticketId = ticketId;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -41,36 +41,36 @@ public class Ticket {
         return surname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setSurname(final String sName) {
+        this.surname = sName;
     }
 
-    public LocalDate getDateOfFlight() {
-        return dateOfFlight;
+    public LocalDate getDateFlight() {
+        return dateFlight;
     }
 
-    public void setDateOfFlight(LocalDate dateOfFlight) {
-        this.dateOfFlight = dateOfFlight;
+    public void setDateFlight(final LocalDate dateFlight) {
+        this.dateFlight = dateFlight;
     }
 
     public String getDestCity() {
         return destCity;
     }
 
-    public void setDestCity(String destCity) {
-        this.destCity = destCity;
+    public void setDestCity(final String dest) {
+        this.destCity = dest;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(final Object object) {
+        if (this == object) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (object == null || getClass() != object.getClass()) {
             return false;
         }
-        Ticket ticket = (Ticket) o;
-        if (id != ticket.id) {
+        final Ticket ticket = (Ticket) object;
+        if (ticketId != ticket.ticketId) {
             return false;
         }
         if (!name.equals(ticket.name)) {
@@ -79,17 +79,17 @@ public class Ticket {
         if (!surname.equals(ticket.surname)) {
             return false;
         }
-        return dateOfFlight.equals(ticket.dateOfFlight);
+        return dateFlight.equals(ticket.dateFlight);
     }
 
     @Override
     public int hashCode() {
         final int bits = 32;
-        int result = (int) (id ^ (id >>> bits));
+        int result = (int) (ticketId ^ (ticketId >>> bits));
         final int primeNumber = 31;
         result = primeNumber * result + name.hashCode();
         result = primeNumber * result + surname.hashCode();
-        result = primeNumber * result + dateOfFlight.hashCode();
+        result = primeNumber * result + dateFlight.hashCode();
         result = primeNumber * result + destCity.hashCode();
         return result;
     }
@@ -97,10 +97,10 @@ public class Ticket {
     @Override
     public String toString() {
         return "{"
-                + "id=" + id
+                + "ticketId=" + ticketId
                 + ", name='" + name + '\''
                 + ", surname='" + surname + '\''
-                + ", dateOfFlight=" + dateOfFlight
+                + ", dateOfFlight=" + dateFlight
                 + ", destinationCity=" + destCity
                 + '}';
     }
