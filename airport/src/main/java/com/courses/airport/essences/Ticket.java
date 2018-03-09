@@ -70,6 +70,10 @@ public class Ticket {
             return false;
         }
         final Ticket ticket = (Ticket) object;
+        return hasSameFields(ticket);
+    }
+
+    private boolean hasSameFields(final Ticket ticket) {
         if (ticketId != ticket.ticketId) {
             return false;
         }
