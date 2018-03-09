@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -15,13 +14,11 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.courses.tellus.autosalon.config.ConnectionFactory;
 import com.courses.tellus.autosalon.exception.DaoException;
 import com.courses.tellus.autosalon.model.Customer;
-import org.h2.tools.RunScript;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,21 +26,11 @@ public class CustomerDaoIntegrationTest {
     private CustomerDao customerDao;
     private static ConnectionFactory connectionFactory;
 
-    @BeforeAll
-    static void initTables() throws Exception {
-        connectionFactory = ConnectionFactory.getInstance();
-        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/test.sql"));
-
-    }
-
     @BeforeEach
     void setUp() throws Exception {
         connectionFactory = ConnectionFactory.getInstance();
         customerDao = new CustomerDao(connectionFactory);
-    }
-
-    @AfterEach
-    void tearDown() throws Exception {
+        createTableCustomer();
         truncateTableCustomer();
     }
 
@@ -92,6 +79,15 @@ public class CustomerDaoIntegrationTest {
     }
 
     @Test
+    void findByIdWhenTableNotExistsThrowsDaoException() throws Exception {
+        dropTableCustomer();
+        long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
+        assertThrows(DaoException.class, () -> {
+            customerDao.findById(id);
+        });
+    }
+
+    @Test
     void findAllWhenTableHasDataReturnsListOfCustomers() throws Exception {
         insertCustomersToDb(2);
         Customer customer1 = new Customer(1, "name1", "surname1", LocalDate.of(2018, 2, 20), "phoneNumber1", 1000);
@@ -104,6 +100,14 @@ public class CustomerDaoIntegrationTest {
     @Test
     void findAllWhenTableHasNoDataReturnsEmptyList() throws DaoException {
         assertEquals(Collections.emptyList(), customerDao.findAll());
+    }
+
+    @Test
+    void findAllWhenTableNotExistsThrowsDaoException() throws Exception {
+        dropTableCustomer();
+        assertThrows(DaoException.class, () -> {
+            customerDao.findAll();
+        });
     }
 
     @Test
@@ -129,6 +133,14 @@ public class CustomerDaoIntegrationTest {
     }
 
     @Test
+    void updateWhenTableNotExistsThrowsDaoException() throws Exception {
+        dropTableCustomer();
+        assertThrows(DaoException.class, () -> {
+            customerDao.update(new Customer());
+        });
+    }
+
+    @Test
     void removeByIdWithExistingIdReturnsTrue() throws Exception {
         insertCustomersToDb(3);
         assertTrue(customerDao.removeById(2));
@@ -148,10 +160,41 @@ public class CustomerDaoIntegrationTest {
         assertEquals("Customer id must be positive, but entered: -1", exception.getMessage());
     }
 
+
+    @Test
+    void removeByIdWhenTableNotExistsThrowsDaoException() throws Exception {
+        dropTableCustomer();
+        long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
+        assertThrows(DaoException.class, () -> {
+            customerDao.removeById(id);
+        });
+    }
+
     private void truncateTableCustomer() throws SQLException {
         Connection connection = connectionFactory.getConnection();
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("TRUNCATE TABLE CUSTOMER");
+        }
+    }
+
+    private void createTableCustomer() throws SQLException {
+        Connection connection = connectionFactory.getConnection();
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS CUSTOMER(\n" +
+                    "  id              INT(10) PRIMARY KEY NOT NULL,\n" +
+                    "  name            VARCHAR(64)         NOT NULL,\n" +
+                    "  surname         VARCHAR(128)        NOT NULL,\n" +
+                    "  date_of_birth   DATE                NOT NULL,\n" +
+                    "  phone_number    VARCHAR(24),\n" +
+                    "  available_funds DECIMAL(15, 2) DEFAULT 0\n" +
+                    ")");
+        }
+    }
+
+    private void dropTableCustomer() throws SQLException {
+        Connection connection = connectionFactory.getConnection();
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("DROP TABLE CUSTOMER");
         }
     }
 
