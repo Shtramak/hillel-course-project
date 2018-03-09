@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class  University  {
 
-    private int uniId;
+    private Long uniId;
 
     private String nameOfUniversity;
 
@@ -15,12 +15,12 @@ public class  University  {
     public University() {
     }
 
-    public University(final int uniId, final String nameOfUniversity) {
+    public University(final Long uniId, final String nameOfUniversity) {
         this.uniId = uniId;
         this.nameOfUniversity = nameOfUniversity;
     }
 
-    public University(final int uniId, final String nameOfUniversity, final String address,
+    public University(final Long uniId, final String nameOfUniversity, final String address,
                       final String specialization) {
         this.uniId = uniId;
         this.nameOfUniversity = nameOfUniversity;
@@ -28,11 +28,11 @@ public class  University  {
         this.specialization = specialization;
     }
 
-    public int getUniId() {
+    public Long getUniId() {
         return uniId;
     }
 
-    public void setUniId(final int uniId) {
+    public void setUniId(final Long uniId) {
         this.uniId = uniId;
     }
 

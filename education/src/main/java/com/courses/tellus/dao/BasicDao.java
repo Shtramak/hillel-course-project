@@ -1,11 +1,10 @@
 package com.courses.tellus.dao;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.function.Supplier;
 
-public interface BasicDao<E, K> extends Supplier<Connection> {
+public interface BasicDao<E> {
 
     /**
      * Method for returning all object from database.
@@ -13,7 +12,7 @@ public interface BasicDao<E, K> extends Supplier<Connection> {
      * @return list with all Object
      */
 
-    List<E> getAllObject();
+    List<E> getAll();
 
     /**
      * Method for returning object by unique id from database.
@@ -22,7 +21,7 @@ public interface BasicDao<E, K> extends Supplier<Connection> {
      * @return Object
      */
 
-    E getEntityById(K entityId);
+    E getEntityById(Long entityId);
 
     /**
      * Method for updating object in database.
@@ -36,7 +35,7 @@ public interface BasicDao<E, K> extends Supplier<Connection> {
      * Method for deleting object from database.
      * @param entityId unique id for object query
      */
-    boolean delete(K entityId);
+    boolean delete(Long entityId);
 
     /**
      * Method for creating new object into database.
@@ -53,5 +52,5 @@ public interface BasicDao<E, K> extends Supplier<Connection> {
      * @return new Object
      */
 
-    E getNewObjectFromResultSet(ResultSet resultSet);
+    E getNewObjectFromResultSet(ResultSet resultSet)  throws SQLException;
 }

@@ -11,121 +11,103 @@ import com.courses.tellus.dbconnection.ConnectionFactory;
 import com.courses.tellus.entity.University;
 import org.apache.log4j.Logger;
 
-public class UniversityDao implements BasicDao<University, Integer> {
+public class UniversityDao implements BasicDao<University> {
 
-    private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
-    private final transient Connection connection = get();
-    private final transient ConnectionFactory connectionFactory;
+        private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
+        private final transient ConnectionFactory connectionFactory;
 
-    public UniversityDao(final ConnectionFactory connectionFactory) {
-    this.connectionFactory = connectionFactory;
-    }
-
-    @Override
-    public List<University> getAllObject() {
-      final List<University> universityList = new ArrayList<University>();
-        try (PreparedStatement prepSt = connection.prepareStatement("SELECT*FROM Universities")) {
-            try (ResultSet rSet = prepSt.executeQuery()) {
-                while (rSet.next()) {
-                    getNewObjectFromResultSet(rSet);
+        public UniversityDao(final ConnectionFactory connectionFactory) {
+            this.connectionFactory = connectionFactory;
+        }
+        @Override
+        public List<University> getAll() {
+            ResultSet resultSet;
+            final List<University> universities = new ArrayList<>();
+            try (Connection conn = connectionFactory.getConnection()) {
+                final PreparedStatement preState = conn.prepareStatement("SELECT*FROM Universities");
+                resultSet = preState.executeQuery();
+                while (resultSet.next()) {
+                    universities.add(getNewObjectFromResultSet(resultSet));
                 }
+            } catch (SQLException e) {
+                LOGGER.error(e);
+                return  null;
             }
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
+            return universities;
+        }
+
+        @Override
+        public University getEntityById(final Long entityId) {
+            ResultSet resultSet;
+            try (Connection conn = connectionFactory.getConnection()) {
+                final PreparedStatement preState = conn.prepareStatement("SELECT*FROM Universities WHERE id=?");
+                preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
+                resultSet = preState.executeQuery();
+                if (resultSet.next()) {
+                    return getNewObjectFromResultSet(resultSet);
+                }
+            } catch (SQLException e) {
+                LOGGER.error(e);
+                return null;
+            }
             return null;
         }
-        return universityList;
-    }
 
-    @Override
-    public University getEntityById(final Integer entityId)  {
-        final University universityById = new University();
-        try (PreparedStatement prepSt = connection.prepareStatement("SELECT*FROM Universities WHERE id = ?")) {
-            prepSt.setInt(OrderUtil.FIRST_STATEMENT.getOrder(), entityId);
-            prepSt.executeQuery();
-            try (ResultSet rSet = prepSt.executeQuery()) {
-                while (rSet.next()) {
-                    getNewObjectFromResultSet(rSet);
-                }
+        @Override
+        public boolean update(final University university) {
+            try (Connection conn = connectionFactory.getConnection()) {
+                final PreparedStatement preState = conn.prepareStatement("UPDATE Universities SET nameOfUniversity = ?,"
+                        + " address =?, specialization =? WHERE id= ?");
+                preState.setString(OrderUtils.FIRST_STATEMENT.getOrder(), university.getNameOfUniversity());
+                preState.setString(OrderUtils.SECOND_STATEMENT.getOrder(), university.getAddress());
+                preState.setString(OrderUtils.THIRD_STATEMENT.getOrder(), university.getSpecialization());
+                preState.executeUpdate();
+            } catch (SQLException e) {
+                LOGGER.error(e);
+                return false;
             }
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-            return null;
-        }
-        return universityById;
-    }
-
-    @Override
-    public boolean update(final University university) {
-        try (PreparedStatement prepSt = connection.prepareStatement("UPDATE Universities SET"
-                + " nameOfUniversity = ?, address = ?, specialization = ?"
-                + "WHERE id = ?")) {
-            prepSt.setString(OrderUtil.FIRST_STATEMENT.getOrder(), university.getNameOfUniversity());
-            prepSt.setString(OrderUtil.SECOND_STATEMENT.getOrder(), university.getAddress());
-            prepSt.setString(OrderUtil.THIRD_STATEMENT.getOrder(), university.getSpecialization());
-            prepSt.setInt(OrderUtil.FOURTH_STATEMENT.getOrder(), university.getUniId());
-            prepSt.executeUpdate();
             return true;
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-            return false;
         }
-    }
 
-    @Override
-    public boolean delete(final Integer entityId)  {
-        try (PreparedStatement prepSt = connection.prepareStatement("DELETE FROM Universities "
-                + "WHERE id = ?")) {
-            prepSt.setInt(OrderUtil.FIRST_STATEMENT.getOrder(), entityId);
-            prepSt.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-            return false;
-        }
-    }
-
-    @Override
-    public boolean create(final University university) {
-        try (PreparedStatement prepSt = connection.prepareStatement("INSERT INTO Universities(nameOfUniversity,"
-                + "address,specialization)"
-                + "VALUES (?,?,?)")) {
-              final String nameOfUniversity = university.getNameOfUniversity();
-              final String address = university.getAddress();
-              final String specialization = university.getSpecialization();
-                prepSt.setString(OrderUtil.FIRST_STATEMENT.getOrder(), nameOfUniversity);
-                prepSt.setString(OrderUtil.SECOND_STATEMENT.getOrder(), address);
-                prepSt.setString(OrderUtil.THIRD_STATEMENT.getOrder(), specialization);
-                prepSt.executeUpdate();
+        @Override
+        public boolean delete(final Long entityId) {
+            try (Connection conn = connectionFactory.getConnection()) {
+                final PreparedStatement preState = conn.prepareStatement("DELETE FROM Universities WHERE id=?");
+                preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
+                preState.executeUpdate();
                 return true;
             } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-            return false;
+                LOGGER.error(e);
+                return false;
+            }
         }
-    }
 
-    @Override
-    public University getNewObjectFromResultSet(final ResultSet resultSet)  {
-        final University university = new University();
-        try {
+        @Override
+        public boolean create(final University university) {
+            try (Connection conn = connectionFactory.getConnection()) {
+                final PreparedStatement preState = conn.prepareStatement(
+                        "INSERT INTO Universities(nameOfUniversity, address, specialization)"
+                                + "VALUES (?,?,?)");
+                preState.setString(OrderUtils.FIRST_STATEMENT.getOrder(), university.getNameOfUniversity());
+                preState.setString(OrderUtils.SECOND_STATEMENT.getOrder(), university.getAddress());
+                preState.setString(OrderUtils.THIRD_STATEMENT.getOrder(), university.getSpecialization());
+
+                preState.executeUpdate();
+            } catch (SQLException e) {
+                LOGGER.error(e);
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        public University getNewObjectFromResultSet(final ResultSet resultSet) throws SQLException {
+            final University university = new University();
+            university.setUniId(resultSet.getLong("id"));
             university.setNameOfUniversity(resultSet.getString("nameOfUniversity"));
             university.setAddress(resultSet.getString("address"));
             university.setSpecialization(resultSet.getString("specialization"));
-            university.setUniId(resultSet.getInt("Id"));
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-            return null;
-        }
-        return university;
-    }
 
-    @Override
-    public Connection get() {
-        try {
-            return connectionFactory.getConnection();
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
+            return university;
         }
-        return null;
-    }
 }

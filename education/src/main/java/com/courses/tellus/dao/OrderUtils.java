@@ -1,6 +1,6 @@
 package com.courses.tellus.dao;
 
-public enum OrderUtil {
+public enum OrderUtils {
 
     FIRST_STATEMENT(1),
     SECOND_STATEMENT(2),
@@ -10,7 +10,7 @@ public enum OrderUtil {
 
     private final int order;
 
-    OrderUtil(final int order) {
+    OrderUtils(final int order) {
         this.order = order;
     }
 
