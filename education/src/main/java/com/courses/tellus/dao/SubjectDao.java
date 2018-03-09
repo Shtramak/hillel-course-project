@@ -11,7 +11,7 @@ import com.courses.tellus.dbconnection.ConnectionFactory;
 import com.courses.tellus.entity.Subject;
 import org.apache.log4j.Logger;
 
-public class SubjectDao implements BasicDao<Subject, Integer> {
+public class SubjectDao implements BasicDao<Subject> {
 
     private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
     private final transient ConnectionFactory connectionFactory;
@@ -32,22 +32,24 @@ public class SubjectDao implements BasicDao<Subject, Integer> {
             }
         } catch (SQLException except) {
             LOGGER.error(except);
+            return null;
         }
         return subjectList;
     }
 
     @Override
-    public Subject getEntityById(final Integer entityId) {
+    public Subject getEntityById(final Long entityId) {
         ResultSet resultSet;
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("SELECT * FROM SUBJECT a WHERE a.id = ?");
-            preState.setInt(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
+            preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
             resultSet = preState.executeQuery();
             if (resultSet.next()) {
                 return getNewObjectFromResultSet(resultSet);
             }
         } catch (SQLException except) {
             LOGGER.error(except);
+            return null;
         }
         return null;
     }
@@ -61,22 +63,24 @@ public class SubjectDao implements BasicDao<Subject, Integer> {
             preState.setString(OrderUtils.SECOND_STATEMENT.getOrder(), subject.getDescription());
             preState.setBoolean(OrderUtils.THIRD_STATEMENT.getOrder(), subject.isValid());
             preState.setDate(OrderUtils.FOURTH_STATEMENT.getOrder(), new java.sql.Date(subject.getDateOfCreation()));
-            preState.setInt(OrderUtils.FIFTH_STATEMENT.getOrder(), subject.getSubjectId());
+            preState.setLong(OrderUtils.FIFTH_STATEMENT.getOrder(), subject.getSubjectId());
             preState.executeUpdate();
         } catch (SQLException except) {
             LOGGER.error(except);
+            return false;
         }
         return true;
     }
 
     @Override
-    public boolean delete(final Integer entityId) {
+    public boolean delete(final Long entityId) {
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("DELETE FROM SUBJECT WHERE id = ?");
-            preState.setInt(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
+            preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
             preState.executeUpdate();
         } catch (SQLException except) {
             LOGGER.error(except);
+            return false;
         }
         return true;
     }
@@ -94,6 +98,7 @@ public class SubjectDao implements BasicDao<Subject, Integer> {
             preState.executeUpdate();
         } catch (SQLException except) {
             LOGGER.error(except);
+            return false;
         }
         return true;
     }
@@ -101,7 +106,7 @@ public class SubjectDao implements BasicDao<Subject, Integer> {
     @Override
     public Subject getNewObjectFromResultSet(final ResultSet resultSet) throws SQLException {
         final Subject subject = new Subject();
-        subject.setSubjectId(resultSet.getInt("id"));
+        subject.setSubjectId(resultSet.getLong("id"));
         subject.setName(resultSet.getString("name"));
         subject.setDescription(resultSet.getString("descr"));
         subject.setValid(resultSet.getBoolean("valid"));

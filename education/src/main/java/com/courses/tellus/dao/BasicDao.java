@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface BasicDao<E, K> {
+public interface BasicDao<E> {
 
     /**
      * Method for returning all object from database.
@@ -19,7 +19,7 @@ public interface BasicDao<E, K> {
      * @param entityId unique id for object query
      * @return Object
      */
-    E getEntityById(K entityId);
+    E getEntityById(Long entityId);
 
     /**
      * Method for updating object in database.
@@ -32,7 +32,7 @@ public interface BasicDao<E, K> {
      * Method for deleting object from database.
      * @param entityId unique id for object query
      */
-    boolean delete(K entityId);
+    boolean delete(Long entityId);
 
     /**
      * Method for creating new object into database.

@@ -32,22 +32,20 @@ public class ConnectionFactory {
         if (connFactory != null) {
             return connFactory;
         }
-            synchronized (ConnectionFactory.class) {
-                connFactory = new ConnectionFactory();
-                loadDatabaseProperties(DB_PROPERTIES);
+        synchronized (ConnectionFactory.class) {
+            connFactory = new ConnectionFactory();
+            loadDatabaseProperties();
         }
         return connFactory;
     }
 
     /**
      * Initializing new data source with properties from file.
-     *
-     * @param propFileName path to file with properties of database
      */
-    public static void loadDatabaseProperties(final String propFileName) {
+    private static void loadDatabaseProperties() {
         final Properties properties = new Properties();
         try {
-            final InputStream inStream = ClassLoader.getSystemResourceAsStream(propFileName);
+            final InputStream inStream = ClassLoader.getSystemResourceAsStream(DB_PROPERTIES);
             properties.load(inStream);
         } catch (IOException except) {
             LOGGER.error(except);
