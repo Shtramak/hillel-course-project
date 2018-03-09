@@ -34,12 +34,14 @@ class TicketsDaoTest {
         executeSqlQuery("DROP TABLE airport_tickets");
     }
 
+    // Тестирует метод - insert() - При адекватных данных возвращает 1
     @Test
     public void insertWithValidDataReturnsTrue() throws DaoException {
         Ticket ticket = new Ticket(1, "Igor", "Fedotov", LocalDate.of(2018, 1, 1), "Keln");
         assertTrue(ticketsDao.insert(ticket));
     }
 
+    // Тестирует метод - insert() -  Когда билет содержит элемент null - бросает DAO exception
     @Test
     public void insertWhenTicketHasNullElementThrowsDAOException() throws DaoException {
         Ticket ticket = new Ticket(1, "Igor", null, LocalDate.of(2018, 1, 1), "Keln");
@@ -48,6 +50,7 @@ class TicketsDaoTest {
         });
     }
 
+    //  Тестирует метод - insert() - Когда вставляемый билет - null - бросает DAOException
     @Test
     public void insertWhenTicketIsNullThrowsDaoException() throws DaoException {
         Throwable exception = assertThrows(DaoException.class, () -> {
@@ -56,6 +59,7 @@ class TicketsDaoTest {
         assertEquals("Ticket must be not null!", exception.getMessage());
     }
 
+    //  Тестирует метод - findById() - Когда в базе есть элемент с данным id
     @Test
     public void findByIdWithExistingIdReturnsTicket() throws DaoException {
         insertTicketsToDb(3);
@@ -64,12 +68,14 @@ class TicketsDaoTest {
         assertEquals(expected, actual);
     }
 
+    //  Тестирует метод - findById() - Когда в базе нет элемента с данным id
     @Test
     public void findByIdWithNotExistingIdReturnsNull() throws DaoException {
         insertTicketsToDb(1);
         assertEquals(null, ticketsDao.findById(2));
     }
 
+    //  Тестирует метод - findById() - Когда вводимый индекс объекта равен -1
     @Test
     public void findByIdWithNegativeIdThrowsDaoException() throws DaoException {
         Throwable exception = assertThrows(DaoException.class, () -> {
@@ -78,6 +84,7 @@ class TicketsDaoTest {
         assertEquals("Ticket id must be positive, but entered: -1", exception.getMessage());
     }
 
+    //  Тестирует метод - findAll() - когда возвращается список существующих билетов - возвращается 1
     @Test
     public void findAllWhenTableHasDataReturnsListOfTickets() throws DaoException {
         insertTicketsToDb(2);
@@ -88,11 +95,13 @@ class TicketsDaoTest {
         assertEquals(expected, actual);
     }
 
+    //  Тестирует метод - findAll() - когда возвращается не существующий список
     @Test
     public void findAllWhenTableHasNoDataReturnsEmptyList() throws DaoException {
         assertEquals(Collections.emptyList(), ticketsDao.findAll());
     }
 
+    // Тестирует метод - update() - когда возвращается существующий список
     @Test
     public void updateWhenEntryExistsReturnsTrue() throws DaoException {
         insertTicketsToDb(3);
@@ -100,6 +109,7 @@ class TicketsDaoTest {
         assertTrue(ticketsDao.update(updatedTicket));
     }
 
+    // Тестирует метод - update() - когда пытаемся апдейтнуть не существующий элемент
     @Test
     public void updateWhenEntryNotExistsReturnsFalse() throws DaoException {
         insertTicketsToDb(2);
@@ -107,6 +117,7 @@ class TicketsDaoTest {
         assertFalse(ticketsDao.update(updatedTicket));
     }
 
+    // Тестирует метод - update() - когда мы пытаемся апдейтнуть билет null элементом
     @Test
     public void updateWhenTicketIsNullThrowsDaoException() throws DaoException {
         Throwable exception = assertThrows(DaoException.class, () -> {
@@ -115,18 +126,21 @@ class TicketsDaoTest {
         assertEquals("Ticket must be not null!", exception.getMessage());
     }
 
+    // Тестирует метод - removeById() - когда мы пытаемся удалить существующий элемент
     @Test
     public void removeByIdWithExistingIdReturnsTrue() throws DaoException {
         insertTicketsToDb(3);
         assertTrue(ticketsDao.removeById(2));
     }
 
+    // Тестирует метод - removeById() - когда мы пытаемся не существующий элемент
     @Test
     public void removeByIdWithNotExistingReturnsFalse() throws DaoException {
         insertTicketsToDb(1);
         assertFalse(ticketsDao.removeById(2));
     }
 
+    // Тестирует метод - removeById() - когда мы пытаемся удалить элемент с индексом -1
     @Test
     public void removeByIdWithNegativeIdThrowsDaoException() throws DaoException {
         Throwable exception = assertThrows(DaoException.class, () -> {
