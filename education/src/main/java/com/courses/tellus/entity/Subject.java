@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Subject {
 
-    private Integer subjectId;
+    private Long subjectId;
     private String name;
     private String description;
     private boolean valid;
@@ -42,7 +42,7 @@ public class Subject {
      * @param valid deprecation mark
      * @param gregCalendar date of creation this object
      */
-    public Subject(final Integer subjectId, final String name, final String description,
+    public Subject(final Long subjectId, final String name, final String description,
                    final boolean valid, final GregorianCalendar gregCalendar) {
         this.subjectId = subjectId;
         this.name = name;
@@ -51,11 +51,11 @@ public class Subject {
         this.dateOfCreation = gregCalendar.getTimeInMillis();
     }
 
-    public Integer getSubjectId() {
+    public Long getSubjectId() {
         return subjectId;
     }
 
-    public void setSubjectId(final Integer subjectId) {
+    public void setSubjectId(final Long subjectId) {
         this.subjectId = subjectId;
     }
 
