@@ -8,12 +8,20 @@ buildscript {
 apply from: "buildSrc/dependencies.gradle"
 subprojects shared.globalJavaConfig
 subprojects shared.globalRepositories
-apply plugin: 'java'
+apply plugin: 'org.junit.platform.gradle.plugin'
 
 allprojects {
     apply from: "${rootProject.projectDir}/buildSrc/analyze.gradle"
     dependencies shared.dataBaseDependencies
     dependencies shared.unitTestDependencies
+    junitPlatform {
+        filters {
+            engines {
+                include 'junit-jupiter'
+            }
+        }
+        details 'tree'
+    }
 }
 
 task wrapper(type: Wrapper) {
@@ -21,34 +29,40 @@ task wrapper(type: Wrapper) {
 }
 
 project("autosalon") {
-    dependencies {
-        testCompile group: 'junit', name: 'junit', version: '4.12'
-    }
+
 }
 
 project("education") {
     dependencies {
         // https://mvnrepository.com/artifact/mysql/mysql-connector-java
         compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
-        testCompile group: 'junit', name: 'junit', version: '4.12'
+        // https://mvnrepository.com/artifact/org.powermock/powermock-api-mockito
+        testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.6.5'
+        // https://mvnrepository.com/artifact/log4j/log4j
+        compile group: 'log4j', name: 'log4j', version: '1.2.17'
     }
 }
 
-//project("autosalon-test") {
-//    apply plugin: 'org.junit.platform.gradle.plugin'
-//    junitPlatform {
-//        filters {
-//            engines {
-//                include 'junit-jupiter'
-//            }
-//        }
-//        details 'tree'
-//    }
-//    dependencies {
-//        compile project(':autosalon')
-//    }
-//
-//}
+project("education-test") {
+    apply plugin: 'org.junit.platform.gradle.plugin'
+    junitPlatform {
+        filters {
+            engines {
+                include 'junit-jupiter'
+            }
+        }
+        details 'tree'
+    }
+
+    dependencies {
+        compile project(':education')
+    }
+}
+
+dependencies {
+    compile project(':autosalon')
+}
+
 
 repositories {
     mavenCentral()
@@ -56,7 +70,6 @@ repositories {
 
 dependencies {
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.1.0'
-
 }
 
 ext {

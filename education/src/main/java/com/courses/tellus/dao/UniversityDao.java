@@ -64,11 +64,11 @@ public class UniversityDao implements BasicDao<University> {
                 preState.setString(OrderUtils.SECOND_STATEMENT.getOrder(), university.getAddress());
                 preState.setString(OrderUtils.THIRD_STATEMENT.getOrder(), university.getSpecialization());
                 preState.executeUpdate();
+                return true;
             } catch (SQLException e) {
                 LOGGER.error(e);
                 return false;
             }
-            return true;
         }
 
         @Override
@@ -109,7 +109,6 @@ public class UniversityDao implements BasicDao<University> {
             university.setNameOfUniversity(resultSet.getString("nameOfUniversity"));
             university.setAddress(resultSet.getString("address"));
             university.setSpecialization(resultSet.getString("specialization"));
-
             return university;
         }
 }

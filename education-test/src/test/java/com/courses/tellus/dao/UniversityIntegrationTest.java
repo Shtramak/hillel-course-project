@@ -3,10 +3,7 @@ package com.courses.tellus.dao;
 import com.courses.tellus.dbconnection.ConnectionFactory;
 import com.courses.tellus.entity.University;
 import org.h2.tools.RunScript;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.io.FileReader;
 import java.util.List;
@@ -18,7 +15,7 @@ public class UniversityIntegrationTest {
     @BeforeAll
     static void before() throws Exception {
         RunScript.execute(ConnectionFactory.getInstance().getConnection(),
-                new FileReader("/src/test/resourses/testTable.sql"));
+                new FileReader("src/test/resources/testTable.sql"));
     }
 
     @BeforeEach
@@ -27,6 +24,7 @@ public class UniversityIntegrationTest {
         university = new University(1L,"KPI","pr.Peremohy","Technical");
         universityDao.insert(university);
     }
+
 
     @Test
     public void testGetAllObjects() {
@@ -40,17 +38,12 @@ public class UniversityIntegrationTest {
         Assertions.assertTrue(university != null);
     }
 
-    @Test
-    public void testGetEntityByIdWhenReturnNull() {
-        University university = universityDao.getEntityById(1L);
-        Assertions.assertTrue(university == null);
-    }
 
     @Test
     public void testUpdateUniversity() {
-        university.setNameOfUniversity("Sheva");
-        boolean result = universityDao.update(university);
-        Assertions.assertTrue(result);
+        University university1 = new University(1L,"kpi",
+                "Universitet","Hz");
+        Assertions.assertTrue(universityDao.update(university1));
     }
 
     @Test
