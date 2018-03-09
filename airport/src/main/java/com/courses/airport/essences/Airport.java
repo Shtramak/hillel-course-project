@@ -9,7 +9,7 @@ public class Airport {
     public Airport() {
     }
 
-    public Airport(Integer airportId, int numberTerminal, String nameAirport) {
+    public Airport(final Integer airportId, final int numberTerminal, final String nameAirport) {
         this.airportId = airportId;
         this.numberTerminal = numberTerminal;
         this.nameAirport = nameAirport;
@@ -27,24 +27,24 @@ public class Airport {
         return nameAirport;
     }
 
-    public void setAirportId(Integer airportId) {
+    public void setAirportId(final Integer airportId) {
         this.airportId = airportId;
     }
 
-    public void setNumberTerminal(int numberTerminal) {
+    public void setNumberTerminal(final int numberTerminal) {
         this.numberTerminal = numberTerminal;
     }
 
-    public void setNameAirport(String nameAirport) {
+    public void setNameAirport(final String nameAirport) {
         this.nameAirport = nameAirport;
     }
 
     @Override
     public String toString() {
-        return "Airport{" +
-                "airportId=" + airportId +
-                ", numberTerminal=" + numberTerminal +
-                ", nameAirport='" + nameAirport + '\'' +
-                '}';
+        return "Airport{"
+                + "airportId=" + airportId
+                + ", numberTerminal=" + numberTerminal
+                + ", nameAirport='" + nameAirport + '\''
+                + '}';
     }
 }
