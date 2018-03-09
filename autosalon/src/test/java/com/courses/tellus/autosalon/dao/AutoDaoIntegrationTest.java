@@ -1,27 +1,25 @@
 package com.courses.tellus.autosalon.dao;
 
-        import com.courses.tellus.autosalon.config.ConnectionFactory;
-        import com.courses.tellus.autosalon.model.Auto;
-        import org.h2.tools.RunScript;
-        import org.hamcrest.CoreMatchers;
-        import org.hamcrest.MatcherAssert;
-        import org.junit.jupiter.api.Assertions;
-        import org.junit.jupiter.api.BeforeAll;
-        import org.junit.jupiter.api.Test;
+import java.io.FileReader;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.List;
 
-        import java.io.FileReader;
-        import java.io.IOException;
-        import java.math.BigDecimal;
-        import java.sql.SQLException;
-        import java.util.List;
+import com.courses.tellus.autosalon.config.ConnectionFactory;
+import com.courses.tellus.autosalon.model.Auto;
+import org.h2.tools.RunScript;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-        import static org.junit.jupiter.api.Assertions.assertThrows;
+public class AutoDaoIntegrationTest {
 
-public class AutoDaoTest {
+    private AutoDao autoDao;
 
-    private AutoDao autoDao ;
-
-    public AutoDaoTest() throws IOException {
+    public AutoDaoIntegrationTest() throws IOException {
         this.autoDao = new AutoDao(ConnectionFactory.getInstance());
     }
 
@@ -55,7 +53,7 @@ public class AutoDaoTest {
     }
 
     @Test
-    public void testQueryAutoWhenResultTrue(){
+    public void testQueryAutoWhenResultTrue() {
         List<Auto> autoList = autoDao.queryAuto();
         Assertions.assertTrue(autoList.size() == 5);
     }
@@ -116,4 +114,3 @@ public class AutoDaoTest {
         Assertions.assertEquals(null, autoDao.getAutoById(8l));
     }
 }
-

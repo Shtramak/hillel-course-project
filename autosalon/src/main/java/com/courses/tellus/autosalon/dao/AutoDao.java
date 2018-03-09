@@ -153,10 +153,7 @@ public class AutoDao {
         try (Connection connection = connFactory.getConnection()) {
             final PreparedStatement pstm = connection.prepareStatement("delete from AUTO where ID = ?");
             pstm.setLong(1, idAuto);
-            final int rowsDeleted = pstm.executeUpdate();
-            if (rowsDeleted > 0) {
-                return 1;
-            }
+            return pstm.executeUpdate();
         } catch (SQLException e) {
             LOGGER.debug(e.getMessage());
         }
