@@ -2,6 +2,7 @@
 *.iml
 .gradle
 */build
+*/out
+out
 build
-
-
+*.log

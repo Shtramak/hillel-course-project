@@ -9,31 +9,31 @@ public interface BasicDao<E> {
     /**
      * Method for returning all object from database.
      *
-     * @return list with all Object
+     * @return list with all Object or null if exception
      */
-
-    List<E> getAll();
+    List<E> getAllEntity();
 
     /**
      * Method for returning object by unique id from database.
      *
      * @param entityId unique id for object query
-     * @return Object
+     * @return Object or null (if not exist in database or exception)
      */
-
     E getEntityById(Long entityId);
 
     /**
      * Method for updating object in database.
      *
      * @param entity updating object
+     * @return true if operation successful or false if exception
      */
-
     boolean update(E entity);
 
     /**
      * Method for deleting object from database.
+     *
      * @param entityId unique id for object query
+     * @return true if operation successful or false if exception
      */
     boolean delete(Long entityId);
 
@@ -41,9 +41,9 @@ public interface BasicDao<E> {
      * Method for creating new object into database.
      *
      * @param entity object for inserting
+     * @return true if operation successful or false if exception
      */
-
-    boolean create(E entity);
+    boolean insert(E entity);
 
     /**
      * Method for creating new own class Object.
@@ -51,6 +51,5 @@ public interface BasicDao<E> {
      * @param resultSet returned values from the database
      * @return new Object
      */
-
-    E getNewObjectFromResultSet(ResultSet resultSet)  throws SQLException;
+    E getNewObjectFromResultSet(ResultSet resultSet) throws SQLException;
 }
