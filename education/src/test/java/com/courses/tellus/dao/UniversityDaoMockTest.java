@@ -24,7 +24,6 @@ import static org.mockito.Mockito.when;
 public class UniversityDaoMockTest {
 
     private static ConnectionFactory connectionFactory;
-    private Connection mockConnection;
     private University university;
     private PreparedStatement mockPreState;
     private ResultSet mockResultSet;
@@ -38,7 +37,7 @@ public class UniversityDaoMockTest {
 
     @BeforeEach
     void initMocks() throws Exception {
-        mockConnection = mock(Connection.class);
+        Connection mockConnection = mock(Connection.class);
         mockPreState = mock(PreparedStatement.class);
         mockResultSet = mock(ResultSet.class);
         when(connectionFactory.getConnection()).thenReturn(mockConnection);
@@ -48,14 +47,14 @@ public class UniversityDaoMockTest {
 
     @Test
     void testCreateUniversityExeption() throws Exception {
-        when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
-        assertFalse(universityDao.insert(university));
+        when(mockConnection.prepareStatement(anyString())).thenThrow(new SQLException());
+        assertEquals(0, universityDao.insert(university));
     }
 
     @Test
     void testCreateUniversity() throws Exception {
-        when(mockPreState.executeUpdate()).thenReturn(0);
-        assertTrue(universityDao.insert(university));
+        when(mockPreState.executeUpdate());
+        assertEquals(1, universityDao.insert(university));
     }
 
     @Test

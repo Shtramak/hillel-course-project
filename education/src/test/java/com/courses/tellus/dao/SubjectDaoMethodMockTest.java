@@ -1,9 +1,6 @@
 package com.courses.tellus.dao;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -22,10 +19,7 @@ public class SubjectDaoMethodMockTest {
 
     private static ConnectionFactory connectionFactory;
     private static SubjectDao subjectDao;
-    private Connection mockConnection;
-    private PreparedStatement mockPreState;
     private ResultSet mockResSet;
-    private Date mockSqlDate;
     private Subject subject;
 
     @BeforeAll
@@ -36,10 +30,10 @@ public class SubjectDaoMethodMockTest {
 
     @BeforeEach
     void reinitializeRequest() throws Exception {
-        mockConnection = mock(Connection.class);
-        mockPreState = mock(PreparedStatement.class);
+        ConnectionFactory connectionFactory = mock(ConnectionFactory.class);
+        Connection mockConnection = mock(Connection.class);
+        PreparedStatement mockPreState = mock(PreparedStatement.class);
         mockResSet = mock(ResultSet.class);
-        mockSqlDate = mock(Date.class);
         when(connectionFactory.getConnection()).thenReturn(mockConnection);
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreState);
         subject = new Subject(
@@ -48,26 +42,21 @@ public class SubjectDaoMethodMockTest {
     }
 
     @Test
-    void testGetAllObjectAndReturnObjectList() throws Exception {
+    void testGetAllAndReturnObjectList() throws Exception {
         List<Subject> subjectList = new ArrayList<>();
         List<Subject> spy = spy(subjectList);
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(true).thenReturn(false);
-        when(mockResSet.getLong("id")).thenReturn(subject.getSubjectId());
-        when(mockResSet.getString("name")).thenReturn(subject.getName());
-        when(mockResSet.getString("descr")).thenReturn(subject.getDescription());
-        when(mockResSet.getBoolean("valid")).thenReturn(subject.isValid());
-        when(mockResSet.getDate("date_of_creation")).thenReturn(mockSqlDate);
-        when(mockSqlDate.getTime()).thenReturn(subject.getDateOfCreation());
-        when(spy.add(subject)).thenReturn(false);
-        Assertions.assertEquals(spy.size(), subjectDao.getAllEntity().size());
+        getSubjectFromResultSet();
+        spy.add(subject);
+        Assertions.assertEquals(spy.size(), subjectDao.getAll().size());
     }
 
     @Test
     void testGetAllObjectAndReturnEmptyList() throws Exception {
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(false);
-        Assertions.assertEquals(0, subjectDao.getAllEntity().size());
+        Assertions.assertEquals(0, subjectDao.getAll().size());
     }
 
     @Test
@@ -75,13 +64,8 @@ public class SubjectDaoMethodMockTest {
         mockPreState.setLong(1, 1L);
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(true);
-        when(mockResSet.getLong(anyString())).thenReturn(subject.getSubjectId());
-        when(mockResSet.getString("name")).thenReturn(subject.getName());
-        when(mockResSet.getString("descr")).thenReturn(subject.getDescription());
-        when(mockResSet.getBoolean(anyString())).thenReturn(subject.isValid());
-        when(mockResSet.getDate("date_of_creation")).thenReturn(mockSqlDate);
-        when(mockSqlDate.getTime()).thenReturn(subject.getDateOfCreation());
-        Assertions.assertEquals(subject, subjectDao.getEntityById(1L));
+        getSubjectFromResultSet();
+        Assertions.assertEquals(subject, subjectDao.getById(1L));
     }
 
     @Test
@@ -89,24 +73,20 @@ public class SubjectDaoMethodMockTest {
         mockPreState.setLong(1, 1L);
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(false);
-        Assertions.assertNull(subjectDao.getEntityById(1L));
+        Assertions.assertNull(subjectDao.getById(1L));
     }
 
     @Test
     void testUpdateSubject() throws Exception {
-        Subject subject = new Subject(
-                1L, "Math", "Teach how to calculate numbers", true,
-                new GregorianCalendar(1996,5,12));
+        subject.setValid(false);
         when(mockPreState.executeUpdate()).thenReturn(0);
-        boolean result = subjectDao.update(subject);
-        Assertions.assertTrue(result);
+        Assertions.assertEquals(1, subjectDao.update(subject));
     }
 
     @Test
     void testDeleteSubject() throws Exception {
         when(mockPreState.executeUpdate()).thenReturn(0);
-        boolean result = subjectDao.delete(1L);
-        Assertions.assertTrue(result);
+        Assertions.assertEquals(1 ,subjectDao.delete(1L));
     }
 
     @Test
@@ -115,7 +95,17 @@ public class SubjectDaoMethodMockTest {
                 2L, "Math", "Teach how to calculate numbers", true,
                 new GregorianCalendar(1996,5,12));
         when(mockPreState.executeUpdate()).thenReturn(0);
-        boolean result = subjectDao.insert(subject);
-        Assertions.assertTrue(result);
+        Assertions.assertEquals(1, subjectDao.insert(subject));
+    }
+
+    private void getSubjectFromResultSet() throws SQLException {
+        Date mockSqlDate = mock(Date.class);
+        when(mockResSet.getLong("id")).thenReturn(subject.getSubjectId());
+        when(mockResSet.getLong("id")).thenReturn(subject.getSubjectId());
+        when(mockResSet.getString("name")).thenReturn(subject.getName());
+        when(mockResSet.getString("descr")).thenReturn(subject.getDescription());
+        when(mockResSet.getBoolean("valid")).thenReturn(subject.isValid());
+        when(mockResSet.getDate("date_of_creation")).thenReturn(mockSqlDate);
+        when(mockSqlDate.getTime()).thenReturn(subject.getDateOfCreation());
     }
 }

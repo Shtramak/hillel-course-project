@@ -1,7 +1,6 @@
 package com.courses.tellus.dao;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -42,34 +41,28 @@ class SubjectDaoExceptionMockTest {
 
     @Test
     void testGetAllEntity() throws Exception {
-        List<Subject> list = subjectDao.getAllEntity();
+        List<Subject> list = subjectDao.getAll();
         Assertions.assertNull(list);
     }
 
     @Test
     void testGetEntityById() throws Exception {
-        Subject subject = subjectDao.getEntityById(1L);
+        Subject subject = subjectDao.getById(1L);
         Assertions.assertNull(subject);
     }
 
     @Test
     void testUpdateSubject() throws Exception {
-        boolean result = subjectDao.update(subject);
-        Assertions.assertFalse(result);
+        Assertions.assertEquals(0, subjectDao.update(subject));
     }
 
     @Test
     void testDeleteSubject() throws Exception {
-        boolean result = subjectDao.delete(1L);
-        Assertions.assertFalse(result);
+        Assertions.assertEquals(0, subjectDao.delete(1L));
     }
 
     @Test
     void testInsertSubject() throws Exception {
-        Subject subject = new Subject(
-                2L, "Math", "Teach how to calculate numbers", true,
-                new GregorianCalendar(1996,5,12));
-        boolean result = subjectDao.insert(subject);
-        Assertions.assertFalse(result);
+        Assertions.assertEquals(0, subjectDao.insert(subject));
     }
 }

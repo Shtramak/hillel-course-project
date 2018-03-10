@@ -21,7 +21,7 @@ public class UniversityDao implements BasicDao<University> {
         }
 
         @Override
-        public List<University> getAllEntity() {
+        public List<University> getAll() {
             ResultSet resultSet;
             final List<University> universities = new ArrayList<>();
             try (Connection conn = connectionFactory.getConnection()) {
@@ -38,7 +38,7 @@ public class UniversityDao implements BasicDao<University> {
         }
 
         @Override
-        public University getEntityById(final Long entityId) {
+        public University getById(final Long entityId) {
             ResultSet resultSet;
             try (Connection conn = connectionFactory.getConnection()) {
                 final PreparedStatement preState = conn.prepareStatement("SELECT*FROM Universities WHERE id=?");
@@ -55,7 +55,7 @@ public class UniversityDao implements BasicDao<University> {
         }
 
         @Override
-        public boolean update(final University university) {
+        public int update(final University university) {
             try (Connection conn = connectionFactory.getConnection()) {
                 final PreparedStatement preState = conn.prepareStatement("UPDATE Universities SET nameOfUniversity = ?,"
                         + " address =?, specialization =? WHERE id= ?");
@@ -63,29 +63,27 @@ public class UniversityDao implements BasicDao<University> {
                 preState.setString(OrderUtils.SECOND_STATEMENT.getOrder(), university.getAddress());
                 preState.setString(OrderUtils.THIRD_STATEMENT.getOrder(), university.getSpecialization());
                 preState.setLong(OrderUtils.FOURTH_STATEMENT.getOrder(), university.getUniId());
-                preState.executeUpdate();
-                return true;
+                return preState.executeUpdate();
             } catch (SQLException e) {
                 LOGGER.error(e);
-                return false;
+                return 0;
             }
         }
 
         @Override
-        public boolean delete(final Long entityId) {
+        public int delete(final Long entityId) {
             try (Connection conn = connectionFactory.getConnection()) {
                 final PreparedStatement preState = conn.prepareStatement("DELETE FROM Universities WHERE id=?");
                 preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
-                preState.executeUpdate();
-                return true;
+                return preState.executeUpdate();
             } catch (SQLException e) {
                 LOGGER.error(e);
-                return false;
+                return 0;
             }
         }
 
         @Override
-        public boolean insert(final University university) {
+        public int insert(final University university) {
             try (Connection conn = connectionFactory.getConnection()) {
                 final PreparedStatement preState = conn.prepareStatement(
                         "INSERT INTO Universities(nameOfUniversity, address, specialization)"
@@ -93,13 +91,11 @@ public class UniversityDao implements BasicDao<University> {
                 preState.setString(OrderUtils.FIRST_STATEMENT.getOrder(), university.getNameOfUniversity());
                 preState.setString(OrderUtils.SECOND_STATEMENT.getOrder(), university.getAddress());
                 preState.setString(OrderUtils.THIRD_STATEMENT.getOrder(), university.getSpecialization());
-
-                preState.executeUpdate();
+                return preState.executeUpdate();
             } catch (SQLException e) {
                 LOGGER.error(e);
-                return false;
+                return 0;
             }
-            return true;
         }
 
         @Override
