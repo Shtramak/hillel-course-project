@@ -90,8 +90,7 @@ public class SubjectDao implements BasicDao<Subject> {
             preState.setString(OrderUtils.FIRST_STATEMENT.getOrder(), subject.getName());
             preState.setString(OrderUtils.SECOND_STATEMENT.getOrder(), subject.getDescription());
             preState.setBoolean(OrderUtils.THIRD_STATEMENT.getOrder(), subject.isValid());
-            preState.setDate(OrderUtils.FOURTH_STATEMENT.getOrder(),
-                    new java.sql.Date(subject.getDateOfCreation()));
+            preState.setDate(OrderUtils.FOURTH_STATEMENT.getOrder(), new java.sql.Date(subject.getDateOfCreation()));
             return preState.executeUpdate();
         } catch (SQLException except) {
             LOGGER.error(except);
