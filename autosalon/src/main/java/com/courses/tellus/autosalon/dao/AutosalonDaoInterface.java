@@ -27,7 +27,7 @@ public interface AutosalonDaoInterface<E> {
      * Method for updating object in database.
      *
      * @param entity object to be updated
-     * @return number of affected rows int database
+     * @return number of affected rows in database
      */
     Integer update(E entity);
 
@@ -35,7 +35,7 @@ public interface AutosalonDaoInterface<E> {
      * Method for deleting object from database.
      *
      * @param entityId id of the object to be removed from database
-     * @return number of affected rows int database
+     * @return number of affected rows in database
      */
     Integer delete(Long entityId);
 

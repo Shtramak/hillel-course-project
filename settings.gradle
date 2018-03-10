@@ -1,5 +1,4 @@
 include 'autosalon'
-include 'autosalon-integration-test'
 include 'autosalon-test'
 
 
