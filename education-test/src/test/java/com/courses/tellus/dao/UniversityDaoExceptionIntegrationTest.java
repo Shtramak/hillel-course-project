@@ -19,7 +19,7 @@ public class UniversityDaoExceptionIntegrationTest {
     @BeforeAll
     static void init() throws Exception {
         RunScript.execute(ConnectionFactory.getInstance().getConnection(),
-                new FileReader("src/test/resources/DropTableUniversities.sql"));
+                new FileReader("src/test/resources/trunc.sql"));
         universityDao = new UniversityDao(connectionFactory);
         university = new University(1L,"KPI",
                 "pr.Peremohy","Technical");
