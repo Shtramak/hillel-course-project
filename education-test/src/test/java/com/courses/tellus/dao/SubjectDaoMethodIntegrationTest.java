@@ -14,51 +14,44 @@ class SubjectDaoMethodIntegrationTest {
     private static SubjectDao subjectDao;
     private Subject subject;
 
-    @BeforeAll
-    static void prepareConnection() throws Exception {
+    @BeforeEach
+    void initializeSubject() throws Exception {
         RunScript.execute(ConnectionFactory.getInstance().getConnection(),
                 new FileReader("src/test/resources/subject_db_table.sql"));
         subjectDao = new SubjectDao(ConnectionFactory.getInstance());
-    }
-
-    @BeforeEach
-    void initializeSubject() {
         subject = new Subject("Biology", "Lessons about building of humans", true,
                 new GregorianCalendar(1996,5,12));
         subjectDao.insert(subject);
     }
 
     @AfterEach
-    void clean() {
-        subjectDao.delete(1L);
-        subjectDao.delete(2L);
-        subjectDao.delete(3L);
-        subjectDao.delete(4L);
-        subjectDao.delete(5L);
+    void clearTable() throws Exception {
+        RunScript.execute(ConnectionFactory.getInstance().getConnection(),
+                new FileReader("src/test/resources/trunc.sql"));
     }
 
     @Test
-    void testGetAllObjectAndReturnObjectList() throws Exception {
-        List<Subject> subjectList = subjectDao.getAllEntity();
+    void testGetAllAndReturnObjectList() throws Exception {
+        List<Subject> subjectList = subjectDao.getAll();
         Assertions.assertEquals(1, subjectList.size());
     }
 
     @Test
     void testGetAllObjectAndReturnEmptyList() throws Exception {
-        subjectDao.delete(subjectDao.getAllEntity().get(0).getSubjectId());
-        List<Subject> subjectList = subjectDao.getAllEntity();
+        subjectDao.delete(subjectDao.getAll().get(0).getSubjectId());
+        List<Subject> subjectList = subjectDao.getAll();
         Assertions.assertEquals(0, subjectList.size());
     }
 
     @Test
     void testGetEntityByIdAndReturnEntity() throws Exception {
-        Subject subject = subjectDao.getEntityById(subjectDao.getAllEntity().get(0).getSubjectId());
+        Subject subject = subjectDao.getById(subjectDao.getAll().get(0).getSubjectId());
         Assertions.assertNotNull(subject);
     }
 
     @Test
     void testGetEntityByIdAndReturnNull() throws Exception {
-        Subject subject = subjectDao.getEntityById(12L);
+        Subject subject = subjectDao.getById(12L);
         Assertions.assertNull(subject);
     }
 
@@ -66,16 +59,16 @@ class SubjectDaoMethodIntegrationTest {
     void testUpdateSubject() throws Exception {
         Subject subject = new Subject(1L, "Biology", "Lessons about building of humans", true,
                 new GregorianCalendar(2000,5,12));
-        Assertions.assertTrue(subjectDao.update(subject));
+        Assertions.assertEquals(1, subjectDao.update(subject));
     }
 
     @Test
     void testDeleteSubject() {
-        Assertions.assertTrue(subjectDao.delete(1L));
+        Assertions.assertEquals(1, subjectDao.delete(1L));
     }
 
     @Test
     void testInsertSubject() {
-        Assertions.assertTrue(subjectDao.insert(subject));
+        Assertions.assertEquals(1, subjectDao.insert(subject));
     }
 }
