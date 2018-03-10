@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.courses.tellus.dbconnection.ConnectionFactory;
 import com.courses.tellus.entity.Subject;
@@ -21,7 +22,7 @@ public class SubjectDao implements BasicDao<Subject> {
     }
 
     @Override
-    public List<Subject> getAll() {
+    public Optional<List<Subject>> getAll() {
         final List<Subject> subjectList = new ArrayList<>();
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("SELECT * FROM SUBJECT");
@@ -29,28 +30,28 @@ public class SubjectDao implements BasicDao<Subject> {
             while (resultSet.next()) {
                 subjectList.add(getNewObjectFromResultSet(resultSet));
             }
+            return Optional.of(subjectList);
         } catch (SQLException except) {
             LOGGER.error(except);
-            return null;
+            return Optional.empty();
         }
-        return subjectList;
     }
 
     @Override
-    public Subject getById(final Long entityId) {
+    public Optional<Subject> getById(final Long entityId) {
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn
                     .prepareStatement("SELECT * FROM SUBJECT a WHERE a.subject_id = ?");
             preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
             final ResultSet resultSet = preState.executeQuery();
             if (resultSet.next()) {
-                return getNewObjectFromResultSet(resultSet);
+                return Optional.of(getNewObjectFromResultSet(resultSet));
             }
         } catch (SQLException except) {
             LOGGER.error(except);
-            return null;
+            return Optional.empty();
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

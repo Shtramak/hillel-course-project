@@ -3,6 +3,7 @@ package com.courses.tellus.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public interface BasicDao<E> {
 
@@ -11,7 +12,7 @@ public interface BasicDao<E> {
      *
      * @return list with all Object or null if exception
      */
-    List<E> getAll();
+    Optional<List<E>> getAll();
 
     /**
      * Method for returning object by unique id from database.
@@ -19,7 +20,7 @@ public interface BasicDao<E> {
      * @param entityId unique id for object query
      * @return Object or null (if not exist in database or exception)
      */
-    E getById(Long entityId);
+    Optional<E> getById(Long entityId);
 
     /**
      * Method for updating object in database.

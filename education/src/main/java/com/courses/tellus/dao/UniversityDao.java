@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.courses.tellus.dbconnection.ConnectionFactory;
 import com.courses.tellus.entity.University;
@@ -21,37 +22,35 @@ public class UniversityDao implements BasicDao<University> {
         }
 
     @Override
-    public List<University> getAll() {
-        ResultSet resultSet;
+    public Optional<List<University>> getAll() {
         final List<University> universities = new ArrayList<>();
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("SELECT*FROM Universities");
-            resultSet = preState.executeQuery();
+            final ResultSet resultSet = preState.executeQuery();
             while (resultSet.next()) {
                 universities.add(getNewObjectFromResultSet(resultSet));
             }
+            return Optional.of(universities);
         } catch (SQLException e) {
             LOGGER.error(e);
-            return null;
+            return Optional.empty();
         }
-        return universities;
     }
 
     @Override
-    public University getById(final Long entityId) {
-        ResultSet resultSet;
+    public Optional<University> getById(final Long entityId) {
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("SELECT*FROM Universities WHERE univer_id=?");
             preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
-            resultSet = preState.executeQuery();
+            final ResultSet resultSet = preState.executeQuery();
             if (resultSet.next()) {
-                return getNewObjectFromResultSet(resultSet);
+                return Optional.of(getNewObjectFromResultSet(resultSet));
             }
         } catch (SQLException e) {
             LOGGER.error(e);
-            return null;
+            return Optional.empty();
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

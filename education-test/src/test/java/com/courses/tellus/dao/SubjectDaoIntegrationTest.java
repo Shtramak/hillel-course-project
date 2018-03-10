@@ -3,13 +3,14 @@ package com.courses.tellus.dao;
 import java.io.FileReader;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Optional;
 
 import com.courses.tellus.dbconnection.ConnectionFactory;
 import com.courses.tellus.entity.Subject;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.*;
 
-class SubjectDaoMethodIntegrationTest {
+class SubjectDaoIntegrationTest {
 
     private static SubjectDao subjectDao;
     private Subject subject;
@@ -32,27 +33,28 @@ class SubjectDaoMethodIntegrationTest {
 
     @Test
     void testGetAllAndReturnEntityList() throws Exception {
-        List<Subject> subjectList = subjectDao.getAll();
-        Assertions.assertEquals(1, subjectList.size());
+        Optional<List<Subject>> subjectList = subjectDao.getAll();
+        Assertions.assertTrue(subjectList.isPresent());
     }
 
     @Test
-    void testGetAllObjectAndReturnEmptyList() throws Exception {
-        subjectDao.delete(subjectDao.getAll().get(0).getSubjectId());
-        List<Subject> subjectList = subjectDao.getAll();
-        Assertions.assertEquals(0, subjectList.size());
+    void testGetAllEntityAndReturnEmptyList() throws Exception {
+        subjectDao.delete(subjectDao.getAll().get().get(0).getSubjectId());
+        Optional<List<Subject>> subjectList = subjectDao.getAll();
+        Assertions.assertEquals(0, subjectList.get().size());
     }
 
     @Test
     void testGetEntityByIdAndReturnEntity() throws Exception {
-        Subject subject = subjectDao.getById(subjectDao.getAll().get(0).getSubjectId());
-        Assertions.assertNotNull(subject);
+        Optional<Subject> subject = subjectDao
+                .getById(subjectDao.getAll().get().get(0).getSubjectId());
+        Assertions.assertTrue(subject.isPresent());
     }
 
     @Test
-    void testGetEntityByIdAndReturnNull() throws Exception {
-        Subject subject = subjectDao.getById(12L);
-        Assertions.assertNull(subject);
+    void testGetEntityByIdAndReturnFalse() throws Exception {
+        Optional<Subject> subject = subjectDao.getById(12L);
+        Assertions.assertFalse(subject.isPresent());
     }
 
     @Test

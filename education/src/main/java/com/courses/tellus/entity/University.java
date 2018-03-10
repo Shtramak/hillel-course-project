@@ -5,11 +5,8 @@ import java.util.Objects;
 public class  University  {
 
     private Long uniId;
-
     private String nameOfUniversity;
-
     private String address;
-
     private String specialization;
 
     public University() {

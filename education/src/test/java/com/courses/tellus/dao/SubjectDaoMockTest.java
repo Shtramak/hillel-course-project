@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
-class SubjectDaoMethodMockTest {
+class SubjectDaoMockTest {
 
     private static ConnectionFactory connFactory;
     private static SubjectDao subjectDao;
@@ -49,13 +49,13 @@ class SubjectDaoMethodMockTest {
         when(mockResSet.next()).thenReturn(true).thenReturn(false);
         getSubjectFromResultSet();
         spy.add(subject);
-        Assertions.assertEquals(spy.size(), subjectDao.getAll().size());
+        Assertions.assertEquals(spy.size(), subjectDao.getAll().get().size());
     }
 
     @Test
     void testGetAllObjectAndReturnEmptyList() throws Exception {
         when(mockResSet.next()).thenReturn(false);
-        Assertions.assertEquals(0, subjectDao.getAll().size());
+        Assertions.assertEquals(0, (subjectDao.getAll()).get().size());
     }
 
     @Test
@@ -64,15 +64,15 @@ class SubjectDaoMethodMockTest {
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(true);
         getSubjectFromResultSet();
-        Assertions.assertEquals(subject, subjectDao.getById(1L));
+        Assertions.assertEquals(subject, (subjectDao.getById(1L)).get());
     }
 
     @Test
-    void testGetEntityByIdAndReturnNull() throws Exception {
+    void testGetEntityByIdAndReturnFalse() throws Exception {
         mockPreState.setLong(1, 1L);
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(false);
-        Assertions.assertNull(subjectDao.getById(1L));
+        Assertions.assertFalse((subjectDao.getById(1L)).isPresent());
     }
 
     @Test

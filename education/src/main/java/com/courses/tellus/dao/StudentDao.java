@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.courses.tellus.dbconnection.ConnectionFactory;
 import com.courses.tellus.entity.Student;
@@ -21,7 +22,7 @@ public class StudentDao implements BasicDao<Student> {
     }
 
     @Override
-    public List<Student> getAll() {
+    public Optional<List<Student>> getAll() {
         final List<Student> studentList = new ArrayList<>();
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("SELECT * FROM STUDENT");
@@ -29,28 +30,28 @@ public class StudentDao implements BasicDao<Student> {
             while (resultSet.next()) {
                 studentList.add(getNewObjectFromResultSet(resultSet));
             }
+            return Optional.of(studentList);
         } catch (SQLException except) {
             LOGGER.error(except);
-            return null;
+            return Optional.empty();
         }
-        return studentList;
     }
 
     @Override
-    public Student getById(final Long entityId) {
+    public Optional<Student> getById(final Long entityId) {
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn
                     .prepareStatement("SELECT * FROM STUDENT a WHERE a.student_id = ?");
             preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
             final ResultSet resultSet = preState.executeQuery();
             if (resultSet.next()) {
-                return getNewObjectFromResultSet(resultSet);
+                return Optional.of(getNewObjectFromResultSet(resultSet));
             }
+            return Optional.empty();
         } catch (SQLException except) {
             LOGGER.error(except);
-            return null;
+            return Optional.empty();
         }
-        return null;
     }
 
     @Override

@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Matchers.anyString;
@@ -21,7 +22,6 @@ import static org.mockito.Mockito.when;
 public class UniversityDaoExeptionMockTest {
     private static ConnectionFactory connectionFactory;
     private University university;
-    private Connection mockConnection;
     private static UniversityDao universityDao;
 
     @BeforeAll
@@ -34,9 +34,24 @@ public class UniversityDaoExeptionMockTest {
     void initMocks() throws Exception {
         university =new University(1L,"KPI",
                 "pr.Peremohy","Technical");
-        mockConnection = mock(Connection.class);
+        Connection mockConnection = mock(Connection.class);
         when(connectionFactory.getConnection()).thenReturn(mockConnection);
-        when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
+        when(mockConnection.prepareStatement(anyString())).thenThrow(new SQLException());
+    }
+
+    @Test
+    void testGetByIdWhenReturnNull() throws Exception {
+        Assertions.assertFalse((universityDao.getById(15L)).isPresent());
+    }
+
+    @Test
+    void testGetByIdException() throws Exception {
+        assertFalse((universityDao.getById(1L)).isPresent());
+    }
+
+    @Test
+    void testGetAllUniversitiesExeption() throws Exception {
+        assertFalse((universityDao.getAll()).isPresent());
     }
 
     @Test
@@ -45,22 +60,7 @@ public class UniversityDaoExeptionMockTest {
     }
 
     @Test
-    void testGetByIdWhenReturnNull() throws Exception {
-        Assertions.assertNull(universityDao.getById(15L));
-    }
-
-    @Test
-    void testGetByIdException() throws Exception {
-        assertNull(universityDao.getById(1L));
-    }
-
-    @Test
-    void testGetAllUniversitiesExeption() throws Exception {
-        assertNull(universityDao.getAll());
-    }
-
-    @Test
-    void testUpdateUniversityConnectionException() throws Exception {
+    void testUpdateUniversityException() throws Exception {
         assertEquals(0,universityDao.update(university));
     }
 
@@ -68,7 +68,4 @@ public class UniversityDaoExeptionMockTest {
     void testDeleteUniversityException() throws Exception {
         assertEquals(0,universityDao.delete(university.getUniId()));
     }
-
-
 }
-

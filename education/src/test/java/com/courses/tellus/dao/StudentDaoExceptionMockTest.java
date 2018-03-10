@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Optional;
 
 import com.courses.tellus.dbconnection.ConnectionFactory;
 import com.courses.tellus.entity.Student;
@@ -21,7 +22,6 @@ class StudentDaoExceptionMockTest {
 
     private static ConnectionFactory connectionFactory;
     private static StudentDao studentDao;
-    private Connection mockConnection;
     private Student student;
 
     @BeforeAll
@@ -33,21 +33,21 @@ class StudentDaoExceptionMockTest {
     @BeforeEach
     void reInitDepartmentDao() throws SQLException {
         student = new Student();
-        mockConnection = mock(Connection.class);
+        Connection mockConnection = mock(Connection.class);
         when(connectionFactory.getConnection()).thenReturn(mockConnection);
         when(mockConnection.prepareStatement(anyString())).thenThrow(new SQLException());
     }
 
     @Test
     void testGetAllEntity() throws Exception {
-        List<Student> list = studentDao.getAll();
-        Assertions.assertNull(list);
+        Optional<List<Student>> opt = studentDao.getAll();
+        Assertions.assertFalse(opt.isPresent());
     }
 
     @Test
     void testGetEntityById() throws Exception {
-        Student student = studentDao.getById(1L);
-        Assertions.assertNull(student);
+        Optional<Student> opt = studentDao.getById(1L);
+        Assertions.assertFalse(opt.isPresent());
     }
 
     @Test

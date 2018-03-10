@@ -41,21 +41,13 @@ project("education") {
 }
 
 project("education-test") {
-    junitPlatform {
-        filters {
-            engines {
-                include 'junit-jupiter'
-            }
-        }
-        details 'tree'
-    }
-
     dependencies {
         compile project(':education')
     }
 }
 
 dependencies {
+
     compile project(':autosalon')
 }
 

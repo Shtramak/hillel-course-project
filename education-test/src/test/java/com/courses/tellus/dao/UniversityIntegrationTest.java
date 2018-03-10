@@ -7,9 +7,11 @@ import org.junit.jupiter.api.*;
 
 import java.io.FileReader;
 import java.util.List;
+import java.util.Optional;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 
 
 public class UniversityIntegrationTest {
@@ -17,28 +19,31 @@ public class UniversityIntegrationTest {
     private UniversityDao universityDao;
     private University university;
 
-    @BeforeAll
-    static void before() throws Exception {
+    @BeforeEach
+    void beforeEach() throws Exception {
         RunScript.execute(ConnectionFactory.getInstance().getConnection(),
                 new FileReader("src/test/resources/univer_test_table.sql"));
-    }
-
-    @BeforeEach
-    void beforeEach() {
         universityDao = new UniversityDao(ConnectionFactory.getInstance());
         university = new University(1L,"KPI","pr.Peremohy","Technical");
         universityDao.insert(university);
     }
+
+    @AfterEach
+    void clearTable() throws Exception {
+        RunScript.execute(ConnectionFactory.getInstance().getConnection(),
+                new FileReader("src/test/resources/trunc.sql"));
+    }
+
     @Test
     public void testGetAllUniversities() {
-        List<University> universities = universityDao.getAll();
-        Assertions.assertTrue(!(universities.size() == 0));
+        Optional<List<University>> universities = universityDao.getAll();
+        Assertions.assertTrue(universities.isPresent());
     }
 
     @Test
     public void testGetUniversityByIdWhenReturnEntity() {
-        University university = universityDao.getById(universityDao.getAll().get(0).getUniId());
-        assertNotNull(university);
+        Optional<University> university = universityDao.getById(this.university.getUniId());
+        assertTrue(university.isPresent());
     }
 
     @Test

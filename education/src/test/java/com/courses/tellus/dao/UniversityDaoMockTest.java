@@ -46,27 +46,21 @@ public class UniversityDaoMockTest {
     }
 
     @Test
-    void testInsertUniversity() throws Exception {
-        when(mockPreState.executeUpdate()).thenReturn(1);
-        assertEquals(1, universityDao.insert(university));
-    }
-
-    @Test
     void testGetUniversityById() throws Exception {
         mockPreState.setLong(1, 1);
         when(mockPreState.executeQuery()).thenReturn(mockResultSet);
         when(mockResultSet.next()).thenReturn(true);
         setUniversityInResultSetMock();
-        assertEquals(university, universityDao.getById(university.getUniId()));
+        assertTrue((universityDao.getById(university.getUniId())).isPresent());
     }
 
     @Test
-    void testGetByIdWhenReturnNull() throws Exception {
+    void testGetByIdWhenReturnFalse() throws Exception {
         mockPreState.setLong(1, 1);
         when(mockPreState.executeQuery()).thenReturn(mockResultSet);
         when(mockResultSet.next()).thenReturn(false);
         setUniversityInResultSetMock();
-        assertNull(universityDao.getById(university.getUniId()));
+        assertFalse((universityDao.getById(university.getUniId())).isPresent());
     }
 
     @Test
@@ -76,8 +70,14 @@ public class UniversityDaoMockTest {
         when(mockPreState.executeQuery()).thenReturn(mockResultSet);
         when(mockResultSet.next()).thenReturn(true).thenReturn(false);
         setUniversityInResultSetMock();
-        when(spy.add(university)).thenReturn(false);
-        Assertions.assertEquals(spy.size(), universityDao.getAll().size());
+        spy.add(university);
+        Assertions.assertEquals(1, (universityDao.getAll()).get().size());
+    }
+
+    @Test
+    void testInsertUniversity() throws Exception {
+        when(mockPreState.executeUpdate()).thenReturn(1);
+        assertEquals(1, universityDao.insert(university));
     }
 
     @Test

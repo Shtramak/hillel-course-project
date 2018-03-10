@@ -2,6 +2,7 @@ package com.courses.tellus.dao;
 
 import java.io.FileReader;
 import java.util.List;
+import java.util.Optional;
 
 import com.courses.tellus.dbconnection.ConnectionFactory;
 import com.courses.tellus.entity.Student;
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class StudentDaoMethodIntegrationTest {
+class StudentDaoIntegrationTest {
 
     private static StudentDao studentDao;
     private Student student;
@@ -34,27 +35,28 @@ class StudentDaoMethodIntegrationTest {
 
     @Test
     void testGetAllAndReturnEntityList() throws Exception {
-        List<Student> subjectList = studentDao.getAll();
-        Assertions.assertEquals(1, subjectList.size());
+        Optional<List<Student>> subjectList = studentDao.getAll();
+        Assertions.assertTrue(subjectList.isPresent());
     }
 
     @Test
-    void testGetAllObjectAndReturnEmptyList() throws Exception {
-        studentDao.delete(studentDao.getAll().get(0).getStudentId());
-        List<Student> subjectList = studentDao.getAll();
-        Assertions.assertEquals(0, subjectList.size());
+    void testGetAllEntityAndReturnEmptyList() throws Exception {
+        studentDao.delete(studentDao.getAll().get().get(0).getStudentId());
+        Optional<List<Student>> subjectList = studentDao.getAll();
+        Assertions.assertEquals(0, subjectList.get().size());
     }
 
     @Test
     void testGetEntityByIdAndReturnEntity() throws Exception {
-        Student student = studentDao.getById(studentDao.getAll().get(0).getStudentId());
-        Assertions.assertNotNull(student);
+        Optional<Student> student = studentDao
+                .getById(studentDao.getAll().get().get(0).getStudentId());
+        Assertions.assertTrue(student.isPresent());
     }
 
     @Test
-    void testGetEntityByIdAndReturnNull() throws Exception {
-        Student student = studentDao.getById(12L);
-        Assertions.assertNull(student);
+    void testGetEntityByIdAndReturnFalse() throws Exception {
+        Optional<Student> student = studentDao.getById(12L);
+        Assertions.assertFalse(student.isPresent());
     }
 
     @Test
