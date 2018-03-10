@@ -19,7 +19,7 @@ class ConnectionFactoryCoverageTest {
     @BeforeAll
     static void init() throws Exception {
         RunScript.execute(ConnectionFactory.getInstance().getConnection(),
-                new FileReader("src/test/resources/subject_db_table.sql"));
+                new FileReader("src/test/resources/subject_test_table.sql"));
         subjectDao = new SubjectDao(ConnectionFactory.getInstance());
     }
 

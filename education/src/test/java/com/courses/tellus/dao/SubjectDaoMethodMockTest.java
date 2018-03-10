@@ -43,7 +43,7 @@ class SubjectDaoMethodMockTest {
     }
 
     @Test
-    void testGetAllAndReturnObjectList() throws Exception {
+    void testGetAllAndReturnEntityList() throws Exception {
         List<Subject> subjectList = new ArrayList<>();
         List<Subject> spy = spy(subjectList);
         when(mockResSet.next()).thenReturn(true).thenReturn(false);
@@ -99,8 +99,7 @@ class SubjectDaoMethodMockTest {
 
     private void getSubjectFromResultSet() throws SQLException {
         Date mockSqlDate = mock(Date.class);
-        when(mockResSet.getLong("id")).thenReturn(subject.getSubjectId());
-        when(mockResSet.getLong("id")).thenReturn(subject.getSubjectId());
+        when(mockResSet.getLong("subject_id")).thenReturn(subject.getSubjectId());
         when(mockResSet.getString("name")).thenReturn(subject.getName());
         when(mockResSet.getString("descr")).thenReturn(subject.getDescription());
         when(mockResSet.getBoolean("valid")).thenReturn(subject.isValid());
