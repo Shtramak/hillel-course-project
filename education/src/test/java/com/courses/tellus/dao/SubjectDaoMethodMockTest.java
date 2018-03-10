@@ -15,27 +15,28 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
-public class SubjectDaoMethodMockTest {
+class SubjectDaoMethodMockTest {
 
-    private static ConnectionFactory connectionFactory;
+    private static ConnectionFactory connFactory;
     private static SubjectDao subjectDao;
-    private ResultSet mockResSet;
     private Subject subject;
+    private ResultSet mockResSet;
+    private PreparedStatement mockPreState;
 
     @BeforeAll
     static void init() {
-        connectionFactory = mock(ConnectionFactory.class);
-        subjectDao = new SubjectDao(connectionFactory);
+        connFactory = mock(ConnectionFactory.class);
+        subjectDao = new SubjectDao(connFactory);
     }
 
     @BeforeEach
     void reinitializeRequest() throws Exception {
-        ConnectionFactory connectionFactory = mock(ConnectionFactory.class);
-        Connection mockConnection = mock(Connection.class);
-        PreparedStatement mockPreState = mock(PreparedStatement.class);
+        mockPreState = mock(PreparedStatement.class);
         mockResSet = mock(ResultSet.class);
-        when(connectionFactory.getConnection()).thenReturn(mockConnection);
+        Connection mockConnection = mock(Connection.class);
+        when(connFactory.getConnection()).thenReturn(mockConnection);
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreState);
+        when(mockPreState.executeQuery()).thenReturn(mockResSet);
         subject = new Subject(
                 1L, "Biology", "Lessons about building of humans", true,
                 new GregorianCalendar(1996,5,12));
@@ -45,7 +46,6 @@ public class SubjectDaoMethodMockTest {
     void testGetAllAndReturnObjectList() throws Exception {
         List<Subject> subjectList = new ArrayList<>();
         List<Subject> spy = spy(subjectList);
-        when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(true).thenReturn(false);
         getSubjectFromResultSet();
         spy.add(subject);
@@ -54,7 +54,6 @@ public class SubjectDaoMethodMockTest {
 
     @Test
     void testGetAllObjectAndReturnEmptyList() throws Exception {
-        when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(false);
         Assertions.assertEquals(0, subjectDao.getAll().size());
     }
@@ -79,13 +78,13 @@ public class SubjectDaoMethodMockTest {
     @Test
     void testUpdateSubject() throws Exception {
         subject.setValid(false);
-        when(mockPreState.executeUpdate()).thenReturn(0);
+        when(mockPreState.executeUpdate()).thenReturn(1);
         Assertions.assertEquals(1, subjectDao.update(subject));
     }
 
     @Test
     void testDeleteSubject() throws Exception {
-        when(mockPreState.executeUpdate()).thenReturn(0);
+        when(mockPreState.executeUpdate()).thenReturn(1);
         Assertions.assertEquals(1 ,subjectDao.delete(1L));
     }
 
@@ -94,7 +93,7 @@ public class SubjectDaoMethodMockTest {
         Subject subject = new Subject(
                 2L, "Math", "Teach how to calculate numbers", true,
                 new GregorianCalendar(1996,5,12));
-        when(mockPreState.executeUpdate()).thenReturn(0);
+        when(mockPreState.executeUpdate()).thenReturn(1);
         Assertions.assertEquals(1, subjectDao.insert(subject));
     }
 

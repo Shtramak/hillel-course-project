@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 
 public class SubjectDao implements BasicDao<Subject> {
 
-    private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
+    private static final Logger LOGGER = Logger.getLogger(SubjectDao.class);
     private final transient ConnectionFactory connectionFactory;
 
     public SubjectDao(final ConnectionFactory connectionFactory) {
@@ -25,12 +25,12 @@ public class SubjectDao implements BasicDao<Subject> {
         final List<Subject> subjectList = new ArrayList<>();
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("SELECT * FROM SUBJECT");
-            ResultSet resultSet = preState.executeQuery();
+            final ResultSet resultSet = preState.executeQuery();
             while (resultSet.next()) {
                 subjectList.add(getNewObjectFromResultSet(resultSet));
             }
         } catch (SQLException except) {
-            LOGGER.error(except);
+            LOGGER.error("", except);
             return null;
         }
         return subjectList;
@@ -38,11 +38,10 @@ public class SubjectDao implements BasicDao<Subject> {
 
     @Override
     public Subject getById(final Long entityId) {
-        ResultSet resultSet;
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("SELECT * FROM SUBJECT a WHERE a.id = ?");
             preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
-            resultSet = preState.executeQuery();
+            final ResultSet resultSet = preState.executeQuery();
             if (resultSet.next()) {
                 return getNewObjectFromResultSet(resultSet);
             }
