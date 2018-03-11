@@ -40,8 +40,3 @@ jobs:
 
       # run tests!
       - run: gradle build
-
-    notify:
-      webhooks:
-        # A list of hook hashes, containing the URL field
-        - url: https://hooks.slack.com/services/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
