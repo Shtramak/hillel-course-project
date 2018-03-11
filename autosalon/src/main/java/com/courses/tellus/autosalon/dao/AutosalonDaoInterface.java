@@ -8,14 +8,14 @@ import com.courses.tellus.autosalon.exception.DaoException;
 public interface AutosalonDaoInterface<E> {
 
     /**
-     * Method for returning all object from database.
+     * Method for retrieving all object from database.
      *
      * @return list of objects from database or empty list otherwise
      */
-    List<E> getAll();
+    List<E> getAll() throws DaoException;
 
     /**
-     * Method for returning object by unique id from database.
+     * Method for retrieving object from database by specified id.
      *
      * @param entityId id of the object to be selected from database
      * @return an Optional with a present value if the specified value
@@ -29,7 +29,7 @@ public interface AutosalonDaoInterface<E> {
      * @param entity object to be updated
      * @return number of affected rows in database
      */
-    Integer update(E entity);
+    Integer update(E entity) throws DaoException;
 
     /**
      * Method for deleting object from database.
@@ -37,7 +37,7 @@ public interface AutosalonDaoInterface<E> {
      * @param entityId id of the object to be removed from database
      * @return number of affected rows in database
      */
-    Integer delete(Long entityId);
+    Integer delete(Long entityId) throws DaoException;
 
     /**
      * Method for creating new object into database.

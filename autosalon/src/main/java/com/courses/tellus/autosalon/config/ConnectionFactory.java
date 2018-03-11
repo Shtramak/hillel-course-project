@@ -14,8 +14,8 @@ public class ConnectionFactory {
     private static Properties dbProperties;
 
     private ConnectionFactory() throws IOException {
-        dbProperties = new Properties();
-        dbProperties.load(ClassLoader.getSystemResourceAsStream("config.properties"));
+            dbProperties = new Properties();
+            dbProperties.load(ClassLoader.getSystemResourceAsStream("config.properties"));
     }
 
     /**
@@ -42,6 +42,6 @@ public class ConnectionFactory {
      * @return Connection.
      */
     public Connection getConnection() throws SQLException {
-        return dataSource.getConnection();
+            return dataSource.getConnection();
     }
 }

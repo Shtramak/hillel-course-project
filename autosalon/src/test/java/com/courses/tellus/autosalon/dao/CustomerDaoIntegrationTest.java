@@ -1,135 +1,110 @@
 package com.courses.tellus.autosalon.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.FileReader;
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.courses.tellus.autosalon.config.ConnectionFactory;
 import com.courses.tellus.autosalon.exception.DaoException;
 import com.courses.tellus.autosalon.model.Customer;
+import org.h2.tools.RunScript;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CustomerDaoIntegrationTest {
-    private CustomerDao customerDao;
+    private static final Customer CUSTOMER = new Customer(1, "John", "Rambo", LocalDate.of(1946, 7, 6), "(012)345-67-89", 10000000.50);
+
     private static ConnectionFactory connectionFactory;
+
+    private CustomerDao customerDao;
 
     @BeforeEach
     void setUp() throws Exception {
         connectionFactory = ConnectionFactory.getInstance();
         customerDao = new CustomerDao(connectionFactory);
-        createTableCustomer();
-        truncateTableCustomer();
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/test.sql"));
     }
 
     @Test
     void insertWithValidDataReturnsTrue() throws Exception {
-        Customer customer = new Customer(1, "John", "Smith", LocalDate.of(2018, 2, 20), "(012)345-67-89", 10000.50);
-        assertTrue(customerDao.insert(customer));
+        Customer CUSTOMER = new Customer(3, "John", "Smith", LocalDate.of(2018, 2, 20), "(012)345-67-89", 10000.50);
+        Integer res = customerDao.insert(CUSTOMER);
+        assertEquals(Integer.valueOf(1), res);
     }
 
     @Test
-    void insertWhenCustomerHasNullElementThrowsDAOException() throws Exception {
-        Customer customer = new Customer(1, "John", null, LocalDate.of(2018, 2, 20), "(012)345-67-89", 10000.50);
+    void insertWhenTableNotExistsThrowsDaoException() throws Exception {
+        dropTableCustomer();
         assertThrows(DaoException.class, () -> {
-            customerDao.insert(customer);
+            customerDao.insert(CUSTOMER);
         });
     }
 
     @Test
-    void insertWhenCustomerIsNullThrowsDaoException() throws Exception {
-        Throwable exception = assertThrows(DaoException.class, () -> {
-            customerDao.insert(null);
-        });
-        assertEquals("Customer must be not null!", exception.getMessage());
+    void getByIdWithExistingIdReturnsCustomer() throws Exception {
+        Customer actual = customerDao.getById(1L).orElse(null);
+        assertEquals(CUSTOMER, actual);
     }
 
     @Test
-    void findByIdWithExistingIdReturnsCustomer() throws Exception {
-        insertCustomersToDb(3);
-        Customer expected = new Customer(2, "name2", "surname2", LocalDate.of(2018, 2, 20), "phoneNumber2", 2000);
-        Customer actual = customerDao.findById(2);
-        assertEquals(expected, actual);
+    void getByIdWithNotExistingIdReturnsOptionalEmpty() throws Exception {
+        assertEquals(Optional.empty(), customerDao.getById(5L));
     }
 
     @Test
-    void findByIdWithNotExistingIdReturnsNull() throws Exception {
-        insertCustomersToDb(1);
-        assertEquals(null, customerDao.findById(2));
-    }
-
-    @Test
-    void findByIdWithNegativeIdThrowsDaoException() throws Exception {
-        Throwable exception = assertThrows(DaoException.class, () -> {
-            customerDao.findById(-1);
-        });
-        assertEquals("Customer id must be positive, but entered: -1", exception.getMessage());
-    }
-
-    @Test
-    void findByIdWhenTableNotExistsThrowsDaoException() throws Exception {
+    void getByIdWhenTableNotExistsThrowsDaoException() throws Exception {
         dropTableCustomer();
         long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
         assertThrows(DaoException.class, () -> {
-            customerDao.findById(id);
+            customerDao.getById(id);
         });
     }
 
     @Test
-    void findAllWhenTableHasDataReturnsListOfCustomers() throws Exception {
-        insertCustomersToDb(2);
-        Customer customer1 = new Customer(1, "name1", "surname1", LocalDate.of(2018, 2, 20), "phoneNumber1", 1000);
-        Customer customer2 = new Customer(2, "name2", "surname2", LocalDate.of(2018, 2, 20), "phoneNumber2", 2000);
-        List<Customer> expected = Arrays.asList(customer1, customer2);
-        List<Customer> actual = customerDao.findAll();
+    void getAllWhenTableHasDataReturnsListOfCustomers() throws Exception {
+        Customer customer2 = new Customer(2, "John", "Travolta", LocalDate.of(1954, 2, 18), "(012)345-67-89", 5000000.50);
+        List<Customer> expected = Arrays.asList(CUSTOMER, customer2);
+        List<Customer> actual = customerDao.getAll();
         assertEquals(expected, actual);
     }
 
     @Test
-    void findAllWhenTableHasNoDataReturnsEmptyList() throws DaoException {
-        assertEquals(Collections.emptyList(), customerDao.findAll());
+    void getAllWhenTableHasNoDataReturnsEmptyList() throws Exception {
+        Connection connection = connectionFactory.getConnection();
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("TRUNCATE TABLE CUSTOMER");
+        }
+        assertEquals(Collections.emptyList(), customerDao.getAll());
     }
 
     @Test
-    void findAllWhenTableNotExistsThrowsDaoException() throws Exception {
+    void getAllWhenTableNotExistsThrowsDaoException() throws Exception {
         dropTableCustomer();
         assertThrows(DaoException.class, () -> {
-            customerDao.findAll();
+            customerDao.getAll();
         });
     }
 
     @Test
     void updateWhenEntryExistsReturnsTrue() throws Exception {
-        insertCustomersToDb(3);
         Customer updatedCustomer = new Customer(2, "updateName", "updateSurname", LocalDate.of(2018, 2, 20), "phoneNumber2", 2000);
-        assertTrue(customerDao.update(updatedCustomer));
+        assertEquals(Integer.valueOf(1), customerDao.update(updatedCustomer));
     }
 
     @Test
     void updateWhenEntryNotExistsReturnsFalse() throws Exception {
-        insertCustomersToDb(2);
         Customer updatedCustomer = new Customer(3, "updateName", "updateSurname", LocalDate.of(2018, 2, 20), "phoneNumber3", 2000);
-        assertFalse(customerDao.update(updatedCustomer));
-    }
-
-    @Test
-    void updateWhenCustomerIsNullThrowsDaoException() throws DaoException {
-        Throwable exception = assertThrows(DaoException.class, () -> {
-            customerDao.update(null);
-        });
-        assertEquals("Customer must be not null!", exception.getMessage());
+        assertEquals(Integer.valueOf(0), customerDao.update(updatedCustomer));
     }
 
     @Test
@@ -141,81 +116,28 @@ public class CustomerDaoIntegrationTest {
     }
 
     @Test
-    void removeByIdWithExistingIdReturnsTrue() throws Exception {
-        insertCustomersToDb(3);
-        assertTrue(customerDao.removeById(2));
+    void deleteWithExistingIdReturns1() throws Exception {
+        assertEquals(Integer.valueOf(1), customerDao.delete(2L));
     }
 
     @Test
-    void removeByIdWithNotExistingReturnsFalse() throws Exception {
-        insertCustomersToDb(1);
-        assertFalse(customerDao.removeById(2));
+    void deleteWithNotExistingReturns0() throws Exception {
+        assertEquals(Integer.valueOf(0), customerDao.delete(3L));
     }
 
     @Test
-    void removeByIdWithNegativeIdThrowsDaoException() throws Exception {
-        Throwable exception = assertThrows(DaoException.class, () -> {
-            customerDao.removeById(-1);
-        });
-        assertEquals("Customer id must be positive, but entered: -1", exception.getMessage());
-    }
-
-
-    @Test
-    void removeByIdWhenTableNotExistsThrowsDaoException() throws Exception {
+    void deleteWhenTableNotExistsThrowsDaoException() throws Exception {
         dropTableCustomer();
         long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
         assertThrows(DaoException.class, () -> {
-            customerDao.removeById(id);
+            customerDao.delete(id);
         });
-    }
-
-    private void truncateTableCustomer() throws SQLException {
-        Connection connection = connectionFactory.getConnection();
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("TRUNCATE TABLE CUSTOMER");
-        }
-    }
-
-    private void createTableCustomer() throws SQLException {
-        Connection connection = connectionFactory.getConnection();
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS CUSTOMER(\n" +
-                    "  id              INT(10) PRIMARY KEY NOT NULL,\n" +
-                    "  name            VARCHAR(64)         NOT NULL,\n" +
-                    "  surname         VARCHAR(128)        NOT NULL,\n" +
-                    "  date_of_birth   DATE                NOT NULL,\n" +
-                    "  phone_number    VARCHAR(24),\n" +
-                    "  available_funds DECIMAL(15, 2) DEFAULT 0\n" +
-                    ")");
-        }
     }
 
     private void dropTableCustomer() throws SQLException {
         Connection connection = connectionFactory.getConnection();
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("DROP TABLE CUSTOMER");
-        }
-    }
-
-    private void insertCustomersToDb(int numberOfCustomers) throws SQLException {
-        Connection connection = connectionFactory.getConnection();
-        String sql = "INSERT INTO" +
-                " customer (id, name, surname, date_of_birth, phone_number, available_funds)" +
-                " VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            for (int id = 1; id <= numberOfCustomers; id++) {
-                statement.setLong(1, id);
-                statement.setString(2, "name" + id);
-                statement.setString(3, "surname" + id);
-                statement.setDate(4, Date.valueOf(LocalDate.of(2018, 2, 20)));
-                statement.setString(5, "phoneNumber" + id);
-                statement.setLong(6, id * 1000);
-                statement.addBatch();
-            }
-            statement.executeBatch();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

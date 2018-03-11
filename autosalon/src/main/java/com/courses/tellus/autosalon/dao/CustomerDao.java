@@ -9,13 +9,14 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.courses.tellus.autosalon.config.ConnectionFactory;
 import com.courses.tellus.autosalon.exception.DaoException;
 import com.courses.tellus.autosalon.model.Customer;
 import org.apache.log4j.Logger;
 
-public class CustomerDao {
+public class CustomerDao implements AutosalonDaoInterface<Customer> {
 
     private static final int INDEX_NAME = 1;
     private static final int INDEX_SURNAME = 2;
@@ -37,24 +38,14 @@ public class CustomerDao {
         }
     }
 
-    /**
-     * Inserts entry about given customer to database.
-     *
-     * @param customer - parameter with customer data
-     * @return true if customer data was inserted to database
-     * @throws DaoException if insert operation fails with SQLException
-     */
-    public boolean insert(final Customer customer) throws DaoException {
-        if (customer == null) {
-            throw new DaoException("Customer must be not null!");
-        }
+    @Override
+    public Integer insert(final Customer customer) throws DaoException {
         final String sql = "INSERT INTO"
                 + " customer (name, surname, date_of_birth, phone_number, available_funds, id)"
                 + " VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             setStatementValues(statement, customer);
-            final int rowsInserted = statement.executeUpdate();
-            return rowsInserted > 0;
+            return statement.executeUpdate();
         } catch (SQLException e) {
             final String message = "Insertion failed! Reason: " + e.getMessage();
             LOGGER.error(message);
@@ -62,24 +53,15 @@ public class CustomerDao {
         }
     }
 
-    /**
-     * Returns <i>customer</i> from database entries by specified id.
-     *
-     * @param customerId customer id
-     * @return customer from database
-     * @throws DaoException if find operation fails with SQLException
-     */
-    public Customer findById(final long customerId) throws DaoException {
-        if (customerId < 0) {
-            throw new DaoException("Customer id must be positive, but entered: " + customerId);
-        }
+    @Override
+    public Optional<Customer> getById(final Long customerId) throws DaoException {
         final String sql = "SELECT * FROM customer WHERE id=" + customerId;
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
             if (resultSet.next()) {
-                return customerFromResultSet(resultSet);
+                return Optional.of(customerFromResultSet(resultSet));
             }
-            return null;
+            return Optional.empty();
         } catch (SQLException e) {
             final String message = "Selection failed! Reason: " + e.getMessage();
             LOGGER.error(message);
@@ -87,13 +69,8 @@ public class CustomerDao {
         }
     }
 
-    /**
-     * Returns all <i>customers</i> from database entries.
-     *
-     * @return List of customers
-     * @throws DaoException if find operation fails with SQLException
-     */
-    public List<Customer> findAll() throws DaoException {
+    @Override
+    public List<Customer> getAll() throws DaoException {
         final String sql = "SELECT * FROM customer";
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
@@ -109,24 +86,14 @@ public class CustomerDao {
         }
     }
 
-    /**
-     * Updates  entry in database about given <i>customer</i>.
-     *
-     * @param customer - customer who info should be updated
-     * @return true if operation was success
-     * @throws DaoException if remove operation fails with SQLException
-     */
-    public boolean update(final Customer customer) throws DaoException {
-        if (customer == null) {
-            throw new DaoException("Customer must be not null!");
-        }
+    @Override
+    public Integer update(final Customer customer) throws DaoException {
         final String sql = "UPDATE customer "
                 + "SET name=?,surname=?,date_of_birth=?,phone_number=?,available_funds=?"
                 + "WHERE id=?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             setStatementValues(statement, customer);
-            final int rowsAffected = statement.executeUpdate();
-            return rowsAffected == 1;
+            return statement.executeUpdate();
         } catch (SQLException e) {
             final String message = "Update failed! Reason: " + e.getMessage();
             LOGGER.error(message);
@@ -134,21 +101,11 @@ public class CustomerDao {
         }
     }
 
-    /**
-     * Removes entry about <i>customer</i> from database by specified id.
-     *
-     * @param customerId id number of customer
-     * @return true if customer was removed from database
-     * @throws DaoException if remove operation fails with SQLException
-     */
-    public boolean removeById(final long customerId) throws DaoException {
-        if (customerId < 0) {
-            throw new DaoException("Customer id must be positive, but entered: " + customerId);
-        }
+    @Override
+    public Integer delete(final Long customerId) throws DaoException {
         final String sql = "DELETE FROM customer WHERE id=" + customerId;
         try (Statement statement = connection.createStatement()) {
-            final int rowsAffected = statement.executeUpdate(sql);
-            return rowsAffected == 1;
+            return statement.executeUpdate(sql);
         } catch (SQLException e) {
             final String message = "Remove failed! Reason: " + e.getMessage();
             LOGGER.error(message);
@@ -156,7 +113,7 @@ public class CustomerDao {
         }
     }
 
-    void setStatementValues(final PreparedStatement statement, final Customer customer) throws SQLException {
+    private void setStatementValues(final PreparedStatement statement, final Customer customer) throws SQLException {
         statement.setString(INDEX_NAME, customer.getName());
         statement.setString(INDEX_SURNAME, customer.getSurname());
         final Date dateOfBirth = Date.valueOf(customer.getDateOfBirth());
