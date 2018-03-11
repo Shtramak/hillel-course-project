@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 
-import com.courses.airport.essences.Ticket;
+import com.courses.airport.model.Ticket;
 import com.courses.airport.exception.DaoException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

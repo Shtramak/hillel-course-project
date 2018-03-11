@@ -1,20 +1,25 @@
 package com.courses.airport.dao;
 
-import com.courses.airport.essences.Airport;
-import com.courses.airport.exception.DaoException;
-import org.apache.log4j.Logger;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.courses.airport.exception.DaoException;
+import com.courses.airport.model.Airport;
+import org.apache.log4j.Logger;
 
 public class AirportDao {
 
     private static final int INDEX_NAME = 1;
     private static final int INDEX_BIRTHDAY = 2;
     private static final int INDEX_PHONE = 3;
-    private static final int INDEX_TERMINAL =4;
+    private static final int INDEX_TERMINAL = 4;
     private static final int INDEX_ID = 5;
     private static final Logger LOGGER = Logger.getLogger(AirportDao.class);
 
@@ -158,7 +163,7 @@ public class AirportDao {
         final Date birthday = resultSet.getDate("date_of_birth");
         final String terminal = resultSet.getString("terminal");
         final String phoneNumber = resultSet.getString("phone_number");
-        return new Airport(airportId, name, localDate(birthday),terminal, phoneNumber);
+        return new Airport(airportId, name, localDate(birthday), terminal, phoneNumber);
     }
 
     private LocalDate localDate(final Date birthday) {

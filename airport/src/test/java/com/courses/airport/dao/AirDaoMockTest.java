@@ -1,6 +1,6 @@
 package com.courses.airport.dao;
 
-import com.courses.airport.essences.Airport;
+import com.courses.airport.model.Airport;
 import com.courses.airport.exception.DaoException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +16,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class AirportDaoMock {
+public class AirDaoMockTest {
     private Connection connection;
     private AirportDao airportDao;
 
@@ -104,7 +104,7 @@ public class AirportDaoMock {
 
     @Test
     public void updateWhenBadConnectionThrowsDaoException() throws DaoException, SQLException {
-         Airport airport = mock(Airport.class);
+        Airport airport = mock(Airport.class);
         when(connection.prepareStatement(anyString())).thenThrow(SQLException.class);
         assertThrows(DaoException.class, () -> airportDao.update(airport));
     }

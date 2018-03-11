@@ -10,8 +10,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.courses.airport.essences.Ticket;
 import com.courses.airport.exception.DaoException;
+import com.courses.airport.model.Ticket;
 import org.apache.log4j.Logger;
 
 public class TicketsDao {

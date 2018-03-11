@@ -1,7 +1,7 @@
 package com.courses.airport.dao;
 
 import com.courses.airport.connection.ConnectionFactory;
-import com.courses.airport.essences.Airport;
+import com.courses.airport.model.Airport;
 import com.courses.airport.exception.DaoException;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.AfterEach;
@@ -23,19 +23,17 @@ public class AirportDaoTest {
     private static Connection connection;
     private static AirportDao airportDao;
 
-
-
-
     @BeforeEach
     public void setUp() throws IOException, SQLException {
         connection = ConnectionFactory.getInstance().getConnection();
-        RunScript.execute(connection, new FileReader("src/test/resources/db-creation-tickets.sql"));
+        RunScript.execute(connection, new FileReader("src/test/resources/db-creation.sql"));
         airportDao = new AirportDao(connection);
     }
 
     @AfterEach
     public void tearDown() throws SQLException {
         executeSqlQuery("DROP TABLE airport");
+        executeSqlQuery("DROP TABLE airport_tickets");
     }
 
     @Test
@@ -63,7 +61,7 @@ public class AirportDaoTest {
     @Test
     public void findByIdWithExistingIdReturnsAirport() throws DaoException {
         insertAirportToDb(3);
-        Airport expected = new Airport(2,"Borispol",LocalDate.of(2018,3,12),"D-1","0800-543-7645");
+        Airport expected = new Airport(2,"name2",LocalDate.of(2018,2,20),"terminal2","phoneNumber2");
         Airport actual = airportDao.findById(2);
         assertEquals(expected, actual);
     }
@@ -85,8 +83,8 @@ public class AirportDaoTest {
     @Test
     public void findAllWhenTableHasDataReturnsListOfAirport() throws DaoException {
         insertAirportToDb(2);
-        Airport airport = new Airport(1,"Borispol",LocalDate.of(2018,3,12),"D-3","0800-543-7645");
-        Airport airport2 = new Airport(2,"Borispol-1",LocalDate.of(2018,3,12),"D-4","0800-543-7645");
+        Airport airport = new Airport(1,"name1",LocalDate.of(2018,2,20),"terminal1","phoneNumber1");
+        Airport airport2 = new Airport(2,"name2",LocalDate.of(2018,2,20),"terminal2","phoneNumber2");
         List<Airport> expected = Arrays.asList(airport,airport2);
         List<Airport> actual = airportDao.findAll();
         assertEquals(expected, actual);

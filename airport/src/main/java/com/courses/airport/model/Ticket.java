@@ -1,4 +1,4 @@
-package com.courses.airport.essences;
+package com.courses.airport.model;
 
 import java.time.LocalDate;
 

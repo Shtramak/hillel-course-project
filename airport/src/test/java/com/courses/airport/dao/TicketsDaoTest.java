@@ -1,7 +1,7 @@
 package com.courses.airport.dao;
 
 import com.courses.airport.connection.ConnectionFactory;
-import com.courses.airport.essences.Ticket;
+import com.courses.airport.model.Ticket;
 import com.courses.airport.exception.DaoException;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.AfterEach;
@@ -25,13 +25,14 @@ class TicketsDaoTest {
     @BeforeEach
     public void setUp() throws IOException, SQLException {
         connection = ConnectionFactory.getInstance().getConnection();
-        RunScript.execute(connection, new FileReader("src/test/resources/db-creation-tickets.sql"));
+        RunScript.execute(connection, new FileReader("src/test/resources/db-creation.sql"));
         ticketsDao = new TicketsDao(connection);
     }
 
     @AfterEach
     public void tearDown() throws SQLException {
         executeSqlQuery("DROP TABLE airport_tickets");
+        executeSqlQuery("DROP TABLE airport");
     }
 
     // Тестирует метод - insert() - При адекватных данных возвращает 1
