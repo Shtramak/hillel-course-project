@@ -1,5 +1,6 @@
 .idea/*
 /build/*
+*.log
 *.iml
 .gradle/*
 /buildSrc/.gradle
