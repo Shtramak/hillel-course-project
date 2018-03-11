@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.courses.tellus.autosalon.config.ConnectionFactory;
 import com.courses.tellus.autosalon.model.Auto;
@@ -54,7 +55,7 @@ public class AutoDaoMockTest {
     public void testAddAutoWhenResultTrue() throws SQLException {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeUpdate()).thenReturn(1);
-        int result = autoDao.addAuto(auto);
+        int result = autoDao.insert(auto);
         Assertions.assertTrue(result == 1);
     }
 
@@ -62,14 +63,15 @@ public class AutoDaoMockTest {
     public void testAddAutoWhenResultFalse() throws SQLException {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeUpdate()).thenThrow(new SQLException());
-        Assertions.assertEquals(0, autoDao.addAuto(auto));
+        int result = autoDao.insert(auto);
+        Assertions.assertTrue(result == 0);
     }
 
     @Test
     public void testUpdateAutoWhenResultTrue() throws SQLException {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeUpdate()).thenReturn(1);
-        int result = autoDao.updateAuto(auto);
+        int result = autoDao.update(auto);
         Assertions.assertTrue(result == 1);
     }
 
@@ -77,7 +79,7 @@ public class AutoDaoMockTest {
     public void testUpdateAutoWhenResultFalse() throws SQLException {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeUpdate()).thenThrow(new SQLException());
-        int result = autoDao.updateAuto(auto);
+        int result = autoDao.update(auto);
         Assertions.assertTrue(result == 0);
     }
 
@@ -85,7 +87,7 @@ public class AutoDaoMockTest {
     public void testRemoveAutoWhenResultTrue() throws SQLException {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeUpdate()).thenReturn(1);
-        int rezult = autoDao.removeAutoById(2L);
+        int rezult = autoDao.delete(2L);
         Assertions.assertTrue(rezult == 1);
     }
 
@@ -93,7 +95,7 @@ public class AutoDaoMockTest {
     public void testRemoveAutoWhenResultFalse() throws SQLException {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeUpdate()).thenThrow(new SQLException());
-        int result = autoDao.removeAutoById(2L);
+        int result = autoDao.delete(2L);
         Assertions.assertTrue(result == 0);
     }
 
@@ -108,7 +110,7 @@ public class AutoDaoMockTest {
         when(mockResultSet.getInt("MANUFACT_YEAR")).thenReturn(auto.getManufactYear());
         when(mockResultSet.getString("COUNTRY")).thenReturn(auto.getProducerCountry());
         when(mockResultSet.getBigDecimal("PRICE")).thenReturn(auto.getPrice());
-        Assertions.assertEquals(auto, autoDao.getAutoById(1L));
+        Assertions.assertEquals(Optional.of(auto), autoDao.getById(1L));
     }
 
     @Test
@@ -122,7 +124,7 @@ public class AutoDaoMockTest {
         when(mockResultSet.getInt("MANUFACT_YEAR")).thenReturn(auto.getManufactYear());
         when(mockResultSet.getString("COUNTRY")).thenReturn(auto.getProducerCountry());
         when(mockResultSet.getBigDecimal("PRICE")).thenReturn(auto.getPrice());
-        Assertions.assertNotEquals(auto, autoDao.getAutoById(2L));
+        Assertions.assertNotEquals(auto, autoDao.getById(2L));
     }
 
     @Test
@@ -131,7 +133,7 @@ public class AutoDaoMockTest {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeQuery()).thenThrow(new SQLException());;
         when(mockResultSet.next()).thenReturn(false);
-        Assertions.assertEquals(autoList.size(), autoDao.queryAuto().size());
+        Assertions.assertEquals(autoList.size(), autoDao.getAll().size());
     }
 
     @Test
@@ -147,6 +149,6 @@ public class AutoDaoMockTest {
         auto.setProducerCountry(mockResultSet.getString("COUNTRY"));
         auto.setPrice(mockResultSet.getBigDecimal("PRICE"));
         autoList.add(auto);
-        Assertions.assertEquals(autoList.size(), autoDao.queryAuto().size());
+        Assertions.assertEquals(autoList.size(), autoDao.getAll().size());
     }
 }
