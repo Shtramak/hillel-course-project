@@ -25,7 +25,7 @@ class TicketsDaoTest {
     @BeforeEach
     public void setUp() throws IOException, SQLException {
         connection = ConnectionFactory.getInstance().getConnection();
-        RunScript.execute(connection, new FileReader("src/test/resources/db-creation.sql"));
+        RunScript.execute(connection, new FileReader("src/test/resources/db-creation-tickets.sql"));
         ticketsDao = new TicketsDao(connection);
     }
 
