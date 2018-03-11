@@ -1,0 +1,5 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+airport,com.courses.airport.connection,ConnectionFactory,0,48,0,2,0,14,0,4,0,3
+airport,com.courses.airport.dao,AirportDao,0,308,0,18,0,73,0,19,0,10
+airport,com.courses.airport.dao,TicketsDao,0,308,0,18,0,73,0,19,0,10
+airport,com.courses.airport.exception,DaoException,0,9,0,0,0,4,0,2,0,2
