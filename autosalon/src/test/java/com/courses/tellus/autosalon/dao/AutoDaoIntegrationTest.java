@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import com.courses.tellus.autosalon.config.ConnectionFactory;
 import com.courses.tellus.autosalon.model.Auto;
@@ -13,104 +14,86 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class AutoDaoIntegrationTest {
 
     private AutoDao autoDao;
-
-    public AutoDaoIntegrationTest() throws IOException {
-        this.autoDao = new AutoDao(ConnectionFactory.getInstance());
-    }
+    private Auto auto;
+    private Auto autoWhenOneFieldNull;
 
     @BeforeAll
     public static void before() throws IOException, SQLException {
         RunScript.execute(ConnectionFactory.getInstance().getConnection(), new FileReader("src/test/resources/test.sql"));
     }
 
-    @Test
-    public void testAddAutoWhenResultTrue() {
-        Auto auto = new Auto();
+    @BeforeEach
+    public void reInitAutodao() throws IOException {
+        autoDao = new AutoDao(ConnectionFactory.getInstance());
+
+        auto = new Auto();
+        auto.setId(6L);
         auto.setBrand("BMW");
         auto.setModel("X5");
-        auto.setManufactYear(2016);
+        auto.setManufactYear(1027);
         auto.setProducerCountry("Germany");
         auto.setPrice(new BigDecimal(500000));
 
-        MatcherAssert.assertThat(autoDao.addAuto(auto), CoreMatchers.is(1));
+        autoWhenOneFieldNull = new Auto();
+        autoWhenOneFieldNull.setId(2L);
+        autoWhenOneFieldNull.setBrand("Toyota");
+        autoWhenOneFieldNull.setModel(null);
+        autoWhenOneFieldNull.setManufactYear(2015);
+        autoWhenOneFieldNull.setProducerCountry("Japan");
+        autoWhenOneFieldNull.setPrice(new BigDecimal(200000));
+    }
+
+    @Test
+    public void testAddAutoWhenResultTrue() {
+        MatcherAssert.assertThat(autoDao.insert(auto), CoreMatchers.is(1));
     }
 
     @Test
     public void testAddAutoWhenResultFalse() {
-        Auto auto = new Auto();
-        auto.setBrand("BMW");
-        auto.setModel(null);
-        auto.setManufactYear(2016);
-        auto.setProducerCountry("Germany");
-        auto.setPrice(new BigDecimal(500000));
-
-        MatcherAssert.assertThat(autoDao.addAuto(auto), CoreMatchers.is(0));
+        MatcherAssert.assertThat(autoDao.insert(autoWhenOneFieldNull), CoreMatchers.is(0));
     }
 
     @Test
     public void testQueryAutoWhenResultTrue() {
-        List<Auto> autoList = autoDao.queryAuto();
+        List<Auto> autoList = autoDao.getAll();
         Assertions.assertTrue(autoList.size() == 5);
     }
 
     @Test
     public void testUpdateAutoWhenResultTrue() {
-        Auto newAuto = new Auto();
-        newAuto.setId(2L);
-        newAuto.setBrand("Toyota");
-        newAuto.setModel("Camry");
-        newAuto.setManufactYear(2015);
-        newAuto.setProducerCountry("Japan");
-        newAuto.setPrice(new BigDecimal(200000));
-
-        MatcherAssert.assertThat(autoDao.updateAuto(newAuto), CoreMatchers.is(1));
+        MatcherAssert.assertThat(autoDao.update(auto), CoreMatchers.is(1));
     }
 
     @Test
     public void testUpdateAutoWhenResultFalse() {
-        Auto newAuto = new Auto();
-        newAuto.setId(2L);
-        newAuto.setBrand("Toyota");
-        newAuto.setModel(null);
-        newAuto.setManufactYear(2015);
-        newAuto.setProducerCountry("Japan");
-        newAuto.setPrice(new BigDecimal(200000));
-
-        MatcherAssert.assertThat(autoDao.updateAuto(newAuto), CoreMatchers.is(0));
+        MatcherAssert.assertThat(autoDao.update(autoWhenOneFieldNull), CoreMatchers.is(0));
     }
 
     @Test
     public void testRemoveAutoWhenResultTrue() {
-        MatcherAssert.assertThat(autoDao.removeAutoById(5L), CoreMatchers.is(1));
+        MatcherAssert.assertThat(autoDao.delete(5L), CoreMatchers.is(1));
     }
 
     @Test
     public void testRemoveAutoWhenResultFalse() {
         Auto newAuto = new Auto();
         newAuto.setId(-1L);
-        MatcherAssert.assertThat(autoDao.removeAutoById(newAuto.getId()), CoreMatchers.is(0));
+        MatcherAssert.assertThat(autoDao.delete(newAuto.getId()), CoreMatchers.is(0));
     }
 
     @Test
-    public void testGetAutoById() {
-        Auto newAuto = new Auto();
-        newAuto.setId(2L);
-        newAuto.setBrand("BMW");
-        newAuto.setModel("X3");
-        newAuto.setManufactYear(2013);
-        newAuto.setProducerCountry("Germany");
-        newAuto.setPrice(new BigDecimal(200000));
-
-        Assertions.assertEquals(newAuto, autoDao.getAutoById(2l));
+    public void testGetAutoByIdWhenResultTrue() {
+        Assertions.assertEquals(Optional.of(auto), autoDao.getById(6l));
     }
 
     @Test
     public void testGetAutoByIdWhenResultfalse() {
-        Assertions.assertEquals(null, autoDao.getAutoById(8l));
+        Assertions.assertEquals(Optional.empty(), autoDao.getById(8l));
     }
 }

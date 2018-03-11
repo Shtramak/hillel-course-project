@@ -1,10 +1,7 @@
 package com.courses.tellus.autosalon.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -17,6 +14,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.courses.tellus.autosalon.config.ConnectionFactory;
@@ -29,8 +27,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 public class CustomerDaoUnitTest {
+    private static final Customer REAL_CUSTOMER =
+            new Customer(1, "John", "Smith", LocalDate.of(2018, 2, 20), "(012)345-67-89", 10000.50);
+
     @Mock
-    ConnectionFactory connectionFactoryMock;
+    private ConnectionFactory connectionFactoryMock;
     @Mock
     private Connection connectionMock;
     @Mock
@@ -42,12 +43,10 @@ public class CustomerDaoUnitTest {
     @Mock
     private ResultSet resultSetMock;
     private CustomerDao customerDao;
-    private Customer realCustomer;
 
     @BeforeAll
     static void disableWarning() {
         System.err.close();
-        System.setErr(System.out);
     }
 
     @BeforeEach
@@ -55,7 +54,6 @@ public class CustomerDaoUnitTest {
         MockitoAnnotations.initMocks(this);
         when(connectionFactoryMock.getConnection()).thenReturn(connectionMock);
         customerDao = new CustomerDao(connectionFactoryMock);
-        realCustomer = new Customer(1, "John", "Smith", LocalDate.of(2018, 2, 20), "(012)345-67-89", 10000.50);
     }
 
     @Test
@@ -68,14 +66,7 @@ public class CustomerDaoUnitTest {
     void insertWhenExecuteUpdatePositiveDataReturnsTrue() throws Exception {
         when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
         when(preparedStatementMock.executeUpdate()).thenReturn(1);
-        assertTrue(customerDao.insert(realCustomer));
-    }
-
-    @Test
-    void insertWhenExecuteUpdateNegativeDataReturnsTrue() throws Exception {
-        when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
-        when(preparedStatementMock.executeUpdate()).thenReturn(-1);
-        assertFalse(customerDao.insert(realCustomer));
+        assertEquals(Integer.valueOf(1), customerDao.insert(REAL_CUSTOMER));
     }
 
     @Test
@@ -85,85 +76,61 @@ public class CustomerDaoUnitTest {
     }
 
     @Test
-    void insertWhenCustomerIsNullThrowsDAOException() {
-        Throwable exception = assertThrows(DaoException.class, () -> {
-            customerDao.insert(null);
-        });
-        assertEquals("Customer must be not null!", exception.getMessage());
-    }
-
-    @Test
-    void findByIdWithExistingIdReturnsCustomer() throws Exception {
+    void getByIdWithExistingIdReturnsCustomer() throws Exception {
         when(connectionMock.createStatement()).thenReturn(statementMock);
         when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
         when(resultSetMock.next()).thenReturn(true);
-        putRealCustomerIntoResulSetMock();
-        assertEquals(realCustomer, customerDao.findById(realCustomer.getId()));
+        putRealCustomerIntoResulsetMock();
+        Customer result = customerDao.getById(REAL_CUSTOMER.getId()).orElse(null);
+        assertEquals(REAL_CUSTOMER, result);
     }
 
     @Test
-    void findByIdWhenEmptyResultSetReturnsNull() throws Exception {
+    void getByIdWhenEmptyResultSetReturnsOptionalEmpty() throws Exception {
         when(connectionMock.createStatement()).thenReturn(statementMock);
         when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
         when(resultSetMock.next()).thenReturn(false);
-        Long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
-        assertNull(customerDao.findById(id));
+        Long id = ThreadLocalRandom.current().nextLong();
+        assertEquals(Optional.empty(), customerDao.getById(id));
     }
 
     @Test
-    void findByIdWithNegativeIdThrowsDaoException() throws Exception {
-        Long id = ThreadLocalRandom.current().nextLong(Long.MIN_VALUE, -1);
-        Throwable exception = assertThrows(DaoException.class, () -> {
-            customerDao.findById(id);
-        });
-        assertEquals("Customer id must be positive, but entered: " + id, exception.getMessage());
-    }
-
-    @Test
-    void findByIdWhenBadConnectionThrowsDaoException() throws Exception {
+    void getByIdWhenBadConnectionThrowsDaoException() throws Exception {
         when(connectionMock.createStatement()).thenThrow(SQLException.class);
         Long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
-        assertThrows(DaoException.class, () -> customerDao.findById(id));
+        assertThrows(DaoException.class, () -> customerDao.getById(id));
     }
 
     @Test
-    void findAllWhenEntryExistsReturnsListWithCustomer() throws Exception {
+    void getAllWhenEntryExistsReturnsListWithCustomer() throws Exception {
         when(connectionMock.createStatement()).thenReturn(statementMock);
         when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
         when(resultSetMock.next()).thenReturn(true).thenReturn(false);
-        putRealCustomerIntoResulSetMock();
-        List<Customer> expected = Collections.singletonList(realCustomer);
-        assertEquals(expected, customerDao.findAll());
+        putRealCustomerIntoResulsetMock();
+        List<Customer> expected = Collections.singletonList(REAL_CUSTOMER);
+        assertEquals(expected, customerDao.getAll());
     }
 
     @Test
-    void findAllWhenBadConnectionThrowsDaoException() throws Exception {
+    void getAllWhenBadConnectionThrowsDaoException() throws Exception {
         when(connectionMock.createStatement()).thenThrow(SQLException.class);
-        assertThrows(DaoException.class, () -> customerDao.findAll());
+        assertThrows(DaoException.class, () -> customerDao.getAll());
     }
 
     @Test
-    void updateWhenEntryExistsReturnsTrue() throws Exception {
+    void updateWhenEntryExistsReturns1() throws Exception {
         when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
         when(preparedStatementMock.executeUpdate()).thenReturn(1);
         when(customerMock.getDateOfBirth()).thenReturn(LocalDate.now());
-        assertTrue(customerDao.update(customerMock));
+        assertEquals(Integer.valueOf(1), customerDao.update(customerMock));
     }
 
     @Test
-    void updateWhenEntryNotExistsReturnsFalse() throws Exception {
+    void updateWhenEntryNotExistsReturns0() throws Exception {
         when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
         when(preparedStatementMock.executeUpdate()).thenReturn(0);
         when(customerMock.getDateOfBirth()).thenReturn(LocalDate.now());
-        assertFalse(customerDao.update(customerMock));
-    }
-
-    @Test
-    void updateWhenCustomerIsNullThrowsDAOException() {
-        Throwable exception = assertThrows(DaoException.class, () -> {
-            customerDao.update(null);
-        });
-        assertEquals("Customer must be not null!", exception.getMessage());
+        assertEquals(Integer.valueOf(0), customerDao.update(customerMock));
     }
 
     @Test
@@ -173,44 +140,34 @@ public class CustomerDaoUnitTest {
     }
 
     @Test
-    void removeByIdWhenWhenEntryExistsReturnsTrue() throws Exception {
+    void deleteWhenWhenEntryExistsReturns1() throws Exception {
         when(connectionMock.createStatement()).thenReturn(statementMock);
         when(statementMock.executeUpdate(anyString())).thenReturn(1);
-        Long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
-        assertTrue(customerDao.removeById(id));
+        Long id = ThreadLocalRandom.current().nextLong();
+        assertEquals(Integer.valueOf(1), customerDao.delete(id));
     }
 
     @Test
-    void removeByIdWhenWhenEntryNotExistsReturnsFalse() throws Exception {
+    void deleteWhenWhenEntryNotExistsReturns0() throws Exception {
         when(connectionMock.createStatement()).thenReturn(statementMock);
         when(statementMock.executeUpdate(anyString())).thenReturn(0);
-        Long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
-        assertFalse(customerDao.removeById(id));
+        Long id = ThreadLocalRandom.current().nextLong();
+        assertEquals(Integer.valueOf(0), customerDao.delete(id));
     }
 
     @Test
-    void removeByIdWithNegativeIdThrowsDaoException() throws Exception {
-        Long id = ThreadLocalRandom.current().nextLong(Long.MIN_VALUE, -1);
-        Throwable exception = assertThrows(DaoException.class, () -> {
-            customerDao.removeById(id);
-        });
-        assertEquals("Customer id must be positive, but entered: " + id, exception.getMessage());
-    }
-
-    @Test
-    void removeByIdWhenBadConnectionThrowsDaoException() throws Exception {
+    void deleteWhenBadConnectionThrowsDaoException() throws Exception {
         when(connectionMock.createStatement()).thenThrow(SQLException.class);
-        assertThrows(DaoException.class, () -> customerDao.removeById(1L));
+        assertThrows(DaoException.class, () -> customerDao.delete(1L));
     }
 
-    private void putRealCustomerIntoResulSetMock() throws SQLException {
-        when(resultSetMock.getLong("id")).thenReturn(realCustomer.getId());
-        when(resultSetMock.getString("name")).thenReturn(realCustomer.getName());
-        when(resultSetMock.getString("surname")).thenReturn(realCustomer.getSurname());
-        Date date = Date.valueOf(realCustomer.getDateOfBirth());
+    private void putRealCustomerIntoResulsetMock() throws SQLException {
+        when(resultSetMock.getLong("id")).thenReturn(REAL_CUSTOMER.getId());
+        when(resultSetMock.getString("name")).thenReturn(REAL_CUSTOMER.getName());
+        when(resultSetMock.getString("surname")).thenReturn(REAL_CUSTOMER.getSurname());
+        Date date = Date.valueOf(REAL_CUSTOMER.getDateOfBirth());
         when(resultSetMock.getDate("date_of_birth")).thenReturn(date);
-        when(resultSetMock.getString("phone_number")).thenReturn(realCustomer.getPhoneNumber());
-        when(resultSetMock.getDouble("available_fund")).thenReturn(realCustomer.getAvailableFunds());
+        when(resultSetMock.getString("phone_number")).thenReturn(REAL_CUSTOMER.getPhoneNumber());
+        when(resultSetMock.getDouble("available_fund")).thenReturn(REAL_CUSTOMER.getAvailableFunds());
     }
-
 }

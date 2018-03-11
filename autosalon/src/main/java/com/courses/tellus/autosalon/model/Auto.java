@@ -1,6 +1,7 @@
 package com.courses.tellus.autosalon.model;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Auto {
 
@@ -68,33 +69,16 @@ public class Auto {
             return false;
         }
         Auto auto = (Auto) o;
-        if (id != auto.id) {
-            return false;
-        }
-        if (!getBrand().equals(auto.getBrand())) {
-            return false;
-        }
-        if (!getModel().equals(auto.getModel())) {
-            return false;
-        }
-        if (!getManufactYear().equals(auto.getManufactYear())) {
-            return false;
-        }
-        if (!getProducerCountry().equals(auto.getProducerCountry())) {
-            return false;
-        }
-        return getPrice().equals(auto.getPrice());
+        return Objects.equals(getId(), auto.getId())
+                && Objects.equals(getBrand(), auto.getBrand())
+                && Objects.equals(getModel(), auto.getModel())
+                && Objects.equals(getManufactYear(), auto.getManufactYear())
+                && Objects.equals(getProducerCountry(), auto.getProducerCountry())
+                && Objects.equals(getPrice(), auto.getPrice());
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + getBrand().hashCode();
-        result = prime * result + getModel().hashCode();
-        result = prime * result + getManufactYear().hashCode();
-        result = prime * result + getProducerCountry().hashCode();
-        result = prime * result + getPrice().hashCode();
-        return result;
+        return Objects.hash(getId(), getBrand(), getModel(), getManufactYear(), getProducerCountry(), getPrice());
     }
 }
