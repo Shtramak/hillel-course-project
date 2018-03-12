@@ -5,6 +5,9 @@ CREATE TABLE airport(
   phone_number VARCHAR (45) NOT NULL,
   terminal VARCHAR (45) NOT NULL
 );
+INSERT INTO airport VALUE (3, 'John', '2018, 2, 20,' '3','(012)345-67-89')
+INSERT INTO airport VALUE (2, 'John', '2018, 2, 20,' '2','(012)345-67-89')
+
 CREATE TABLE airport_tickets(
   id INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY NOT NULL,
   name VARCHAR (45) NOT NULL,

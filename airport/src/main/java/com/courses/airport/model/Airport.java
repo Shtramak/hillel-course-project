@@ -10,6 +10,9 @@ public class Airport {
     private String numberTerminal;
     private String telephone;
 
+    public Airport() {
+    }
+
     public Airport(final long airId, final String airName, final LocalDate date, final String termNum, final String tel) {
         this.airportId = airId;
         this.nameAirport = airName;

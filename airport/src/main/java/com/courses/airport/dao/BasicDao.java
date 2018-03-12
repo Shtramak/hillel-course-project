@@ -15,14 +15,14 @@ public interface BasicDao<E> {
      * @return Object or null (if not exist in database or exception)
      */
 
-    Optional<E> findById(Long entityId) throws DaoException;
+    Optional<E> findById(final Long entityId) throws DaoException;
 
     /**
      * Method for returning all object from database.
      *
      * @return list with all Object or null if exception
      */
-    List<E> findAll(final Long airportId) throws DaoException;
+    List<E> findAll() throws DaoException;
 
     /**
      * Method for updating object in database.
@@ -30,7 +30,7 @@ public interface BasicDao<E> {
      * @param entity updating object
      * @return true if operation successful or false if exception
      */
-    int update(E entity) throws DaoException;
+    Integer update(E entity) throws DaoException;
 
     /**
      * Method for deleting object from database.
@@ -38,7 +38,7 @@ public interface BasicDao<E> {
      * @param entityId unique id for object query
      * @return true if operation successful or false if exception
      */
-    int removeById(Long entityId) throws DaoException;
+    Integer removeById(Long entityId) throws DaoException;
 
     /**
      * Method for creating new object into database.
@@ -46,7 +46,7 @@ public interface BasicDao<E> {
      * @param entity object for inserting
      * @return true if operation successful or false if exception
      */
-    int insert(E entity)throws DaoException;
+    Integer insert(E entity)throws DaoException;
 
     /**
      * Method for creating new own class Object.

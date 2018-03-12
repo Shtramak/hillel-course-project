@@ -1,116 +1,169 @@
 package com.courses.airport.dao;
 
-import com.courses.airport.model.Airport;
+import com.courses.airport.connection.ConnectionFactory;
 import com.courses.airport.exception.DaoException;
+import com.courses.airport.model.Airport;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+
 public class AirDaoMockTest {
-    private Connection connection;
+    private static final Airport AIRPORT_TRUE
+            = new Airport(1L, "Borispol",  LocalDate.of(2018, 2, 20),"D-3", "(012)345-67-89");
+    @Mock
+    private ConnectionFactory connectionFactoryMock;
+    @Mock
+    private Connection connectionMock;
+    @Mock
+    private PreparedStatement preparedStatementMock;
+    @Mock
+    private Statement statementMock;
+    @Mock
+    private ResultSet resultSetMock;
+    @Mock
+    private Airport airportMock;
     private AirportDao airportDao;
-    private Airport airport;
-    private ResultSet mockResultSet;
-    private PreparedStatement mockPreState;
+
+
 
     @BeforeAll
-    public static void disableWarning() {
+    static void disableWarning() {
         System.err.close();
-        System.setErr(System.out);
     }
 
     @BeforeEach
-    public void setUp() {
-        connection = mock(Connection.class);
-        airportDao = new AirportDao(connection);
+    void initMocks() throws Exception {
+        MockitoAnnotations.initMocks(this);
+        when(connectionFactoryMock.getConnection()).thenReturn(connectionMock);
+        airportDao = new AirportDao(connectionFactoryMock);
     }
 
     @Test
-    public void insertWhenExecuteUpdatePositiveDataReturnsTrue() throws DaoException, SQLException {
-        Airport airport = new Airport(1L, "Borispol",  LocalDate.of(2018, 2, 20),"D-3", "(012)345-67-89");
-        PreparedStatement statement = mock(PreparedStatement.class);
-        when(connection.prepareStatement(anyString())).thenReturn(statement);
-        when(statement.executeUpdate()).thenReturn(1);
-        assertEquals(1L, airportDao.insert(airport));
-    }
-    @Test
-    public void insertWhenExecuteUpdateNegativeDataReturnsTrue() throws DaoException, SQLException {
-        Airport airport = new Airport(1L, "Borispol",  LocalDate.of(2018, 2, 20),"D-3", "(012)345-67-89");
-        PreparedStatement statement = mock(PreparedStatement.class);
-        when(connection.prepareStatement(anyString())).thenReturn(statement);
-        when(statement.executeUpdate()).thenReturn(-1);
-        assertEquals(-1L, airportDao.insert(airport));
+    void newCustomerWhenConnectionFailedThrowsDaoException() throws Exception {
+        when(connectionFactoryMock.getConnection()).thenThrow(SQLException.class);
+        assertThrows(DaoException.class, () -> new AirportDao(connectionFactoryMock));
     }
 
     @Test
-    public void insertWhenBadConnectionThrowsDAOException() throws DaoException, SQLException {
-        Airport airport = mock(Airport.class);
-        when(connection.prepareStatement(anyString())).thenThrow(SQLException.class);
-        assertThrows(DaoException.class, () -> airportDao.insert(airport));
+    void insertWhenExecuteUpdatePositiveDataReturnsTrue() throws Exception {
+        when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
+        when(preparedStatementMock.executeUpdate()).thenReturn(1);
+        assertEquals(Integer.valueOf(1), airportDao.insert(AIRPORT_TRUE));
     }
 
     @Test
-    public void findByIdWithExistingIdReturnsAirport() throws DaoException, SQLException {
-        Statement statement = mock(Statement.class);
-        ResultSet resultSet = mock(ResultSet.class);
-        when(connection.createStatement()).thenReturn(statement);
-        when(statement.executeQuery(anyString())).thenReturn(resultSet);
-        when(resultSet.next()).thenReturn(true);
-        Airport airport = new Airport(1, "Borispol",  LocalDate.of(2018, 2, 20),"D-3", "(012)345-67-89");
-        when(resultSet.getLong("id")).thenReturn(airport.getAirportId());
-        when(resultSet.getString("name")).thenReturn(airport.getNameAirport());
-        Date date = Date.valueOf(airport.getDateOfBirth());
-        when(resultSet.getDate("date_of_birth")).thenReturn(date);
-        when(resultSet.getString("terminal")).thenReturn(airport.getNumberTerminal());
-        when(resultSet.getString("phone_number")).thenReturn(airport.getTelephone());
-        assertEquals(airport, airportDao.findById(airport.getAirportId()));
+    void insertWhenBadConnectionThrowsDAOException() throws Exception {
+        when(connectionMock.prepareStatement(anyString())).thenThrow(SQLException.class);
+        assertThrows(DaoException.class, () -> airportDao.insert(airportMock));
     }
 
     @Test
-    public void findByIdWhenEmptyResultSetReturnsNull() throws DaoException, SQLException {
-        mockPreState.setLong(1, 1);
-        when(mockPreState.executeQuery()).thenReturn(mockResultSet);
-        when(mockResultSet.next()).thenReturn(false);
-        when(mockResultSet.getLong("airport_id")).thenReturn(airport.getAirportId());
-        when(mockResultSet.getString("name_of_airport")).thenReturn(airport.getNameAirport());
-        when(mockResultSet.getString("telephone")).thenReturn(airport.getTelephone());
-        when(mockResultSet.getString("terminal")).thenReturn(airport.getNumberTerminal());
-        assertNull(airportDao.findById(airport.getAirportId()));
-    }
-
-     @Test
-    public void findByIdWhenBadConnectionThrowsDaoException() throws DaoException, SQLException {
-        when(connection.createStatement()).thenThrow(SQLException.class);
-        assertThrows(DaoException.class, () -> airportDao.findById(1L));
+    void getByIdWithExistingIdReturnsCustomer() throws Exception {
+        when(connectionMock.createStatement()).thenReturn(statementMock);
+        when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
+        when(resultSetMock.next()).thenReturn(true);
+        putRealCustomerIntoResulsetMock();
+        Airport result = airportDao.findById(AIRPORT_TRUE.getAirportId()).orElse(null);
+        assertEquals(AIRPORT_TRUE, result);
     }
 
     @Test
-    public void findAllWhenBadConnectionThrowsDaoException() throws DaoException, SQLException {
-        when(connection.createStatement()).thenThrow(SQLException.class);
-        assertThrows(DaoException.class, () -> airportDao.findAll(1L));
+    void getByIdWhenEmptyResultSetReturnsOptionalEmpty() throws Exception {
+        when(connectionMock.createStatement()).thenReturn(statementMock);
+        when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
+        when(resultSetMock.next()).thenReturn(false);
+        Long id = ThreadLocalRandom.current().nextLong();
+        assertEquals(Optional.empty(), airportDao.findById(id));
     }
 
     @Test
-    public void updateWhenBadConnectionThrowsDaoException() throws DaoException, SQLException {
-        Airport airport = mock(Airport.class);
-        when(connection.prepareStatement(anyString())).thenThrow(SQLException.class);
-        assertThrows(DaoException.class, () -> airportDao.update(airport));
+    void getByIdWhenBadConnectionThrowsDaoException() throws Exception {
+        when(connectionMock.createStatement()).thenThrow(SQLException.class);
+        Long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
+        assertThrows(DaoException.class, () -> airportDao.findById(id));
     }
 
-      @Test
-    public void removeByIdWhenBadConnectionThrowsDaoException() throws DaoException, SQLException {
-        when(connection.createStatement()).thenThrow(SQLException.class);
+    @Test
+    void getAllWhenEntryExistsReturnsListWithCustomer() throws Exception {
+        when(connectionMock.createStatement()).thenReturn(statementMock);
+        when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
+        when(resultSetMock.next()).thenReturn(true).thenReturn(false);
+        putRealCustomerIntoResulsetMock();
+        List<Airport> expected = Collections.singletonList(AIRPORT_TRUE);
+        assertEquals(expected, airportDao.findAll());
+    }
+
+    @Test
+    void getAllWhenBadConnectionThrowsDaoException() throws Exception {
+        when(connectionMock.createStatement()).thenThrow(SQLException.class);
+        assertThrows(DaoException.class, () -> airportDao.findAll());
+    }
+
+    @Test
+    void updateWhenEntryExistsReturns1() throws Exception {
+        when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
+        when(preparedStatementMock.executeUpdate()).thenReturn(1);
+        when(airportMock.getDateOfBirth()).thenReturn(LocalDate.now());
+        assertEquals(Integer.valueOf(1), airportDao.update(airportMock));
+    }
+
+    @Test
+    void updateWhenEntryNotExistsReturns0() throws Exception {
+        when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
+        when(preparedStatementMock.executeUpdate()).thenReturn(0);
+        when(airportMock.getDateOfBirth()).thenReturn(LocalDate.now());
+        assertEquals(Integer.valueOf(0), airportDao.update(airportMock));
+    }
+
+    @Test
+    void updateWhenBadConnectionThrowsDaoException() throws Exception {
+        when(connectionMock.prepareStatement(anyString())).thenThrow(SQLException.class);
+        assertThrows(DaoException.class, () -> airportDao.update(airportMock));
+    }
+
+    @Test
+    void deleteWhenWhenEntryExistsReturns1() throws Exception {
+        when(connectionMock.createStatement()).thenReturn(statementMock);
+        when(statementMock.executeUpdate(anyString())).thenReturn(1);
+        Long id = ThreadLocalRandom.current().nextLong();
+        assertEquals(Integer.valueOf(1), airportDao.removeById(id));
+    }
+
+    @Test
+    void deleteWhenWhenEntryNotExistsReturns0() throws Exception {
+        when(connectionMock.createStatement()).thenReturn(statementMock);
+        when(statementMock.executeUpdate(anyString())).thenReturn(0);
+        Long id = ThreadLocalRandom.current().nextLong();
+        assertEquals(Integer.valueOf(0), airportDao.removeById(id));
+    }
+
+    @Test
+    void deleteWhenBadConnectionThrowsDaoException() throws Exception {
+        when(connectionMock.createStatement()).thenThrow(SQLException.class);
         assertThrows(DaoException.class, () -> airportDao.removeById(1L));
+    }
+
+    private void putRealCustomerIntoResulsetMock() throws SQLException {
+        when(resultSetMock.getLong("id")).thenReturn(AIRPORT_TRUE.getAirportId());
+        when(resultSetMock.getString("name")).thenReturn(AIRPORT_TRUE.getNameAirport());
+        Date date = Date.valueOf(AIRPORT_TRUE.getDateOfBirth());
+        when(resultSetMock.getDate("date_of_birth")).thenReturn(date);
+        when(resultSetMock.getString("phone_number")).thenReturn(AIRPORT_TRUE.getTelephone());
+        when(resultSetMock.getString("terminal")).thenReturn(AIRPORT_TRUE.getNumberTerminal());
     }
 }
