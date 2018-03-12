@@ -2,15 +2,13 @@ package com.courses.tellus.autosalon.dao;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import java.util.Optional;
 
 import com.courses.tellus.autosalon.config.ConnectionFactory;
@@ -108,24 +106,24 @@ public class AutosalonDaoMockTest {
     }
 
     @Test
-    public void testAllAutosalon() throws SQLException {
-        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
-        when(mockStatement.executeQuery()).thenReturn(mockResultset);
-        List<Autosalon> spy = spy(autosalonDao.getAll());
-        while (mockResultset.next()) {
-            Autosalon auto = new Autosalon(mockResultset.getLong("id"), mockResultset.getString("name"),
-                    mockResultset.getString("address"), mockResultset.getString("telophone"));
-            spy.add(auto);
-        }
-        Assertions.assertEquals(autosalonDao.getAll(), spy);
-    }
-
-    @Test
     public void testAllAutosalonIfResultsetNull() throws SQLException {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeQuery()).thenReturn(mockResultset);
         when(mockResultset.next()).thenReturn(false);
         Assertions.assertTrue(autosalonDao.getAll().isEmpty());
+    }
+
+    @Test
+    public void testAllAutosalonIfResultsetHasNext() throws SQLException {
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
+        when(mockStatement.executeQuery()).thenReturn(mockResultset);
+        autosalon = new Autosalon(1L, "Geely", "China", "0000");
+        when(mockResultset.getLong("id")).thenReturn(autosalon.getId());
+        when(mockResultset.getString("name")).thenReturn(autosalon.getName());
+        when(mockResultset.getString("address")).thenReturn(autosalon.getAddress());
+        when(mockResultset.getString("telephone")).thenReturn(autosalon.getTelophone());
+        when(mockResultset.next()).thenReturn(true).thenReturn(false);
+        Assertions.assertEquals(Collections.singletonList(autosalon).toString(), autosalonDao.getAll().toString());
     }
 
     @Test
@@ -159,12 +157,12 @@ public class AutosalonDaoMockTest {
     @Test
     public void testGetPreparedStatement() throws SQLException {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
-        Assertions.assertNotNull(autosalonDao.getPreparedStatement(mockStatement,new Autosalon()));
+        Assertions.assertNotNull(autosalonDao.getPreparedStatement(mockStatement, new Autosalon()));
     }
 
     @Test
     public void testGetPreparedStatementIfNull() throws SQLException {
         when(mockStatement.isClosed()).thenReturn(false);
-        Assertions.assertFalse(autosalonDao.getPreparedStatement(mockStatement,new Autosalon()).execute());
+        Assertions.assertFalse(autosalonDao.getPreparedStatement(mockStatement, new Autosalon()).execute());
     }
 }

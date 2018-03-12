@@ -2,7 +2,10 @@ package com.courses.tellus.autosalon.dao;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Collections;
 import java.util.Optional;
 
 import com.courses.tellus.autosalon.config.ConnectionFactory;
@@ -31,11 +34,17 @@ public class AutosalonDaoIntegrationTest {
         RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/test.sql"));
     }
 
-
     @Test
     public void testInsertAutosalon() throws SQLException {
         Autosalon autosalon = new Autosalon(1L, "Toyota", "Japan", "444000");
         MatcherAssert.assertThat(autosalonDao.insert(autosalon), CoreMatchers.is(1));
+    }
+
+    @Test
+    public void testInsertWhenTableInfoSalonNotExistsReturn0() throws SQLException {
+        Autosalon autosalon = new Autosalon(1L, "Toyota", "Japan", "444000");
+        dropTableInfoSalon();
+        MatcherAssert.assertThat(autosalonDao.insert(autosalon), CoreMatchers.is(0));
     }
 
     @Test
@@ -50,8 +59,20 @@ public class AutosalonDaoIntegrationTest {
     }
 
     @Test
+    public void testGetAllWhenTableInfoSalonNotExistsReturnEmptyList() throws SQLException {
+        dropTableInfoSalon();
+        MatcherAssert.assertThat(autosalonDao.getAll(), CoreMatchers.is(Collections.emptyList()));
+    }
+
+    @Test
     public void testDeleteAutoSalonId() throws SQLException {
         MatcherAssert.assertThat(autosalonDao.delete(1L), CoreMatchers.is(1));
+    }
+
+    @Test
+    public void testDeleteWhenTableInfoSalonNotExistsReturn0() throws SQLException {
+        dropTableInfoSalon();
+        MatcherAssert.assertThat(autosalonDao.delete(1L), CoreMatchers.is(0));
     }
 
     @Test
@@ -63,5 +84,12 @@ public class AutosalonDaoIntegrationTest {
     public void testUpdateAutoWhenResultTrue() {
         Autosalon autosalon = new Autosalon(5L, "Toyota", "Japan", "444000");
         MatcherAssert.assertThat(autosalonDao.update(autosalon), CoreMatchers.is(0));
+    }
+
+    private void dropTableInfoSalon() throws SQLException {
+        Connection connection = connectionFactory.getConnection();
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("DROP TABLE infoSalon");
+        }
     }
 }
