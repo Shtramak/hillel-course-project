@@ -13,7 +13,7 @@ public class ConnectionFactory {
     private static JdbcDataSource dataSource;
     private static Properties dbProperties;
 
-    private ConnectionFactory() throws IOException {
+    ConnectionFactory() throws IOException {
         dbProperties = new Properties();
         dbProperties.load(ClassLoader.getSystemResourceAsStream("config.properties"));
     }
