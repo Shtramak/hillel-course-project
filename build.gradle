@@ -30,14 +30,21 @@ task wrapper(type: Wrapper) {
 
 project("autosalon") {
     dependencies {
-        def springVersion = '5.0.4.RELEASE'
         compile group: 'log4j', name: 'log4j', version: '1.2.17'
         compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
         testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.6.5'
-        compile group: 'org.springframework', name: 'spring-jdbc', version: "$springVersion"
-        compile group: 'org.springframework', name: 'spring-context', version: "$springVersion"
-        testCompile group: 'org.springframework', name: 'spring-test', version: "$springVersion"
+        compile group: 'org.springframework', name: 'spring-core', version: '5.0.4.RELEASE'
+        compile group: 'org.springframework', name: 'spring-jdbc', version: '5.0.4.RELEASE'
+        compile group: 'org.springframework', name: 'spring-context', version: '5.0.4.RELEASE'
+        testCompile group: 'org.springframework', name: 'spring-test', version: '5.0.4.RELEASE'
+        compile group: 'org.springframework', name: 'spring-beans', version: '5.0.4.RELEASE'
 
+    }
+}
+
+project("autosalon-test") {
+    dependencies {
+        compile project(':autosalon')
     }
 }
 
@@ -46,6 +53,7 @@ project("education") {
         compile group: 'log4j', name: 'log4j', version: '1.2.17'
         compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
         testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.6.5'
+
     }
 }
 
@@ -71,7 +79,7 @@ dependencies {
 
 ext {
     //spring libs
-    springVersion = '5.0.2.RELEASE'
+    springVersion = '5.0.4.RELEASE'
     bootVersion = '2.0.0.M3'
     springDataVersion = '2.0.2.RELEASE'
     springAmqpVersion = '2.0.0.M4'
