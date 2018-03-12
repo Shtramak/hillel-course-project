@@ -40,6 +40,7 @@ project("autosalon-test") {
     dependencies {
         compile project(':autosalon')
     }
+
 }
 
 project("education") {
@@ -55,6 +56,12 @@ project("education-test") {
         compile project(':education')
     }
 }
+
+dependencies {
+
+    compile project(':autosalon')
+}
+
 
 repositories {
     mavenCentral()
