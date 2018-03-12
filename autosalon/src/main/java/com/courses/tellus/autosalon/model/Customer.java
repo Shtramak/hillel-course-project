@@ -2,6 +2,7 @@ package com.courses.tellus.autosalon.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Customer implements Serializable {
     private long id;
@@ -80,27 +81,15 @@ public class Customer implements Serializable {
             return false;
         }
         Customer customer = (Customer) o;
-        if (id != customer.id) {
-            return false;
-        }
-        if (!name.equals(customer.name)) {
-            return false;
-        }
-        if (!surname.equals(customer.surname)) {
-            return false;
-        }
-        return dateOfBirth.equals(customer.dateOfBirth);
+        return id == customer.id
+                && Objects.equals(name, customer.name)
+                && Objects.equals(surname, customer.surname)
+                && Objects.equals(dateOfBirth, customer.dateOfBirth);
     }
 
     @Override
     public int hashCode() {
-        final int bits = 32;
-        int result = (int) (id ^ (id >>> bits));
-        final int primeNumber = 31;
-        result = primeNumber * result + name.hashCode();
-        result = primeNumber * result + surname.hashCode();
-        result = primeNumber * result + dateOfBirth.hashCode();
-        return result;
+        return Objects.hash(id, name, surname, dateOfBirth);
     }
 
     @Override
