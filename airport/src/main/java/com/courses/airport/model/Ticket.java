@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class Ticket {
 
-    private long ticketId;
+    private Long ticketId;
     private String name;
     private String surname;
     private LocalDate dateFlight;
