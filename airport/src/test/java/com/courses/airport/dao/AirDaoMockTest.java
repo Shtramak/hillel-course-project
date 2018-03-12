@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,6 +20,9 @@ import static org.mockito.Mockito.when;
 public class AirDaoMockTest {
     private Connection connection;
     private AirportDao airportDao;
+    private Airport airport;
+    private ResultSet mockResultSet;
+    private PreparedStatement mockPreState;
 
     @BeforeAll
     public static void disableWarning() {
@@ -34,19 +38,19 @@ public class AirDaoMockTest {
 
     @Test
     public void insertWhenExecuteUpdatePositiveDataReturnsTrue() throws DaoException, SQLException {
-        Airport airport = new Airport(1, "Borispol",  LocalDate.of(2018, 2, 20),"D-3", "(012)345-67-89");
+        Airport airport = new Airport(1L, "Borispol",  LocalDate.of(2018, 2, 20),"D-3", "(012)345-67-89");
         PreparedStatement statement = mock(PreparedStatement.class);
         when(connection.prepareStatement(anyString())).thenReturn(statement);
         when(statement.executeUpdate()).thenReturn(1);
-        assertTrue(airportDao.insert(airport));
+        assertEquals(1L, airportDao.insert(airport));
     }
     @Test
     public void insertWhenExecuteUpdateNegativeDataReturnsTrue() throws DaoException, SQLException {
-        Airport airport = new Airport(1, "Borispol",  LocalDate.of(2018, 2, 20),"D-3", "(012)345-67-89");
+        Airport airport = new Airport(1L, "Borispol",  LocalDate.of(2018, 2, 20),"D-3", "(012)345-67-89");
         PreparedStatement statement = mock(PreparedStatement.class);
         when(connection.prepareStatement(anyString())).thenReturn(statement);
         when(statement.executeUpdate()).thenReturn(-1);
-        assertFalse(airportDao.insert(airport));
+        assertEquals(-1L, airportDao.insert(airport));
     }
 
     @Test
@@ -75,22 +79,17 @@ public class AirDaoMockTest {
 
     @Test
     public void findByIdWhenEmptyResultSetReturnsNull() throws DaoException, SQLException {
-        Statement statement = mock(Statement.class);
-        ResultSet resultSet = mock(ResultSet.class);
-        when(connection.createStatement()).thenReturn(statement);
-        when(statement.executeQuery(anyString())).thenReturn(resultSet);
-        when(resultSet.next()).thenReturn(false);
-        assertNull(airportDao.findById(1L));
+        mockPreState.setLong(1, 1);
+        when(mockPreState.executeQuery()).thenReturn(mockResultSet);
+        when(mockResultSet.next()).thenReturn(false);
+        when(mockResultSet.getLong("airport_id")).thenReturn(airport.getAirportId());
+        when(mockResultSet.getString("name_of_airport")).thenReturn(airport.getNameAirport());
+        when(mockResultSet.getString("telephone")).thenReturn(airport.getTelephone());
+        when(mockResultSet.getString("terminal")).thenReturn(airport.getNumberTerminal());
+        assertNull(airportDao.findById(airport.getAirportId()));
     }
 
-    @Test
-    public void findByIdWithNegativeIdThrowsDaoException() throws DaoException {
-        Throwable exception = assertThrows(DaoException.class, () -> {
-            airportDao.findById(-1);
-        });
-        assertEquals("Airport id must be positive, but entered: -1", exception.getMessage());    }
-
-    @Test
+     @Test
     public void findByIdWhenBadConnectionThrowsDaoException() throws DaoException, SQLException {
         when(connection.createStatement()).thenThrow(SQLException.class);
         assertThrows(DaoException.class, () -> airportDao.findById(1L));
@@ -99,7 +98,7 @@ public class AirDaoMockTest {
     @Test
     public void findAllWhenBadConnectionThrowsDaoException() throws DaoException, SQLException {
         when(connection.createStatement()).thenThrow(SQLException.class);
-        assertThrows(DaoException.class, () -> airportDao.findAll());
+        assertThrows(DaoException.class, () -> airportDao.findAll(1L));
     }
 
     @Test
@@ -109,15 +108,7 @@ public class AirDaoMockTest {
         assertThrows(DaoException.class, () -> airportDao.update(airport));
     }
 
-    @Test
-    public void removeByIdWithNegativeIdThrowsDaoException() throws DaoException {
-        Throwable exception = assertThrows(DaoException.class, () -> {
-            airportDao.findById(-1L);
-        });
-        assertEquals("Airport id must be positive, but entered: -1", exception.getMessage());
-    }
-
-    @Test
+      @Test
     public void removeByIdWhenBadConnectionThrowsDaoException() throws DaoException, SQLException {
         when(connection.createStatement()).thenThrow(SQLException.class);
         assertThrows(DaoException.class, () -> airportDao.removeById(1L));

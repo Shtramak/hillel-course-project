@@ -39,7 +39,7 @@ public class AirportDaoTest {
     @Test
     public void insertWithValidDataReturnsTrue() throws DaoException {
         Airport airport = new Airport(1,"Borispol",LocalDate.of(2018,3,12),"D-3","0800-543-7645");
-        assertTrue(airportDao.insert(airport));
+        assertEquals(1, airportDao.insert(airport));
     }
 
     @Test
@@ -61,21 +61,20 @@ public class AirportDaoTest {
     @Test
     public void findByIdWithExistingIdReturnsAirport() throws DaoException {
         insertAirportToDb(3);
-        Airport expected = new Airport(2,"name2",LocalDate.of(2018,2,20),"terminal2","phoneNumber2");
-        Airport actual = airportDao.findById(2);
-        assertEquals(expected, actual);
+        Airport expected = new Airport(1L,"name2",LocalDate.of(2018,2,20),"terminal2","phoneNumber2");
+        assertEquals(expected, 1L);
     }
 
     @Test
     public void findByIdWithNotExistingIdReturnsNull() throws DaoException {
         insertAirportToDb(1);
-        assertEquals(null, airportDao.findById(2));
+        assertEquals(null, airportDao.findById(2L));
     }
 
     @Test
     public void findByIdWithNegativeIdThrowsDaoException() throws DaoException {
         Throwable exception = assertThrows(DaoException.class, () -> {
-            airportDao.findById(-1);
+            airportDao.findById(-1L);
         });
         assertEquals("Airport id must be positive, but entered: -1", exception.getMessage());
     }
@@ -86,27 +85,27 @@ public class AirportDaoTest {
         Airport airport = new Airport(1,"name1",LocalDate.of(2018,2,20),"terminal1","phoneNumber1");
         Airport airport2 = new Airport(2,"name2",LocalDate.of(2018,2,20),"terminal2","phoneNumber2");
         List<Airport> expected = Arrays.asList(airport,airport2);
-        List<Airport> actual = airportDao.findAll();
+        List<Airport> actual = airportDao.findAll(1L);
         assertEquals(expected, actual);
     }
 
     @Test
     public void findAllWhenTableHasNoDataReturnsEmptyList() throws DaoException {
-        assertEquals(Collections.emptyList(), airportDao.findAll());
+        assertEquals(Collections.emptyList(), airportDao.findAll(1L));
     }
 
     @Test
     public void updateWhenEntryExistsReturnsTrue() throws DaoException {
         insertAirportToDb(3);
         Airport updatedAirport = new Airport(2,"name",LocalDate.of(2018,3,12),"terminal","telephone");
-        assertTrue(airportDao.update(updatedAirport));
+        assertEquals(3, airportDao.update(updatedAirport));
     }
 
     @Test
     public void updateWhenEntryNotExistsReturnsFalse() throws DaoException {
         insertAirportToDb(2);
         Airport updatedAirport = new Airport(3,"name",LocalDate.of(2018,3,12),"terminal","telephone");
-        assertFalse(airportDao.update(updatedAirport));
+        assertEquals(2,airportDao.update(updatedAirport));
     }
 
     @Test
@@ -120,19 +119,19 @@ public class AirportDaoTest {
     @Test
     public void removeByIdWithExistingIdReturnsTrue() throws DaoException {
         insertAirportToDb(3);
-        assertTrue(airportDao.removeById(2));
+        assertEquals(1L, airportDao.removeById(1L));
     }
 
     @Test
     public void removeByIdWithNotExistingReturnsFalse() throws DaoException {
         insertAirportToDb(1);
-        assertFalse(airportDao.removeById(2));
+        assertEquals(1,airportDao.removeById(1L));
     }
 
     @Test
     public void removeByIdWithNegativeIdThrowsDaoException() throws DaoException {
         Throwable exception = assertThrows(DaoException.class, () -> {
-            airportDao.removeById(-1);
+            airportDao.removeById(-1L);
         });
         assertEquals("Airport id must be positive, but entered: -1", exception.getMessage());
     }
