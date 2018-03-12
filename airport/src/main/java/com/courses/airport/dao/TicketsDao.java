@@ -16,7 +16,7 @@ import com.courses.airport.exception.DaoException;
 import com.courses.airport.model.Ticket;
 import org.apache.log4j.Logger;
 
-public class TicketsDao implements IAirportDao<Ticket>{
+public class TicketsDao implements IAirportDao<Ticket> {
     private static final int INDEX_NAME = 1;
     private static final int INDEX_SURNAME = 2;
     private static final int INDEX_FLIGHT_DATE = 3;
@@ -58,7 +58,7 @@ public class TicketsDao implements IAirportDao<Ticket>{
     }
 
     /**
-     * Returns <i>ticket</i> from database entries by specified id.
+     * Returns <i> ticket</i> from database entries by specified id.
      *
      * @param ticketId ticket id
      * @return ticket from database
@@ -80,7 +80,7 @@ public class TicketsDao implements IAirportDao<Ticket>{
     }
 
     /**
-     * Returns all <i>tickets</i> from database entries.
+     * Returns all <i> tickets</i> from database entries.
      *
      * @return List of customers
      * @throws DaoException if find operation fails with SQLException
