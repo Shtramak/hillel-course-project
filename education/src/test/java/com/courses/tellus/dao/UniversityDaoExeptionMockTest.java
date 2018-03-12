@@ -1,23 +1,20 @@
 package com.courses.tellus.dao;
 
-import com.courses.tellus.dbconnection.ConnectionFactory;
-import com.courses.tellus.entity.University;
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import com.courses.tellus.dbconnection.ConnectionFactory;
+import com.courses.tellus.entity.University;
 
 public class UniversityDaoExeptionMockTest {
     private static ConnectionFactory connectionFactory;
@@ -41,7 +38,7 @@ public class UniversityDaoExeptionMockTest {
 
     @Test
     void testGetByIdWhenReturnNull() throws Exception {
-        Assertions.assertFalse((universityDao.getById(15L)).isPresent());
+        assertFalse((universityDao.getById(15L)).isPresent());
     }
 
     @Test

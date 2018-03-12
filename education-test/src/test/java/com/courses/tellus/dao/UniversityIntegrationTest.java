@@ -1,17 +1,19 @@
 package com.courses.tellus.dao;
 
-import com.courses.tellus.dbconnection.ConnectionFactory;
-import com.courses.tellus.entity.University;
-import org.h2.tools.RunScript;
-import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileReader;
 import java.util.List;
 import java.util.Optional;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
+import org.h2.tools.RunScript;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.courses.tellus.dbconnection.ConnectionFactory;
+import com.courses.tellus.entity.University;
 
 
 public class UniversityIntegrationTest {
@@ -37,7 +39,7 @@ public class UniversityIntegrationTest {
     @Test
     public void testGetAllUniversities() {
         Optional<List<University>> universities = universityDao.getAll();
-        Assertions.assertTrue(universities.isPresent());
+        assertTrue(universities.isPresent());
     }
 
     @Test
