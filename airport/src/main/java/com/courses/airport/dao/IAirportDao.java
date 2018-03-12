@@ -1,11 +1,11 @@
 package com.courses.airport.dao;
 
-import com.courses.airport.exception.DaoException;
-
 import java.util.List;
 import java.util.Optional;
 
-public interface IAirportDao <E> {
+import com.courses.airport.exception.DaoException;
+
+public interface IAirportDao<E> {
     /**
      * Method for retrieving all object from database.
      *
