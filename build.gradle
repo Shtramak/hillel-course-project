@@ -32,8 +32,22 @@ project("autosalon") {
 
 }
 
+project("education") {
+    dependencies {
+        compile group: 'log4j', name: 'log4j', version: '1.2.17'
+        compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+        testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.6.5'
+    }
+}
+
+project("education-test") {
+    dependencies {
+        compile project(':education')
+    }
+}
 
 dependencies {
+
     compile project(':autosalon')
 }
 
