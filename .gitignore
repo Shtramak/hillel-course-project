@@ -1,7 +1,8 @@
-.idea/*
-/build/*
-*.log
+.idea
 *.iml
-.gradle/*
-/buildSrc/.gradle
-/buildSrc/build
+.gradle
+*/build
+*/out
+out
+build
+*.log
