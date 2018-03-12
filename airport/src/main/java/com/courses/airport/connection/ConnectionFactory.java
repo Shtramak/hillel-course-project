@@ -7,12 +7,12 @@ import java.util.Properties;
 
 import org.h2.jdbcx.JdbcDataSource;
 
-public final class ConnectionFactory {
+public class ConnectionFactory {
     private static ConnectionFactory connFactory;
     private static JdbcDataSource dataSource;
     private static Properties dbProperties;
 
-    private ConnectionFactory() throws IOException {
+    ConnectionFactory() throws IOException {
         dbProperties = new Properties();
         dbProperties.load(ClassLoader.getSystemResourceAsStream("config.properties"));
     }
