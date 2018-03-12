@@ -1,3 +1,4 @@
+include 'education'
+include 'education-test'
 include 'autosalon'
-include 'airport'
-
+include 'autosalon-test'

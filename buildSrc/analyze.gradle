@@ -19,7 +19,6 @@ checkstyle {
 pmd {
     toolVersion = "6.1.0"
     consoleOutput = true
-    sourceSets = [sourceSets.main]
     ruleSetFiles = rootProject.files('buildSrc/pmd/pmd_checks.xml')
 }
 
@@ -64,7 +63,7 @@ jacocoTestReport {
     }
     afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ['**/model/**', '**/*Main*.*','**/roman/**', '**/essences/**'])
+            fileTree(dir: it, exclude: ['**/model/**', '**/entity/**', '**/*Main*.*','**/roman/**'])
         })
     }
 }
