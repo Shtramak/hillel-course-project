@@ -21,7 +21,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-;
 
 public class AirportDaoTest {
 
@@ -38,14 +37,14 @@ public class AirportDaoTest {
 
     @Test
     void insertWithValidDataReturnsTrue() throws Exception {
-        Airport AIRPORT = new Airport(3, "John", LocalDate.of(2018, 2, 20), "3","(012)345-67-89");
+        Airport AIRPORT = new Airport(5, "John", LocalDate.of(2018, 2, 20), "3","(012)345-67-89");
         Integer res = airportDao.insert(AIRPORT);
         assertEquals(Integer.valueOf(1), res);
     }
 
     @Test
     void insertWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTableCustomer();
+        dropTableAirport();
         assertThrows(DaoException.class, () -> {
             airportDao.insert(AIRPORT);
         });
@@ -53,7 +52,7 @@ public class AirportDaoTest {
 
     @Test
     void getByIdWithExistingIdReturnsCustomer() throws Exception {
-        Airport actual = airportDao.findById(1L).orElse(null);
+        Airport actual = airportDao.findById(3L).orElse(null);
         assertEquals(AIRPORT, actual);
     }
 
@@ -64,7 +63,7 @@ public class AirportDaoTest {
 
     @Test
     void getByIdWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTableCustomer();
+        dropTableAirport();
         long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
         assertThrows(DaoException.class, () -> {
             airportDao.findById(id);
@@ -73,8 +72,9 @@ public class AirportDaoTest {
 
     @Test
     void getAllWhenTableHasDataReturnsListOfCustomers() throws Exception {
-        Airport airport2 = new Airport(2, "John", LocalDate.of(1954, 2, 18), "2","(012)345-67-89");
-        List<Airport> expected = Arrays.asList(AIRPORT, airport2);
+        Airport airport1 = new Airport(2, "John", LocalDate.of(2018, 2, 20), "2","(012)345-67-89");
+        Airport airport2 = new Airport(3, "John", LocalDate.of(2018, 2, 20), "3","(012)345-67-89");
+        List<Airport> expected = Arrays.asList(airport1, airport2);
         List<Airport> actual = airportDao.findAll();
         assertEquals(expected, actual);
     }
@@ -90,7 +90,7 @@ public class AirportDaoTest {
 
     @Test
     void getAllWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTableCustomer();
+        dropTableAirport();
         assertThrows(DaoException.class, () -> {
             airportDao.findAll();
         });
@@ -104,13 +104,13 @@ public class AirportDaoTest {
 
     @Test
     void updateWhenEntryNotExistsReturnsFalse() throws Exception {
-        Airport updatedAirport = new Airport(3, "updateName", LocalDate.of(2018, 2, 20), "terminal3", "phone3");
+        Airport updatedAirport = new Airport(5, "updateName", LocalDate.of(2018, 2, 20), "terminal3", "phone3");
         assertEquals(Integer.valueOf(0), airportDao.update(updatedAirport));
     }
 
     @Test
     void updateWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTableCustomer();
+        dropTableAirport();
         assertThrows(DaoException.class, () -> {
             airportDao.update(new Airport());
         });
@@ -123,23 +123,22 @@ public class AirportDaoTest {
 
     @Test
     void deleteWithNotExistingReturns0() throws Exception {
-        assertEquals(Integer.valueOf(0), airportDao.removeById(3L));
+        assertEquals(Integer.valueOf(0), airportDao.removeById(5L));
     }
 
     @Test
     void deleteWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTableCustomer();
+        dropTableAirport();
         long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
         assertThrows(DaoException.class, () -> {
             airportDao.removeById(id);
         });
     }
 
-    private void dropTableCustomer() throws SQLException {
+    private void dropTableAirport() throws SQLException {
         Connection connection = connectionFactory.getConnection();
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DROP TABLE CUSTOMER");
+            statement.executeUpdate("DROP TABLE airport");
         }
     }
-
 }

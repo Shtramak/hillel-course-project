@@ -1,5 +1,5 @@
-include 'airport'
 include 'education'
 include 'education-test'
 include 'autosalon'
 include 'autosalon-test'
+include 'airport'
