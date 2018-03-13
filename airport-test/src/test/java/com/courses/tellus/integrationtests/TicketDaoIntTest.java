@@ -1,4 +1,4 @@
-package com.courses.airport.dao;
+package com.courses.tellus.integrationtests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.courses.airport.connection.ConnectionFactory;
+import com.courses.airport.dao.TicketsDao;
 import com.courses.airport.model.Ticket;
 import com.courses.airport.exception.DaoException;
 import org.h2.tools.RunScript;
