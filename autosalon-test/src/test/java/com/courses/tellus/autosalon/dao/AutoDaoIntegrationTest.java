@@ -3,7 +3,6 @@ package com.courses.tellus.autosalon.dao;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,43 +19,27 @@ import org.junit.jupiter.api.Test;
 public class AutoDaoIntegrationTest {
 
     private AutoDao autoDao;
-    private Auto auto;
-    private Auto autoWhenOneFieldNull;
+    private static final Auto AUTO = new Auto(6L, "BMW", "X6", 2017, "Germany", new BigDecimal(500000));
+    private static final Auto AUTO_WHEN_ONE_FIELD_NULL = new Auto(2L, "Toyota", null, 2015, "Japan", new BigDecimal(20000));
 
     @BeforeAll
-    public static void before() throws IOException, SQLException {
+    public static void before() throws Exception {
         RunScript.execute(ConnectionFactory.getInstance().getConnection(), new FileReader("src/test/resources/test.sql"));
     }
 
     @BeforeEach
     public void reInitAutodao() throws IOException {
         autoDao = new AutoDao(ConnectionFactory.getInstance());
-
-        auto = new Auto();
-        auto.setId(6L);
-        auto.setBrand("BMW");
-        auto.setModel("X5");
-        auto.setManufactYear(1027);
-        auto.setProducerCountry("Germany");
-        auto.setPrice(new BigDecimal(500000));
-
-        autoWhenOneFieldNull = new Auto();
-        autoWhenOneFieldNull.setId(2L);
-        autoWhenOneFieldNull.setBrand("Toyota");
-        autoWhenOneFieldNull.setModel(null);
-        autoWhenOneFieldNull.setManufactYear(2015);
-        autoWhenOneFieldNull.setProducerCountry("Japan");
-        autoWhenOneFieldNull.setPrice(new BigDecimal(200000));
     }
 
     @Test
     public void testAddAutoWhenResultTrue() {
-        MatcherAssert.assertThat(autoDao.insert(auto), CoreMatchers.is(1));
+        MatcherAssert.assertThat(autoDao.insert(AUTO), CoreMatchers.is(1));
     }
 
     @Test
     public void testAddAutoWhenResultFalse() {
-        MatcherAssert.assertThat(autoDao.insert(autoWhenOneFieldNull), CoreMatchers.is(0));
+        MatcherAssert.assertThat(autoDao.insert(AUTO_WHEN_ONE_FIELD_NULL), CoreMatchers.is(0));
     }
 
     @Test
@@ -67,12 +50,12 @@ public class AutoDaoIntegrationTest {
 
     @Test
     public void testUpdateAutoWhenResultTrue() {
-        MatcherAssert.assertThat(autoDao.update(auto), CoreMatchers.is(1));
+        MatcherAssert.assertThat(autoDao.update(AUTO), CoreMatchers.is(1));
     }
 
     @Test
     public void testUpdateAutoWhenResultFalse() {
-        MatcherAssert.assertThat(autoDao.update(autoWhenOneFieldNull), CoreMatchers.is(0));
+        MatcherAssert.assertThat(autoDao.update(AUTO_WHEN_ONE_FIELD_NULL), CoreMatchers.is(0));
     }
 
     @Test
@@ -89,7 +72,7 @@ public class AutoDaoIntegrationTest {
 
     @Test
     public void testGetAutoByIdWhenResultTrue() {
-        Assertions.assertEquals(Optional.of(auto), autoDao.getById(6l));
+        Assertions.assertEquals(Optional.of(AUTO), autoDao.getById(6l));
     }
 
     @Test

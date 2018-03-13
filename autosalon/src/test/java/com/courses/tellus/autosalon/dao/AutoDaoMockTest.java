@@ -23,11 +23,11 @@ import org.junit.jupiter.api.Test;
 public class AutoDaoMockTest {
 
     private static ConnectionFactory connectionFactory;
-    private Connection mockConnection;
     private PreparedStatement mockStatement;
     private ResultSet mockResultSet;
     private static AutoDao autoDao;
-    private Auto auto;
+
+    private static final Auto AUTO = new Auto(1L, "BMW", "X5", 2017, "Germany", new BigDecimal(50000));
 
     @BeforeAll
     public static void init() {
@@ -37,55 +37,43 @@ public class AutoDaoMockTest {
 
     @BeforeEach
     public void reInitAutodao() throws SQLException {
-        mockConnection = mock(Connection.class);
+        Connection mockConnection = mock(Connection.class);
         mockStatement = mock(PreparedStatement.class);
         mockResultSet = mock(ResultSet.class);
         when(connectionFactory.getConnection()).thenReturn(mockConnection);
-
-        auto = new Auto();
-        auto.setId(1L);
-        auto.setBrand("BMW");
-        auto.setModel("X5");
-        auto.setManufactYear(1027);
-        auto.setProducerCountry("Germany");
-        auto.setPrice(new BigDecimal(500000));
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
     }
 
     @Test
     public void testAddAutoWhenResultTrue() throws SQLException {
-        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeUpdate()).thenReturn(1);
-        int result = autoDao.insert(auto);
+        int result = autoDao.insert(AUTO);
         Assertions.assertTrue(result == 1);
     }
 
     @Test
     public void testAddAutoWhenResultFalse() throws SQLException {
-        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeUpdate()).thenThrow(new SQLException());
-        int result = autoDao.insert(auto);
+        int result = autoDao.insert(AUTO);
         Assertions.assertTrue(result == 0);
     }
 
     @Test
     public void testUpdateAutoWhenResultTrue() throws SQLException {
-        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeUpdate()).thenReturn(1);
-        int result = autoDao.update(auto);
+        int result = autoDao.update(AUTO);
         Assertions.assertTrue(result == 1);
     }
 
     @Test
     public void testUpdateAutoWhenResultFalse() throws SQLException {
-        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeUpdate()).thenThrow(new SQLException());
-        int result = autoDao.update(auto);
+        int result = autoDao.update(AUTO);
         Assertions.assertTrue(result == 0);
     }
 
     @Test
     public void testRemoveAutoWhenResultTrue() throws SQLException {
-        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeUpdate()).thenReturn(1);
         int rezult = autoDao.delete(2L);
         Assertions.assertTrue(rezult == 1);
@@ -93,7 +81,6 @@ public class AutoDaoMockTest {
 
     @Test
     public void testRemoveAutoWhenResultFalse() throws SQLException {
-        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeUpdate()).thenThrow(new SQLException());
         int result = autoDao.delete(2L);
         Assertions.assertTrue(result == 0);
@@ -101,37 +88,35 @@ public class AutoDaoMockTest {
 
     @Test
     public void testGetAutoByIdWhenResultTrue() throws SQLException {
-        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeQuery()).thenReturn(mockResultSet);
         when(mockResultSet.next()).thenReturn(true);
-        when(mockResultSet.getLong("ID")).thenReturn(auto.getId());
-        when(mockResultSet.getString("AUTO_BRAND")).thenReturn(auto.getBrand());
-        when(mockResultSet.getString("AUTO_MODEL")).thenReturn(auto.getModel());
-        when(mockResultSet.getInt("MANUFACT_YEAR")).thenReturn(auto.getManufactYear());
-        when(mockResultSet.getString("COUNTRY")).thenReturn(auto.getProducerCountry());
-        when(mockResultSet.getBigDecimal("PRICE")).thenReturn(auto.getPrice());
-        Assertions.assertEquals(Optional.of(auto), autoDao.getById(1L));
+        when(mockResultSet.getLong("ID")).thenReturn(AUTO.getId());
+        when(mockResultSet.getString("AUTO_BRAND")).thenReturn(AUTO.getBrand());
+        when(mockResultSet.getString("AUTO_MODEL")).thenReturn(AUTO.getModel());
+        when(mockResultSet.getInt("MANUFACT_YEAR")).thenReturn(AUTO.getManufactYear());
+        when(mockResultSet.getString("COUNTRY")).thenReturn(AUTO.getProducerCountry());
+        when(mockResultSet.getBigDecimal("PRICE")).thenReturn(AUTO.getPrice());
+        Assertions.assertEquals(Optional.of(AUTO), autoDao.getById(1L));
     }
 
     @Test
     public void testGetAutoByIdWhenResultFalse() throws SQLException {
-        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeQuery()).thenReturn(mockResultSet);
         when(mockResultSet.next()).thenReturn(false);
-        when(mockResultSet.getLong("ID")).thenReturn(auto.getId());
-        when(mockResultSet.getString("AUTO_BRAND")).thenReturn(auto.getBrand());
-        when(mockResultSet.getString("AUTO_MODEL")).thenReturn(auto.getModel());
-        when(mockResultSet.getInt("MANUFACT_YEAR")).thenReturn(auto.getManufactYear());
-        when(mockResultSet.getString("COUNTRY")).thenReturn(auto.getProducerCountry());
-        when(mockResultSet.getBigDecimal("PRICE")).thenReturn(auto.getPrice());
-        Assertions.assertNotEquals(auto, autoDao.getById(2L));
+        when(mockResultSet.getLong("ID")).thenReturn(AUTO.getId());
+        when(mockResultSet.getString("AUTO_BRAND")).thenReturn(AUTO.getBrand());
+        when(mockResultSet.getString("AUTO_MODEL")).thenReturn(AUTO.getModel());
+        when(mockResultSet.getInt("MANUFACT_YEAR")).thenReturn(AUTO.getManufactYear());
+        when(mockResultSet.getString("COUNTRY")).thenReturn(AUTO.getProducerCountry());
+        when(mockResultSet.getBigDecimal("PRICE")).thenReturn(AUTO.getPrice());
+        Assertions.assertNotEquals(AUTO, autoDao.getById(2L));
     }
 
     @Test
     public void testQueryAutoWhenResultFalse() throws SQLException {
         List<Auto> autoList = new ArrayList<>();
-        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
-        when(mockStatement.executeQuery()).thenThrow(new SQLException());;
+        when(mockStatement.executeQuery()).thenThrow(new SQLException());
+        ;
         when(mockResultSet.next()).thenReturn(false);
         Assertions.assertEquals(autoList.size(), autoDao.getAll().size());
     }
@@ -139,16 +124,15 @@ public class AutoDaoMockTest {
     @Test
     public void testQueryAutoWhenResultTrue() throws SQLException {
         List<Auto> autoList = new ArrayList<>();
-        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeQuery()).thenReturn(mockResultSet);
         when(mockResultSet.next()).thenReturn(true).thenReturn(false);
-        auto.setId(mockResultSet.getLong("ID"));
-        auto.setBrand(mockResultSet.getString("AUTO_BRAND"));
-        auto.setModel(mockResultSet.getString("AUTO_MODEL"));
-        auto.setManufactYear(mockResultSet.getInt("MANUFACT_YEAR"));
-        auto.setProducerCountry(mockResultSet.getString("COUNTRY"));
-        auto.setPrice(mockResultSet.getBigDecimal("PRICE"));
-        autoList.add(auto);
+        AUTO.setId(mockResultSet.getLong("ID"));
+        AUTO.setBrand(mockResultSet.getString("AUTO_BRAND"));
+        AUTO.setModel(mockResultSet.getString("AUTO_MODEL"));
+        AUTO.setManufactYear(mockResultSet.getInt("MANUFACT_YEAR"));
+        AUTO.setProducerCountry(mockResultSet.getString("COUNTRY"));
+        AUTO.setPrice(mockResultSet.getBigDecimal("PRICE"));
+        autoList.add(AUTO);
         Assertions.assertEquals(autoList.size(), autoDao.getAll().size());
     }
 }

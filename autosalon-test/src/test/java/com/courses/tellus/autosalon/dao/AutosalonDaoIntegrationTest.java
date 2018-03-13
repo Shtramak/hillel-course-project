@@ -2,9 +2,7 @@ package com.courses.tellus.autosalon.dao;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -41,9 +39,9 @@ public class AutosalonDaoIntegrationTest {
     }
 
     @Test
-    public void testInsertWhenTableInfoSalonNotExistsReturn0() throws SQLException {
+    public void testInsertWhenTableInfoSalonNotExistsReturn0() throws Exception {
         Autosalon autosalon = new Autosalon(1L, "Toyota", "Japan", "444000");
-        dropTableInfoSalon();
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/dropTables.sql"));
         MatcherAssert.assertThat(autosalonDao.insert(autosalon), CoreMatchers.is(0));
     }
 
@@ -59,8 +57,8 @@ public class AutosalonDaoIntegrationTest {
     }
 
     @Test
-    public void testGetAllWhenTableInfoSalonNotExistsReturnEmptyList() throws SQLException {
-        dropTableInfoSalon();
+    public void testGetAllWhenTableInfoSalonNotExistsReturnEmptyList() throws Exception {
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/dropTables.sql"));
         MatcherAssert.assertThat(autosalonDao.getAll(), CoreMatchers.is(Collections.emptyList()));
     }
 
@@ -70,8 +68,8 @@ public class AutosalonDaoIntegrationTest {
     }
 
     @Test
-    public void testDeleteWhenTableInfoSalonNotExistsReturn0() throws SQLException {
-        dropTableInfoSalon();
+    public void testDeleteWhenTableInfoSalonNotExistsReturn0() throws Exception {
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/dropTables.sql"));
         MatcherAssert.assertThat(autosalonDao.delete(1L), CoreMatchers.is(0));
     }
 
@@ -84,12 +82,5 @@ public class AutosalonDaoIntegrationTest {
     public void testUpdateAutoWhenResultTrue() {
         Autosalon autosalon = new Autosalon(5L, "Toyota", "Japan", "444000");
         MatcherAssert.assertThat(autosalonDao.update(autosalon), CoreMatchers.is(0));
-    }
-
-    private void dropTableInfoSalon() throws SQLException {
-        Connection connection = connectionFactory.getConnection();
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DROP TABLE infoSalon");
-        }
     }
 }

@@ -12,6 +12,18 @@ public class Auto {
     private String producerCountry;
     private BigDecimal price;
 
+    public Auto() {
+    }
+
+    public Auto(Long id, String brand, String model, Integer manufactYear, String producerCountry, BigDecimal price) {
+        this.id = id;
+        this.brand = brand;
+        this.model = model;
+        this.manufactYear = manufactYear;
+        this.producerCountry = producerCountry;
+        this.price = price;
+    }
+
     public Long getId() {
         return id;
     }
