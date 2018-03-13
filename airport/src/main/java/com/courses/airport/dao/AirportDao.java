@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class AirportDao  implements BasicDao<Airport>{
+public class AirportDao  implements IAirportDao<Airport>{
 
     private static final int INDEX_NAME = 1;
     private static final int INDEX_BIRTHDAY = 2;
@@ -34,7 +34,7 @@ public class AirportDao  implements BasicDao<Airport>{
 
 
     @Override
-    public Optional<Airport> findById(final Long entityId) throws DaoException {
+    public Optional<Airport> getById(final Long entityId) throws DaoException {
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM airport WHERE id=" + entityId)) {
 
@@ -52,7 +52,7 @@ public class AirportDao  implements BasicDao<Airport>{
     }
 
     @Override
-    public List<Airport> findAll() throws DaoException {
+    public List<Airport> getAll() throws DaoException {
         final String sql = "SELECT * FROM airport";
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
@@ -85,7 +85,7 @@ public class AirportDao  implements BasicDao<Airport>{
     }
 
     @Override
-    public Integer removeById(final Long entityId) throws DaoException {
+    public Integer delete(final Long entityId) throws DaoException {
         final String sql = "DELETE FROM airport WHERE id=" + entityId;
         try (Statement statement = connection.createStatement()) {
             return statement.executeUpdate(sql);
@@ -114,8 +114,7 @@ public class AirportDao  implements BasicDao<Airport>{
         }
     }
 
-    @Override
-    public Airport getNewObjectFromResultSet(ResultSet resultSet) throws SQLException {
+    private Airport getNewObjectFromResultSet(ResultSet resultSet) throws SQLException {
         final Long airportId = resultSet.getLong("id");
         final String name = resultSet.getString("name");
         final Date birthday = resultSet.getDate("date_of_birth");

@@ -78,7 +78,7 @@ public class AirDaoMockTest {
         when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
         when(resultSetMock.next()).thenReturn(true);
         putRealCustomerIntoResulsetMock();
-        Airport result = airportDao.findById(AIRPORT_TRUE.getAirportId()).orElse(null);
+        Airport result = airportDao.getById(AIRPORT_TRUE.getAirportId()).orElse(null);
         assertEquals(AIRPORT_TRUE, result);
     }
 
@@ -88,14 +88,14 @@ public class AirDaoMockTest {
         when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
         when(resultSetMock.next()).thenReturn(false);
         Long id = ThreadLocalRandom.current().nextLong();
-        assertEquals(Optional.empty(), airportDao.findById(id));
+        assertEquals(Optional.empty(), airportDao.getById(id));
     }
 
     @Test
     void getByIdWhenBadConnectionThrowsDaoException() throws Exception {
         when(connectionMock.createStatement()).thenThrow(SQLException.class);
         Long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
-        assertThrows(DaoException.class, () -> airportDao.findById(id));
+        assertThrows(DaoException.class, () -> airportDao.getById(id));
     }
 
     @Test
@@ -105,13 +105,13 @@ public class AirDaoMockTest {
         when(resultSetMock.next()).thenReturn(true).thenReturn(false);
         putRealCustomerIntoResulsetMock();
         List<Airport> expected = Collections.singletonList(AIRPORT_TRUE);
-        assertEquals(expected, airportDao.findAll());
+        assertEquals(expected, airportDao.getAll());
     }
 
     @Test
     void getAllWhenBadConnectionThrowsDaoException() throws Exception {
         when(connectionMock.createStatement()).thenThrow(SQLException.class);
-        assertThrows(DaoException.class, () -> airportDao.findAll());
+        assertThrows(DaoException.class, () -> airportDao.getAll());
     }
 
     @Test
@@ -141,7 +141,7 @@ public class AirDaoMockTest {
         when(connectionMock.createStatement()).thenReturn(statementMock);
         when(statementMock.executeUpdate(anyString())).thenReturn(1);
         Long id = ThreadLocalRandom.current().nextLong();
-        assertEquals(Integer.valueOf(1), airportDao.removeById(id));
+        assertEquals(Integer.valueOf(1), airportDao.delete(id));
     }
 
     @Test
@@ -149,13 +149,13 @@ public class AirDaoMockTest {
         when(connectionMock.createStatement()).thenReturn(statementMock);
         when(statementMock.executeUpdate(anyString())).thenReturn(0);
         Long id = ThreadLocalRandom.current().nextLong();
-        assertEquals(Integer.valueOf(0), airportDao.removeById(id));
+        assertEquals(Integer.valueOf(0), airportDao.delete(id));
     }
 
     @Test
     void deleteWhenBadConnectionThrowsDaoException() throws Exception {
         when(connectionMock.createStatement()).thenThrow(SQLException.class);
-        assertThrows(DaoException.class, () -> airportDao.removeById(1L));
+        assertThrows(DaoException.class, () -> airportDao.delete(1L));
     }
 
     private void putRealCustomerIntoResulsetMock() throws SQLException {

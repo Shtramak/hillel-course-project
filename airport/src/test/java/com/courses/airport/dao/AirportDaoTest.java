@@ -52,13 +52,13 @@ public class AirportDaoTest {
 
     @Test
     void getByIdWithExistingIdReturnsCustomer() throws Exception {
-        Airport actual = airportDao.findById(3L).orElse(null);
+        Airport actual = airportDao.getById(3L).orElse(null);
         assertEquals(AIRPORT, actual);
     }
 
     @Test
     void getByIdWithNotExistingIdReturnsOptionalEmpty() throws Exception {
-        assertEquals(Optional.empty(), airportDao.findById(5L));
+        assertEquals(Optional.empty(), airportDao.getById(5L));
     }
 
     @Test
@@ -66,7 +66,7 @@ public class AirportDaoTest {
         dropTableAirport();
         long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
         assertThrows(DaoException.class, () -> {
-            airportDao.findById(id);
+            airportDao.getById(id);
         });
     }
 
@@ -75,7 +75,7 @@ public class AirportDaoTest {
         Airport airport1 = new Airport(2, "John", LocalDate.of(2018, 2, 20), "2","(012)345-67-89");
         Airport airport2 = new Airport(3, "John", LocalDate.of(2018, 2, 20), "3","(012)345-67-89");
         List<Airport> expected = Arrays.asList(airport1, airport2);
-        List<Airport> actual = airportDao.findAll();
+        List<Airport> actual = airportDao.getAll();
         assertEquals(expected, actual);
     }
 
@@ -85,14 +85,14 @@ public class AirportDaoTest {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("TRUNCATE TABLE AIRPORT");
         }
-        assertEquals(Collections.emptyList(), airportDao.findAll());
+        assertEquals(Collections.emptyList(), airportDao.getAll());
     }
 
     @Test
     void getAllWhenTableNotExistsThrowsDaoException() throws Exception {
         dropTableAirport();
         assertThrows(DaoException.class, () -> {
-            airportDao.findAll();
+            airportDao.getAll();
         });
     }
 
@@ -118,12 +118,12 @@ public class AirportDaoTest {
 
     @Test
     void deleteWithExistingIdReturns1() throws Exception {
-        assertEquals(Integer.valueOf(1), airportDao.removeById(2L));
+        assertEquals(Integer.valueOf(1), airportDao.delete(2L));
     }
 
     @Test
     void deleteWithNotExistingReturns0() throws Exception {
-        assertEquals(Integer.valueOf(0), airportDao.removeById(5L));
+        assertEquals(Integer.valueOf(0), airportDao.delete(5L));
     }
 
     @Test
@@ -131,7 +131,7 @@ public class AirportDaoTest {
         dropTableAirport();
         long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
         assertThrows(DaoException.class, () -> {
-            airportDao.removeById(id);
+            airportDao.delete(id);
         });
     }
 
