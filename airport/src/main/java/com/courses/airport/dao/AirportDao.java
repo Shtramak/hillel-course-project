@@ -1,20 +1,17 @@
 package com.courses.airport.dao;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.courses.airport.connection.ConnectionFactory;
 import com.courses.airport.exception.DaoException;
 import com.courses.airport.model.Airport;
 import org.apache.log4j.Logger;
 
-public class AirportDao {
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+public class AirportDao  implements BasicDao<Airport>{
 
     private static final int INDEX_NAME = 1;
     private static final int INDEX_BIRTHDAY = 2;
@@ -25,73 +22,43 @@ public class AirportDao {
 
     private final transient Connection connection;
 
-    public AirportDao(final Connection connection) {
-        this.connection = connection;
-    }
-
-    /**
-     * Inserts entry about given airport to database.
-     *
-     * @param airport - parameter with airport data
-     * @return true if airport data was inserted to database
-     * @throws DaoException if insert operation fails with SQLException
-     */
-    public boolean insert(final Airport airport) throws DaoException {
-        if (airport == null) {
-            throw new DaoException("Airport must be not null!");
-        }
-        final String sql = "INSERT INTO"
-                + " airport (name, date_of_birth, phone_number, terminal, id)"
-                + " VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            setStatementValues(statement, airport);
-            final int rowsInserted = statement.executeUpdate();
-            return rowsInserted > 0;
+    public AirportDao(final ConnectionFactory connectionFactory) throws DaoException {
+        try {
+            this.connection = connectionFactory.getConnection();
         } catch (SQLException e) {
-            final String message = "Insertion failed! Reason: " + e.getMessage();
+            final String message = "Connection to database failed! Reason:" + e.getMessage();
             LOGGER.error(message);
             throw new DaoException(message, e);
         }
     }
 
-    /**
-     * Returns <i>airport</i> from database entries by specified id.
-     *
-     * @param airportId airport id
-     * @return airport from database
-     * @throws DaoException if find operation fails with SQLException
-     */
-    public Airport findById(final long airportId) throws DaoException {
-        if (airportId < 0) {
-            throw new DaoException("Airport id must be positive, but entered: " + airportId);
-        }
-        final String sql = "SELECT * FROM airport WHERE id=" + airportId;
+
+    @Override
+    public Optional<Airport> findById(final Long entityId) throws DaoException {
         try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM airport WHERE id=" + entityId)) {
+
             if (resultSet.next()) {
-                return airportFromResultSet(resultSet);
+                return Optional.of(getNewObjectFromResultSet(resultSet));
             }
-            return null;
+            return Optional.empty();
+
         } catch (SQLException e) {
             final String message = "Selection failed! Reason: " + e.getMessage();
             LOGGER.error(message);
             throw new DaoException(message, e);
+
         }
     }
 
-    /**
-     * Returns all <i>airport</i> from database entries.
-     *
-     * @return List of airports
-     * @throws DaoException if find operation fails with SQLException
-     */
+    @Override
     public List<Airport> findAll() throws DaoException {
         final String sql = "SELECT * FROM airport";
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
             final List<Airport> airports = new ArrayList<>();
             while (resultSet.next()) {
-                airports.add(airportFromResultSet(resultSet));
+                airports.add(getNewObjectFromResultSet(resultSet));
             }
             return airports;
         } catch (SQLException e) {
@@ -101,24 +68,15 @@ public class AirportDao {
         }
     }
 
-    /**
-     * Updates  entry in database about given <i>airport</i>.
-     *
-     * @param airport - airport who info should be updated
-     * @return true if operation was success
-     * @throws DaoException if remove operation fails with SQLException
-     */
-    public boolean update(final Airport airport) throws DaoException {
-        if (airport == null) {
-            throw new DaoException("Airport must be not null!");
-        }
-        final String sql = "UPDATE airport "
+    @Override
+    public Integer update(final Airport entity) throws  DaoException {
+                final String sql = "UPDATE airport "
                 + "SET name=?, date_of_birth=?,phone_number=?, terminal=?"
                 + "WHERE id=?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            setStatementValues(statement, airport);
-            final int rowsAffected = statement.executeUpdate();
-            return rowsAffected == 1;
+            setStatementValues(statement, entity);
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected;
         } catch (SQLException e) {
             final String message = "Update failed! Reason: " + e.getMessage();
             LOGGER.error(message);
@@ -126,27 +84,46 @@ public class AirportDao {
         }
     }
 
-    /**
-     * Removes entry about <i>airport</i> from database by specified id.
-     *
-     * @param airportId id number of airport
-     * @return true if airport was removed from database
-     * @throws DaoException if remove operation fails with SQLException
-     */
-    public boolean removeById(final long airportId) throws DaoException {
-        if (airportId < 0) {
-            throw new DaoException("Airport id must be positive, but entered: " + airportId);
-        }
-        final String sql = "DELETE FROM airport WHERE id=" + airportId;
+    @Override
+    public Integer removeById(final Long entityId) throws DaoException {
+        final String sql = "DELETE FROM airport WHERE id=" + entityId;
         try (Statement statement = connection.createStatement()) {
-            final int rowsAffected = statement.executeUpdate(sql);
-            return rowsAffected == 1;
+            return statement.executeUpdate(sql);
         } catch (SQLException e) {
             final String message = "Remove failed! Reason: " + e.getMessage();
             LOGGER.error(message);
             throw new DaoException(message, e);
         }
     }
+
+    @Override
+    public Integer insert(final Airport entity) throws DaoException {
+
+        final String sql = "INSERT INTO"
+                + " airport (name, date_of_birth, phone_number, terminal, id)"
+                + " VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            setStatementValues(statement, entity);
+            return statement.executeUpdate();
+
+        } catch (SQLException e) {
+            final String message = "Insertion failed! Reason: " + e.getMessage();
+            LOGGER.error(message);
+            throw new DaoException(message, e);
+        }
+    }
+
+    @Override
+    public Airport getNewObjectFromResultSet(ResultSet resultSet) throws SQLException {
+        final Long airportId = resultSet.getLong("id");
+        final String name = resultSet.getString("name");
+        final Date birthday = resultSet.getDate("date_of_birth");
+        final String terminal = resultSet.getString("terminal");
+        final String phoneNumber = resultSet.getString("phone_number");
+        return new Airport(airportId, name, localDate(birthday), terminal, phoneNumber);
+    }
+
 
     void setStatementValues(final PreparedStatement statement, final Airport airport) throws SQLException {
         statement.setString(INDEX_NAME, airport.getNameAirport());
@@ -155,15 +132,6 @@ public class AirportDao {
         statement.setString(INDEX_PHONE, airport.getTelephone());
         statement.setString(INDEX_TERMINAL, airport.getNumberTerminal());
         statement.setLong(INDEX_ID, airport.getAirportId());
-    }
-
-    private Airport airportFromResultSet(final ResultSet resultSet) throws SQLException {
-        final long airportId = resultSet.getLong("id");
-        final String name = resultSet.getString("name");
-        final Date birthday = resultSet.getDate("date_of_birth");
-        final String terminal = resultSet.getString("terminal");
-        final String phoneNumber = resultSet.getString("phone_number");
-        return new Airport(airportId, name, localDate(birthday), terminal, phoneNumber);
     }
 
     private LocalDate localDate(final Date birthday) {

@@ -1,169 +1,144 @@
 package com.courses.airport.dao;
 
 import com.courses.airport.connection.ConnectionFactory;
-import com.courses.airport.model.Airport;
 import com.courses.airport.exception.DaoException;
+import com.courses.airport.model.Airport;
 import org.h2.tools.RunScript;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.io.FileReader;
-import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 public class AirportDaoTest {
 
-    private static Connection connection;
+    private static final Airport AIRPORT = new Airport(3, "John", LocalDate.of(2018, 2, 20), "3","(012)345-67-89");
+    private static ConnectionFactory connectionFactory;
     private static AirportDao airportDao;
 
     @BeforeEach
-    public void setUp() throws IOException, SQLException {
-        connection = ConnectionFactory.getInstance().getConnection();
-        RunScript.execute(connection, new FileReader("src/test/resources/db-creation.sql"));
-        airportDao = new AirportDao(connection);
-    }
-
-    @AfterEach
-    public void tearDown() throws SQLException {
-        executeSqlQuery("DROP TABLE airport");
-        executeSqlQuery("DROP TABLE airport_tickets");
+    void setUp() throws Exception {
+        connectionFactory = ConnectionFactory.getInstance();
+        airportDao = new AirportDao(connectionFactory);
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/db-creation.sql"));
     }
 
     @Test
-    public void insertWithValidDataReturnsTrue() throws DaoException {
-        Airport airport = new Airport(1,"Borispol",LocalDate.of(2018,3,12),"D-3","0800-543-7645");
-        assertTrue(airportDao.insert(airport));
+    void insertWithValidDataReturnsTrue() throws Exception {
+        Airport AIRPORT = new Airport(5, "John", LocalDate.of(2018, 2, 20), "3","(012)345-67-89");
+        Integer res = airportDao.insert(AIRPORT);
+        assertEquals(Integer.valueOf(1), res);
     }
 
     @Test
-    public void insertWhenAirportHasNullElementThrowsDAOException() throws DaoException {
-        Airport airport = new Airport(1,null, LocalDate.of(2018,3,12),"D-3","0800-543-7645");
+    void insertWhenTableNotExistsThrowsDaoException() throws Exception {
+        dropTableAirport();
         assertThrows(DaoException.class, () -> {
-            airportDao.insert(airport);
+            airportDao.insert(AIRPORT);
         });
     }
 
     @Test
-    public void insertWhenAirportIsNullThrowsDaoException() throws DaoException {
-        Throwable exception = assertThrows(DaoException.class, () -> {
-            airportDao.insert(null);
+    void getByIdWithExistingIdReturnsCustomer() throws Exception {
+        Airport actual = airportDao.findById(3L).orElse(null);
+        assertEquals(AIRPORT, actual);
+    }
+
+    @Test
+    void getByIdWithNotExistingIdReturnsOptionalEmpty() throws Exception {
+        assertEquals(Optional.empty(), airportDao.findById(5L));
+    }
+
+    @Test
+    void getByIdWhenTableNotExistsThrowsDaoException() throws Exception {
+        dropTableAirport();
+        long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
+        assertThrows(DaoException.class, () -> {
+            airportDao.findById(id);
         });
-        assertEquals("Airport must be not null!", exception.getMessage());
     }
 
     @Test
-    public void findByIdWithExistingIdReturnsAirport() throws DaoException {
-        insertAirportToDb(3);
-        Airport expected = new Airport(2,"name2",LocalDate.of(2018,2,20),"terminal2","phoneNumber2");
-        Airport actual = airportDao.findById(2);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void findByIdWithNotExistingIdReturnsNull() throws DaoException {
-        insertAirportToDb(1);
-        assertEquals(null, airportDao.findById(2));
-    }
-
-    @Test
-    public void findByIdWithNegativeIdThrowsDaoException() throws DaoException {
-        Throwable exception = assertThrows(DaoException.class, () -> {
-            airportDao.findById(-1);
-        });
-        assertEquals("Airport id must be positive, but entered: -1", exception.getMessage());
-    }
-
-    @Test
-    public void findAllWhenTableHasDataReturnsListOfAirport() throws DaoException {
-        insertAirportToDb(2);
-        Airport airport = new Airport(1,"name1",LocalDate.of(2018,2,20),"terminal1","phoneNumber1");
-        Airport airport2 = new Airport(2,"name2",LocalDate.of(2018,2,20),"terminal2","phoneNumber2");
-        List<Airport> expected = Arrays.asList(airport,airport2);
+    void getAllWhenTableHasDataReturnsListOfCustomers() throws Exception {
+        Airport airport1 = new Airport(2, "John", LocalDate.of(2018, 2, 20), "2","(012)345-67-89");
+        Airport airport2 = new Airport(3, "John", LocalDate.of(2018, 2, 20), "3","(012)345-67-89");
+        List<Airport> expected = Arrays.asList(airport1, airport2);
         List<Airport> actual = airportDao.findAll();
         assertEquals(expected, actual);
     }
 
     @Test
-    public void findAllWhenTableHasNoDataReturnsEmptyList() throws DaoException {
+    void getAllWhenTableHasNoDataReturnsEmptyList() throws Exception {
+        Connection connection = connectionFactory.getConnection();
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("TRUNCATE TABLE AIRPORT");
+        }
         assertEquals(Collections.emptyList(), airportDao.findAll());
     }
 
     @Test
-    public void updateWhenEntryExistsReturnsTrue() throws DaoException {
-        insertAirportToDb(3);
-        Airport updatedAirport = new Airport(2,"name",LocalDate.of(2018,3,12),"terminal","telephone");
-        assertTrue(airportDao.update(updatedAirport));
-    }
-
-    @Test
-    public void updateWhenEntryNotExistsReturnsFalse() throws DaoException {
-        insertAirportToDb(2);
-        Airport updatedAirport = new Airport(3,"name",LocalDate.of(2018,3,12),"terminal","telephone");
-        assertFalse(airportDao.update(updatedAirport));
-    }
-
-    @Test
-    public void updateWhenAirportIsNullThrowsDaoException() throws DaoException {
-        Throwable exception = assertThrows(DaoException.class, () -> {
-            airportDao.update(null);
+    void getAllWhenTableNotExistsThrowsDaoException() throws Exception {
+        dropTableAirport();
+        assertThrows(DaoException.class, () -> {
+            airportDao.findAll();
         });
-        assertEquals("Airport must be not null!", exception.getMessage());
     }
 
     @Test
-    public void removeByIdWithExistingIdReturnsTrue() throws DaoException {
-        insertAirportToDb(3);
-        assertTrue(airportDao.removeById(2));
+    void updateWhenEntryExistsReturnsTrue() throws Exception {
+        Airport updatedAirport = new Airport(2, "updateName",  LocalDate.of(2018, 2, 20), "terminal2", "phone2");
+        assertEquals(Integer.valueOf(1), airportDao.update(updatedAirport));
     }
 
     @Test
-    public void removeByIdWithNotExistingReturnsFalse() throws DaoException {
-        insertAirportToDb(1);
-        assertFalse(airportDao.removeById(2));
+    void updateWhenEntryNotExistsReturnsFalse() throws Exception {
+        Airport updatedAirport = new Airport(5, "updateName", LocalDate.of(2018, 2, 20), "terminal3", "phone3");
+        assertEquals(Integer.valueOf(0), airportDao.update(updatedAirport));
     }
 
     @Test
-    public void removeByIdWithNegativeIdThrowsDaoException() throws DaoException {
-        Throwable exception = assertThrows(DaoException.class, () -> {
-            airportDao.removeById(-1);
+    void updateWhenTableNotExistsThrowsDaoException() throws Exception {
+        dropTableAirport();
+        assertThrows(DaoException.class, () -> {
+            airportDao.update(new Airport());
         });
-        assertEquals("Airport id must be positive, but entered: -1", exception.getMessage());
     }
 
-    private void executeSqlQuery(String sqlQuery) throws SQLException {
-        Objects.requireNonNull(connection);
+    @Test
+    void deleteWithExistingIdReturns1() throws Exception {
+        assertEquals(Integer.valueOf(1), airportDao.removeById(2L));
+    }
+
+    @Test
+    void deleteWithNotExistingReturns0() throws Exception {
+        assertEquals(Integer.valueOf(0), airportDao.removeById(5L));
+    }
+
+    @Test
+    void deleteWhenTableNotExistsThrowsDaoException() throws Exception {
+        dropTableAirport();
+        long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
+        assertThrows(DaoException.class, () -> {
+            airportDao.removeById(id);
+        });
+    }
+
+    private void dropTableAirport() throws SQLException {
+        Connection connection = connectionFactory.getConnection();
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(sqlQuery);
+            statement.executeUpdate("DROP TABLE airport");
         }
     }
-
-    private void insertAirportToDb(int numberOfAirport) {
-        String sql = "INSERT INTO" +
-                " airport (id, name, date_of_birth, phone_number, terminal)" +
-                " VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            for (int id = 1; id <= numberOfAirport; id++) {
-                statement.setLong(1, id);
-                statement.setString(2, "name" + id);
-                statement.setDate(3, Date.valueOf(LocalDate.of(2018, 2, 20)));
-                statement.setString(4, "phoneNumber" + id);
-                statement.setString(5, "terminal" + id);
-                statement.addBatch();
-            }
-            statement.executeBatch();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-
 }
