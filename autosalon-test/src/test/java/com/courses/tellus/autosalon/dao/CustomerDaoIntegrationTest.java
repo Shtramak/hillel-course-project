@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.FileReader;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -44,7 +43,7 @@ public class CustomerDaoIntegrationTest {
 
     @Test
     void insertWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTableCustomer();
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/dropTables.sql"));
         assertThrows(DaoException.class, () -> {
             customerDao.insert(CUSTOMER);
         });
@@ -63,7 +62,7 @@ public class CustomerDaoIntegrationTest {
 
     @Test
     void getByIdWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTableCustomer();
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/dropTables.sql"));
         long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
         assertThrows(DaoException.class, () -> {
             customerDao.getById(id);
@@ -81,15 +80,14 @@ public class CustomerDaoIntegrationTest {
     @Test
     void getAllWhenTableHasNoDataReturnsEmptyList() throws Exception {
         Connection connection = connectionFactory.getConnection();
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("TRUNCATE TABLE CUSTOMER");
-        }
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("TRUNCATE TABLE CUSTOMER");
         assertEquals(Collections.emptyList(), customerDao.getAll());
     }
 
     @Test
     void getAllWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTableCustomer();
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/dropTables.sql"));
         assertThrows(DaoException.class, () -> {
             customerDao.getAll();
         });
@@ -109,7 +107,7 @@ public class CustomerDaoIntegrationTest {
 
     @Test
     void updateWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTableCustomer();
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/dropTables.sql"));
         assertThrows(DaoException.class, () -> {
             customerDao.update(new Customer());
         });
@@ -127,17 +125,10 @@ public class CustomerDaoIntegrationTest {
 
     @Test
     void deleteWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTableCustomer();
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/dropTables.sql"));
         long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
         assertThrows(DaoException.class, () -> {
             customerDao.delete(id);
         });
-    }
-
-    private void dropTableCustomer() throws SQLException {
-        Connection connection = connectionFactory.getConnection();
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DROP TABLE CUSTOMER");
-        }
     }
 }

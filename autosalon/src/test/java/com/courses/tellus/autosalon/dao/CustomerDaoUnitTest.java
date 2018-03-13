@@ -2,7 +2,9 @@ package com.courses.tellus.autosalon.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.sql.Connection;
@@ -31,11 +33,7 @@ public class CustomerDaoUnitTest {
             new Customer(1, "John", "Smith", LocalDate.of(2018, 2, 20), "(012)345-67-89", 10000.50);
 
     @Mock
-    private ConnectionFactory connectionFactoryMock;
-    @Mock
     private Connection connectionMock;
-    @Mock
-    private PreparedStatement preparedStatementMock;
     @Mock
     private Customer customerMock;
     @Mock
@@ -52,18 +50,21 @@ public class CustomerDaoUnitTest {
     @BeforeEach
     void initMocks() throws Exception {
         MockitoAnnotations.initMocks(this);
+        ConnectionFactory connectionFactoryMock = mock(ConnectionFactory.class);
         when(connectionFactoryMock.getConnection()).thenReturn(connectionMock);
         customerDao = new CustomerDao(connectionFactoryMock);
     }
 
     @Test
     void newCustomerWhenConnectionFailedThrowsDaoException() throws Exception {
+        ConnectionFactory connectionFactoryMock = mock(ConnectionFactory.class);
         when(connectionFactoryMock.getConnection()).thenThrow(SQLException.class);
         assertThrows(DaoException.class, () -> new CustomerDao(connectionFactoryMock));
     }
 
     @Test
     void insertWhenExecuteUpdatePositiveDataReturnsTrue() throws Exception {
+        PreparedStatement preparedStatementMock = mock(PreparedStatement.class);
         when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
         when(preparedStatementMock.executeUpdate()).thenReturn(1);
         assertEquals(Integer.valueOf(1), customerDao.insert(REAL_CUSTOMER));
@@ -87,11 +88,11 @@ public class CustomerDaoUnitTest {
 
     @Test
     void getByIdWhenEmptyResultSetReturnsOptionalEmpty() throws Exception {
+        ResultSet resultSetMock = mock(ResultSet.class);
         when(connectionMock.createStatement()).thenReturn(statementMock);
         when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
         when(resultSetMock.next()).thenReturn(false);
-        Long id = ThreadLocalRandom.current().nextLong();
-        assertEquals(Optional.empty(), customerDao.getById(id));
+        assertEquals(Optional.empty(), customerDao.getById(1L));
     }
 
     @Test
@@ -119,6 +120,7 @@ public class CustomerDaoUnitTest {
 
     @Test
     void updateWhenEntryExistsReturns1() throws Exception {
+        PreparedStatement preparedStatementMock = mock(PreparedStatement.class);
         when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
         when(preparedStatementMock.executeUpdate()).thenReturn(1);
         when(customerMock.getDateOfBirth()).thenReturn(LocalDate.now());
@@ -127,6 +129,7 @@ public class CustomerDaoUnitTest {
 
     @Test
     void updateWhenEntryNotExistsReturns0() throws Exception {
+        PreparedStatement preparedStatementMock = mock(PreparedStatement.class);
         when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
         when(preparedStatementMock.executeUpdate()).thenReturn(0);
         when(customerMock.getDateOfBirth()).thenReturn(LocalDate.now());
@@ -143,16 +146,14 @@ public class CustomerDaoUnitTest {
     void deleteWhenWhenEntryExistsReturns1() throws Exception {
         when(connectionMock.createStatement()).thenReturn(statementMock);
         when(statementMock.executeUpdate(anyString())).thenReturn(1);
-        Long id = ThreadLocalRandom.current().nextLong();
-        assertEquals(Integer.valueOf(1), customerDao.delete(id));
+        assertEquals(Integer.valueOf(1), customerDao.delete(1L));
     }
 
     @Test
     void deleteWhenWhenEntryNotExistsReturns0() throws Exception {
         when(connectionMock.createStatement()).thenReturn(statementMock);
         when(statementMock.executeUpdate(anyString())).thenReturn(0);
-        Long id = ThreadLocalRandom.current().nextLong();
-        assertEquals(Integer.valueOf(0), customerDao.delete(id));
+        assertEquals(Integer.valueOf(0), customerDao.delete(1L));
     }
 
     @Test

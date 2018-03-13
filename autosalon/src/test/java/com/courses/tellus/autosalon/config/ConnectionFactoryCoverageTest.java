@@ -25,7 +25,6 @@ class ConnectionFactoryCoverageTest {
     @Test
     void tesDataBaseConnectionSuccess() throws Exception {
         Customer customer = new Customer(3, "John", "Smith", LocalDate.of(2018, 2, 20), "(012)345-67-89", 10000.50);
-        ;
         assertEquals(Integer.valueOf(1), customerDao.insert(customer));
     }
 }
