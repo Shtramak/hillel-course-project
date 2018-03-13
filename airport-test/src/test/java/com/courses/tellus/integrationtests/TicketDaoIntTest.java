@@ -57,7 +57,7 @@ public class TicketDaoIntTest {
 
     @Test
     void insertWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTables();
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/drop-table.sql"));
         assertThrows(DaoException.class, () -> {
             ticketsDao.insert(TICKET);
         });
@@ -76,7 +76,7 @@ public class TicketDaoIntTest {
 
     @Test
     void getByIdWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTables();
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/drop-table.sql"));
         long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
         assertThrows(DaoException.class, () -> {
             ticketsDao.getById(id);
@@ -84,9 +84,8 @@ public class TicketDaoIntTest {
     }
 
     @Test
-    void getAllWhenTableHasDataReturnsListOfCustomers() throws Exception {
-        Ticket ticket = new Ticket(2, "Vitalii", "Klichko", LocalDate.of(2018, 1, 1), "Berlin");
-        List<Ticket> expected = Arrays.asList(TICKET, ticket);
+    void getAllWhenTableHasDataReturnsListOfTickets() throws Exception {
+        List<Ticket> expected = Arrays.asList(TICKET, new Ticket(2, "Vitalii", "Klichko", LocalDate.of(2018, 1, 1), "Berlin"));
         List<Ticket> actual = ticketsDao.getAll();
         assertEquals(expected, actual);
     }
@@ -102,7 +101,7 @@ public class TicketDaoIntTest {
 
     @Test
     void getAllWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTables();
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/drop-table.sql"));
         assertThrows(DaoException.class, () -> {
             ticketsDao.getAll();
         });
@@ -122,7 +121,7 @@ public class TicketDaoIntTest {
 
     @Test
     void updateWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTables();
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/drop-table.sql"));
         assertThrows(DaoException.class, () -> {
             ticketsDao.update(new Ticket());
         });
@@ -140,17 +139,9 @@ public class TicketDaoIntTest {
 
     @Test
     void deleteWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTables();
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/drop-table.sql"));
         assertThrows(DaoException.class, () -> {
             ticketsDao.delete(ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE));
         });
     }
-
-    private void dropTables() throws SQLException {
-        Connection connection = connectionFactory.getConnection();
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DROP TABLE airport_tickets, airport");
-        }
-    }
-
 }
