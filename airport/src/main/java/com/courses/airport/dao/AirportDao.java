@@ -79,7 +79,7 @@ public class AirportDao  implements IAirportDao<Airport> {
                 + "WHERE id=?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             setStatementValues(statement, entity);
-            int rowsAffected = statement.executeUpdate();
+            final int rowsAffected = statement.executeUpdate();
             return rowsAffected;
         } catch (SQLException e) {
             final String message = "Update failed! Reason: " + e.getMessage();
@@ -118,7 +118,7 @@ public class AirportDao  implements IAirportDao<Airport> {
         }
     }
 
-    private Airport getNewObjectFromResultSet(ResultSet resultSet) throws SQLException {
+    private Airport getNewObjectFromResultSet(final ResultSet resultSet) throws SQLException {
         final Long airportId = resultSet.getLong("id");
         final String name = resultSet.getString("name");
         final Date birthday = resultSet.getDate("date_of_birth");
