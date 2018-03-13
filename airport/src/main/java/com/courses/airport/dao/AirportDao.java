@@ -1,17 +1,22 @@
 package com.courses.airport.dao;
 
-import com.courses.airport.connection.ConnectionFactory;
-import com.courses.airport.exception.DaoException;
-import com.courses.airport.model.Airport;
-import org.apache.log4j.Logger;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class AirportDao  implements IAirportDao<Airport>{
+import com.courses.airport.connection.ConnectionFactory;
+import com.courses.airport.exception.DaoException;
+import com.courses.airport.model.Airport;
+import org.apache.log4j.Logger;
+
+public class AirportDao  implements IAirportDao<Airport> {
 
     private static final int INDEX_NAME = 1;
     private static final int INDEX_BIRTHDAY = 2;
@@ -31,7 +36,6 @@ public class AirportDao  implements IAirportDao<Airport>{
             throw new DaoException(message, e);
         }
     }
-
 
     @Override
     public Optional<Airport> getById(final Long entityId) throws DaoException {
@@ -122,7 +126,6 @@ public class AirportDao  implements IAirportDao<Airport>{
         final String phoneNumber = resultSet.getString("phone_number");
         return new Airport(airportId, name, localDate(birthday), terminal, phoneNumber);
     }
-
 
     void setStatementValues(final PreparedStatement statement, final Airport airport) throws SQLException {
         statement.setString(INDEX_NAME, airport.getNameAirport());
