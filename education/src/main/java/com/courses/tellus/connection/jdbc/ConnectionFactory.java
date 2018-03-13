@@ -1,4 +1,4 @@
-package com.courses.tellus.dbconnection;
+package com.courses.tellus.connection.jdbc;
 
 import java.io.IOException;
 

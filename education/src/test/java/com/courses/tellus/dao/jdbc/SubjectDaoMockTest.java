@@ -1,12 +1,12 @@
-package com.courses.tellus.dao;
+package com.courses.tellus.dao.jdbc;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import com.courses.tellus.dbconnection.ConnectionFactory;
-import com.courses.tellus.entity.Student;
+import com.courses.tellus.dao.jdbc.SubjectDao;
+import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.Subject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,18 +16,18 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
-class StudentDaoMockTest {
+class SubjectDaoMockTest {
 
     private static ConnectionFactory connFactory;
-    private static StudentDao studentDao;
-    private Student student;
+    private static SubjectDao subjectDao;
+    private Subject subject;
     private ResultSet mockResSet;
     private PreparedStatement mockPreState;
 
     @BeforeAll
     static void init() {
         connFactory = mock(ConnectionFactory.class);
-        studentDao = new StudentDao(connFactory);
+        subjectDao = new SubjectDao(connFactory);
     }
 
     @BeforeEach
@@ -38,24 +38,25 @@ class StudentDaoMockTest {
         when(connFactory.getConnection()).thenReturn(mockConnection);
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreState);
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
-        student = new Student("Andrey", "Petrov", "0123456789",
-                "Peremohy str, 178");
+        subject = new Subject(
+                1L, "Biology", "Lessons about building of humans", true,
+                new GregorianCalendar(1996,5,12));
     }
 
     @Test
     void testGetAllAndReturnEntityList() throws Exception {
-        List<Student> subjectList = new ArrayList<>();
-        List<Student> spy = spy(subjectList);
+        List<Subject> subjectList = new ArrayList<>();
+        List<Subject> spy = spy(subjectList);
         when(mockResSet.next()).thenReturn(true).thenReturn(false);
         getSubjectFromResultSet();
-        spy.add(student);
-        Assertions.assertEquals(1, (studentDao.getAll()).get().size());
+        spy.add(subject);
+        Assertions.assertEquals(spy.size(), subjectDao.getAll().get().size());
     }
 
     @Test
-    void testGetAllEntityAndReturnEmptyList() throws Exception {
+    void testGetAllObjectAndReturnEmptyList() throws Exception {
         when(mockResSet.next()).thenReturn(false);
-        Assertions.assertEquals(0, (studentDao.getAll()).get().size());
+        Assertions.assertEquals(0, (subjectDao.getAll()).get().size());
     }
 
     @Test
@@ -64,7 +65,7 @@ class StudentDaoMockTest {
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(true);
         getSubjectFromResultSet();
-        Assertions.assertTrue((studentDao.getById(1L)).isPresent());
+        Assertions.assertEquals(subject, (subjectDao.getById(1L)).get());
     }
 
     @Test
@@ -72,33 +73,38 @@ class StudentDaoMockTest {
         mockPreState.setLong(1, 1L);
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(false);
-        Assertions.assertFalse((studentDao.getById(1L)).isPresent());
+        Assertions.assertFalse((subjectDao.getById(1L)).isPresent());
     }
 
     @Test
     void testUpdateSubject() throws Exception {
-        student.setStudentCardNumber("0213456789");
+        subject.setValid(false);
         when(mockPreState.executeUpdate()).thenReturn(1);
-        Assertions.assertEquals(1, studentDao.update(student));
+        Assertions.assertEquals(1, subjectDao.update(subject));
     }
 
     @Test
     void testDeleteSubject() throws Exception {
         when(mockPreState.executeUpdate()).thenReturn(1);
-        Assertions.assertEquals(1 , studentDao.delete(1L));
+        Assertions.assertEquals(1 ,subjectDao.delete(1L));
     }
 
     @Test
     void testInsertSubject() throws Exception {
+        Subject subject = new Subject(
+                2L, "Math", "Teach how to calculate numbers", true,
+                new GregorianCalendar(1996,5,12));
         when(mockPreState.executeUpdate()).thenReturn(1);
-        Assertions.assertEquals(1, studentDao.insert(student));
+        Assertions.assertEquals(1, subjectDao.insert(subject));
     }
 
     private void getSubjectFromResultSet() throws SQLException {
-        when(mockResSet.getLong("student_id")).thenReturn(student.getStudentId());
-        when(mockResSet.getString("firstName")).thenReturn(student.getFirstName());
-        when(mockResSet.getString("lastName")).thenReturn(student.getLastName());
-        when(mockResSet.getString("student_card_number")).thenReturn(student.getStudentCardNumber());
-        when(mockResSet.getString("address")).thenReturn(student.getAddress());
+        Date mockSqlDate = mock(Date.class);
+        when(mockResSet.getLong("subject_id")).thenReturn(subject.getSubjectId());
+        when(mockResSet.getString("name")).thenReturn(subject.getName());
+        when(mockResSet.getString("descr")).thenReturn(subject.getDescription());
+        when(mockResSet.getBoolean("valid")).thenReturn(subject.isValid());
+        when(mockResSet.getDate("date_of_creation")).thenReturn(mockSqlDate);
+        when(mockSqlDate.getTime()).thenReturn(subject.getDateOfCreation());
     }
 }

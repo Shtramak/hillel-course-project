@@ -1,4 +1,4 @@
-package com.courses.tellus.dao;
+package com.courses.tellus.dao.jdbc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -7,12 +7,13 @@ import java.io.FileReader;
 import java.util.List;
 import java.util.Optional;
 
+import com.courses.tellus.dao.jdbc.UniversityDao;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.courses.tellus.dbconnection.ConnectionFactory;
+import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.University;
 
 

@@ -1,4 +1,4 @@
-package com.courses.tellus.dao;
+package com.courses.tellus.dao.spring.jdbc;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +10,7 @@ public interface BasicDao<E> {
     /**
      * Method for returning all object from database.
      *
-     * @return list with all Object or null if exception
+     * @return list with all Object or false if exception
      */
     Optional<List<E>> getAll();
 
@@ -18,7 +18,7 @@ public interface BasicDao<E> {
      * Method for returning object by unique id from database.
      *
      * @param entityId unique id for object query
-     * @return Object or null (if not exist in database or exception)
+     * @return Object or false (if not exist in database or exception)
      */
     Optional<E> getById(Long entityId);
 
@@ -26,7 +26,7 @@ public interface BasicDao<E> {
      * Method for updating object in database.
      *
      * @param entity updating object
-     * @return true if operation successful or false if exception
+     * @return number of successful operations
      */
     int update(E entity);
 
@@ -34,7 +34,7 @@ public interface BasicDao<E> {
      * Method for deleting object from database.
      *
      * @param entityId unique id for object query
-     * @return true if operation successful or false if exception
+     * @return number of successful operations
      */
     int delete(Long entityId);
 
@@ -42,7 +42,7 @@ public interface BasicDao<E> {
      * Method for creating new object into database.
      *
      * @param entity object for inserting
-     * @return true if operation successful or false if exception
+     * @return number of successful operations
      */
     int insert(E entity);
 

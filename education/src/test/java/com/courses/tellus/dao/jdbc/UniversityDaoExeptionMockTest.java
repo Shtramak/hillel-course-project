@@ -1,4 +1,4 @@
-package com.courses.tellus.dao;
+package com.courses.tellus.dao.jdbc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -9,11 +9,12 @@ import static org.mockito.Mockito.when;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.courses.tellus.dao.jdbc.UniversityDao;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.courses.tellus.dbconnection.ConnectionFactory;
+import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.University;
 
 public class UniversityDaoExeptionMockTest {

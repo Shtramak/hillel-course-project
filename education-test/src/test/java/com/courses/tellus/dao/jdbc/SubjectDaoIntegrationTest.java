@@ -1,11 +1,12 @@
-package com.courses.tellus.dao;
+package com.courses.tellus.dao.jdbc;
 
 import java.io.FileReader;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.dbconnection.ConnectionFactory;
+import com.courses.tellus.dao.jdbc.SubjectDao;
+import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.Subject;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.*;

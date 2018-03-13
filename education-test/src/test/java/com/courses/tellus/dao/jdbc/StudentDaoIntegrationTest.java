@@ -1,10 +1,11 @@
-package com.courses.tellus.dao;
+package com.courses.tellus.dao.jdbc;
 
 import java.io.FileReader;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.dbconnection.ConnectionFactory;
+import com.courses.tellus.dao.jdbc.StudentDao;
+import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.Student;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.AfterEach;

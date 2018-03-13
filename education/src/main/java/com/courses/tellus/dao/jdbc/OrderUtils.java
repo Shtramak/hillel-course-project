@@ -1,4 +1,4 @@
-package com.courses.tellus.dao;
+package com.courses.tellus.dao.jdbc;
 
 public enum OrderUtils {
 

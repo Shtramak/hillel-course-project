@@ -1,4 +1,4 @@
-package com.courses.tellus.dao;
+package com.courses.tellus.dao.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.dbconnection.ConnectionFactory;
+import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.Student;
 import org.apache.log4j.Logger;
 
