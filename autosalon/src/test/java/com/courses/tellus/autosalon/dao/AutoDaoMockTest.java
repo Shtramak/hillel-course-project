@@ -105,7 +105,6 @@ public class AutoDaoMockTest {
     public void testQueryAutoWhenResultFalse() throws SQLException {
         List<Auto> autoList = new ArrayList<>();
         when(mockStatement.executeQuery()).thenThrow(new SQLException());
-        ;
         when(mockResultSet.next()).thenReturn(false);
         Assertions.assertEquals(autoList.size(), autoDao.getAll().size());
     }
