@@ -2,7 +2,6 @@ package com.courses.tellus.autosalon.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -53,13 +52,6 @@ public class CustomerDaoUnitTest {
         ConnectionFactory connectionFactoryMock = mock(ConnectionFactory.class);
         when(connectionFactoryMock.getConnection()).thenReturn(connectionMock);
         customerDao = new CustomerDao(connectionFactoryMock);
-    }
-
-    @Test
-    void newCustomerWhenConnectionFailedThrowsDaoException() throws Exception {
-        ConnectionFactory connectionFactoryMock = mock(ConnectionFactory.class);
-        when(connectionFactoryMock.getConnection()).thenThrow(SQLException.class);
-        assertThrows(DaoException.class, () -> new CustomerDao(connectionFactoryMock));
     }
 
     @Test

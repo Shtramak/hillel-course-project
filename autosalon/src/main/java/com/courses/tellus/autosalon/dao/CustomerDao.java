@@ -26,16 +26,10 @@ public class CustomerDao implements AutosalonDaoInterface<Customer> {
     private static final int INDEX_ID = 6;
     private static final Logger LOGGER = Logger.getLogger(CustomerDao.class);
 
-    private final transient Connection connection;
+    private final transient ConnectionFactory connectionFactory;
 
-    public CustomerDao(final ConnectionFactory connectionFactory) throws DaoException {
-        try {
-            this.connection = connectionFactory.getConnection();
-        } catch (SQLException e) {
-            final String message = "Connection to database failed! Reason:" + e.getMessage();
-            LOGGER.error(message);
-            throw new DaoException(message, e);
-        }
+    public CustomerDao(final ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
     }
 
     @Override
@@ -43,7 +37,8 @@ public class CustomerDao implements AutosalonDaoInterface<Customer> {
         final String sql = "INSERT INTO"
                 + " customer (name, surname, date_of_birth, phone_number, available_funds, id)"
                 + " VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = connectionFactory.getConnection()) {
+            final PreparedStatement statement = connection.prepareStatement(sql);
             setStatementValues(statement, customer);
             return statement.executeUpdate();
         } catch (SQLException e) {
@@ -56,8 +51,9 @@ public class CustomerDao implements AutosalonDaoInterface<Customer> {
     @Override
     public Optional<Customer> getById(final Long customerId) throws DaoException {
         final String sql = "SELECT * FROM customer WHERE id=" + customerId;
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
+        try (Connection connection = connectionFactory.getConnection()) {
+            final Statement statement = connection.createStatement();
+            final ResultSet resultSet = statement.executeQuery(sql);
             if (resultSet.next()) {
                 return Optional.of(customerFromResultSet(resultSet));
             }
@@ -72,8 +68,9 @@ public class CustomerDao implements AutosalonDaoInterface<Customer> {
     @Override
     public List<Customer> getAll() throws DaoException {
         final String sql = "SELECT * FROM customer";
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
+        try (Connection connection = connectionFactory.getConnection()) {
+            final Statement statement = connection.createStatement();
+            final ResultSet resultSet = statement.executeQuery(sql);
             final List<Customer> customers = new ArrayList<>();
             while (resultSet.next()) {
                 customers.add(customerFromResultSet(resultSet));
@@ -91,7 +88,8 @@ public class CustomerDao implements AutosalonDaoInterface<Customer> {
         final String sql = "UPDATE customer "
                 + "SET name=?,surname=?,date_of_birth=?,phone_number=?,available_funds=?"
                 + "WHERE id=?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = connectionFactory.getConnection()) {
+            final PreparedStatement statement = connection.prepareStatement(sql);
             setStatementValues(statement, customer);
             return statement.executeUpdate();
         } catch (SQLException e) {
@@ -104,7 +102,8 @@ public class CustomerDao implements AutosalonDaoInterface<Customer> {
     @Override
     public Integer delete(final Long customerId) throws DaoException {
         final String sql = "DELETE FROM customer WHERE id=" + customerId;
-        try (Statement statement = connection.createStatement()) {
+        try (Connection connection = connectionFactory.getConnection()) {
+            final Statement statement = connection.createStatement();
             return statement.executeUpdate(sql);
         } catch (SQLException e) {
             final String message = "Remove failed! Reason: " + e.getMessage();

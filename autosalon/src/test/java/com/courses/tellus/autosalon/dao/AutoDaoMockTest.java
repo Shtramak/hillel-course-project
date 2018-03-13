@@ -90,12 +90,7 @@ public class AutoDaoMockTest {
     public void testGetAutoByIdWhenResultTrue() throws SQLException {
         when(mockStatement.executeQuery()).thenReturn(mockResultSet);
         when(mockResultSet.next()).thenReturn(true);
-        when(mockResultSet.getLong("ID")).thenReturn(AUTO.getId());
-        when(mockResultSet.getString("AUTO_BRAND")).thenReturn(AUTO.getBrand());
-        when(mockResultSet.getString("AUTO_MODEL")).thenReturn(AUTO.getModel());
-        when(mockResultSet.getInt("MANUFACT_YEAR")).thenReturn(AUTO.getManufactYear());
-        when(mockResultSet.getString("COUNTRY")).thenReturn(AUTO.getProducerCountry());
-        when(mockResultSet.getBigDecimal("PRICE")).thenReturn(AUTO.getPrice());
+        putAutoIntoResultSetMock();
         Assertions.assertEquals(Optional.of(AUTO), autoDao.getById(1L));
     }
 
@@ -103,12 +98,6 @@ public class AutoDaoMockTest {
     public void testGetAutoByIdWhenResultFalse() throws SQLException {
         when(mockStatement.executeQuery()).thenReturn(mockResultSet);
         when(mockResultSet.next()).thenReturn(false);
-        when(mockResultSet.getLong("ID")).thenReturn(AUTO.getId());
-        when(mockResultSet.getString("AUTO_BRAND")).thenReturn(AUTO.getBrand());
-        when(mockResultSet.getString("AUTO_MODEL")).thenReturn(AUTO.getModel());
-        when(mockResultSet.getInt("MANUFACT_YEAR")).thenReturn(AUTO.getManufactYear());
-        when(mockResultSet.getString("COUNTRY")).thenReturn(AUTO.getProducerCountry());
-        when(mockResultSet.getBigDecimal("PRICE")).thenReturn(AUTO.getPrice());
         Assertions.assertNotEquals(AUTO, autoDao.getById(2L));
     }
 
@@ -126,13 +115,16 @@ public class AutoDaoMockTest {
         List<Auto> autoList = new ArrayList<>();
         when(mockStatement.executeQuery()).thenReturn(mockResultSet);
         when(mockResultSet.next()).thenReturn(true).thenReturn(false);
-        AUTO.setId(mockResultSet.getLong("ID"));
-        AUTO.setBrand(mockResultSet.getString("AUTO_BRAND"));
-        AUTO.setModel(mockResultSet.getString("AUTO_MODEL"));
-        AUTO.setManufactYear(mockResultSet.getInt("MANUFACT_YEAR"));
-        AUTO.setProducerCountry(mockResultSet.getString("COUNTRY"));
-        AUTO.setPrice(mockResultSet.getBigDecimal("PRICE"));
         autoList.add(AUTO);
         Assertions.assertEquals(autoList.size(), autoDao.getAll().size());
+    }
+
+    private void putAutoIntoResultSetMock() throws SQLException {
+        when(mockResultSet.getLong("ID")).thenReturn(AUTO.getId());
+        when(mockResultSet.getString("AUTO_BRAND")).thenReturn(AUTO.getBrand());
+        when(mockResultSet.getString("AUTO_MODEL")).thenReturn(AUTO.getModel());
+        when(mockResultSet.getInt("MANUFACT_YEAR")).thenReturn(AUTO.getManufactYear());
+        when(mockResultSet.getString("COUNTRY")).thenReturn(AUTO.getProducerCountry());
+        when(mockResultSet.getBigDecimal("PRICE")).thenReturn(AUTO.getPrice());
     }
 }
