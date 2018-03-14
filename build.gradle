@@ -30,16 +30,12 @@ task wrapper(type: Wrapper) {
 }
 
 project("autosalon") {
-    dependencies {
-        testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.1.0'
-    }
 }
 
 project("autosalon-test") {
     dependencies {
         compile project(':autosalon')
     }
-
 }
 
 project("education") {
@@ -54,17 +50,8 @@ project("education-test") {
     }
 }
 
-dependencies {
-    compile project(':autosalon')
-}
-
-
 repositories {
     mavenCentral()
-}
-
-dependencies {
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.1.0'
 }
 
 ext {
