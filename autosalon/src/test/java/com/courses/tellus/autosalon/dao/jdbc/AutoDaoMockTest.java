@@ -1,4 +1,4 @@
-package com.courses.tellus.autosalon.dao;
+package com.courses.tellus.autosalon.dao.jdbc;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.autosalon.config.ConnectionFactory;
+import com.courses.tellus.autosalon.config.jdbc.ConnectionFactory;
+import com.courses.tellus.autosalon.dao.jdbc.AutoDao;
 import com.courses.tellus.autosalon.model.Auto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -127,3 +128,4 @@ public class AutoDaoMockTest {
         when(mockResultSet.getBigDecimal("PRICE")).thenReturn(AUTO.getPrice());
     }
 }
+
