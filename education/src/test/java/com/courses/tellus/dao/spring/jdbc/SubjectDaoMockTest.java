@@ -4,9 +4,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Optional;
 
-import com.courses.tellus.config.JDBCTeamplateConfiguration;
-import com.courses.tellus.dao.SubjectDao;
+
+import com.courses.tellus.connection.spring.jdbc.JDBCTeamplateConfiguration;
+import com.courses.tellus.dao.jdbc.SubjectDao;
 import com.courses.tellus.entity.Subject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +51,7 @@ class SubjectDaoMockTest {
     void testGetAll() {
         List<Subject> subjectList = new ArrayList<>();
         List<Subject> spyList = spy(subjectList);
-        when(subjectDao.getAll()).thenReturn(spyList);
+        when(subjectDao.getAll()).thenReturn(Optional.of(spyList));
         Assertions.assertNotNull(spyList);
     }
 
@@ -57,7 +59,7 @@ class SubjectDaoMockTest {
     void testGetById() {
         final List<Subject> resultList = new ArrayList<>();
         resultList.add(subject);
-        when(jdbcTemplate.query(anyString(), any(RowMapper.class))).the
+        when(jdbcTemplate.query(anyString(), any(RowMapper.class)));
         System.out.println(resultList.size());
         System.out.println(resultList.get(0).toString());
         assertEquals(subject, subjectDao.getById(1L));
