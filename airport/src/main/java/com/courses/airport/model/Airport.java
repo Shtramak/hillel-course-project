@@ -91,14 +91,7 @@ public class Airport {
 
     @Override
     public int hashCode() {
-        final int bits = 32;
-        int result = (int) (airportId ^ (airportId >>> bits));
-        final int primeNumber = 31;
-        result = primeNumber * result + nameAirport.hashCode();
-        result = primeNumber * result + dateOfBirth.hashCode();
-        result = primeNumber * result + numberTerminal.hashCode();
-        result = primeNumber * result + telephone.hashCode();
-        return result;
+        return super.hashCode();
     }
 
     @Override
@@ -106,7 +99,7 @@ public class Airport {
         return "Airport{"
                 + "airportId=" + airportId
                 + ", nameAirport='" + nameAirport + '\''
-                + ", dateOfBirth=" + dateOfBirth
+                + ", dateOfConstruction=" + dateOfBirth
                 + ", numberTerminal='" + numberTerminal + '\''
                 + ", telephone='" + telephone + '\''
                 + '}';

@@ -88,14 +88,7 @@ public class Ticket {
 
     @Override
     public int hashCode() {
-        final int bits = 32;
-        int result = (int) (ticketId ^ (ticketId >>> bits));
-        final int primeNumber = 31;
-        result = primeNumber * result + name.hashCode();
-        result = primeNumber * result + surname.hashCode();
-        result = primeNumber * result + dateFlight.hashCode();
-        result = primeNumber * result + destCity.hashCode();
-        return result;
+        return super.hashCode();
     }
 
     @Override
