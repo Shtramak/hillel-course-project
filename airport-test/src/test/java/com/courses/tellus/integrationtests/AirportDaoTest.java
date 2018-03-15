@@ -63,9 +63,8 @@ public class AirportDaoTest {
     @Test
     void getByIdWhenTableNotExistsThrowsDaoException() throws Exception {
         RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/drop-table.sql"));
-        long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
         assertThrows(DaoException.class, () -> {
-            airportDao.getById(id);
+            airportDao.getById(1L);
         });
     }
 
