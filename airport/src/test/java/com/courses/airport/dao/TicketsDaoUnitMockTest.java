@@ -93,8 +93,7 @@ class TicketsDaoUnitMockTest {
 
     @Test
     void getAllWhenEntryExistsReturnsListWithTickets() throws Exception {
-        when(connectionMock.createStatement()).thenReturn(statementMock);
-        when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
+        returnMockResultSet();
         when(resultSetMock.next()).thenReturn(true).thenReturn(false);
         putRealTicketIntoResulsetMock();
         List<Ticket> expected = Collections.singletonList(TEST_TICKET);

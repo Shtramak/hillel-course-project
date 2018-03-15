@@ -88,8 +88,7 @@ class AirDaoMockTest {
 
     @Test
     void getAllWhenEntryExistsReturnsListWithAirports() throws Exception {
-        when(connectionMock.createStatement()).thenReturn(statementMock);
-        when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
+        returnMockResultSet();
         when(resultSetMock.next()).thenReturn(true).thenReturn(false);
         putRealAirportIntoResulsetMock();
         List<Airport> expected = Collections.singletonList(AIRPORT_TRUE);
