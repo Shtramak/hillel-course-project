@@ -3,12 +3,14 @@ package com.courses.tellus.autosalon.config.springjdbc;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 @Configuration
+@ComponentScan("com.courses.tellus.autosalon.dao.springjdbc")
 public class JdbcTemplatesConfig {
 
     /**
@@ -19,6 +21,7 @@ public class JdbcTemplatesConfig {
         final EmbeddedDatabaseBuilder dbBuilder = new EmbeddedDatabaseBuilder();
         return dbBuilder
                 .setType(EmbeddedDatabaseType.H2)
+                .addScript("test.sql")
                 .build();
     }
 
