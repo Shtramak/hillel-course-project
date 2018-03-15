@@ -22,7 +22,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 class AirDaoMockTest {
-    private static final Airport AIRPORT_TRUE = new Airport(1L, "Borispol",  LocalDate.of(2018, 2, 20),"D-3", "(012)345-67-89");
+    private final Airport AIRPORT_TRUE = new Airport(1L, "Borispol",  LocalDate.of(2018, 2, 20),"D-3", "(012)345-67-89");
     private AirportDao airportDao;
 
     @Mock

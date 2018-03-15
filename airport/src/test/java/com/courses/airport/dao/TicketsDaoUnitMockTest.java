@@ -27,7 +27,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 class TicketsDaoUnitMockTest {
-    private static final Ticket TEST_TICKET = new Ticket(1, "Igor", "Fedotov", LocalDate.of(2018, 1, 1), "Keln");
+    private final Ticket TEST_TICKET = new Ticket(1, "Igor", "Fedotov", LocalDate.of(2018, 1, 1), "Keln");
     private TicketsDao ticketsDao;
 
     @Mock
