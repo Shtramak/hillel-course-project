@@ -36,23 +36,20 @@ import org.junit.jupiter.api.Test;
 public class TicketDaoIntTest {
 
     private static final Ticket TICKET = new Ticket(1, "Igor", "Fedotov", LocalDate.of(2018, 1, 1), "Keln");
-
     private static ConnectionFactory connectionFactory;
-
     private TicketsDao ticketsDao;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         connectionFactory = ConnectionFactory.getInstance();
         ticketsDao = new TicketsDao(connectionFactory);
-        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/db-creation.sql"));
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/ticket_db.sql"));
     }
 
     @Test
     void insertWithValidDataReturnsTrue() throws Exception {
         Ticket ticket = new Ticket(3, "Vladimir", "Klichko", LocalDate.of(2018, 1, 1), "Munchen");
-        Integer res = ticketsDao.insert(ticket);
-        assertEquals(Integer.valueOf(1), res);
+        assertEquals(Integer.valueOf(1), ticketsDao.insert(ticket));
     }
 
     @Test
@@ -93,9 +90,8 @@ public class TicketDaoIntTest {
     @Test
     void getAllWhenTableHasNoDataReturnsEmptyList() throws Exception {
         Connection connection = connectionFactory.getConnection();
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("TRUNCATE TABLE airport_tickets");
-        }
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("TRUNCATE TABLE airport_tickets");
         assertEquals(Collections.emptyList(), ticketsDao.getAll());
     }
 
@@ -109,8 +105,7 @@ public class TicketDaoIntTest {
 
     @Test
     void updateWhenEntryExistsReturnsTrue() throws Exception {
-        Ticket updatedTicket = new Ticket(1, "Arnold", "Swarzneger", LocalDate.of(2018, 3, 3), "Viena");
-        assertEquals(Integer.valueOf(1), ticketsDao.update(updatedTicket));
+        assertEquals(Integer.valueOf(1), ticketsDao.update(TICKET));
     }
 
     @Test
@@ -128,7 +123,7 @@ public class TicketDaoIntTest {
     }
 
     @Test
-    void deleteWithExistingIdReturns1() throws Exception {
+    void deleteWithExistingIdReturnsOne() throws Exception {
         assertEquals(Integer.valueOf(1), ticketsDao.delete(2L));
     }
 
@@ -141,7 +136,7 @@ public class TicketDaoIntTest {
     void deleteWhenTableNotExistsThrowsDaoException() throws Exception {
         RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/drop-table.sql"));
         assertThrows(DaoException.class, () -> {
-            ticketsDao.delete(ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE));
+            ticketsDao.delete(1L);
         });
     }
 }

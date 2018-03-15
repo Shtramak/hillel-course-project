@@ -21,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
+class AirDaoMockTest {
+    private static final Airport AIRPORT_TRUE = new Airport(1L, "Borispol",  LocalDate.of(2018, 2, 20),"D-3", "(012)345-67-89");
+    private AirportDao airportDao;
 
-public class AirDaoMockTest {
-    private static final Airport AIRPORT_TRUE
-            = new Airport(1L, "Borispol",  LocalDate.of(2018, 2, 20),"D-3", "(012)345-67-89");
     @Mock
     private ConnectionFactory connectionFactoryMock;
     @Mock
@@ -37,9 +37,6 @@ public class AirDaoMockTest {
     private ResultSet resultSetMock;
     @Mock
     private Airport airportMock;
-    private AirportDao airportDao;
-
-
 
     @BeforeAll
     static void disableWarning() {
@@ -51,12 +48,6 @@ public class AirDaoMockTest {
         MockitoAnnotations.initMocks(this);
         when(connectionFactoryMock.getConnection()).thenReturn(connectionMock);
         airportDao = new AirportDao(connectionFactoryMock);
-    }
-
-    @Test
-    void newCustomerWhenConnectionFailedThrowsDaoException() throws Exception {
-        when(connectionFactoryMock.getConnection()).thenThrow(SQLException.class);
-        assertThrows(DaoException.class, () -> new AirportDao(connectionFactoryMock));
     }
 
     @Test
@@ -73,19 +64,17 @@ public class AirDaoMockTest {
     }
 
     @Test
-    void getByIdWithExistingIdReturnsCustomer() throws Exception {
-        when(connectionMock.createStatement()).thenReturn(statementMock);
-        when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
+    void getByIdWithExistingIdReturnsAirport() throws Exception {
+        returnMockResultSet();
         when(resultSetMock.next()).thenReturn(true);
-        putRealCustomerIntoResulsetMock();
+        putRealAirportIntoResulsetMock();
         Airport result = airportDao.getById(AIRPORT_TRUE.getAirportId()).orElse(null);
         assertEquals(AIRPORT_TRUE, result);
     }
 
     @Test
     void getByIdWhenEmptyResultSetReturnsOptionalEmpty() throws Exception {
-        when(connectionMock.createStatement()).thenReturn(statementMock);
-        when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
+        returnMockResultSet();
         when(resultSetMock.next()).thenReturn(false);
         Long id = ThreadLocalRandom.current().nextLong();
         assertEquals(Optional.empty(), airportDao.getById(id));
@@ -94,16 +83,15 @@ public class AirDaoMockTest {
     @Test
     void getByIdWhenBadConnectionThrowsDaoException() throws Exception {
         when(connectionMock.createStatement()).thenThrow(SQLException.class);
-        Long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
-        assertThrows(DaoException.class, () -> airportDao.getById(id));
+        assertThrows(DaoException.class, () -> airportDao.getById(1L));
     }
 
     @Test
-    void getAllWhenEntryExistsReturnsListWithCustomer() throws Exception {
+    void getAllWhenEntryExistsReturnsListWithAirports() throws Exception {
         when(connectionMock.createStatement()).thenReturn(statementMock);
         when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
         when(resultSetMock.next()).thenReturn(true).thenReturn(false);
-        putRealCustomerIntoResulsetMock();
+        putRealAirportIntoResulsetMock();
         List<Airport> expected = Collections.singletonList(AIRPORT_TRUE);
         assertEquals(expected, airportDao.getAll());
     }
@@ -115,7 +103,7 @@ public class AirDaoMockTest {
     }
 
     @Test
-    void updateWhenEntryExistsReturns1() throws Exception {
+    void updateWhenEntryExistsReturnsOne() throws Exception {
         when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
         when(preparedStatementMock.executeUpdate()).thenReturn(1);
         when(airportMock.getDateOfBirth()).thenReturn(LocalDate.now());
@@ -123,7 +111,7 @@ public class AirDaoMockTest {
     }
 
     @Test
-    void updateWhenEntryNotExistsReturns0() throws Exception {
+    void updateWhenEntryNotExistsReturnsZero() throws Exception {
         when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
         when(preparedStatementMock.executeUpdate()).thenReturn(0);
         when(airportMock.getDateOfBirth()).thenReturn(LocalDate.now());
@@ -137,19 +125,17 @@ public class AirDaoMockTest {
     }
 
     @Test
-    void deleteWhenWhenEntryExistsReturns1() throws Exception {
+    void deleteWhenWhenEntryExistsReturnsOne() throws Exception {
         when(connectionMock.createStatement()).thenReturn(statementMock);
         when(statementMock.executeUpdate(anyString())).thenReturn(1);
-        Long id = ThreadLocalRandom.current().nextLong();
-        assertEquals(Integer.valueOf(1), airportDao.delete(id));
+        assertEquals(Integer.valueOf(1), airportDao.delete(1L));
     }
 
     @Test
-    void deleteWhenWhenEntryNotExistsReturns0() throws Exception {
+    void deleteWhenWhenEntryNotExistsReturnsZero() throws Exception {
         when(connectionMock.createStatement()).thenReturn(statementMock);
         when(statementMock.executeUpdate(anyString())).thenReturn(0);
-        Long id = ThreadLocalRandom.current().nextLong();
-        assertEquals(Integer.valueOf(0), airportDao.delete(id));
+        assertEquals(Integer.valueOf(0), airportDao.delete(1L));
     }
 
     @Test
@@ -158,7 +144,12 @@ public class AirDaoMockTest {
         assertThrows(DaoException.class, () -> airportDao.delete(1L));
     }
 
-    private void putRealCustomerIntoResulsetMock() throws SQLException {
+    private void returnMockResultSet() throws SQLException {
+        when(connectionMock.createStatement()).thenReturn(statementMock);
+        when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
+    }
+
+    private void putRealAirportIntoResulsetMock() throws SQLException {
         when(resultSetMock.getLong("id")).thenReturn(AIRPORT_TRUE.getAirportId());
         when(resultSetMock.getString("name")).thenReturn(AIRPORT_TRUE.getNameAirport());
         Date date = Date.valueOf(AIRPORT_TRUE.getDateOfBirth());

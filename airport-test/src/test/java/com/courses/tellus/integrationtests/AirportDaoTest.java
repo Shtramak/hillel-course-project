@@ -22,37 +22,35 @@ import java.util.concurrent.ThreadLocalRandom;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
 public class AirportDaoTest {
 
-    private static final Airport AIRPORT = new Airport(3, "John", LocalDate.of(2018, 2, 20), "3","(012)345-67-89");
+    private static final Airport AIRPORT = new Airport(3, "Borispil", LocalDate.of(1995, 2, 20), "D","(044)666-66-66");
     private static ConnectionFactory connectionFactory;
-    private static AirportDao airportDao;
+    private AirportDao airportDao;
 
     @BeforeEach
     void setUp() throws Exception {
         connectionFactory = ConnectionFactory.getInstance();
         airportDao = new AirportDao(connectionFactory);
-        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/db-creation.sql"));
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/airport_db.sql"));
     }
 
     @Test
     void insertWithValidDataReturnsTrue() throws Exception {
-        Airport AIRPORT = new Airport(5, "John", LocalDate.of(2018, 2, 20), "3","(012)345-67-89");
-        Integer res = airportDao.insert(AIRPORT);
-        assertEquals(Integer.valueOf(1), res);
+        Airport AIRPORT = new Airport(4, "Borispil", LocalDate.of(1995, 2, 20), "D","(044)666-66-66");
+        assertEquals(Integer.valueOf(1), airportDao.insert(AIRPORT));
     }
 
     @Test
     void insertWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTableAirport();
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/drop-table.sql"));
         assertThrows(DaoException.class, () -> {
             airportDao.insert(AIRPORT);
         });
     }
 
     @Test
-    void getByIdWithExistingIdReturnsCustomer() throws Exception {
+    void getByIdWithExistingIdReturnsAirport() throws Exception {
         Airport actual = airportDao.getById(3L).orElse(null);
         assertEquals(AIRPORT, actual);
     }
@@ -64,7 +62,7 @@ public class AirportDaoTest {
 
     @Test
     void getByIdWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTableAirport();
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/drop-table.sql"));
         long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
         assertThrows(DaoException.class, () -> {
             airportDao.getById(id);
@@ -72,10 +70,8 @@ public class AirportDaoTest {
     }
 
     @Test
-    void getAllWhenTableHasDataReturnsListOfCustomers() throws Exception {
-        Airport airport1 = new Airport(2, "John", LocalDate.of(2018, 2, 20), "2","(012)345-67-89");
-        Airport airport2 = new Airport(3, "John", LocalDate.of(2018, 2, 20), "3","(012)345-67-89");
-        List<Airport> expected = Arrays.asList(airport1, airport2);
+    void getAllWhenTableHasDataReturnsListOfAirports() throws Exception {
+        List<Airport> expected = Arrays.asList(new Airport(2, "Zhuliani", LocalDate.of(2012, 1, 01), "A","(044)333-33-33"), AIRPORT);
         List<Airport> actual = airportDao.getAll();
         assertEquals(expected, actual);
     }
@@ -83,15 +79,14 @@ public class AirportDaoTest {
     @Test
     void getAllWhenTableHasNoDataReturnsEmptyList() throws Exception {
         Connection connection = connectionFactory.getConnection();
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("TRUNCATE TABLE AIRPORT");
-        }
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("TRUNCATE TABLE AIRPORT");
         assertEquals(Collections.emptyList(), airportDao.getAll());
     }
 
     @Test
     void getAllWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTableAirport();
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/drop-table.sql"));
         assertThrows(DaoException.class, () -> {
             airportDao.getAll();
         });
@@ -99,19 +94,18 @@ public class AirportDaoTest {
 
     @Test
     void updateWhenEntryExistsReturnsTrue() throws Exception {
-        Airport updatedAirport = new Airport(2, "updateName",  LocalDate.of(2018, 2, 20), "terminal2", "phone2");
-        assertEquals(Integer.valueOf(1), airportDao.update(updatedAirport));
+        assertEquals(Integer.valueOf(1), airportDao.update(AIRPORT));
     }
 
     @Test
     void updateWhenEntryNotExistsReturnsFalse() throws Exception {
-        Airport updatedAirport = new Airport(5, "updateName", LocalDate.of(2018, 2, 20), "terminal3", "phone3");
+        Airport updatedAirport = new Airport(5, "updateTerminalName", LocalDate.of(2018, 2, 20), "terminalNumber", "phone");
         assertEquals(Integer.valueOf(0), airportDao.update(updatedAirport));
     }
 
     @Test
     void updateWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTableAirport();
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/drop-table.sql"));
         assertThrows(DaoException.class, () -> {
             airportDao.update(new Airport());
         });
@@ -129,17 +123,9 @@ public class AirportDaoTest {
 
     @Test
     void deleteWhenTableNotExistsThrowsDaoException() throws Exception {
-        dropTableAirport();
-        long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/drop-table.sql"));
         assertThrows(DaoException.class, () -> {
-            airportDao.delete(id);
+            airportDao.delete(1L);
         });
-    }
-
-    private void dropTableAirport() throws SQLException {
-        Connection connection = connectionFactory.getConnection();
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DROP TABLE airport");
-        }
     }
 }

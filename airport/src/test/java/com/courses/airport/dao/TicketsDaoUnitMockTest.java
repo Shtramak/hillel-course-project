@@ -27,7 +27,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 class TicketsDaoUnitMockTest {
-
     private static final Ticket TEST_TICKET = new Ticket(1, "Igor", "Fedotov", LocalDate.of(2018, 1, 1), "Keln");
     private TicketsDao ticketsDao;
 
@@ -57,12 +56,6 @@ class TicketsDaoUnitMockTest {
     }
 
     @Test
-    void newTicketWhenConnectionFailedThrowsDaoException() throws Exception {
-        when(connectionFactoryMock.getConnection()).thenThrow(SQLException.class);
-        assertThrows(DaoException.class, () -> new TicketsDao(connectionFactoryMock));
-    }
-
-    @Test
     void insertWhenExecuteUpdatePositiveDataReturnsTrue() throws Exception {
         when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
         when(preparedStatementMock.executeUpdate()).thenReturn(1);
@@ -77,8 +70,7 @@ class TicketsDaoUnitMockTest {
 
     @Test
     void getByIdWithExistingIdReturnsTicket() throws Exception {
-        when(connectionMock.createStatement()).thenReturn(statementMock);
-        when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
+        returnMockResultSet();
         when(resultSetMock.next()).thenReturn(true);
         putRealTicketIntoResulsetMock();
         Ticket result = ticketsDao.getById(TEST_TICKET.getTicketId()).orElse(null);
@@ -87,8 +79,7 @@ class TicketsDaoUnitMockTest {
 
     @Test
     void getByIdWhenEmptyResultSetReturnsOptionalEmpty() throws Exception {
-        when(connectionMock.createStatement()).thenReturn(statementMock);
-        when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
+        returnMockResultSet();
         when(resultSetMock.next()).thenReturn(false);
         Long id = ThreadLocalRandom.current().nextLong();
         assertEquals(Optional.empty(), ticketsDao.getById(id));
@@ -97,8 +88,7 @@ class TicketsDaoUnitMockTest {
     @Test
     void getByIdWhenBadConnectionThrowsDaoException() throws Exception {
         when(connectionMock.createStatement()).thenThrow(SQLException.class);
-        Long id = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
-        assertThrows(DaoException.class, () -> ticketsDao.getById(id));
+        assertThrows(DaoException.class, () -> ticketsDao.getById(1L));
     }
 
     @Test
@@ -118,7 +108,7 @@ class TicketsDaoUnitMockTest {
     }
 
     @Test
-    void updateWhenEntryExistsReturns1() throws Exception {
+    void updateWhenEntryExistsReturnsOne() throws Exception {
         when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
         when(preparedStatementMock.executeUpdate()).thenReturn(1);
         when(ticketMock.getDateFlight()).thenReturn(LocalDate.now());
@@ -126,7 +116,7 @@ class TicketsDaoUnitMockTest {
     }
 
     @Test
-    void updateWhenEntryNotExistsReturns0() throws Exception {
+    void updateWhenEntryNotExistsReturnsZero() throws Exception {
         when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
         when(preparedStatementMock.executeUpdate()).thenReturn(0);
         when(ticketMock.getDateFlight()).thenReturn(LocalDate.now());
@@ -140,7 +130,7 @@ class TicketsDaoUnitMockTest {
     }
 
     @Test
-    void deleteWhenWhenEntryExistsReturns1() throws Exception {
+    void deleteWhenWhenEntryExistsReturnsOne() throws Exception {
         when(connectionMock.createStatement()).thenReturn(statementMock);
         when(statementMock.executeUpdate(anyString())).thenReturn(1);
         Long id = ThreadLocalRandom.current().nextLong();
@@ -148,17 +138,21 @@ class TicketsDaoUnitMockTest {
     }
 
     @Test
-    void deleteWhenWhenEntryNotExistsReturns0() throws Exception {
+    void deleteWhenWhenEntryNotExistsReturnsZero() throws Exception {
         when(connectionMock.createStatement()).thenReturn(statementMock);
         when(statementMock.executeUpdate(anyString())).thenReturn(0);
-        Long id = ThreadLocalRandom.current().nextLong();
-        assertEquals(Integer.valueOf(0), ticketsDao.delete(id));
+        assertEquals(Integer.valueOf(0), ticketsDao.delete(1L));
     }
 
     @Test
     void deleteWhenBadConnectionThrowsDaoException() throws Exception {
         when(connectionMock.createStatement()).thenThrow(SQLException.class);
         assertThrows(DaoException.class, () -> ticketsDao.delete(1L));
+    }
+
+    private void returnMockResultSet() throws SQLException {
+        when(connectionMock.createStatement()).thenReturn(statementMock);
+        when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
     }
 
     private void putRealTicketIntoResulsetMock() throws SQLException {
