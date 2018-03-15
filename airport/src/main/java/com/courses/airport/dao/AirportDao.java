@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -124,7 +123,7 @@ public class AirportDao  implements AirportDaoImpl<Airport> {
         final Date birthday = resultSet.getDate("date_of_birth");
         final String terminal = resultSet.getString("terminal");
         final String phoneNumber = resultSet.getString("phone_number");
-        return new Airport(airportId, name, localDate(birthday), terminal, phoneNumber);
+        return new Airport(airportId, name, birthday.toLocalDate(), terminal, phoneNumber);
     }
 
     void setStatementValues(final PreparedStatement statement, final Airport airport) throws SQLException {
@@ -134,9 +133,5 @@ public class AirportDao  implements AirportDaoImpl<Airport> {
         statement.setString(INDEX_PHONE, airport.getTelephone());
         statement.setString(INDEX_TERMINAL, airport.getNumberTerminal());
         statement.setLong(INDEX_ID, airport.getAirportId());
-    }
-
-    private LocalDate localDate(final Date birthday) {
-        return birthday.toLocalDate();
     }
 }

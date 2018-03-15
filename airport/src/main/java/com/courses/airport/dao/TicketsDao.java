@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -155,10 +154,7 @@ public class TicketsDao implements AirportDaoImpl<Ticket> {
         final String surname = resultSet.getString("surname");
         final Date flightDate = resultSet.getDate("dateOfFlight");
         final String destination = resultSet.getString("destCity");
-        return new Ticket(ticketId, name, surname, localDate(flightDate), destination);
+        return new Ticket(ticketId, name, surname, flightDate.toLocalDate(), destination);
     }
 
-    private LocalDate localDate(final Date flightDate) {
-        return flightDate.toLocalDate();
-    }
 }
