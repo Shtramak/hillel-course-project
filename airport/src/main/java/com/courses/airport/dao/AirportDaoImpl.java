@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import com.courses.airport.exception.DaoException;
 
-public interface IAirportDao<E> {
+public interface AirportDaoImpl<E> {
     /**
      * Method for retrieving all object from database.
      *

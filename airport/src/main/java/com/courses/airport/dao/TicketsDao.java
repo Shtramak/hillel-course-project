@@ -16,7 +16,7 @@ import com.courses.airport.exception.DaoException;
 import com.courses.airport.model.Ticket;
 import org.apache.log4j.Logger;
 
-public class TicketsDao implements IAirportDao<Ticket> {
+public class TicketsDao implements AirportDaoImpl<Ticket> {
     private static final int INDEX_NAME = 1;
     private static final int INDEX_SURNAME = 2;
     private static final int INDEX_FLIGHT_DATE = 3;

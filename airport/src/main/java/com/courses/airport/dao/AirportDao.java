@@ -16,7 +16,7 @@ import com.courses.airport.exception.DaoException;
 import com.courses.airport.model.Airport;
 import org.apache.log4j.Logger;
 
-public class AirportDao  implements IAirportDao<Airport> {
+public class AirportDao  implements AirportDaoImpl<Airport> {
 
     private static final int INDEX_NAME = 1;
     private static final int INDEX_BIRTHDAY = 2;

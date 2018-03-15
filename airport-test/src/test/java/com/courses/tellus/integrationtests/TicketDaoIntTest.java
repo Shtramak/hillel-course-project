@@ -48,8 +48,8 @@ public class TicketDaoIntTest {
 
     @Test
     void insertWithValidDataReturnsTrue() throws Exception {
-        Ticket ticket = new Ticket(3, "Vladimir", "Klichko", LocalDate.of(2018, 1, 1), "Munchen");
-        assertEquals(Integer.valueOf(1), ticketsDao.insert(ticket));
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/delete-raws-ticket.sql"));
+        assertEquals(Integer.valueOf(1), ticketsDao.insert(TICKET));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class TicketDaoIntTest {
 
     @Test
     void getAllWhenTableHasDataReturnsListOfTickets() throws Exception {
-        List<Ticket> expected = Arrays.asList(TICKET, new Ticket(2, "Vitalii", "Klichko", LocalDate.of(2018, 1, 1), "Berlin"));
+        List<Ticket> expected = Arrays.asList(TICKET);
         List<Ticket> actual = ticketsDao.getAll();
         assertEquals(expected, actual);
     }
@@ -110,8 +110,8 @@ public class TicketDaoIntTest {
 
     @Test
     void updateWhenEntryNotExistsReturnsFalse() throws Exception {
-        Ticket updatedCustomer = new Ticket(3, "Leonid", "Chernovezkii", LocalDate.of(1991, 01, 01), "Bombei");
-        assertEquals(Integer.valueOf(0), ticketsDao.update(updatedCustomer));
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/delete-raws-ticket.sql"));
+        assertEquals(Integer.valueOf(0), ticketsDao.update(TICKET));
     }
 
     @Test
@@ -124,7 +124,7 @@ public class TicketDaoIntTest {
 
     @Test
     void deleteWithExistingIdReturnsOne() throws Exception {
-        assertEquals(Integer.valueOf(1), ticketsDao.delete(2L));
+        assertEquals(Integer.valueOf(1), ticketsDao.delete(1L));
     }
 
     @Test

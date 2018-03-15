@@ -9,4 +9,3 @@ CREATE TABLE airport_tickets (
 );
 
 INSERT INTO airport_tickets VALUES (1, 'Igor', 'Fedotov', '2018-01-01', 'Keln');
-INSERT INTO airport_tickets VALUES (2, 'Vitalii', 'Klichko', '2018-01-01', 'Berlin');

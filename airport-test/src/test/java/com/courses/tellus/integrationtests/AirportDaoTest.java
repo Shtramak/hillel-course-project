@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AirportDaoTest {
 
-    private static final Airport AIRPORT = new Airport(3, "Borispil", LocalDate.of(1995, 2, 20), "D","(044)666-66-66");
+    private static final Airport AIRPORT = new Airport(1, "Borispil", LocalDate.of(1995, 2, 20), "D","(044)666-66-66");
     private static ConnectionFactory connectionFactory;
     private AirportDao airportDao;
 
@@ -37,7 +37,7 @@ public class AirportDaoTest {
 
     @Test
     void insertWithValidDataReturnsTrue() throws Exception {
-        Airport AIRPORT = new Airport(4, "Borispil", LocalDate.of(1995, 2, 20), "D","(044)666-66-66");
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/delete-raws-airport.sql"));
         assertEquals(Integer.valueOf(1), airportDao.insert(AIRPORT));
     }
 
@@ -51,7 +51,7 @@ public class AirportDaoTest {
 
     @Test
     void getByIdWithExistingIdReturnsAirport() throws Exception {
-        Airport actual = airportDao.getById(3L).orElse(null);
+        Airport actual = airportDao.getById(1L).orElse(null);
         assertEquals(AIRPORT, actual);
     }
 
@@ -71,7 +71,7 @@ public class AirportDaoTest {
 
     @Test
     void getAllWhenTableHasDataReturnsListOfAirports() throws Exception {
-        List<Airport> expected = Arrays.asList(new Airport(2, "Zhuliani", LocalDate.of(2012, 1, 01), "A","(044)333-33-33"), AIRPORT);
+        List<Airport> expected = Arrays.asList(AIRPORT);
         List<Airport> actual = airportDao.getAll();
         assertEquals(expected, actual);
     }
@@ -99,8 +99,8 @@ public class AirportDaoTest {
 
     @Test
     void updateWhenEntryNotExistsReturnsFalse() throws Exception {
-        Airport updatedAirport = new Airport(5, "updateTerminalName", LocalDate.of(2018, 2, 20), "terminalNumber", "phone");
-        assertEquals(Integer.valueOf(0), airportDao.update(updatedAirport));
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/delete-raws-airport.sql"));
+        assertEquals(Integer.valueOf(0), airportDao.update(AIRPORT));
     }
 
     @Test
@@ -112,12 +112,12 @@ public class AirportDaoTest {
     }
 
     @Test
-    void deleteWithExistingIdReturns1() throws Exception {
-        assertEquals(Integer.valueOf(1), airportDao.delete(2L));
+    void deleteWithExistingIdReturnsOne() throws Exception {
+        assertEquals(Integer.valueOf(1), airportDao.delete(1L));
     }
 
     @Test
-    void deleteWithNotExistingReturns0() throws Exception {
+    void deleteWithNotExistingReturnsZero() throws Exception {
         assertEquals(Integer.valueOf(0), airportDao.delete(5L));
     }
 
