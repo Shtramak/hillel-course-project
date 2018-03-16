@@ -21,7 +21,7 @@ class StudentDaoIntegrationTest {
     @BeforeEach
     void initializeSubject() throws Exception {
         RunScript.execute(ConnectionFactory.getInstance().getConnection(),
-                new FileReader("src/test/resources/student_test_table.sql"));
+                new FileReader("src/test/resources/initial/h2/table/student_test_table.sql"));
         studentDao = new StudentDao(ConnectionFactory.getInstance());
         student = new Student(1L,"Andrey", "Petrov", "0123456789",
                 "Peremohy str, 178");
@@ -31,7 +31,7 @@ class StudentDaoIntegrationTest {
     @AfterEach
     void clearTable() throws Exception {
         RunScript.execute(ConnectionFactory.getInstance().getConnection(),
-                new FileReader("src/test/resources/trunc.sql"));
+                new FileReader("src/test/resources/initial/h2/util/trunc.sql"));
     }
 
     @Test
