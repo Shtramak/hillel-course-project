@@ -25,7 +25,7 @@ public class UniversityIntegrationTest {
     @BeforeEach
     void beforeEach() throws Exception {
         RunScript.execute(ConnectionFactory.getInstance().getConnection(),
-                new FileReader("src/test/resources/univer_test_table.sql"));
+                new FileReader("src/test/resources/initial/h2/table/univer_test_table.sql"));
         universityDao = new UniversityDao(ConnectionFactory.getInstance());
         university = new University(1L,"KPI","pr.Peremohy","Technical");
         universityDao.insert(university);
@@ -34,7 +34,7 @@ public class UniversityIntegrationTest {
     @AfterEach
     void clearTable() throws Exception {
         RunScript.execute(ConnectionFactory.getInstance().getConnection(),
-                new FileReader("src/test/resources/trunc.sql"));
+                new FileReader("src/test/resources/initial/h2/util/trunc.sql"));
     }
 
     @Test

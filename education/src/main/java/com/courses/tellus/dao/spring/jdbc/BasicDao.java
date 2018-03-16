@@ -52,5 +52,5 @@ public interface BasicDao<E> {
      * @param resultSet returned values from the database
      * @return new Object
      */
-    E getNewObjectFromResultSet(ResultSet resultSet) throws SQLException;
+    E toEntity(ResultSet resultSet) throws SQLException;
 }

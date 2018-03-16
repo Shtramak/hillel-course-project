@@ -13,7 +13,7 @@ import org.h2.jdbcx.JdbcDataSource;
 @SuppressWarnings("PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal")
 public class ConnectionFactory {
 
-    private static final String DB_PROPERTIES = "db.properties";
+    private static final String DB_PROPERTIES = "properties/db.properties";
     private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
     private static ConnectionFactory connFactory;
     private static JdbcDataSource dataSource;
@@ -67,4 +67,3 @@ public class ConnectionFactory {
         return dataSource.getConnection();
     }
 }
-

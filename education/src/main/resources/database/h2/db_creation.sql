@@ -1,7 +1,7 @@
 -- Creating table block
   -- Universities table
 CREATE TABLE Universities(
-  univer_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  univer_id INT NOT NULL PRIMARY KEY,
   nameOfUniversity VARCHAR (100) NOT NULL,
   address VARCHAR (100),
   specialization VARCHAR(75)
@@ -9,7 +9,7 @@ CREATE TABLE Universities(
 
   -- Students table
 CREATE TABLE Student (
-  student_id INT PRIMARY KEY AUTO_INCREMENT,
+  student_id INT PRIMARY KEY,
   firstName VARCHAR(20) NOT NULL,
   lastName VARCHAR(20) NOT NULL,
   student_card_number  VARCHAR(20),
@@ -18,11 +18,11 @@ CREATE TABLE Student (
 
 	-- Subject table
 create table Subject (
-	subject_id int(10) not null auto_increment primary key,
+	subject_id SERIAL not null primary key,
   name varchar(50) not null,
-  descr mediumtext not null,
-  valid  bit not null,
-  date_of_cretion date not null
+  descr VARCHAR(255) not null,
+  valid  BOOLEAN not null,
+  date_of_creation date not null
 );
 
 
