@@ -1,5 +1,5 @@
-CREATE TABLE Student (
-  student_id INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS Student (
+  student_id INT(10) PRIMARY KEY AUTO_INCREMENT,
   firstName VARCHAR(20) NOT NULL,
   lastName VARCHAR(20) NOT NULL,
   student_card_number  VARCHAR(20),
