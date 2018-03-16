@@ -16,12 +16,12 @@ import java.math.BigDecimal;
 import java.util.List;
 import static java.util.Optional.of;
 
-@ContextConfiguration(classes = {JdbcTemplatesConfigTest.class, AutoDaoImpl.class})
+@ContextConfiguration(classes = {JdbcTemplatesConfigTest.class, AutoDaoImplementation.class})
 @ExtendWith(SpringExtension.class)
 public class AutoDaoImplIntegrationTest {
 
     @Autowired
-    private AutoDaoImpl autoDao;
+    private AutoDaoImplementation autoDao;
 
     private static final Auto NEW_AUTO = new Auto(6L, "BMW", "X6", 2017, "Germany", new BigDecimal(500000));
     private static final Auto AUTO_IS_IN_DATABASE = new Auto(2L, "BMW", "X3", 2013, "Germany", new BigDecimal(200000));
@@ -57,7 +57,7 @@ public class AutoDaoImplIntegrationTest {
 
     @Test
     public void testInsertWhenResultFalse(){
-        assertFalse(NEW_AUTO.equals(autoDao.insert(AUTO_IS_IN_DATABASE)));
+        assertFalse(autoDao.insert(AUTO_IS_IN_DATABASE).equals(NEW_AUTO));
     }
 
     @Test

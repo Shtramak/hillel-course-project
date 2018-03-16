@@ -1,7 +1,5 @@
 package com.courses.tellus.autosalon.dao.springjdbc;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,11 +9,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AutoDaoImpl implements AutosalonDaoInterface<Auto> {
+public class AutoDaoImplementation implements AutosalonDaoInterface<Auto> {
 
     private final transient JdbcTemplate jdbcTemplate;
 
-    public AutoDaoImpl(final JdbcTemplate jdbcTemplate) {
+    public AutoDaoImplementation(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -26,10 +24,7 @@ public class AutoDaoImpl implements AutosalonDaoInterface<Auto> {
      */
     @Override
     public List<Auto> getAll() {
-        final String sql = "select * from AUTO";
-        return jdbcTemplate.query(sql, (resultSet, rowNum) -> {
-            return getAutoFromResultSet(resultSet);
-        });
+        return jdbcTemplate.query("select * from AUTO", new AutoMapper());
     }
 
     /**
@@ -40,10 +35,7 @@ public class AutoDaoImpl implements AutosalonDaoInterface<Auto> {
      */
     @Override
     public Optional<Auto> getById(final Long autoId) {
-        final String sql = "SELECT * FROM AUTO WHERE ID= ?";
-        final Auto auto = jdbcTemplate.queryForObject(sql, new Object[]{autoId}, (resultSet, rowNum) -> {
-            return getAutoFromResultSet(resultSet);
-        });
+        final Auto auto = jdbcTemplate.queryForObject("SELECT * FROM AUTO WHERE ID= ?", new Object[]{autoId}, new AutoMapper());
         return Optional.of(auto);
     }
 
@@ -57,8 +49,7 @@ public class AutoDaoImpl implements AutosalonDaoInterface<Auto> {
     public Integer update(final Auto auto) {
         final String sql =
                 "UPDATE AUTO SET AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? WHERE ID = ?";
-        return jdbcTemplate.update(sql, auto.getBrand(), auto.getModel(), auto.getManufactYear(), auto.getProducerCountry(),
-                auto.getPrice(), auto.getId());
+        return jdbcTemplate.update(sql, autoData(auto));
     }
 
     /**
@@ -69,8 +60,7 @@ public class AutoDaoImpl implements AutosalonDaoInterface<Auto> {
      */
     @Override
     public Integer delete(final Long autoId) {
-        final String sql = "DELETE FROM AUTO WHERE ID = ?";
-        return jdbcTemplate.update(sql, autoId);
+        return jdbcTemplate.update("DELETE FROM AUTO WHERE ID = ?", autoId);
     }
 
     /**
@@ -81,26 +71,26 @@ public class AutoDaoImpl implements AutosalonDaoInterface<Auto> {
      */
     @Override
     public Integer insert(final Auto auto) {
-        final String sql = "INSERT INTO AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE) VALUES (?, ?, ?, ?, ?)";
+        final String sql =
+                "INSERT INTO AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE) VALUES (?, ?, ?, ?, ?)";
         return jdbcTemplate.update(sql, auto.getBrand(), auto.getModel(), auto.getManufactYear(),
-                auto.getProducerCountry(), auto.getPrice());
+                                        auto.getProducerCountry(), auto.getPrice());
     }
 
     /**
-     * Extract auto from resultSet.
+     * Get new auto object.
      *
-     * @param resultSet to save.
+     * @param auto of the object.
      * @return auto.
-     * @throws SQLException exception.
      */
-    private Auto getAutoFromResultSet(final ResultSet resultSet) throws SQLException {
-        final Auto auto = new Auto();
-        auto.setId(resultSet.getLong("ID"));
-        auto.setBrand(resultSet.getString("AUTO_BRAND"));
-        auto.setModel(resultSet.getString("AUTO_MODEL"));
-        auto.setManufactYear(resultSet.getInt("MANUFACT_YEAR"));
-        auto.setProducerCountry(resultSet.getString("COUNTRY"));
-        auto.setPrice(resultSet.getBigDecimal("PRICE"));
-        return auto;
+    private Object[] autoData(final Auto auto) {
+        return new Object[]{
+                auto.getBrand(),
+                auto.getModel(),
+                auto.getManufactYear(),
+                auto.getProducerCountry(),
+                auto.getPrice(),
+                auto.getId()
+        };
     }
 }
