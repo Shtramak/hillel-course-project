@@ -1,7 +1,6 @@
 package com.courses.tellus.autosalon.dao.springjdbc;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,19 +13,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomerDao implements AutosalonDaoInterface<Customer> {
 
+    private JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private transient JdbcTemplate jdbcTemplate;
+    public CustomerDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public List<Customer> getAll() {
         return jdbcTemplate.query("SELECT * FROM customer",
-                (ResultSet resultSet, int rowNum) -> customerFromResultSet(resultSet));
+                new CustomerMapper());
     }
 
     @Override
     public Optional<Customer> getById(final Long customerId) {
         return jdbcTemplate.queryForObject("SELECT * FROM customer where id=" + customerId,
-                (ResultSet resultSet, int rowNum) -> Optional.of(customerFromResultSet(resultSet)));
+                (ResultSet resultSet, int rowNum) -> Optional.of(new CustomerMapper().mapRow(resultSet, rowNum)));
     }
 
     @Override
@@ -48,17 +51,6 @@ public class CustomerDao implements AutosalonDaoInterface<Customer> {
                 + " customer (name, surname, date_of_birth, phone_number, available_funds, id)"
                 + " VALUES (?, ?, ?, ?, ?, ?)";
         return jdbcTemplate.update(sql, customerData(customer));
-    }
-
-    private Customer customerFromResultSet(final ResultSet resultSet) throws SQLException {
-        final Customer customer = new Customer();
-        customer.setId(resultSet.getLong("id"));
-        customer.setName(resultSet.getString("name"));
-        customer.setSurname(resultSet.getString("surname"));
-        customer.setDateOfBirth(resultSet.getDate("date_of_birth").toLocalDate());
-        customer.setPhoneNumber(resultSet.getString("phone_number"));
-        customer.setAvailableFunds(resultSet.getDouble("available_funds"));
-        return customer;
     }
 
     private Object[] customerData(final Customer customer) {
