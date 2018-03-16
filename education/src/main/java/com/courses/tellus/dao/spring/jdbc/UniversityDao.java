@@ -22,8 +22,8 @@ public class UniversityDao implements BasicDao<University> {
 
     @Override
     public Optional<List<University>> getAll() {
-        List<University> universityList = jdbcTemplate.query("SELECT * FROM Universities",
-                (resultSet, rowNum) -> getNewObjectFromResultSet(resultSet));
+        List<University> universityList = jdbcTemplate.query("SELECT * FROM education.Universities",
+                (resultSet, rowNum) -> toEntity(resultSet));
         if (universityList.size() >= 1) {
             return Optional.of(universityList);
         } else {
@@ -33,9 +33,9 @@ public class UniversityDao implements BasicDao<University> {
 
     @Override
     public Optional<University> getById(Long entityId) {
-        List<University> university = jdbcTemplate.query("SELECT * FROM Universities WHERE univer_id = ?",
+        List<University> university = jdbcTemplate.query("SELECT * FROM education.Universities WHERE univer_id = ?",
                 new Object[]{entityId},
-                (resultSet, rowNum) -> getNewObjectFromResultSet(resultSet));
+                (resultSet, rowNum) -> toEntity(resultSet));
         if (university.size() == 1) {
             return Optional.of(university.get(0));
         } else {
@@ -45,7 +45,7 @@ public class UniversityDao implements BasicDao<University> {
 
     @Override
     public int update(University university) {
-        String sql = "UPDATE Uinversities SET name_of_university = ?, address = ?, specialization = ?"
+        String sql = "UPDATE education.Universities SET name_of_university = ?, address = ?, specialization = ?"
                 + "WHERE univer_id=?";
         return jdbcTemplate.update(sql, university.getNameOfUniversity(), university.getAddress(),
                 university.getSpecialization(), university.getUniId());
@@ -53,20 +53,20 @@ public class UniversityDao implements BasicDao<University> {
 
     @Override
     public int delete(Long univer_Id) {
-        String sql = "DELETE FROM Universities WHERE univer_id = ?";
+        String sql = "DELETE FROM education.Universities WHERE univer_id = ?";
         return jdbcTemplate.update(sql, univer_Id);
     }
 
     @Override
     public int insert(University university) {
-        String sql = "INSERT INTO Universities(name_of_university, address, specialization) "
+        String sql = "INSERT INTO education.Universities(name_of_university, address, specialization) "
                 + "VALUES(?, ?, ?)";
         return jdbcTemplate.update(sql, university.getNameOfUniversity(), university.getAddress(),
                 university.getSpecialization());
     }
 
     @Override
-    public University getNewObjectFromResultSet (ResultSet resultSet) throws SQLException {
+    public University toEntity(ResultSet resultSet) throws SQLException {
         final University university = new University();
         university.setUniId(resultSet.getLong("univer_id"));
         university.setNameOfUniversity(resultSet.getString("name_of_university"));

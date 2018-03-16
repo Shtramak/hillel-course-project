@@ -2,7 +2,7 @@
   -- Universities table
 CREATE TABLE Universities(
   univer_id INT NOT NULL PRIMARY KEY,
-  nameOfUniversity VARCHAR (100) NOT NULL,
+  name_of_university VARCHAR (100) NOT NULL,
   address VARCHAR (100),
   specialization VARCHAR(75)
 );

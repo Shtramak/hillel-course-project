@@ -7,5 +7,5 @@ CREATE TABLE IF NOT EXISTS education.subject (
 );
 
 -- Subject insertion
-INSERT INTO education.subject(name, descr, valid, date_of_creation) VALUES ('Math', 'Teach how calculate nums', TRUE,
+INSERT INTO education.subject(name, descr, valid, date_of_creation) VALUES ('Math', 'Teach how calculate nums',TRUE,
 make_date(2000, 5, 15));
