@@ -26,6 +26,7 @@ import java.sql.Date;
         import static org.junit.jupiter.api.Assertions.assertFalse;
         import static org.mockito.Matchers.*;
         import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.spy;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
