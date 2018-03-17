@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @Configuration
-@PropertySource("config.properties")
+@PropertySource("classpath:config.properties")
 public class JdbcTemplatesConfig {
 
     /**

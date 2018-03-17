@@ -9,11 +9,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AutoDaoImplementation implements AutosalonDaoInterface<Auto> {
+public class AutoDao implements AutosalonDaoInterface<Auto> {
 
     private final transient JdbcTemplate jdbcTemplate;
 
-    public AutoDaoImplementation(final JdbcTemplate jdbcTemplate) {
+    public AutoDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -30,7 +30,7 @@ public class AutoDaoImplementation implements AutosalonDaoInterface<Auto> {
     /**
      * Return auto from DataBase by id.
      *
-     * @param autoId of the object to be inserted from database.
+     * @param autoId  of the object to be selected from database.
      * @return auto.
      */
     @Override
@@ -49,7 +49,8 @@ public class AutoDaoImplementation implements AutosalonDaoInterface<Auto> {
     public Integer update(final Auto auto) {
         final String sql =
                 "UPDATE AUTO SET AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? WHERE ID = ?";
-        return jdbcTemplate.update(sql, autoData(auto));
+        return jdbcTemplate.update(sql, auto.getBrand(), auto.getModel(), auto.getManufactYear(), auto.getProducerCountry(),
+                                        auto.getPrice(), auto.getId());
     }
 
     /**
@@ -75,22 +76,5 @@ public class AutoDaoImplementation implements AutosalonDaoInterface<Auto> {
                 "INSERT INTO AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE) VALUES (?, ?, ?, ?, ?)";
         return jdbcTemplate.update(sql, auto.getBrand(), auto.getModel(), auto.getManufactYear(),
                                         auto.getProducerCountry(), auto.getPrice());
-    }
-
-    /**
-     * Get new auto object.
-     *
-     * @param auto of the object.
-     * @return auto.
-     */
-    private Object[] autoData(final Auto auto) {
-        return new Object[]{
-                auto.getBrand(),
-                auto.getModel(),
-                auto.getManufactYear(),
-                auto.getProducerCountry(),
-                auto.getPrice(),
-                auto.getId()
-        };
     }
 }
