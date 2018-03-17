@@ -1,11 +1,10 @@
 package com.courses.tellus.dao.spring.jdbc;
 
-import com.courses.tellus.connection.spring.jdbc.JDBCTemplateConfiguration;
+import com.courses.tellus.dao.spring.jdbc.datasource.TestDataSource;
 import com.courses.tellus.entity.University;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
@@ -15,12 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {JDBCTemplateConfiguration.class, UniversityDao.class})
+@ContextConfiguration(classes = {TestDataSource.class, UniversityDao.class})
 @SqlGroup({
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
-                scripts = "classpath:initial/postgres/table/university_test_table.sql"),
+                scripts = "classpath:initial/h2/table/spring/univer_test_table.sql"),
         @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD,
-                scripts = "classpath:initial/postgres/util/trunc.sql")
+                scripts = "classpath:initial/h2/util/trunc.sql")
 })
 
 class UniversityDaoIntegrationTest {

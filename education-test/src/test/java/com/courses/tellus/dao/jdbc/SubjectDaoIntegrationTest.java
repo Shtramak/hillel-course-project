@@ -19,7 +19,7 @@ class SubjectDaoIntegrationTest {
     @BeforeEach
     void initializeSubject() throws Exception {
         RunScript.execute(ConnectionFactory.getInstance().getConnection(),
-                new FileReader("src/test/resources/initial/h2/table/subject_test_table.sql"));
+                new FileReader("src/test/resources/initial/h2/table/jdbc/subject_test_table.sql"));
         subjectDao = new SubjectDao(ConnectionFactory.getInstance());
         subject = new Subject("Biology", "Lessons about building of humans", true,
                 new GregorianCalendar(1996,5,12));

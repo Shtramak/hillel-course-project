@@ -20,7 +20,7 @@ public class UniversityDao implements BasicDao<University> {
 
     @Override
     public Optional<List<University>> getAll() {
-        final List<University> universityList = jdbcTemplate.query("SELECT * FROM education.Universities",
+        final List<University> universityList = jdbcTemplate.query("SELECT * FROM Universities",
                 (resultSet, rowNum) -> toEntity(resultSet));
         if (universityList.size() >= 1) {
             return Optional.of(universityList);
@@ -31,7 +31,7 @@ public class UniversityDao implements BasicDao<University> {
 
     @Override
     public Optional<University> getById(final Long entityId) {
-        final List<University> university = jdbcTemplate.query("SELECT * FROM education.Universities WHERE univer_id = ?",
+        final List<University> university = jdbcTemplate.query("SELECT * FROM Universities WHERE univer_id = ?",
                 new Object[]{entityId}, (resultSet, rowNum) -> toEntity(resultSet));
         if (university.size() == 1) {
             return Optional.of(university.get(0));
@@ -42,7 +42,7 @@ public class UniversityDao implements BasicDao<University> {
 
     @Override
     public int update(final University university) {
-        final String sql = "UPDATE education.Universities SET name_of_university = ?, address = ?, specialization = ?"
+        final String sql = "UPDATE Universities SET name_of_university = ?, address = ?, specialization = ?"
                 + "WHERE univer_id=?";
         return jdbcTemplate.update(sql, university.getNameOfUniversity(), university.getAddress(),
                 university.getSpecialization(), university.getUniId());
@@ -50,13 +50,13 @@ public class UniversityDao implements BasicDao<University> {
 
     @Override
     public int delete(final Long univerId) {
-        final String sql = "DELETE FROM education.Universities WHERE univer_id = ?";
+        final String sql = "DELETE FROM Universities WHERE univer_id = ?";
         return jdbcTemplate.update(sql, univerId);
     }
 
     @Override
     public int insert(final University university) {
-        final String sql = "INSERT INTO education.Universities(name_of_university, address, specialization) "
+        final String sql = "INSERT INTO Universities(name_of_university, address, specialization) "
                 + "VALUES(?, ?, ?)";
         return jdbcTemplate.update(sql, university.getNameOfUniversity(), university.getAddress(),
                 university.getSpecialization());

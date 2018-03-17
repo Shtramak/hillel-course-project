@@ -4,7 +4,6 @@ import java.io.FileReader;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.dao.jdbc.StudentDao;
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.Student;
 import org.h2.tools.RunScript;
@@ -21,7 +20,7 @@ class StudentDaoIntegrationTest {
     @BeforeEach
     void initializeSubject() throws Exception {
         RunScript.execute(ConnectionFactory.getInstance().getConnection(),
-                new FileReader("src/test/resources/initial/h2/table/student_test_table.sql"));
+                new FileReader("src/test/resources/initial/h2/table/jdbc/student_test_table.sql"));
         studentDao = new StudentDao(ConnectionFactory.getInstance());
         student = new Student(1L,"Andrey", "Petrov", "0123456789",
                 "Peremohy str, 178");

@@ -17,9 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @ContextConfiguration(classes = {TestDataSource.class, StudentDao.class})
 @SqlGroup({
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
-                scripts = "classpath:initial/postgres/table/student_test_table.sql"),
+                scripts = "classpath:initial/h2/table/spring/student_test_table.sql"),
         @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD,
-                scripts = "classpath:initial/postgres/util/trunc.sql")
+                scripts = "classpath:initial/h2/util/trunc.sql")
 })
 class StudentDaoIntegrationTest {
 

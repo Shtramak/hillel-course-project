@@ -21,7 +21,7 @@ public class SubjectDao implements BasicDao<Subject> {
 
     @Override
     public Optional<List<Subject>> getAll() {
-        final List<Subject> subjectList = jdbcTemplate.query("SELECT * FROM education.subject",
+        final List<Subject> subjectList = jdbcTemplate.query("SELECT * FROM subject",
                 (resultSet, rowNum) -> toEntity(resultSet));
         if (subjectList.size() > 0) {
             return Optional.of(subjectList);
@@ -32,7 +32,7 @@ public class SubjectDao implements BasicDao<Subject> {
 
     @Override
     public Optional<Subject> getById(final Long entityId) {
-        final String sql = "SELECT * FROM education.subject WHERE subject_id = ?";
+        final String sql = "SELECT * FROM subject WHERE subject_id = ?";
         final List<Subject> subject = jdbcTemplate.query(sql, new Object[]{entityId},
                 (resultSet, rowNum) -> toEntity(resultSet));
         if (subject.size() == 1) {
@@ -44,7 +44,7 @@ public class SubjectDao implements BasicDao<Subject> {
 
     @Override
     public int update(final Subject entity) {
-        final String sql = "UPDATE education.subject SET name = ?, descr = ?,"
+        final String sql = "UPDATE subject SET name = ?, descr = ?,"
                 + " valid = ?, date_of_creation = ? WHERE subject_id= ?";
         return jdbcTemplate.update(sql, entity.getName(), entity.getDescription(), entity.isValid(),
                 new Date(entity.getDateOfCreation()), entity.getSubjectId());
@@ -52,13 +52,13 @@ public class SubjectDao implements BasicDao<Subject> {
 
     @Override
     public int delete(final Long entityId) {
-        final String sql = "DELETE FROM education.subject WHERE subject_id = ?";
+        final String sql = "DELETE FROM subject WHERE subject_id = ?";
         return jdbcTemplate.update(sql, entityId);
     }
 
     @Override
     public int insert(final Subject entity) {
-        final String sql = "INSERT INTO education.subject(name, descr, valid, date_of_creation)"
+        final String sql = "INSERT INTO subject(name, descr, valid, date_of_creation)"
                 + " VALUES (?, ?, ?, ?)";
         return jdbcTemplate.update(sql, entity.getName(), entity.getDescription(), entity.isValid(),
                 new Date(entity.getDateOfCreation()));
