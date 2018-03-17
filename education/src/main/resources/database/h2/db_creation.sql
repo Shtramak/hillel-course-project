@@ -9,7 +9,7 @@ CREATE TABLE Universities(
 
   -- Students table
 CREATE TABLE Student (
-  student_id INT PRIMARY KEY,
+  student_id INT NOT NULL PRIMARY KEY,
   firstName VARCHAR(20) NOT NULL,
   lastName VARCHAR(20) NOT NULL,
   student_card_number  VARCHAR(20),
