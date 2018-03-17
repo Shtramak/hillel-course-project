@@ -2,7 +2,6 @@ package com.courses.tellus.dao.spring.jdbc;
 
 
 import com.courses.tellus.entity.University;
-import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.ResultSet;
@@ -14,7 +13,6 @@ import java.util.Optional;
 public class UniversityDao implements BasicDao<University> {
 
     private JdbcTemplate jdbcTemplate;
-    private final Logger LOGGER= Logger.getLogger(UniversityDao.class);
 
     public UniversityDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

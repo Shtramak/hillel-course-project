@@ -28,7 +28,7 @@ public class JDBCTemplateConfiguration {
     public DataSource embeddedDataSource() {
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("database/h2/db_creation.sql")
+                .addScript("database/h2/init.sql")
                 .build();
     }
 
