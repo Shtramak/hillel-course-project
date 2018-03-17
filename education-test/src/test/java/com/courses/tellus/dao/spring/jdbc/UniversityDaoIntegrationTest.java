@@ -14,7 +14,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-@ActiveProfiles("prod")
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {JDBCTemplateConfiguration.class, UniversityDao.class})
 @SqlGroup({

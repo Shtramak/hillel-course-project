@@ -1,11 +1,10 @@
 package com.courses.tellus.dao.spring.jdbc;
 
-import com.courses.tellus.connection.spring.jdbc.JDBCTemplateConfiguration;
+import com.courses.tellus.dao.spring.jdbc.datasource.TestDataSource;
 import com.courses.tellus.entity.Student;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
@@ -14,16 +13,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-@ActiveProfiles("prod")
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {JDBCTemplateConfiguration.class, StudentDao.class})
+@ContextConfiguration(classes = {TestDataSource.class, StudentDao.class})
 @SqlGroup({
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
                 scripts = "classpath:initial/postgres/table/student_test_table.sql"),
         @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD,
                 scripts = "classpath:initial/postgres/util/trunc.sql")
 })
-
 class StudentDaoIntegrationTest {
 
     @Autowired

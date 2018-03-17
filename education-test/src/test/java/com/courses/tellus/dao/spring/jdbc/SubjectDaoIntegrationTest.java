@@ -14,7 +14,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ActiveProfiles("prod")
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {JDBCTemplateConfiguration.class, SubjectDao.class})
 @SqlGroup({

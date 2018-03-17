@@ -20,29 +20,15 @@ public class JDBCTemplateConfiguration {
     @Autowired private transient Environment env;
 
     /**
-     * dataSource that create test connection to H2 inmemory Database.
-     * @return data source for code tests
-     */
-    @Bean
-    @Profile("test")
-    public DataSource embeddedDataSource() {
-        return new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.H2)
-                .addScript("database/h2/init.sql")
-                .build();
-    }
-
-    /**
      * dataSource that create connection to PostgreSQL Database.
      * @return data source for using
      */
     @Bean
-    @Profile("prod")
     public DataSource pgDataSource() {
         final PGSimpleDataSource pgds = new PGSimpleDataSource();
-        pgds.setUrl(env.getProperty("pg.url"));
-        pgds.setUser(env.getProperty("pg.user"));
-        pgds.setPassword(env.getProperty("pg.password"));
+        pgds.setUrl("");
+        pgds.setUser("");
+        pgds.setPassword("");
         return pgds;
     }
 
