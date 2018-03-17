@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import com.courses.tellus.entity.Student;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,7 +23,7 @@ public class StudentDao implements BasicDao<Student> {
     @Override
     public List<Student> getAll() {
         final List<Student> studentList = jdbcTemplate.query("SELECT * FROM Student",
-                (resultSet, rowNum) -> toEntity(resultSet));
+                new StudentMapper());
         if (studentList.size() >= 1) {
             return studentList;
         } else {
@@ -32,13 +33,9 @@ public class StudentDao implements BasicDao<Student> {
 
     @Override
     public Optional<Student> getById(final Long entityId) {
-        final List<Student> students = jdbcTemplate.query("SELECT * FROM Student WHERE student_id = ?",
-                new Object[]{entityId}, (resultSet, rowNum) -> toEntity(resultSet));
-        if (students.size() == 1) {
-            return Optional.of(students.get(0));
-        } else {
-            return Optional.empty();
-        }
+        final Student student = jdbcTemplate.queryForObject("SELECT * FROM Student WHERE student_id = ?",
+                new Object[]{entityId}, new StudentMapper());
+            return Optional.of(student);
     }
 
     @Override
@@ -63,14 +60,16 @@ public class StudentDao implements BasicDao<Student> {
                 student.getStudentCardNumber(), student.getAddress());
     }
 
-    @Override
-    public Student toEntity(final ResultSet resultSet) throws SQLException {
-        final Student student = new Student();
-        student.setStudentId(resultSet.getLong("student_id"));
-        student.setFirstName(resultSet.getString("firstName"));
-        student.setLastName(resultSet.getString("lastName"));
-        student.setStudentCardNumber(resultSet.getString("student_card_number"));
-        student.setAddress(resultSet.getString("address"));
-        return student;
+    class StudentMapper implements RowMapper<Student> {
+        @Override
+        public Student mapRow(final ResultSet resultSet, final int rowNum) throws SQLException {
+            final Student student = new Student();
+            student.setStudentId(resultSet.getLong("student_id"));
+            student.setFirstName(resultSet.getString("firstName"));
+            student.setLastName(resultSet.getString("lastName"));
+            student.setStudentCardNumber(resultSet.getString("student_card_number"));
+            student.setAddress(resultSet.getString("address"));
+            return student;
+        }
     }
 }

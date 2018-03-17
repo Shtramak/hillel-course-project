@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import com.courses.tellus.entity.University;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,7 +23,7 @@ public class UniversityDao implements BasicDao<University> {
     @Override
     public List<University> getAll() {
         final List<University> universityList = jdbcTemplate.query("SELECT * FROM Universities",
-                (resultSet, rowNum) -> toEntity(resultSet));
+                new UniversityMapper());
         if (universityList.size() >= 1) {
             return universityList;
         } else {
@@ -32,13 +33,9 @@ public class UniversityDao implements BasicDao<University> {
 
     @Override
     public Optional<University> getById(final Long entityId) {
-        final List<University> university = jdbcTemplate.query("SELECT * FROM Universities WHERE univer_id = ?",
-                new Object[]{entityId}, (resultSet, rowNum) -> toEntity(resultSet));
-        if (university.size() == 1) {
-            return Optional.of(university.get(0));
-        } else {
-            return Optional.empty();
-        }
+        final University university = jdbcTemplate.queryForObject("SELECT * FROM Universities WHERE univer_id = ?",
+                new Object[]{entityId}, new UniversityMapper());
+        return Optional.of(university);
     }
 
     @Override
@@ -63,13 +60,15 @@ public class UniversityDao implements BasicDao<University> {
                 university.getSpecialization());
     }
 
-    @Override
-    public University toEntity(final ResultSet resultSet) throws SQLException {
-        final University university = new University();
-        university.setUniId(resultSet.getLong("univer_id"));
-        university.setNameOfUniversity(resultSet.getString("name_of_university"));
-        university.setAddress(resultSet.getString("address"));
-        university.setSpecialization(resultSet.getString("specialization"));
-        return university;
+    class UniversityMapper implements RowMapper<University> {
+        @Override
+        public University mapRow(final ResultSet resultSet, final int rowNum) throws SQLException {
+            final University university = new University();
+            university.setUniId(resultSet.getLong("univer_id"));
+            university.setNameOfUniversity(resultSet.getString("name_of_university"));
+            university.setAddress(resultSet.getString("address"));
+            university.setSpecialization(resultSet.getString("specialization"));
+            return university;
+        }
     }
 }

@@ -5,13 +5,14 @@ import com.courses.tellus.entity.Student;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {TestDataSource.class, StudentDao.class})
@@ -45,8 +46,8 @@ class StudentDaoIntegrationTest {
     }
 
     @Test
-    void testGetByIdWhenReturnFalse() {
-        assertFalse(studentDao.getById(10L).isPresent());
+    void testGetByIdWhenThrowException() {
+        assertThrows(EmptyResultDataAccessException.class, () -> studentDao.getById(10L));
     }
 
     @Test

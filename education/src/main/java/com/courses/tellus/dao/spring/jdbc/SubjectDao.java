@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import com.courses.tellus.entity.Subject;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,7 +24,7 @@ public class SubjectDao implements BasicDao<Subject> {
     @Override
     public List<Subject> getAll() {
         final List<Subject> subjectList = jdbcTemplate.query("SELECT * FROM subject",
-                (resultSet, rowNum) -> toEntity(resultSet));
+                new SubjectMapper());
         if (subjectList.size() > 0) {
             return subjectList;
         } else {
@@ -34,13 +35,8 @@ public class SubjectDao implements BasicDao<Subject> {
     @Override
     public Optional<Subject> getById(final Long entityId) {
         final String sql = "SELECT * FROM subject WHERE subject_id = ?";
-        final List<Subject> subject = jdbcTemplate.query(sql, new Object[]{entityId},
-                (resultSet, rowNum) -> toEntity(resultSet));
-        if (subject.size() == 1) {
-            return Optional.of(subject.get(0));
-        } else {
-            return Optional.empty();
-        }
+        final Subject subject = jdbcTemplate.queryForObject(sql, new Object[]{entityId}, new SubjectMapper());
+        return Optional.of(subject);
     }
 
     @Override
@@ -65,14 +61,16 @@ public class SubjectDao implements BasicDao<Subject> {
                 new Date(entity.getDateOfCreation()));
     }
 
-    @Override
-    public Subject toEntity(final ResultSet resultSet) throws SQLException {
-        final Subject subject = new Subject();
-        subject.setSubjectId(resultSet.getLong("subject_id"));
-        subject.setName(resultSet.getString("name"));
-        subject.setDescription(resultSet.getString("descr"));
-        subject.setValid(resultSet.getBoolean("valid"));
-        subject.setDateOfCreation(resultSet.getDate("date_of_creation").getTime());
-        return subject;
+    class SubjectMapper implements RowMapper<Subject> {
+        @Override
+        public Subject mapRow(final ResultSet resultSet, final int rowNum) throws SQLException {
+                final Subject subject = new Subject();
+                subject.setSubjectId(resultSet.getLong("subject_id"));
+                subject.setName(resultSet.getString("name"));
+                subject.setDescription(resultSet.getString("descr"));
+                subject.setValid(resultSet.getBoolean("valid"));
+                subject.setDateOfCreation(resultSet.getDate("date_of_creation").getTime());
+                return subject;
+        }
     }
 }

@@ -1,7 +1,5 @@
 package com.courses.tellus.dao.spring.jdbc;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,12 +43,4 @@ public interface BasicDao<E> {
      * @return number of successful operations
      */
     int insert(E entity);
-
-    /**
-     * Method for creating new own class Object.
-     *
-     * @param resultSet returned values from the database
-     * @return new Object
-     */
-    E toEntity(ResultSet resultSet) throws SQLException;
 }

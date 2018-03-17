@@ -11,12 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
@@ -62,29 +62,23 @@ class UniversityDaoMockTest {
 
     @Test
     void testGetByIdWhenReturnEntity() {
-        final List<University> univerList = new ArrayList<>();
-        univerList.add(university);
-        List<University> spy = spy(univerList);
-        when(jdbcTemplate.query(anyString(), any(Object[].class), any(RowMapper.class))).thenAnswer(invocation -> {
+        when(jdbcTemplate.queryForObject(anyString(), any(Object[].class), any(RowMapper.class)))
+                .thenAnswer(invocation -> {
             Object[] args = invocation.getArguments();
             RowMapper<University> rm = (RowMapper<University>) args[2];
             toEntity();
             University actual = rm.mapRow(mockResultSet, 0);
             assertEquals(university, actual);
-            return spy;
+            return university;
         });
-        when(spy.size()).thenReturn(1);
-        when(spy.get(anyInt())).thenReturn(university);
         assertEquals(university, universityDao.getById(1L).get());
     }
 
     @Test
     void testGetByIdWhenReturnFalse() {
-        final List<University> univerList = new ArrayList<>();
-        List<University> spy = spy(univerList);
-        when(jdbcTemplate.query(anyString(), any(Object[].class), any(RowMapper.class))).thenReturn(spy);
-        when(spy.size()).thenReturn(0);
-        assertFalse(universityDao.getById(1L).isPresent());
+        when(jdbcTemplate.queryForObject(anyString(), any(Object[].class), any(RowMapper.class)))
+                .thenThrow(new EmptyResultDataAccessException(0));
+        assertThrows(EmptyResultDataAccessException.class, () -> universityDao.getById(10L));
     }
 
     @Test

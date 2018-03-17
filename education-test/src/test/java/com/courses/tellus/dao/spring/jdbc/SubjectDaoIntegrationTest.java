@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
@@ -45,8 +46,8 @@ class SubjectDaoIntegrationTest {
     }
 
     @Test
-    void testGetByIdAndReturnFalse() {
-        Assertions.assertFalse(subjectDao.getById(10L).isPresent());
+    void testGetByIdAndThrowException() {
+        Assertions.assertThrows(EmptyResultDataAccessException.class, () -> subjectDao.getById(10L));
     }
 
     @Test
