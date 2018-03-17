@@ -21,10 +21,12 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ContextConfiguration(classes = {JdbcTemplatesConfig.class, CustomerDao.class})
 @ExtendWith(SpringExtension.class)
+@Sql("classpath:test.sql")
 public class CustomerDaoIntegrationTest {
     private static final Customer EXISTED_CUSTOMER = new Customer(1, "John", "Rambo", LocalDate.of(1946, 7, 6), "(012)345-67-89", 10000000.50);
     private static final Customer NOT_EXISTED_CUSTOMER = new Customer(3, "John", "Smith", LocalDate.of(2018, 2, 20), "(012)345-67-89", 10000.50);
@@ -34,12 +36,6 @@ public class CustomerDaoIntegrationTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @BeforeEach
-    void setUp() throws Exception {
-        Connection connection = jdbcTemplate.getDataSource().getConnection();
-        RunScript.execute(connection, new FileReader("src/test/resources/test.sql"));
-    }
-
     @Test
     void getAllWhenTableHasDataReturnsListOfCustomers() {
         Customer customer2 = new Customer(2, "John", "Travolta", LocalDate.of(1954, 2, 18), "(012)345-67-89", 5000000.50);
@@ -48,9 +44,9 @@ public class CustomerDaoIntegrationTest {
         assertEquals(expected, actual);
     }
 
+    @Sql("classpath:trunc.sql")
     @Test
     void getAllWhenTableHasNoDataReturnsEmptyList() throws Exception {
-        truncateTable();
         assertEquals(Collections.emptyList(), customerDao.getAll());
     }
 
@@ -101,6 +97,6 @@ public class CustomerDaoIntegrationTest {
 
     private void truncateTable() throws Exception {
         Connection connection = jdbcTemplate.getDataSource().getConnection();
-        RunScript.execute(connection, new FileReader("src/test/resources/Truncate.sql"));
+        RunScript.execute(connection, new FileReader("src/test/resources/trunc.sql"));
     }
 }

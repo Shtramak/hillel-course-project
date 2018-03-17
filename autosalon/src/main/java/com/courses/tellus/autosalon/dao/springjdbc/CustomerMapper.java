@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 public class CustomerMapper implements RowMapper<Customer> {
     @Override
-    public Customer mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+    public Customer mapRow(final ResultSet resultSet, final int rowNum) throws SQLException {
         final Customer customer = new Customer();
         customer.setId(resultSet.getLong("id"));
         customer.setName(resultSet.getString("name"));

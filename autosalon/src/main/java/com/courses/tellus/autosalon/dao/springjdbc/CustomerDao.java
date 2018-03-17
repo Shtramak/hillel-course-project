@@ -1,6 +1,5 @@
 package com.courses.tellus.autosalon.dao.springjdbc;
 
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,23 +12,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomerDao implements AutosalonDaoInterface<Customer> {
 
-    private JdbcTemplate jdbcTemplate;
+    private final transient JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public CustomerDao(JdbcTemplate jdbcTemplate) {
+    public CustomerDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public List<Customer> getAll() {
-        return jdbcTemplate.query("SELECT * FROM customer",
-                new CustomerMapper());
+        return jdbcTemplate.query("SELECT * FROM customer", new CustomerMapper());
     }
 
     @Override
     public Optional<Customer> getById(final Long customerId) {
-        return jdbcTemplate.queryForObject("SELECT * FROM customer where id=" + customerId,
-                (ResultSet resultSet, int rowNum) -> Optional.of(new CustomerMapper().mapRow(resultSet, rowNum)));
+        final Customer customer = jdbcTemplate
+                .queryForObject("SELECT * FROM customer where id=" + customerId, new CustomerMapper());
+        return Optional.of(customer);
     }
 
     @Override
