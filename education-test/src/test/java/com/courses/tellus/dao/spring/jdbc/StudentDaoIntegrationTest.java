@@ -30,13 +30,13 @@ class StudentDaoIntegrationTest {
 
     @Test
     void testGetAllWhenReturnEntityList() {
-        assertEquals(1, studentDao.getAll().get().size());
+        assertEquals(1, studentDao.getAll().size());
     }
 
     @Test
     void testGetAllWhenReturnFalse() {
         studentDao.delete(1L);
-        assertFalse(studentDao.getAll().isPresent());
+        assertEquals(0, studentDao.getAll().size());
     }
 
     @Test

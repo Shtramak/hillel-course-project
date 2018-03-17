@@ -31,13 +31,13 @@ class UniversityDaoIntegrationTest {
 
     @Test
     void testGetAllWhenReturnEntityList() {
-        assertEquals(1, universityDao.getAll().get().size());
+        assertEquals(1, universityDao.getAll().size());
     }
 
     @Test
     void testGetAllWhenReturnFalse() {
         universityDao.delete(1L);
-        assertFalse(universityDao.getAll().isPresent());
+        assertEquals(0, universityDao.getAll().size());
     }
 
     @Test

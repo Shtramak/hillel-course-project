@@ -2,6 +2,7 @@ package com.courses.tellus.dao.spring.jdbc;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,13 +20,13 @@ public class StudentDao implements BasicDao<Student> {
     }
 
     @Override
-    public Optional<List<Student>> getAll() {
+    public List<Student> getAll() {
         final List<Student> studentList = jdbcTemplate.query("SELECT * FROM Student",
                 (resultSet, rowNum) -> toEntity(resultSet));
         if (studentList.size() >= 1) {
-            return Optional.of(studentList);
+            return studentList;
         } else {
-            return Optional.empty();
+            return Collections.emptyList();
         }
     }
 

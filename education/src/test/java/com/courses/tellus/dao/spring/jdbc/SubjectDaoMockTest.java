@@ -50,7 +50,7 @@ class SubjectDaoMockTest {
             return spy;
         });
         when(spy.size()).thenReturn(1);
-        Assertions.assertEquals(spy.size(), subjectDao.getAll().get().size());
+        Assertions.assertEquals(spy.size(), subjectDao.getAll().size());
     }
 
     @Test
@@ -59,7 +59,7 @@ class SubjectDaoMockTest {
         List<Subject> spy = spy(subjectList);
         when(jdbcTemplate.query(anyString(), any(RowMapper.class))).thenReturn(spy);
         when(spy.size()).thenReturn(0);
-        Assertions.assertFalse(subjectDao.getAll().isPresent());
+        Assertions.assertTrue(subjectDao.getAll().size() == 0);
     }
 
     @Test

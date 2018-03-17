@@ -48,7 +48,7 @@ class UniversityDaoMockTest {
             return spy;
         });
         when(spy.size()).thenReturn(1);
-       assertEquals(spy.size(), universityDao.getAll().get().size());
+       assertEquals(spy.size(), universityDao.getAll().size());
     }
 
     @Test
@@ -57,7 +57,7 @@ class UniversityDaoMockTest {
         List<University> spy = spy(univerList);
         when(jdbcTemplate.query(anyString(), any(RowMapper.class))).thenReturn(spy);
         when(spy.size()).thenReturn(0);
-        assertFalse(universityDao.getAll().isPresent());
+        assertTrue(universityDao.getAll().size() == 0);
     }
 
     @Test

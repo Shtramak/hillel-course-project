@@ -10,15 +10,15 @@ public interface BasicDao<E> {
     /**
      * Method for returning all object from database.
      *
-     * @return list with all Object or false if exception
+     * @return list with all Object or empty list if exception
      */
-    Optional<List<E>> getAll();
+    List<E> getAll();
 
     /**
-     * Method for returning object by unique id from database.
+     * Method for returning object in option wrapper by unique id from database.
      *
      * @param entityId unique id for object query
-     * @return Object or false (if not exist in database or exception)
+     * @return Object in option or Option.empty() (if not exist in database or exception)
      */
     Optional<E> getById(Long entityId);
 

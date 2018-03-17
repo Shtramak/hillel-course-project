@@ -3,6 +3,7 @@ package com.courses.tellus.dao.spring.jdbc;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,13 +21,13 @@ public class SubjectDao implements BasicDao<Subject> {
     }
 
     @Override
-    public Optional<List<Subject>> getAll() {
+    public List<Subject> getAll() {
         final List<Subject> subjectList = jdbcTemplate.query("SELECT * FROM subject",
                 (resultSet, rowNum) -> toEntity(resultSet));
         if (subjectList.size() > 0) {
-            return Optional.of(subjectList);
+            return subjectList;
         } else {
-            return Optional.empty();
+            return Collections.emptyList();
         }
     }
 

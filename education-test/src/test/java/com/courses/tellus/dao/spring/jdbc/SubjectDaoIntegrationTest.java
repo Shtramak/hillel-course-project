@@ -30,13 +30,13 @@ class SubjectDaoIntegrationTest {
 
     @Test
     void testGetAllAndReturnEntityList() {
-        Assertions.assertEquals(1, subjectDao.getAll().get().size());
+        Assertions.assertEquals(1, subjectDao.getAll().size());
     }
 
     @Test
     void testGetAllAndReturnFalse() {
         subjectDao.delete(1L);
-        Assertions.assertFalse(subjectDao.getAll().isPresent());
+        Assertions.assertEquals(0, subjectDao.getAll().size());
     }
 
     @Test
