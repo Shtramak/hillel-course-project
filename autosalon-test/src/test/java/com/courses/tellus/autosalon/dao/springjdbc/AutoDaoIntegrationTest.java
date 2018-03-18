@@ -2,6 +2,8 @@ package com.courses.tellus.autosalon.dao.springjdbc;
 
 import com.courses.tellus.autosalon.dao.config.JdbcTemplatesConfigTest;
 import com.courses.tellus.autosalon.model.Auto;
+
+import static java.util.Optional.empty;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -18,7 +20,7 @@ import static java.util.Optional.of;
 
 @ContextConfiguration(classes = {JdbcTemplatesConfigTest.class, AutoDao.class})
 @ExtendWith(SpringExtension.class)
-public class AutoDaoImplIntegrationTest {
+public class AutoDaoIntegrationTest {
 
     @Autowired
     private AutoDao autoDao;
@@ -29,14 +31,14 @@ public class AutoDaoImplIntegrationTest {
     @Test
     public void testGetAllWhenResultTrue() {
         List<Auto> autoList = autoDao.getAll();
-        assertThat(autoList.size(), is(5));
+        autoList.add(NEW_AUTO);
+        assertThat(autoList.size(), is(6));
     }
 
     @Test
     public void testGetAllWhenResultFalse(){
         List<Auto> autoList = autoDao.getAll();
-        autoList.add(NEW_AUTO);
-        assertNotEquals(5, autoList.size());
+        assertNotEquals(6, autoList.size());
     }
 
     @Test
@@ -46,7 +48,7 @@ public class AutoDaoImplIntegrationTest {
 
     @Test
     public void testGetByIdWhenResultFalse(){
-        assertFalse(of(NEW_AUTO).equals(autoDao.getById(2L)));
+        assertThat(autoDao.getById(12L), is(empty()));
     }
 
     @Test
@@ -66,7 +68,6 @@ public class AutoDaoImplIntegrationTest {
 
     @Test
     public void testUpdateAutoWhenResultFalse() {
-
         assertFalse(autoDao.update(NEW_AUTO).equals(0));
     }
 
@@ -79,6 +80,4 @@ public class AutoDaoImplIntegrationTest {
     public void testDeleteAutoWhenResultFalse(){
         assertThat(autoDao.delete(8L), is(0));
     }
-
-
 }

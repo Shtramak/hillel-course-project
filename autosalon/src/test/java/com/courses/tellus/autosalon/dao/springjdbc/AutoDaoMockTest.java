@@ -1,7 +1,6 @@
 package com.courses.tellus.autosalon.dao.springjdbc;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,15 +10,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.when;
 
-public class AutodaoImpMockTest {
+public class AutoDaoMockTest {
 
     private AutoDao autoDao;
 
@@ -39,14 +38,14 @@ public class AutodaoImpMockTest {
     public void testGetAllWhenResultTrue(){
         List<Auto> autoList = new ArrayList<Auto>();
         autoList.add(auto);
-        when(jdbcTemplate.query(anyString(), (RowMapper<Object>) any())).thenReturn(Collections.singletonList(autoList));
+        when(jdbcTemplate.query(anyString(), any(AutoMapper.class))).thenReturn(autoList);
         assertThat(autoDao.getAll().size(), is(1));
     }
 
     @Test
     public void testGetAllWhenResultFalse(){
         List<Auto> autoList = new ArrayList<Auto>();
-        when(jdbcTemplate.query(anyString(), (RowMapper<Object>) any())).thenReturn(Collections.singletonList(autoList));
+        when(jdbcTemplate.query(anyString(), any(AutoMapper.class))).thenReturn(autoList);
         assertNotEquals(2, autoDao.getAll().size());
     }
 
@@ -75,26 +74,26 @@ public class AutodaoImpMockTest {
     }
 
     @Test
-    public void testRemoveAutoWhenResultTrue() {
+    public void testDeleteAutoWhenResultTrue() {
         when(autoDao.delete(1L)).thenReturn(1);
         assertThat(autoDao.delete(1L), is(1));
     }
 
     @Test
-    public void testRemoveAutoWhenResultFalse() {
+    public void testDeleteAutoWhenResultFalse() {
         when(autoDao.delete(1L)).thenReturn(0);
         assertNotEquals(1, autoDao.delete(1L));
     }
 
     @Test
     public void testGetAutoByIdWhenResultTrue() {
-        when(jdbcTemplate.queryForObject(anyString(),  anyObject(), (RowMapper<Object>) any())).thenReturn(auto);
+        when(jdbcTemplate.queryForObject(anyString(),  anyObject(), any(AutoMapper.class))).thenReturn(auto);
         assertEquals(Optional.of(auto), autoDao.getById(1L));
     }
 
     @Test
     public void testGetAutoByIdWhenResultFalse() {
-        when(jdbcTemplate.queryForObject(anyString(),  anyObject(), (RowMapper<Object>) any())).thenReturn(auto);
-        assertNotEquals(Optional.of(autoDao), autoDao.getById(1L));
+        when(jdbcTemplate.queryForObject(anyString(),  anyObject(), any(AutoMapper.class))).thenThrow(EmptyResultDataAccessException.class);
+        assertEquals(Optional.empty(), autoDao.getById(12L));
     }
 }

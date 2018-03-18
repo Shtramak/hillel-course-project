@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.courses.tellus.autosalon.dao.AutosalonDaoInterface;
 import com.courses.tellus.autosalon.model.Auto;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +25,8 @@ public class AutoDao implements AutosalonDaoInterface<Auto> {
      */
     @Override
     public List<Auto> getAll() {
-        return jdbcTemplate.query("select * from AUTO", new AutoMapper());
+        final List<Auto> autoList = jdbcTemplate.query("select * from AUTO", new AutoMapper());
+        return autoList;
     }
 
     /**
@@ -35,8 +37,13 @@ public class AutoDao implements AutosalonDaoInterface<Auto> {
      */
     @Override
     public Optional<Auto> getById(final Long autoId) {
-        final Auto auto = jdbcTemplate.queryForObject("SELECT * FROM AUTO WHERE ID= ?", new Object[]{autoId}, new AutoMapper());
-        return Optional.of(auto);
+        try {
+            final String sql = "SELECT * FROM AUTO WHERE ID= ?";
+            final Auto auto = jdbcTemplate.queryForObject(sql, new Object[]{autoId}, new AutoMapper());
+            return Optional.of(auto);
+        } catch (DataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     /**
