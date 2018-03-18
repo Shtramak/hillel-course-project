@@ -1,7 +1,6 @@
 package com.courses.tellus.autosalon.dao.springjdbc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -14,7 +13,6 @@ import com.courses.tellus.autosalon.model.Customer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -37,9 +35,15 @@ public class CustomerDaoIntegrationTest {
         assertEquals(expected, actual);
     }
 
-    @Sql("classpath:trunc.sql")
+    @Sql(value = {"classpath:test.sql","classpath:trunc.sql"})
     @Test
     void getAllWhenTableHasNoDataReturnsEmptyList() throws Exception {
+        assertEquals(Collections.emptyList(), customerDao.getAll());
+    }
+
+    @Sql("classpath:dropTables.sql")
+    @Test
+    void getAllWhenTableNotExistsReturnsEmptyList() throws Exception {
         assertEquals(Collections.emptyList(), customerDao.getAll());
     }
 
@@ -50,20 +54,33 @@ public class CustomerDaoIntegrationTest {
     }
 
     @Test
-    void getByIdWithExistingIdReturnsCustomerReturnsOptionalEmpty() {
+    void getByIdWhenTableNotExistsReturnsOptionalEmpty() {
+        assertEquals(Optional.empty(), customerDao.getById(3L));
+    }
+
+    @Sql("classpath:dropTables.sql")
+    @Test
+    void getByIdWithNotExistingIdReturnsOptionalEmpty() {
         assertEquals(Optional.empty(), customerDao.getById(3L));
     }
 
     @Test
-    void updateWhenEntryExistsReturnsTrue() {
+    void updateWhenEntryExistsReturns1() {
         Customer updatedCustomer = new Customer(2, "updateName", "updateSurname", LocalDate.of(2018, 2, 20), "phoneNumber2", 2000);
         assertEquals(Integer.valueOf(1), customerDao.update(updatedCustomer));
     }
 
     @Test
-    void updateWhenEntryNotExistsReturnsFalse() {
+    void updateWhenEntryNotExistsReturns0() {
         Customer updatedCustomer = new Customer(3, "updateName", "updateSurname", LocalDate.of(2018, 2, 20), "phoneNumber3", 2000);
         assertEquals(Integer.valueOf(0), customerDao.update(updatedCustomer));
+    }
+
+    @Sql("classpath:dropTables.sql")
+    @Test
+    void updateWhenTableNotExistsReturnsMinus1() {
+        Customer updatedCustomer = new Customer(3, "updateName", "updateSurname", LocalDate.of(2018, 2, 20), "phoneNumber3", 2000);
+        assertEquals(Integer.valueOf(-1), customerDao.update(updatedCustomer));
     }
 
     @Test
@@ -76,15 +93,25 @@ public class CustomerDaoIntegrationTest {
         assertEquals(Integer.valueOf(0), customerDao.delete(3L));
     }
 
+    @Sql("classpath:dropTables.sql")
     @Test
-    void insertWhenNewEntry() {
+    void deleteWhenTableNotExistsReturnsMinus1() {
+        assertEquals(Integer.valueOf(-1), customerDao.delete(3L));
+    }
+
+    @Test
+    void insertWithValidDataReturns1() {
         assertEquals(Integer.valueOf(1), customerDao.insert(NOT_EXISTED_CUSTOMER));
     }
 
     @Test
-    void insertWhenEntryExistsThrowsDuplicateKeyException() {
-        assertThrows(DuplicateKeyException.class, () -> {
-            customerDao.insert(EXISTED_CUSTOMER);
-        });
+    void insertWhenEntryExistsReturns0() {
+        assertEquals(Integer.valueOf(0), customerDao.insert(EXISTED_CUSTOMER));
+    }
+
+    @Sql("classpath:dropTables.sql")
+    @Test
+    void insertWhenTableNotExistsReturns0() {
+        assertEquals(Integer.valueOf(0), customerDao.insert(NOT_EXISTED_CUSTOMER));
     }
 }

@@ -1,5 +1,6 @@
 package com.courses.tellus.autosalon.dao.springjdbc;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,12 @@ public class CustomerDao implements AutosalonDaoInterface<Customer> {
 
     @Override
     public List<Customer> getAll() {
-        return jdbcTemplate.query("SELECT * FROM customer", new CustomerMapper());
+        try {
+            return jdbcTemplate.query("SELECT * FROM customer", new CustomerMapper());
+        } catch (DataAccessException e) {
+            LOGGER.error(e.getMessage());
+            return Collections.emptyList();
+        }
     }
 
     @Override
@@ -43,12 +49,22 @@ public class CustomerDao implements AutosalonDaoInterface<Customer> {
         final String sql = "UPDATE customer "
                 + "SET name=?,surname=?,date_of_birth=?,phone_number=?,available_funds=?"
                 + "WHERE id=?";
-        return jdbcTemplate.update(sql, customerData(customer));
+        try {
+            return jdbcTemplate.update(sql, customerData(customer));
+        } catch (DataAccessException e) {
+            LOGGER.error(e.getMessage());
+            return -1;
+        }
     }
 
     @Override
     public Integer delete(final Long customerId) {
-        return jdbcTemplate.update("DELETE FROM customer WHERE id=" + customerId);
+        try {
+            return jdbcTemplate.update("DELETE FROM customer WHERE id=" + customerId);
+        } catch (DataAccessException e) {
+            LOGGER.error(e.getMessage());
+            return -1;
+        }
     }
 
     @Override
@@ -56,7 +72,12 @@ public class CustomerDao implements AutosalonDaoInterface<Customer> {
         final String sql = "INSERT INTO"
                 + " customer (name, surname, date_of_birth, phone_number, available_funds, id)"
                 + " VALUES (?, ?, ?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, customerData(customer));
+        try {
+            return jdbcTemplate.update(sql, customerData(customer));
+        } catch (DataAccessException e) {
+            LOGGER.error(e.getMessage());
+            return 0;
+        }
     }
 
     private Object[] customerData(final Customer customer) {
@@ -67,4 +88,3 @@ public class CustomerDao implements AutosalonDaoInterface<Customer> {
                 customer.getAvailableFunds(), customer.getId()};
     }
 }
-
