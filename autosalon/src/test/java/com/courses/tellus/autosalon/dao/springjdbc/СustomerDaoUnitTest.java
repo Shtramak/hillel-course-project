@@ -19,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class СustomerDaoUnitTest {
@@ -44,7 +45,7 @@ public class СustomerDaoUnitTest {
     }
 
     @Test
-    void getAllReturnsListofCustomers() {
+    void getAllReturnsListOfCustomers() {
         List<Customer> customers = Arrays.asList(REAL_CUSTOMER);
         when(jdbcTemplate.query(anyString(), any(CustomerMapper.class))).thenReturn(customers);
         assertEquals(customers, customerDao.getAll());
@@ -54,6 +55,13 @@ public class СustomerDaoUnitTest {
     void getByIdReturnsCustomerWithCpecifiedId1() throws Exception {
         when(jdbcTemplate.queryForObject(anyString(), any(CustomerMapper.class))).thenReturn(REAL_CUSTOMER);
         assertEquals(Optional.of(REAL_CUSTOMER), customerDao.getById(REAL_CUSTOMER.getId()));
+    }
+
+    @Test
+    void getByIdWhenEmptyResultSetReturnsOptionalEmpty() throws Exception {
+        when(jdbcTemplate.queryForObject(anyString(), any(CustomerMapper.class)))
+                .thenThrow(EmptyResultDataAccessException.class);
+        assertEquals(Optional.empty(), customerDao.getById(3L));
     }
 
     @Test

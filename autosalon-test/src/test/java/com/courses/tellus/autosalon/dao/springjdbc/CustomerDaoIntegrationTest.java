@@ -3,28 +3,23 @@ package com.courses.tellus.autosalon.dao.springjdbc;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.FileReader;
-import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-import com.courses.tellus.autosalon.config.springjdbc.JdbcTemplatesConfig;
+import com.courses.tellus.autosalon.dao.config.JdbcTemplatesConfigTest;
 import com.courses.tellus.autosalon.model.Customer;
-import org.h2.tools.RunScript;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ContextConfiguration(classes = {JdbcTemplatesConfig.class, CustomerDao.class})
+@ContextConfiguration(classes = {JdbcTemplatesConfigTest.class, CustomerDao.class})
 @ExtendWith(SpringExtension.class)
 @Sql("classpath:test.sql")
 public class CustomerDaoIntegrationTest {
@@ -33,8 +28,6 @@ public class CustomerDaoIntegrationTest {
 
     @Autowired
     private CustomerDao customerDao;
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Test
     void getAllWhenTableHasDataReturnsListOfCustomers() {
@@ -51,24 +44,24 @@ public class CustomerDaoIntegrationTest {
     }
 
     @Test
-    void getByIdWithExistingIdReturnsCustomer(){
+    void getByIdWithExistingIdReturnsCustomer() {
         Customer actual = customerDao.getById(1L).get();
         assertEquals(EXISTED_CUSTOMER, actual);
     }
 
     @Test
-    void getByIdWithExistingIdReturnsCustomerThrowsEmptyResultDataAccessException(){
-        assertThrows(EmptyResultDataAccessException.class, () -> customerDao.getById(3L));
+    void getByIdWithExistingIdReturnsCustomerReturnsOptionalEmpty() {
+        assertEquals(Optional.empty(), customerDao.getById(3L));
     }
 
     @Test
-    void updateWhenEntryExistsReturnsTrue(){
+    void updateWhenEntryExistsReturnsTrue() {
         Customer updatedCustomer = new Customer(2, "updateName", "updateSurname", LocalDate.of(2018, 2, 20), "phoneNumber2", 2000);
         assertEquals(Integer.valueOf(1), customerDao.update(updatedCustomer));
     }
 
     @Test
-    void updateWhenEntryNotExistsReturnsFalse(){
+    void updateWhenEntryNotExistsReturnsFalse() {
         Customer updatedCustomer = new Customer(3, "updateName", "updateSurname", LocalDate.of(2018, 2, 20), "phoneNumber3", 2000);
         assertEquals(Integer.valueOf(0), customerDao.update(updatedCustomer));
     }
@@ -79,7 +72,7 @@ public class CustomerDaoIntegrationTest {
     }
 
     @Test
-    void deleteWithNotExistingReturns0(){
+    void deleteWithNotExistingReturns0() {
         assertEquals(Integer.valueOf(0), customerDao.delete(3L));
     }
 
@@ -93,10 +86,5 @@ public class CustomerDaoIntegrationTest {
         assertThrows(DuplicateKeyException.class, () -> {
             customerDao.insert(EXISTED_CUSTOMER);
         });
-    }
-
-    private void truncateTable() throws Exception {
-        Connection connection = jdbcTemplate.getDataSource().getConnection();
-        RunScript.execute(connection, new FileReader("src/test/resources/trunc.sql"));
     }
 }

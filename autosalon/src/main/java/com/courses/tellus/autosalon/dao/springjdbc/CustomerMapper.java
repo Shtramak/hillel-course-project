@@ -16,5 +16,6 @@ public class CustomerMapper implements RowMapper<Customer> {
         customer.setDateOfBirth(resultSet.getDate("date_of_birth").toLocalDate());
         customer.setPhoneNumber(resultSet.getString("phone_number"));
         customer.setAvailableFunds(resultSet.getDouble("available_funds"));
-        return customer;    }
+        return customer;
+    }
 }

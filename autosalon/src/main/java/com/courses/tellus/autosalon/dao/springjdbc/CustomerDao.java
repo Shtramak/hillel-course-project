@@ -5,13 +5,15 @@ import java.util.Optional;
 
 import com.courses.tellus.autosalon.dao.AutosalonDaoInterface;
 import com.courses.tellus.autosalon.model.Customer;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CustomerDao implements AutosalonDaoInterface<Customer> {
-
+    private static final Logger LOGGER = Logger.getLogger(CustomerDao.class);
     private final transient JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -26,9 +28,14 @@ public class CustomerDao implements AutosalonDaoInterface<Customer> {
 
     @Override
     public Optional<Customer> getById(final Long customerId) {
-        final Customer customer = jdbcTemplate
-                .queryForObject("SELECT * FROM customer where id=" + customerId, new CustomerMapper());
-        return Optional.of(customer);
+        try {
+            final Customer customer = jdbcTemplate
+                    .queryForObject("SELECT * FROM customer where id=" + customerId, new CustomerMapper());
+            return Optional.of(customer);
+        } catch (DataAccessException e) {
+            LOGGER.error(e.getMessage());
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -60,3 +67,4 @@ public class CustomerDao implements AutosalonDaoInterface<Customer> {
                 customer.getAvailableFunds(), customer.getId()};
     }
 }
+

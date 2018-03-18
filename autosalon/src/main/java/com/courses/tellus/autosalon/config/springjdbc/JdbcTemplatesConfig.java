@@ -2,35 +2,38 @@ package com.courses.tellus.autosalon.config.springjdbc;
 
 import javax.sql.DataSource;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 @Configuration
-@ComponentScan("com.courses.tellus.autosalon.dao.springjdbc")
+@PropertySource("classpath:config.properties")
 public class JdbcTemplatesConfig {
 
     /**
-     * @return Embedded database as a implementation of DataSource interface.
+     * Create dataSource.
+     *
+     * @return dateSource.
      */
     @Bean
     public DataSource dataSource() {
-        final EmbeddedDatabaseBuilder dbBuilder = new EmbeddedDatabaseBuilder();
-        return dbBuilder
-                .setType(EmbeddedDatabaseType.H2)
-                .addScript("test.sql")
-                .build();
+        final MysqlDataSource mysql = new MysqlDataSource();
+        mysql.setURL("jdbc.url.mysql");
+        mysql.setUser("jdbc.user.mysql");
+        mysql.setPassword("jdbc.pass.mysql");
+        return mysql;
     }
 
     /**
-     * @param dataSource - a factory for connections to the data source
-     * @return JdbcTemplate class from Spring JDBC framework that executes SQL queries or updates.
+     * Create JdbcTemplate.
+     *
+     * @param dataSource to save.
+     * @return jdbctemplate.
      */
     @Bean
     public JdbcTemplate jdbcTemplate(final DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
+       return new JdbcTemplate(dataSource);
     }
 }
