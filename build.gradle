@@ -55,7 +55,7 @@ project("airport") {
 project("education") {
     dependencies {
         compile group: 'javax.servlet.jsp.jstl', name: 'jstl', version: '1.2'
-        provideCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0'
+        compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0'
         testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.6.5'
     }
 }
