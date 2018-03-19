@@ -35,7 +35,7 @@ public class CustomerDaoIntegrationTest {
         assertEquals(expected, actual);
     }
 
-    @Sql(value = {"classpath:test.sql","classpath:trunc.sql"})
+    @Sql(value = {"classpath:test.sql", "classpath:trunc.sql"})
     @Test
     void getAllWhenTableHasNoDataReturnsEmptyList() throws Exception {
         assertEquals(Collections.emptyList(), customerDao.getAll());
@@ -105,13 +105,13 @@ public class CustomerDaoIntegrationTest {
     }
 
     @Test
-    void insertWhenEntryExistsReturns0() {
-        assertEquals(Integer.valueOf(0), customerDao.insert(EXISTED_CUSTOMER));
+    void insertWhenEntryExistsReturnsMinus1() {
+        assertEquals(Integer.valueOf(-1), customerDao.insert(EXISTED_CUSTOMER));
     }
 
     @Sql("classpath:dropTables.sql")
     @Test
-    void insertWhenTableNotExistsReturns0() {
-        assertEquals(Integer.valueOf(0), customerDao.insert(NOT_EXISTED_CUSTOMER));
+    void insertWhenTableNotExistsReturnsMinus1() {
+        assertEquals(Integer.valueOf(-1), customerDao.insert(NOT_EXISTED_CUSTOMER));
     }
 }

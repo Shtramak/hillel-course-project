@@ -76,7 +76,7 @@ public class CustomerDao implements AutosalonDaoInterface<Customer> {
             return jdbcTemplate.update(sql, customerData(customer));
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage());
-            return 0;
+            return -1;
         }
     }
 

@@ -106,9 +106,9 @@ public class CustomerDaoUnitTest {
     }
 
     @Test
-    void insertWhenBadConnectionReturns0() {
+    void insertWhenBadConnectionReturnsMinus1() {
         when(jdbcTemplate.update(anyString(), (Object[]) anyVararg()))
                 .thenThrow(BadSqlGrammarException.class);
-        assertEquals(Integer.valueOf(0), customerDao.insert(REAL_CUSTOMER));
+        assertEquals(Integer.valueOf(-1), customerDao.insert(REAL_CUSTOMER));
     }
 }
