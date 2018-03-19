@@ -45,6 +45,20 @@ project("autosalon-test") {
     }
 }
 
+project("airport-test") {
+    dependencies {
+        compile project(':airport')
+    }
+}
+
+project("airport") {
+    dependencies {
+        testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.1.0'
+        compile group: 'log4j', name: 'log4j', version: '1.2.17'
+        testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.6.5'
+    }
+}
+
 project("education") {
     dependencies {
         testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.6.5'
