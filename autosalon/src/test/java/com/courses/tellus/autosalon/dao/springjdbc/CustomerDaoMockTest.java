@@ -7,16 +7,13 @@ import static org.mockito.Matchers.anyVararg;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.autosalon.config.springjdbc.JdbcTemplatesConfig;
 import com.courses.tellus.autosalon.model.Customer;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -25,21 +22,13 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class CustomerDaoUnitTest {
+public class CustomerDaoMockTest {
     private static final Customer REAL_CUSTOMER =
             new Customer(1, "John", "Smith", LocalDate.of(2018, 2, 20), "(012)345-67-89", 10000.50);
 
     @Mock
     private static JdbcTemplate jdbcTemplate;
     private CustomerDao customerDao;
-
-    @BeforeAll
-    static void initJdbcTemplate() {
-        JdbcTemplatesConfig config = mock(JdbcTemplatesConfig.class);
-        DataSource dataSource = mock(DataSource.class);
-        when(config.dataSource()).thenReturn(dataSource);
-        when(config.jdbcTemplate(dataSource)).thenReturn(jdbcTemplate);
-    }
 
     @BeforeEach
     void setUp() {
