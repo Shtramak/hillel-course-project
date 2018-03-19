@@ -56,7 +56,7 @@ public class AutoDaoMockTest {
     @Test
     public void testInsertAutoWhenResultFalse() {
         when(jdbcTemplate.update(anyString(), (Object[]) anyVararg())).thenThrow(EmptyResultDataAccessException.class);
-        assertEquals(Integer.valueOf(0), autoDao.insert(auto));
+        assertEquals(Integer.valueOf(-1), autoDao.insert(auto));
     }
 
     @Test
@@ -68,7 +68,7 @@ public class AutoDaoMockTest {
     @Test
     public void testUpdateAutoWhenResultFalse() {
         when(jdbcTemplate.update(anyString(), (Object[]) anyVararg())).thenThrow(EmptyResultDataAccessException.class);
-        assertEquals(Integer.valueOf(0), autoDao.update(auto));
+        assertEquals(Integer.valueOf(-1), autoDao.update(auto));
     }
 
     @Test
@@ -80,7 +80,7 @@ public class AutoDaoMockTest {
     @Test
     public void testDeleteAutoWhenResultFalse() {
         when(jdbcTemplate.update(anyString(), (Object[]) anyVararg())).thenThrow(EmptyResultDataAccessException.class);
-        assertEquals(Integer.valueOf(0), autoDao.delete(1L));
+        assertEquals(Integer.valueOf(-1), autoDao.delete(1L));
     }
 
     @Test
