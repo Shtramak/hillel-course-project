@@ -1,10 +1,12 @@
 package com.courses.tellus.autosalon.dao.springjdbc;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import com.courses.tellus.autosalon.dao.AutosalonDaoInterface;
 import com.courses.tellus.autosalon.model.Auto;
+import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AutoDao implements AutosalonDaoInterface<Auto> {
 
+    private static final Logger LOGGER = Logger.getLogger(AutoDao.class);
     private final transient JdbcTemplate jdbcTemplate;
 
     public AutoDao(final JdbcTemplate jdbcTemplate) {
@@ -25,8 +28,12 @@ public class AutoDao implements AutosalonDaoInterface<Auto> {
      */
     @Override
     public List<Auto> getAll() {
-        final List<Auto> autoList = jdbcTemplate.query("SELECT * FROM AUTO", new AutoMapper());
-        return autoList;
+        try {
+            return jdbcTemplate.query("SELECT * FROM AUTO", new AutoMapper());
+        } catch (DataAccessException e) {
+            LOGGER.debug(e.getMessage());
+            return Collections.emptyList();
+        }
     }
 
     /**
@@ -38,10 +45,11 @@ public class AutoDao implements AutosalonDaoInterface<Auto> {
     @Override
     public Optional<Auto> getById(final Long autoId) {
         try {
-            final String sql = "SELECT * FROM AUTO WHERE ID= ?";
-            final Auto auto = jdbcTemplate.queryForObject(sql, new Object[]{autoId}, new AutoMapper());
+            final Auto auto = jdbcTemplate.queryForObject(
+                    "SELECT * FROM AUTO WHERE ID= ?", new Object[]{autoId}, new AutoMapper());
             return Optional.of(auto);
         } catch (DataAccessException e) {
+            LOGGER.debug(e.getMessage());
             return Optional.empty();
         }
     }
@@ -56,8 +64,13 @@ public class AutoDao implements AutosalonDaoInterface<Auto> {
     public Integer update(final Auto auto) {
         final String sql =
                 "UPDATE AUTO SET AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? WHERE ID = ?";
-        return jdbcTemplate.update(sql, auto.getBrand(), auto.getModel(), auto.getManufactYear(), auto.getProducerCountry(),
-                auto.getPrice(), auto.getId());
+        try {
+            return jdbcTemplate.update(sql, auto.getBrand(), auto.getModel(), auto.getManufactYear(), auto.getProducerCountry(),
+                                            auto.getPrice(), auto.getId());
+        } catch (DataAccessException e) {
+            LOGGER.debug(e.getMessage());
+            return 0;
+        }
     }
 
     /**
@@ -68,7 +81,12 @@ public class AutoDao implements AutosalonDaoInterface<Auto> {
      */
     @Override
     public Integer delete(final Long autoId) {
-        return jdbcTemplate.update("DELETE FROM AUTO WHERE ID = ?", autoId);
+        try {
+            return jdbcTemplate.update("DELETE FROM AUTO WHERE ID = ?", autoId);
+        } catch (DataAccessException e) {
+            LOGGER.debug(e.getMessage());
+            return 0;
+        }
     }
 
     /**
@@ -81,7 +99,12 @@ public class AutoDao implements AutosalonDaoInterface<Auto> {
     public Integer insert(final Auto auto) {
         final String sql =
                 "INSERT INTO AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE) VALUES (?, ?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, auto.getBrand(), auto.getModel(), auto.getManufactYear(),
-                auto.getProducerCountry(), auto.getPrice());
+        try {
+            return jdbcTemplate.update(sql, auto.getBrand(), auto.getModel(), auto.getManufactYear(),
+                                            auto.getProducerCountry(), auto.getPrice());
+        } catch (DataAccessException e) {
+            LOGGER.debug(e.getMessage());
+            return 0;
+        }
     }
 }
