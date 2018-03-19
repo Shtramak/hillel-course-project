@@ -1,22 +1,25 @@
 package com.courses.tellus.autosalon.dao.springjdbc;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.courses.tellus.autosalon.model.Auto;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.when;
 
 public class AutoDaoMockTest {
 
@@ -35,7 +38,7 @@ public class AutoDaoMockTest {
     }
 
     @Test
-    public void testGetAllWhenResultTrue(){
+    public void testGetAllWhenResultTrue() {
         List<Auto> autoList = new ArrayList<Auto>();
         autoList.add(auto);
         when(jdbcTemplate.query(anyString(), any(AutoMapper.class))).thenReturn(autoList);
@@ -43,14 +46,14 @@ public class AutoDaoMockTest {
     }
 
     @Test
-    public void testGetAllWhenResultFalse(){
+    public void testGetAllWhenResultFalse() {
         List<Auto> autoList = new ArrayList<Auto>();
         when(jdbcTemplate.query(anyString(), any(AutoMapper.class))).thenReturn(autoList);
         assertNotEquals(2, autoDao.getAll().size());
     }
 
     @Test
-    public void testInsertWhenResultTrue(){
+    public void testInsertWhenResultTrue() {
         when(autoDao.insert(auto)).thenReturn(1);
         assertThat(autoDao.insert(auto), is(1));
     }
@@ -87,13 +90,13 @@ public class AutoDaoMockTest {
 
     @Test
     public void testGetAutoByIdWhenResultTrue() {
-        when(jdbcTemplate.queryForObject(anyString(),  anyObject(), any(AutoMapper.class))).thenReturn(auto);
+        when(jdbcTemplate.queryForObject(anyString(), anyObject(), any(AutoMapper.class))).thenReturn(auto);
         assertEquals(Optional.of(auto), autoDao.getById(1L));
     }
 
     @Test
     public void testGetAutoByIdWhenResultFalse() {
-        when(jdbcTemplate.queryForObject(anyString(),  anyObject(), any(AutoMapper.class))).thenThrow(EmptyResultDataAccessException.class);
+        when(jdbcTemplate.queryForObject(anyString(), anyObject(), any(AutoMapper.class))).thenThrow(EmptyResultDataAccessException.class);
         assertEquals(Optional.empty(), autoDao.getById(12L));
     }
 }

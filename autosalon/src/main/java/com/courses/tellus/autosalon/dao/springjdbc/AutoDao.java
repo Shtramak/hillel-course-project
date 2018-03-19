@@ -19,20 +19,20 @@ public class AutoDao implements AutosalonDaoInterface<Auto> {
     }
 
     /**
-     *Return list of auto from DataBase.
+     * Return list of auto from DataBase.
      *
      * @return list of auto.
      */
     @Override
     public List<Auto> getAll() {
-        final List<Auto> autoList = jdbcTemplate.query("select * from AUTO", new AutoMapper());
+        final List<Auto> autoList = jdbcTemplate.query("SELECT * FROM AUTO", new AutoMapper());
         return autoList;
     }
 
     /**
      * Return auto from DataBase by id.
      *
-     * @param autoId  of the object to be selected from database.
+     * @param autoId of the object to be selected from database.
      * @return auto.
      */
     @Override
@@ -57,11 +57,11 @@ public class AutoDao implements AutosalonDaoInterface<Auto> {
         final String sql =
                 "UPDATE AUTO SET AUTO_BRAND = ?, AUTO_MODEL = ?, MANUFACT_YEAR = ?, COUNTRY = ?, PRICE = ? WHERE ID = ?";
         return jdbcTemplate.update(sql, auto.getBrand(), auto.getModel(), auto.getManufactYear(), auto.getProducerCountry(),
-                                        auto.getPrice(), auto.getId());
+                auto.getPrice(), auto.getId());
     }
 
     /**
-     *  Remove auto from DataBase by id.
+     * Remove auto from DataBase by id.
      *
      * @param autoId of the object to be removed from database.
      * @return count of removed rows.
@@ -82,6 +82,6 @@ public class AutoDao implements AutosalonDaoInterface<Auto> {
         final String sql =
                 "INSERT INTO AUTO(AUTO_BRAND, AUTO_MODEL, MANUFACT_YEAR, COUNTRY, PRICE) VALUES (?, ?, ?, ?, ?)";
         return jdbcTemplate.update(sql, auto.getBrand(), auto.getModel(), auto.getManufactYear(),
-                                        auto.getProducerCountry(), auto.getPrice());
+                auto.getProducerCountry(), auto.getPrice());
     }
 }

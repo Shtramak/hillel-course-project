@@ -10,10 +10,10 @@ import org.springframework.lang.Nullable;
 public class AutoMapper implements RowMapper<Auto> {
 
     /**
-     *Implementation RowMapper for Auto.
+     * Implementation RowMapper for Auto.
      *
      * @param resultSet to save.
-     * @param rowNum to save.
+     * @param rowNum    to save.
      * @return auto.
      * @throws SQLException exception.
      */

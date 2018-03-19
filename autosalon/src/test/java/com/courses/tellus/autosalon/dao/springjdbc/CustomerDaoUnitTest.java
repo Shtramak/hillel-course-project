@@ -25,7 +25,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class СustomerDaoUnitTest {
+public class CustomerDaoUnitTest {
     private static final Customer REAL_CUSTOMER =
             new Customer(1, "John", "Smith", LocalDate.of(2018, 2, 20), "(012)345-67-89", 10000.50);
 
