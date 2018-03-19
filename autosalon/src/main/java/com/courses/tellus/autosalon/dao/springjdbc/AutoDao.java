@@ -69,7 +69,7 @@ public class AutoDao implements AutosalonDaoInterface<Auto> {
                                             auto.getPrice(), auto.getId());
         } catch (DataAccessException e) {
             LOGGER.debug(e.getMessage());
-            return 0;
+            return -1;
         }
     }
 
@@ -85,7 +85,7 @@ public class AutoDao implements AutosalonDaoInterface<Auto> {
             return jdbcTemplate.update("DELETE FROM AUTO WHERE ID = ?", autoId);
         } catch (DataAccessException e) {
             LOGGER.debug(e.getMessage());
-            return 0;
+            return -1;
         }
     }
 
@@ -104,7 +104,7 @@ public class AutoDao implements AutosalonDaoInterface<Auto> {
                                             auto.getProducerCountry(), auto.getPrice());
         } catch (DataAccessException e) {
             LOGGER.debug(e.getMessage());
-            return 0;
+            return -1;
         }
     }
 }
