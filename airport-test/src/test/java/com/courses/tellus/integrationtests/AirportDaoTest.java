@@ -1,7 +1,7 @@
 package com.courses.tellus.integrationtests;
 
 import com.courses.airport.connection.jdbc.ConnectionFactory;
-import com.courses.airport.dao.AirportDao;
+import com.courses.airport.dao.jdbc.AirportDao;
 import com.courses.airport.exception.DaoException;
 import com.courses.airport.model.Airport;
 import org.h2.tools.RunScript;

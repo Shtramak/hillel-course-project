@@ -1,6 +1,7 @@
 package com.courses.airport.dao;
 
 import com.courses.airport.connection.jdbc.ConnectionFactory;
+import com.courses.airport.dao.jdbc.AirportDao;
 import com.courses.airport.exception.DaoException;
 import com.courses.airport.model.Airport;
 import org.junit.jupiter.api.BeforeAll;

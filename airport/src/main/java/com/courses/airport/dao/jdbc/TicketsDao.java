@@ -1,4 +1,4 @@
-package com.courses.airport.dao;
+package com.courses.airport.dao.jdbc;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.courses.airport.connection.jdbc.ConnectionFactory;
+import com.courses.airport.dao.AirportDaoImpl;
 import com.courses.airport.exception.DaoException;
 import com.courses.airport.model.Ticket;
 import org.apache.log4j.Logger;

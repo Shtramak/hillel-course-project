@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.courses.airport.connection.jdbc.ConnectionFactory;
+import com.courses.airport.dao.jdbc.TicketsDao;
 import com.courses.airport.exception.DaoException;
 import com.courses.airport.model.Ticket;
 import org.junit.jupiter.api.BeforeAll;

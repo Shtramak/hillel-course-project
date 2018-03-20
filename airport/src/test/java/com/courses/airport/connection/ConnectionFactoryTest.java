@@ -1,7 +1,7 @@
 package com.courses.airport.connection;
 
 import com.courses.airport.connection.jdbc.ConnectionFactory;
-import com.courses.airport.dao.TicketsDao;
+import com.courses.airport.dao.jdbc.TicketsDao;
 import com.courses.airport.exception.DaoException;
 import com.courses.airport.model.Ticket;
 import org.h2.tools.RunScript;
