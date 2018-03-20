@@ -1,10 +1,10 @@
 package com.courses.tellus.airport.dao.springdao;
 
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import com.courses.tellus.airport.config.springjdbc.JdbcTemplateConfig;
 import com.courses.tellus.airport.dao.spring.jdbc.TicketsDao;
@@ -12,6 +12,7 @@ import com.courses.tellus.airport.model.Ticket;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -26,6 +27,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.anyVararg;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 public class TicketDaoUnitTest {
@@ -43,10 +45,10 @@ public class TicketDaoUnitTest {
         when(config.jdbcTemplate(dataSource)).thenReturn(jdbcTemplate);
     }
 
-//    @BeforeAll
-//    static void disableWarning() {
-//        System.err.close();
-//    }
+    @BeforeAll
+    static void disableWarning() {
+        System.err.close();
+    }
 
     @BeforeEach
     void setUp() {
@@ -97,8 +99,7 @@ public class TicketDaoUnitTest {
         assertEquals(Integer.valueOf(1), ticketsDao.delete(TEST_TICKET.getTicketId()));
     }
 
-    @Test
-    void deleteWhenBadConnectionReturnsMinusOne() {
+    @Test void deleteWhenBadConnectionReturnsMinusOne() {
         when(jdbcTemplate.update(anyString())).thenThrow(BadSqlGrammarException.class);
         assertEquals(Integer.valueOf(-1), ticketsDao.delete(TEST_TICKET.getTicketId()));
     }
