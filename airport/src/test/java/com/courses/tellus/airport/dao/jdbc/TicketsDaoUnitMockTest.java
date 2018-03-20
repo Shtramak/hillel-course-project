@@ -1,30 +1,35 @@
-package com.courses.tellus.airport.dao;
-
-import com.courses.tellus.airport.config.jdbc.ConnectionFactory;
-import com.courses.tellus.airport.dao.jdbc.AirportDao;
-import com.courses.tellus.airport.exception.DaoException;
-import com.courses.tellus.airport.model.Airport;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import java.sql.*;
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
+package com.courses.tellus.airport.dao.jdbc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
-class AirDaoMockTest {
-    private final Airport AIRPORT_TRUE = new Airport(1L, "Borispol",  LocalDate.of(2018, 2, 20),"D-3", "(012)345-67-89");
-    private AirportDao airportDao;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
+
+import com.courses.tellus.airport.config.jdbc.ConnectionFactory;
+import com.courses.tellus.airport.dao.jdbc.TicketsDao;
+import com.courses.tellus.airport.exception.DaoException;
+import com.courses.tellus.airport.model.Ticket;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+class TicketsDaoUnitMockTest {
+    private final Ticket TEST_TICKET = new Ticket(1, "Igor", "Fedotov", LocalDate.of(2018, 1, 1), "Keln");
+    private TicketsDao ticketsDao;
 
     @Mock
     private ConnectionFactory connectionFactoryMock;
@@ -33,11 +38,11 @@ class AirDaoMockTest {
     @Mock
     private PreparedStatement preparedStatementMock;
     @Mock
+    private Ticket ticketMock;
+    @Mock
     private Statement statementMock;
     @Mock
     private ResultSet resultSetMock;
-    @Mock
-    private Airport airportMock;
 
     @BeforeAll
     static void disableWarning() {
@@ -48,29 +53,29 @@ class AirDaoMockTest {
     void initMocks() throws Exception {
         MockitoAnnotations.initMocks(this);
         when(connectionFactoryMock.getConnection()).thenReturn(connectionMock);
-        airportDao = new AirportDao(connectionFactoryMock);
+        ticketsDao = new TicketsDao(connectionFactoryMock);
     }
 
     @Test
     void insertWhenExecuteUpdatePositiveDataReturnsTrue() throws Exception {
         when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
         when(preparedStatementMock.executeUpdate()).thenReturn(1);
-        assertEquals(Integer.valueOf(1), airportDao.insert(AIRPORT_TRUE));
+        assertEquals(Integer.valueOf(1), ticketsDao.insert(TEST_TICKET));
     }
 
     @Test
     void insertWhenBadConnectionThrowsDAOException() throws Exception {
         when(connectionMock.prepareStatement(anyString())).thenThrow(SQLException.class);
-        assertThrows(DaoException.class, () -> airportDao.insert(airportMock));
+        assertThrows(DaoException.class, () -> ticketsDao.insert(ticketMock));
     }
 
     @Test
-    void getByIdWithExistingIdReturnsAirport() throws Exception {
+    void getByIdWithExistingIdReturnsTicket() throws Exception {
         returnMockResultSet();
         when(resultSetMock.next()).thenReturn(true);
-        putRealAirportIntoResulsetMock();
-        Airport result = airportDao.getById(AIRPORT_TRUE.getAirportId()).orElse(null);
-        assertEquals(AIRPORT_TRUE, result);
+        putRealTicketIntoResulsetMock();
+        Ticket result = ticketsDao.getById(TEST_TICKET.getTicketId()).orElse(null);
+        assertEquals(TEST_TICKET, result);
     }
 
     @Test
@@ -78,70 +83,71 @@ class AirDaoMockTest {
         returnMockResultSet();
         when(resultSetMock.next()).thenReturn(false);
         Long id = ThreadLocalRandom.current().nextLong();
-        assertEquals(Optional.empty(), airportDao.getById(id));
+        assertEquals(Optional.empty(), ticketsDao.getById(id));
     }
 
     @Test
     void getByIdWhenBadConnectionThrowsDaoException() throws Exception {
         when(connectionMock.createStatement()).thenThrow(SQLException.class);
-        assertThrows(DaoException.class, () -> airportDao.getById(1L));
+        assertThrows(DaoException.class, () -> ticketsDao.getById(1L));
     }
 
     @Test
-    void getAllWhenEntryExistsReturnsListWithAirports() throws Exception {
+    void getAllWhenEntryExistsReturnsListWithTickets() throws Exception {
         returnMockResultSet();
         when(resultSetMock.next()).thenReturn(true).thenReturn(false);
-        putRealAirportIntoResulsetMock();
-        List<Airport> expected = Collections.singletonList(AIRPORT_TRUE);
-        assertEquals(expected, airportDao.getAll());
+        putRealTicketIntoResulsetMock();
+        List<Ticket> expected = Collections.singletonList(TEST_TICKET);
+        assertEquals(expected, ticketsDao.getAll());
     }
 
     @Test
     void getAllWhenBadConnectionThrowsDaoException() throws Exception {
         when(connectionMock.createStatement()).thenThrow(SQLException.class);
-        assertThrows(DaoException.class, () -> airportDao.getAll());
+        assertThrows(DaoException.class, () -> ticketsDao.getAll());
     }
 
     @Test
     void updateWhenEntryExistsReturnsOne() throws Exception {
         when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
         when(preparedStatementMock.executeUpdate()).thenReturn(1);
-        when(airportMock.getDateOfBirth()).thenReturn(LocalDate.now());
-        assertEquals(Integer.valueOf(1), airportDao.update(airportMock));
+        when(ticketMock.getDateFlight()).thenReturn(LocalDate.now());
+        assertEquals(Integer.valueOf(1), ticketsDao.update(ticketMock));
     }
 
     @Test
     void updateWhenEntryNotExistsReturnsZero() throws Exception {
         when(connectionMock.prepareStatement(anyString())).thenReturn(preparedStatementMock);
         when(preparedStatementMock.executeUpdate()).thenReturn(0);
-        when(airportMock.getDateOfBirth()).thenReturn(LocalDate.now());
-        assertEquals(Integer.valueOf(0), airportDao.update(airportMock));
+        when(ticketMock.getDateFlight()).thenReturn(LocalDate.now());
+        assertEquals(Integer.valueOf(0), ticketsDao.update(ticketMock));
     }
 
     @Test
     void updateWhenBadConnectionThrowsDaoException() throws Exception {
         when(connectionMock.prepareStatement(anyString())).thenThrow(SQLException.class);
-        assertThrows(DaoException.class, () -> airportDao.update(airportMock));
+        assertThrows(DaoException.class, () -> ticketsDao.update(ticketMock));
     }
 
     @Test
     void deleteWhenWhenEntryExistsReturnsOne() throws Exception {
         when(connectionMock.createStatement()).thenReturn(statementMock);
         when(statementMock.executeUpdate(anyString())).thenReturn(1);
-        assertEquals(Integer.valueOf(1), airportDao.delete(1L));
+        Long id = ThreadLocalRandom.current().nextLong();
+        assertEquals(Integer.valueOf(1), ticketsDao.delete(id));
     }
 
     @Test
     void deleteWhenWhenEntryNotExistsReturnsZero() throws Exception {
         when(connectionMock.createStatement()).thenReturn(statementMock);
         when(statementMock.executeUpdate(anyString())).thenReturn(0);
-        assertEquals(Integer.valueOf(0), airportDao.delete(1L));
+        assertEquals(Integer.valueOf(0), ticketsDao.delete(1L));
     }
 
     @Test
     void deleteWhenBadConnectionThrowsDaoException() throws Exception {
         when(connectionMock.createStatement()).thenThrow(SQLException.class);
-        assertThrows(DaoException.class, () -> airportDao.delete(1L));
+        assertThrows(DaoException.class, () -> ticketsDao.delete(1L));
     }
 
     private void returnMockResultSet() throws SQLException {
@@ -149,12 +155,12 @@ class AirDaoMockTest {
         when(statementMock.executeQuery(anyString())).thenReturn(resultSetMock);
     }
 
-    private void putRealAirportIntoResulsetMock() throws SQLException {
-        when(resultSetMock.getLong("id")).thenReturn(AIRPORT_TRUE.getAirportId());
-        when(resultSetMock.getString("name")).thenReturn(AIRPORT_TRUE.getNameAirport());
-        Date date = Date.valueOf(AIRPORT_TRUE.getDateOfBirth());
-        when(resultSetMock.getDate("date_of_birth")).thenReturn(date);
-        when(resultSetMock.getString("phone_number")).thenReturn(AIRPORT_TRUE.getTelephone());
-        when(resultSetMock.getString("terminal")).thenReturn(AIRPORT_TRUE.getNumberTerminal());
+    private void putRealTicketIntoResulsetMock() throws SQLException {
+        when(resultSetMock.getLong("id")).thenReturn(TEST_TICKET.getTicketId());
+        when(resultSetMock.getString("name")).thenReturn(TEST_TICKET.getName());
+        when(resultSetMock.getString("surname")).thenReturn(TEST_TICKET.getSurname());
+        Date date = Date.valueOf(TEST_TICKET.getDateFlight());
+        when(resultSetMock.getDate("dateOfFlight")).thenReturn(date);
+        when(resultSetMock.getString("destCity")).thenReturn(TEST_TICKET.getDestCity());
     }
 }
