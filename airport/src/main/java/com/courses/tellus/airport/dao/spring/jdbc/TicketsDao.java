@@ -1,4 +1,4 @@
-package com.courses.airport.dao.spring.jdbc;
+package com.courses.tellus.airport.dao.spring.jdbc;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,9 +6,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.airport.dao.AirportDaoImpl;
-import com.courses.airport.exception.DaoException;
-import com.courses.airport.model.Ticket;
+import com.courses.tellus.airport.dao.AirportDaoImpl;
+import com.courses.tellus.airport.exception.DaoException;
+import com.courses.tellus.airport.model.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

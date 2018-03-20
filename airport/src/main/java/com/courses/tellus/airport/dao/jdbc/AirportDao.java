@@ -1,4 +1,4 @@
-package com.courses.airport.dao.jdbc;
+package com.courses.tellus.airport.dao.jdbc;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.airport.connection.jdbc.ConnectionFactory;
-import com.courses.airport.dao.AirportDaoImpl;
-import com.courses.airport.exception.DaoException;
-import com.courses.airport.model.Airport;
+import com.courses.tellus.airport.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.airport.dao.AirportDaoImpl;
+import com.courses.tellus.airport.exception.DaoException;
+import com.courses.tellus.airport.model.Airport;
 import org.apache.log4j.Logger;
 
 public class AirportDao  implements AirportDaoImpl<Airport> {

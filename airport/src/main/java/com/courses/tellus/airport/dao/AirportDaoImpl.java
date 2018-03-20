@@ -1,9 +1,9 @@
-package com.courses.airport.dao;
+package com.courses.tellus.airport.dao;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.airport.exception.DaoException;
+import com.courses.tellus.airport.exception.DaoException;
 
 public interface AirportDaoImpl<E> {
     /**

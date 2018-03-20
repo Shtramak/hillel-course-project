@@ -1,9 +1,9 @@
-package com.courses.airport.connection;
+package com.courses.tellus.airport.connection;
 
-import com.courses.airport.connection.jdbc.ConnectionFactory;
-import com.courses.airport.dao.jdbc.TicketsDao;
-import com.courses.airport.exception.DaoException;
-import com.courses.airport.model.Ticket;
+import com.courses.tellus.airport.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.airport.dao.jdbc.TicketsDao;
+import com.courses.tellus.airport.exception.DaoException;
+import com.courses.tellus.airport.model.Ticket;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

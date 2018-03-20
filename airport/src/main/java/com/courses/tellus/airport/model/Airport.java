@@ -1,4 +1,4 @@
-package com.courses.airport.model;
+package com.courses.tellus.airport.model;
 
 import java.time.LocalDate;
 

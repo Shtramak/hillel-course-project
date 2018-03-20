@@ -16,10 +16,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.airport.connection.jdbc.ConnectionFactory;
-import com.courses.airport.dao.jdbc.TicketsDao;
-import com.courses.airport.model.Ticket;
-import com.courses.airport.exception.DaoException;
+import com.courses.tellus.airport.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.airport.dao.jdbc.TicketsDao;
+import com.courses.tellus.airport.model.Ticket;
+import com.courses.tellus.airport.exception.DaoException;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
