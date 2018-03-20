@@ -1,4 +1,4 @@
-package com.courses.tellus.airport.connection.springjdbc;
+package com.courses.tellus.airport.config.springjdbc;
 
 import javax.sql.DataSource;
 

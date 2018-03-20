@@ -11,7 +11,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 @Configuration
 public class TestDataSource {
     /**
-     * dataSource that create test connection to H2 inmemory Database.
+     * dataSource that create test config to H2 inmemory Database.
      * @return data source for code tests
      */
     @Bean

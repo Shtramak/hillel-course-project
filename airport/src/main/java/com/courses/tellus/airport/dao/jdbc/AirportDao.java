@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.airport.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.airport.config.jdbc.ConnectionFactory;
 import com.courses.tellus.airport.dao.AirportDaoImpl;
 import com.courses.tellus.airport.exception.DaoException;
 import com.courses.tellus.airport.model.Airport;

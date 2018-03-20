@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.airport.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.airport.config.jdbc.ConnectionFactory;
 import com.courses.tellus.airport.dao.jdbc.TicketsDao;
 import com.courses.tellus.airport.model.Ticket;
 import com.courses.tellus.airport.exception.DaoException;

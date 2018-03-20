@@ -1,4 +1,4 @@
-package com.courses.tellus.airport.connection.jdbc;
+package com.courses.tellus.airport.config.jdbc;
 
 import java.io.IOException;
 import java.sql.Connection;
