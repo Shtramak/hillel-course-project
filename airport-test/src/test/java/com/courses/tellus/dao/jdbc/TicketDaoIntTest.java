@@ -1,11 +1,7 @@
 package com.courses.tellus.dao.jdbc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
 import java.io.FileReader;
 import java.sql.Connection;
@@ -34,18 +30,18 @@ public class TicketDaoIntTest {
     void setUp() throws Exception {
         connectionFactory = ConnectionFactory.getInstance();
         ticketsDao = new TicketsDao(connectionFactory);
-        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/ticket_db.sql"));
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/jdbc/ticket_db.sql"));
     }
 
     @Test
     void insertWithValidDataReturnsTrue() throws Exception {
-        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/delete-raws-ticket.sql"));
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/jdbc/delete-raws-ticket.sql"));
         assertEquals(Integer.valueOf(1), ticketsDao.insert(TICKET));
     }
 
     @Test
     void insertWhenTableNotExistsThrowsDaoException() throws Exception {
-        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/drop-table.sql"));
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/jdbc/drop-table.sql"));
         assertThrows(DaoException.class, () -> {
             ticketsDao.insert(TICKET);
         });
@@ -64,7 +60,7 @@ public class TicketDaoIntTest {
 
     @Test
     void getByIdWhenTableNotExistsThrowsDaoException() throws Exception {
-        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/drop-table.sql"));
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/jdbc/drop-table.sql"));
         assertThrows(DaoException.class, () -> {
             ticketsDao.getById(1L);
         });
@@ -87,7 +83,7 @@ public class TicketDaoIntTest {
 
     @Test
     void getAllWhenTableNotExistsThrowsDaoException() throws Exception {
-        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/drop-table.sql"));
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/jdbc/drop-table.sql"));
         assertThrows(DaoException.class, () -> {
             ticketsDao.getAll();
         });
@@ -100,13 +96,13 @@ public class TicketDaoIntTest {
 
     @Test
     void updateWhenEntryNotExistsReturnsFalse() throws Exception {
-        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/delete-raws-ticket.sql"));
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/jdbc/delete-raws-ticket.sql"));
         assertEquals(Integer.valueOf(0), ticketsDao.update(TICKET));
     }
 
     @Test
     void updateWhenTableNotExistsThrowsDaoException() throws Exception {
-        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/drop-table.sql"));
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/jdbc/drop-table.sql"));
         assertThrows(DaoException.class, () -> {
             ticketsDao.update(new Ticket());
         });
@@ -124,7 +120,7 @@ public class TicketDaoIntTest {
 
     @Test
     void deleteWhenTableNotExistsThrowsDaoException() throws Exception {
-        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/drop-table.sql"));
+        RunScript.execute(connectionFactory.getConnection(), new FileReader("src/test/resources/jdbc/drop-table.sql"));
         assertThrows(DaoException.class, () -> {
             ticketsDao.delete(1L);
         });
