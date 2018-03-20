@@ -34,7 +34,7 @@ public class AutosalonDao implements AutosalonDaoInterface<Autosalon> {
             final PreparedStatement preparedStatement, final Autosalon autosalon) throws SQLException {
         preparedStatement.setString(INDEX_NAME, autosalon.getName());
         preparedStatement.setString(INDEX_ADDRESS, autosalon.getAddress());
-        preparedStatement.setString(INDEX_TELEPHONE, autosalon.getTelophone());
+        preparedStatement.setString(INDEX_TELEPHONE, autosalon.getTelephone());
         return preparedStatement;
     }
 

@@ -121,7 +121,7 @@ public class AutosalonDaoMockTest {
         when(mockResultset.getLong("id")).thenReturn(autosalon.getId());
         when(mockResultset.getString("name")).thenReturn(autosalon.getName());
         when(mockResultset.getString("address")).thenReturn(autosalon.getAddress());
-        when(mockResultset.getString("telephone")).thenReturn(autosalon.getTelophone());
+        when(mockResultset.getString("telephone")).thenReturn(autosalon.getTelephone());
         when(mockResultset.next()).thenReturn(true).thenReturn(false);
         Assertions.assertEquals(Collections.singletonList(autosalon).toString(), autosalonDao.getAll().toString());
     }

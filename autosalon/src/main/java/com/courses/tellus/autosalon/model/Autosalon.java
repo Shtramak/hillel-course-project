@@ -4,16 +4,16 @@ public class Autosalon {
     private Long id;
     private String name;
     private String address;
-    private String telophone;
+    private String telephone;
 
     public Autosalon() {
     }
 
-    public Autosalon(Long id, String name, String address, String telophone) {
+    public Autosalon(Long id, String name, String address, String telephone) {
         this.id = id;
         this.name = name;
         this.address = address;
-        this.telophone = telophone;
+        this.telephone = telephone;
     }
 
     public Long getId() {
@@ -40,12 +40,12 @@ public class Autosalon {
         this.address = address;
     }
 
-    public String getTelophone() {
-        return telophone;
+    public String getTelephone() {
+        return telephone;
     }
 
-    public void setTelophone(String telophone) {
-        this.telophone = telophone;
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
     @Override
@@ -54,6 +54,6 @@ public class Autosalon {
                 + "id=" + id
                 + ", name='" + name + '\''
                 + ", address='" + address + '\''
-                +  ", telophone=" + telophone + '}';
+                +  ", telephone=" + telephone + '}';
     }
 }

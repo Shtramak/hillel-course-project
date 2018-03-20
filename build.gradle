@@ -30,6 +30,7 @@ task wrapper(type: Wrapper) {
 }
 
 project("autosalon") {
+
 }
 
 project("autosalon-test") {
