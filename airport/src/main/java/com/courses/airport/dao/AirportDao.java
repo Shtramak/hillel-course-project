@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.airport.connection.ConnectionFactory;
+import com.courses.airport.connection.jdbc.ConnectionFactory;
 import com.courses.airport.exception.DaoException;
 import com.courses.airport.model.Airport;
 import org.apache.log4j.Logger;

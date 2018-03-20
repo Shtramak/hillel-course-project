@@ -1,6 +1,6 @@
 package com.courses.tellus.integrationtests;
 
-import com.courses.airport.connection.ConnectionFactory;
+import com.courses.airport.connection.jdbc.ConnectionFactory;
 import com.courses.airport.dao.AirportDao;
 import com.courses.airport.exception.DaoException;
 import com.courses.airport.model.Airport;
@@ -10,14 +10,12 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileReader;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

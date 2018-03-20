@@ -1,4 +1,4 @@
-package com.courses.airport.connection;
+package com.courses.airport.connection.jdbc;
 
 import java.io.IOException;
 import java.sql.Connection;

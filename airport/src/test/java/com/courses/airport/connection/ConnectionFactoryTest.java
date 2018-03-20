@@ -1,5 +1,6 @@
 package com.courses.airport.connection;
 
+import com.courses.airport.connection.jdbc.ConnectionFactory;
 import com.courses.airport.dao.TicketsDao;
 import com.courses.airport.exception.DaoException;
 import com.courses.airport.model.Ticket;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileReader;
 import java.time.LocalDate;
-import java.util.GregorianCalendar;
 
 /**
  * Connection Factory test.
