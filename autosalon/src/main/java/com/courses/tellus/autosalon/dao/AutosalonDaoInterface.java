@@ -47,3 +47,4 @@ public interface AutosalonDaoInterface<E> {
      */
     Integer insert(E entity) throws DaoException;
 }
+
