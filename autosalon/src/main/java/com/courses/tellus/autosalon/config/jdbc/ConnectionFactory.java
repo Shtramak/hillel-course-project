@@ -1,4 +1,4 @@
-package com.courses.tellus.autosalon.config;
+package com.courses.tellus.autosalon.config.jdbc;
 
 import java.io.IOException;
 import java.sql.Connection;

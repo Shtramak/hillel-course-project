@@ -1,4 +1,4 @@
-package com.courses.tellus.autosalon.dao;
+package com.courses.tellus.autosalon.dao.jdbc;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.autosalon.config.ConnectionFactory;
+import com.courses.tellus.autosalon.config.jdbc.ConnectionFactory;
+import com.courses.tellus.autosalon.dao.AutosalonDaoInterface;
 import com.courses.tellus.autosalon.model.Autosalon;
 import org.apache.log4j.Logger;
 
