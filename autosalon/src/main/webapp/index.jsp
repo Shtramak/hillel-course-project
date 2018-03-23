@@ -5,6 +5,12 @@
     <title>Autosalon</title>
   </head>
   <body>
-  Hello from Autosalon
+  <div align="center">
+   <h3>Hello from Autosalon</h3>
+      <table border="2" cellpadding="5" cellspacing="5">
+        <td><a href="/CreateAutosalon">Add New Autosalon</a></td>
+        <td><a href="/allAutosalon">Show All Autosalon</a></td>
+      </table>
+   </div>
   </body>
 </html>

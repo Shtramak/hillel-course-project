@@ -30,7 +30,7 @@ public class AutosalonDao implements AutosalonDaoEntyty {
     @Override
     public List<Autosalon> getAll() {
         try {
-            return jdbcTemplate.query("SELECT * FROM INFOSALON", new AutosalonMapper());
+            return jdbcTemplate.query("SELECT * FROM infoSalon", new AutosalonMapper());
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage());
             return Collections.emptyList();
@@ -47,7 +47,7 @@ public class AutosalonDao implements AutosalonDaoEntyty {
     @Override
     public Optional<Autosalon> getById(final Long entityId) {
         try {
-            final Autosalon optionalAutosalon = jdbcTemplate.queryForObject("SELECT * FROM INFOSALON WHERE ID =?",
+            final Autosalon optionalAutosalon = jdbcTemplate.queryForObject("SELECT * FROM infoSalon WHERE ID =?",
                     new Object[]{entityId}, new AutosalonMapper());
             return Optional.of(optionalAutosalon);
         } catch (DataAccessException e) {
@@ -66,7 +66,7 @@ public class AutosalonDao implements AutosalonDaoEntyty {
     @Override
     public Integer update(final Autosalon autosalon) {
         try {
-            return jdbcTemplate.update("UPDATE INFOSALON SET NAME = ?, ADDRESS = ?, TELEPHONE = ? WHERE ID = ?",
+            return jdbcTemplate.update("UPDATE infoSalon SET name = ?, address = ?, telephone = ? WHERE id = ?",
                     autosalon.getName(), autosalon.getAddress(), autosalon.getTelephone(), autosalon.getId());
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage());
@@ -84,7 +84,7 @@ public class AutosalonDao implements AutosalonDaoEntyty {
     @Override
     public Integer delete(final Long entityId) {
         try {
-            return jdbcTemplate.update("DELETE FROM INFOSALON WHERE ID = ?", entityId);
+            return jdbcTemplate.update("DELETE FROM infoSalon WHERE id = ?", entityId);
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage());
             return -1;
@@ -101,7 +101,7 @@ public class AutosalonDao implements AutosalonDaoEntyty {
     @Override
     public Integer insert(final Autosalon autosalon) {
         try {
-            return jdbcTemplate.update("INSERT INTO INFOSALON (NAME,ADDRESS,TELEPHONE) VALUES(?,?,?)",
+            return jdbcTemplate.update("INSERT INTO infoSalon (name,address,telephone) VALUES(?,?,?)",
                     autosalon.getName(), autosalon.getAddress(), autosalon.getTelephone());
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage());
@@ -109,8 +109,22 @@ public class AutosalonDao implements AutosalonDaoEntyty {
         }
     }
 
+    /**
+     * Return autosalon from DataBase by id.
+     *
+     * @param name  of the object to be selected from database.
+     * @return ListAutosalon.
+     */
+
     @Override
-    public List<Autosalon> findAutosalonByLastName(final String firstName) {
-        return null;
+    public Optional<Autosalon> findAutosalonByName(final String name) {
+        try {
+            final Autosalon optionalAutosalon = jdbcTemplate.queryForObject("SELECT * FROM infoSalon WHERE name =?",
+                    new Object[]{name}, new AutosalonMapper());
+            return Optional.of(optionalAutosalon);
+        } catch (DataAccessException e) {
+            LOGGER.error(e.getMessage());
+            return Optional.empty();
+        }
     }
 }

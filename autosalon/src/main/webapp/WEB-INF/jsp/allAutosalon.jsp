@@ -15,7 +15,7 @@
             <th>Autosalon Address</th>
             <th>Autosalon Telephone</th>
         </tr>
-        <c:forEach var="auto" items="${autoList}">
+        <c:forEach var="autosalon" items="${autosalon}">
             <tr>
                 <td>${autosalon.id}</td>
                 <td>${autosalon.name}</td>

@@ -8,7 +8,7 @@
 <body>
 <div align="center">
     <h3>Create Autosalon</h3>
-    <form method="POST" action="/CreateAutosalon">
+    <form method="POST" action="">
         <table border="2" cellpadding="5" cellspacing="5">
             <tr>
                 <td>Autosalon Name: </td>
@@ -25,7 +25,7 @@
             <tr>
                 <td colspan="3" align="center">
                     <input type="submit" value="Submit">
-                    <a href="/productList">Cancel</a>
+                    <a href="/index.jsp">Cancel</a>
                 </td>
             </tr>
         </table>

@@ -1,6 +1,7 @@
 package com.courses.tellus.autosalon.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,30 +15,23 @@ import com.courses.tellus.autosalon.model.Autosalon;
 import com.courses.tellus.autosalon.service.AutosalonService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-@WebServlet(urlPatterns = "/CreateAutosalon")
-public class AutosalonServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/allAutosalon")
+public class AllAutosalonServlet extends HttpServlet {
 
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
             throws ServletException, IOException {
+        final AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext(JdbcTemplatesConfig.class);
+        final List<Autosalon> autosalon = context.getBean(AutosalonService.class).getAll();
+        request.setAttribute("autosalon", autosalon);
         final RequestDispatcher dispatcher =
-                request.getRequestDispatcher("WEB-INF/jsp/createautosalon.jsp");
+                request.getRequestDispatcher("WEB-INF/jsp/allAutosalon.jsp");
         dispatcher.forward(request, response);
     }
 
     @Override
     public void doPost(final HttpServletRequest request, final HttpServletResponse response)
             throws IOException, ServletException {
-        final Autosalon autosalon = new Autosalon();
-        autosalon.setName(request.getParameter("name"));
-        autosalon.setAddress(request.getParameter("address"));
-        autosalon.setTelephone(request.getParameter("telephone"));
-        final AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext(JdbcTemplatesConfig.class);
-        context.getBean(AutosalonService.class).getInsert(autosalon);
-        request.setAttribute("autosalon", autosalon);
-        final RequestDispatcher dispatcher =
-                request.getRequestDispatcher("WEB-INF/jsp/createautosalon.jsp");
-        dispatcher.forward(request, response);
     }
 }
