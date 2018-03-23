@@ -9,6 +9,12 @@ public class Autosalon {
     public Autosalon() {
     }
 
+    public Autosalon(String name, String address, String telephone) {
+        this.name = name;
+        this.address = address;
+        this.telephone = telephone;
+    }
+
     public Autosalon(Long id, String name, String address, String telephone) {
         this.id = id;
         this.name = name;

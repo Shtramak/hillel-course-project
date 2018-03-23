@@ -94,3 +94,4 @@ public class Auto {
         return Objects.hash(getId(), getBrand(), getModel(), getManufactYear(), getProducerCountry(), getPrice());
     }
 }
+
