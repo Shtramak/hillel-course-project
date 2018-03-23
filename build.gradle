@@ -30,14 +30,16 @@ task wrapper(type: Wrapper) {
 }
 
 project("autosalon") {
-}
-
-
-project("autosalon-test") {
-    dependencies {
-        compile project(':autosalon')
+    dependencies{
+        providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0'
+        providedCompile group: 'javax.servlet.jsp', name: 'javax.servlet.jsp-api', version: '2.3.1'
+        compile group: 'javax.servlet.jsp.jstl', name: 'jstl', version: '1.2'
+    }
+    war {
+        archiveName='autosalon.war'
     }
 }
+
 
 project("autosalon-test") {
     dependencies {
