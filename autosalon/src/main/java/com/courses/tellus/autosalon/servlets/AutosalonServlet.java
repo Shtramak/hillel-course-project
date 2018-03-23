@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.courses.tellus.autosalon.model.Autosalon;
 
-@WebServlet(urlPatterns = "/autosalonAutorization")
+@WebServlet(urlPatterns = "/CreateAutosalon")
 public class AutosalonServlet extends HttpServlet {
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("WEB-INF/jsp/forma.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/jsp/createautosalon.jsp").forward(req, resp);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class AutosalonServlet extends HttpServlet {
         autosalon.setName(login);
         autosalon.setTelephone(password);
         request.setAttribute("autosalon", autosalon);
-        request.getRequestDispatcher("WEB-INF/jsp/forma.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/jsp/createautosalon.jsp").forward(request, response);
 
     }
 

@@ -1,5 +1,8 @@
 package com.courses.tellus.autosalon.config.springjdbc;
 
+import java.io.FileNotFoundException;
+import java.sql.SQLException;
+
 import javax.sql.DataSource;
 
 import com.courses.tellus.autosalon.dao.AutosalonDaoEntyty;
@@ -10,9 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
-
-import java.io.FileNotFoundException;
-import java.sql.SQLException;
 
 @Configuration
 @PropertySource("classpath:config.properties")
@@ -51,7 +51,7 @@ public class JdbcTemplatesConfig {
      */
 
     @Bean
-    public AutosalonService autosalonService(){
+    public AutosalonService autosalonService() {
         return new AutosalonService();
     }
 
@@ -75,7 +75,7 @@ public class JdbcTemplatesConfig {
      */
 
     @Bean
-    public AutosalonConfig autosalonConfig(){
+    public AutosalonConfig autosalonConfig() {
         return new AutosalonConfig();
     }
 }

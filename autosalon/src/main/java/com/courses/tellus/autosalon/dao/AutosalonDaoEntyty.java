@@ -1,10 +1,17 @@
 package com.courses.tellus.autosalon.dao;
 
-import com.courses.tellus.autosalon.model.Autosalon;
-
 import java.util.List;
+
+import com.courses.tellus.autosalon.model.Autosalon;
 
 public interface AutosalonDaoEntyty extends AutosalonDaoInterface<Autosalon> {
 
-    List<Autosalon> findPersonsByLastName(String firstName);
+    /**
+     * Find Autosalon By Name in database.
+     *
+     *
+     * @return autosalonService.findAutosalonByLastName().
+     */
+
+    List<Autosalon> findAutosalonByLastName(String firstName);
 }

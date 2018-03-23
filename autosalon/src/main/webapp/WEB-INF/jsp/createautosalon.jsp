@@ -11,7 +11,7 @@
     <form method="POST" action="/CreateAutosalon">
         <table border="2" cellpadding="5" cellspacing="5">
             <tr>
-                <td>salon Name: </td>
+                <td>Autosalon Name: </td>
                 <td><input type="text" name="name" value="${autosalon.name}"></td>
             </tr>
             <tr>

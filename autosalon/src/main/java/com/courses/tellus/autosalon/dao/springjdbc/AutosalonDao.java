@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.courses.tellus.autosalon.dao.AutosalonDaoEntyty;
-import com.courses.tellus.autosalon.dao.AutosalonDaoInterface;
 import com.courses.tellus.autosalon.model.Autosalon;
 import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
@@ -111,7 +110,7 @@ public class AutosalonDao implements AutosalonDaoEntyty {
     }
 
     @Override
-    public List<Autosalon> findPersonsByLastName(String firstName) {
+    public List<Autosalon> findAutosalonByLastName(final String firstName) {
         return null;
     }
 }

@@ -64,12 +64,8 @@ jacocoTestReport {
     }
     afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
-<<<<<<< HEAD
-            fileTree(dir: it, exclude: ['**/model/**', '**/servlets/**', '**/entity/**', '**/*Main*.*','**/roman/**'])
-=======
-            fileTree(dir: it, exclude: ['**/model/**', '**/connection/**', '**/config/**', '**/entity/**',
-                                        '**/*Main*/**', '**/roman/**'])
->>>>>>> TEL-36-autosalon-module-servlets
+            fileTree(dir: it, exclude: ['**/dao/**', '**/model/**', '**/connection/**', '**/config/**', '**/entity/**',
+                                        '**/*Main*/**', '**/roman/**', '**/service/**', '**/servlets/**'])
         })
     }
 }

@@ -1,40 +1,81 @@
 package com.courses.tellus.autosalon.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import com.courses.tellus.autosalon.dao.AutosalonDaoEntyty;
 import com.courses.tellus.autosalon.exception.DaoException;
 import com.courses.tellus.autosalon.model.Autosalon;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-import java.util.Optional;
-
-
 public class AutosalonService {
 
     @Autowired
-    private AutosalonDaoEntyty autosalonDaoEntyty;
+    private transient AutosalonDaoEntyty salonDaoEntyty;
+
+    /**
+     * Insert Autosalon on database.
+     *
+     *
+     * @return salonDaoEntyty.getInsert().
+     */
 
     public Integer getInsert(final Autosalon autosalon) throws DaoException {
-       return autosalonDaoEntyty.insert(autosalon);
+       return salonDaoEntyty.insert(autosalon);
     }
+
+    /**
+     * Delete Autosalon byId in database.
+     *
+     *
+     * @return salonDaoEntyty.getDelete().
+     */
 
     public Integer getDelete(final Long num) throws DaoException {
-        return autosalonDaoEntyty.delete(num);
+        return salonDaoEntyty.delete(num);
     }
+
+    /**
+     * Update Autosalon in database.
+     *
+     *
+     * @return salonDaoEntyty.getUpdate().
+     */
 
     public Integer getUpdate(final Autosalon autosalon) throws DaoException {
-        return autosalonDaoEntyty.update(autosalon);
+        return salonDaoEntyty.update(autosalon);
     }
+
+    /**
+     * GetAll Autosalon on database.
+     *
+     *
+     * @return salonDaoEntyty.getAll().
+     */
 
     public List<Autosalon> getAll() throws DaoException {
-       return autosalonDaoEntyty.getAll();
+       return salonDaoEntyty.getAll();
     }
+
+    /**
+     * Searche Autosalon byId in database.
+     *
+     *
+     * @return salonDaoEntyty.getById().
+     */
 
     public Optional<Autosalon> getById(final Long num) throws DaoException {
-        return autosalonDaoEntyty.getById(num);
+        return salonDaoEntyty.getById(num);
     }
 
-    public List<Autosalon> findPersonsByLastName(String firstName) {
+    /**
+     * Find Autosalon By Name in database.
+     *
+     *
+     * @return salonDaoEntyty.findAutosalonByLastName().
+     */
+
+    public List<Autosalon> findAutosalonByLastName(final String firstName) {
         return null;
     }
 }
