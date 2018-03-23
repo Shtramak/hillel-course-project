@@ -32,6 +32,13 @@ task wrapper(type: Wrapper) {
 project("autosalon") {
 }
 
+
+project("autosalon-test") {
+    dependencies {
+        compile project(':autosalon')
+    }
+}
+
 project("autosalon-test") {
     dependencies {
         compile project(':autosalon')
@@ -55,6 +62,7 @@ project("airport") {
 project("education") {
     dependencies {
         testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.6.5'
+
     }
 }
 

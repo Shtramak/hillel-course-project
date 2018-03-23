@@ -1,4 +1,4 @@
-package com.courses.tellus.autosalon.dao;
+package com.courses.tellus.autosalon.dao.jdbc;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -6,7 +6,8 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Optional;
 
-import com.courses.tellus.autosalon.config.ConnectionFactory;
+import com.courses.tellus.autosalon.config.jdbc.ConnectionFactory;
+import com.courses.tellus.autosalon.dao.jdbc.AutosalonDao;
 import com.courses.tellus.autosalon.model.Autosalon;
 import org.h2.tools.RunScript;
 import org.hamcrest.CoreMatchers;
