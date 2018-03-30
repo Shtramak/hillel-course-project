@@ -1,4 +1,4 @@
-package com.courses.tellus.airport.dao.springdao;
+package com.courses.tellus.airport.dao.spring.jdbc;
 
 import com.courses.tellus.airport.dao.spring.jdbc.AirportMapper;
 import com.courses.tellus.airport.model.Airport;

@@ -1,8 +1,5 @@
-package com.courses.tellus.airport.dao.springdao;
+package com.courses.tellus.airport.dao.spring.jdbc;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -12,7 +9,6 @@ import com.courses.tellus.airport.model.Ticket;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.dao.EmptyResultDataAccessException;
