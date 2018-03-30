@@ -16,11 +16,10 @@ import java.util.Optional;
 @WebServlet(name = "listOfUniversities", value = "/listOfUniversities")
 public class GetAllUniversitiesServlet extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
     private static final UniversityDao universityDao = new UniversityDao(ConnectionFactory.getInstance());
 
     @Override
-    protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
+    public void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
         final Optional<List<University>> optionalUniversities = universityDao.getAll();
         if (optionalUniversities.isPresent() && optionalUniversities.get().size() > 0) {
@@ -30,7 +29,7 @@ public class GetAllUniversitiesServlet extends HttpServlet {
 
         } else if (optionalUniversities.isPresent() && optionalUniversities.get().size() == 0){
             final String error = "Universities not found";
-            req.setAttribute("emptydb", error);
+            req.setAttribute("dbIsEmpty", error);
         } else {
             final String error = "Database Exception!";
             req.setAttribute("error", error);

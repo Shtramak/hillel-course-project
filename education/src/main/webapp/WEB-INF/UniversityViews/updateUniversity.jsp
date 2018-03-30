@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <head>
     <meta charset="utf-8">
     <title>Form to setting university</title>
@@ -17,8 +17,8 @@
         <a href="/" class="navbar-brand">Universities</a>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="UniversityServlet?action=addUniversity">New University</a></li>
-                <li><a href="UniversityServlet?action=listOfUniversities">All Universities</a></li>
+                <li><a href="/createUniversity">New University</a></li>
+                <li><a href="/listOfUniversities">All Universities</a></li>
             </ul>
         </div>
     </div>
@@ -27,24 +27,24 @@
 <div class="container text-center">
     <hr>
 
-    <form class="form-horizontal" method="POST" action="UniversityServlet?action = updateUniversity">
-            <input type="hidden" name="univer_id" value="${university.id}"/>
+    <form class="form-horizontal" method="POST" action="/updateUniversity">
+            <input type="hidden" readonly name="univer_id" value="${university.uniId}"/>
         <div class="form-group">
-            <label class="control-label col-md-3">NameOfUniversity</label>
+            <label class="control-label col-md-3" for="nameOfUniversity">NameOfUniversity</label>
             <div class="col-md-7">
-                <input type="text" class="form-control" name="nameOfUniversity" value="${university.nameOfUniversity}"/>
+                <input type="text" class="form-control" id ="nameOfUniversity" name="nameOfUniversity" value="${university.nameOfUniversity}"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-3">Address</label>
+            <label class="control-label col-md-3" for="address">Address</label>
             <div class="col-md-7">
-                <input type="text" class="form-control" name="address" value="${university.address}" />
+                <input type="text" class="form-control" id="address" name="address" value="${university.address}" />
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-3">Specialization</label>
+            <label class="control-label col-md-3" for="specialization">Specialization</label>
             <div class="col-md-7">
-                <input type="text" class="form-control" name="specialization" value="${university.specialization}"/>
+                <input type="text" class="form-control" id="specialization" name="specialization" value="${university.specialization}"/>
             </div>
         </div>
         <div class="form-group">

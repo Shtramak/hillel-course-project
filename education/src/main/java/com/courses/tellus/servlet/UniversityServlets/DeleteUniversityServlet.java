@@ -13,12 +13,10 @@ import java.io.IOException;
 @WebServlet(name = "deleteUniversity", value = "/deleteUniversity")
 public class DeleteUniversityServlet extends HttpServlet {
 
-    public static final long serialVersionUID = 1L;
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UniversityDao universityDao = new UniversityDao(ConnectionFactory.getInstance());
-        Long universityId = Long.parseLong(req.getParameter("univer_Id"));
+        Long universityId = Long.parseLong(req.getParameter("univer_id"));
         universityDao.delete(universityId);
         req.getServletContext().getRequestDispatcher("/WEB-INF/UniversityViews/universityDeleted.html").forward(req, resp);
     }

@@ -18,8 +18,6 @@ import java.sql.SQLException;
 @WebServlet(name = "createUniversity", value = "/createUniversity")
 public class CreateUniversityServlet extends HttpServlet {
 
-    public static final long serialVersionUID = 1L;
-
     @Override
     public void init() throws ServletException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -38,7 +36,7 @@ public class CreateUniversityServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(final HttpServletRequest req, final HttpServletResponse resp)
+    public void doPost(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
         final UniversityDao universityDao =  new UniversityDao(ConnectionFactory.getInstance());
 

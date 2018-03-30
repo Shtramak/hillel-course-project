@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -18,8 +19,8 @@
         <a href="/" class="navbar-brand">Universities</a>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="UniversityServlet?action=addUniversity">New University</a></li>
-                <li><a href="UniversityServlet?action=listOfUniversities">All Universities</a></li>
+                <li><a href="/createUniversity">New University</a></li>
+                <li><a href="/listOfUniversities">All Universities</a></li>
             </ul>
         </div>
     </div>
@@ -38,20 +39,23 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="university" items="${university}">
+            <c:forEach var="university" items="${universityList}">
                 <tr>
-                    <td>${university.id}</td>
+                    <td>${university.uniId}</td>
                     <td>${university.nameOfUniversity}</td>
                     <td>${university.address}</td>
                     <td>${university.specialization}</td>
-                    <td><a href="UniversityServlet?action=updateUniversity=${university.id}"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                    <td><a href="UniversityServlet?action=deleteUniversity=${university.id}"><span class="glyphicon glyphicon-trash"></span></a></td>
+                    <td><a href="updateUniversity?univer_id=${university.uniId}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                    <td><a href="deleteUniversity?univer_id=${university.uniId}"><span class="glyphicon glyphicon-trash"></span></a></td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
+        <p class="text-warning" id="emptyBase">${dbIsEmpty}</p>
+        <p class="text-danger">${error}</p>
     </div>
 </div>
 </div>
+
 </body>
 </html>
