@@ -9,15 +9,15 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(urlPatterns = "/autosalon/*")
 public class Servlet extends HttpServlet {
-    private HandlerFactory handlerFactory = new HandlerFactory();
-
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        handlerFactory.handleGetRequest(request, response);
+    protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
+            throws ServletException, IOException {
+        HandlerFactory.handleGetRequest(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        handlerFactory.handlePostRequest(request, response);
+    protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
+            throws ServletException, IOException {
+        HandlerFactory.handlePostRequest(request, response);
     }
 }

@@ -14,15 +14,17 @@ import com.courses.tellus.autosalon.model.Customer;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class CustomerHandler implements InternalHandler {
-    private final CustomerDao customerDao;
+    private final transient CustomerDao customerDao;
 
     public CustomerHandler() {
-        final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(JdbcTemplatesConfig.class);
+        final AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext(JdbcTemplatesConfig.class);
         customerDao = context.getBean(CustomerDao.class);
     }
 
     @Override
-    public void get(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void get(final HttpServletRequest request, final HttpServletResponse response)
+            throws IOException, ServletException {
         request.setCharacterEncoding("UTF-8");
         final String path = requestPathWithoutContext(request);
         if (path.equals("add")) {
@@ -37,7 +39,8 @@ public class CustomerHandler implements InternalHandler {
     }
 
     @Override
-    public void post(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void post(final HttpServletRequest request, final HttpServletResponse response)
+            throws IOException, ServletException {
         request.setCharacterEncoding("UTF-8");
         final Customer customer = customerFromRequest(request);
         customerDao.insert(customer);
@@ -46,18 +49,18 @@ public class CustomerHandler implements InternalHandler {
 
     }
 
-    private void forwardToListCustomers(CustomerDao customerDao,
-                                        HttpServletRequest request,
-                                        HttpServletResponse response) throws ServletException, IOException {
+    private void forwardToListCustomers(final CustomerDao customerDao,
+                                        final HttpServletRequest request,
+                                        final HttpServletResponse response) throws ServletException, IOException {
         final List<Customer> customers = customerDao.getAll();
         request.setAttribute("customers", customers);
         request.getRequestDispatcher("/WEB-INF/jsp/listCustomers.jsp").forward(request, response);
     }
 
-    private void forwardToCustomerById(CustomerDao customerDao,
-                                       HttpServletRequest request,
-                                       HttpServletResponse response) throws ServletException, IOException {
-        String path = requestPathWithoutContext(request);
+    private void forwardToCustomerById(final CustomerDao customerDao,
+                                       final HttpServletRequest request,
+                                       final HttpServletResponse response) throws ServletException, IOException {
+        final String path = requestPathWithoutContext(request);
         final Long customerId = Long.valueOf(path.substring(1));
         request.setAttribute("customerId", customerId);
         final Optional<Customer> customerOpt = customerDao.getById(customerId);
@@ -68,8 +71,7 @@ public class CustomerHandler implements InternalHandler {
         }
     }
 
-
-    private String requestPathWithoutContext(HttpServletRequest request) {
+    private String requestPathWithoutContext(final HttpServletRequest request) {
         final String fullPath = request.getPathInfo();
         return fullPath.split("/")[2];
     }

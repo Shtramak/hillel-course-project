@@ -7,35 +7,52 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class HandlerFactory {
+public final class HandlerFactory {
     private static Map<String, InternalHandler> handlerMap = new HashMap<>();
 
-    public HandlerFactory() {
+    static {
         handlerMap.put("customer", new CustomerHandler());
     }
 
-    public void handleGetRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String hanlerKey = handlerPathFromRequest(request);
+    private HandlerFactory() {
+    }
+
+    /**
+     * Method handles get method of InternalHandler from map or returns 404 page.
+     *
+     * @param request  HttpServletRequest from servlet container
+     * @param response HttpServletResponse from servlet container
+     */
+    public static void handleGetRequest(final HttpServletRequest request, final HttpServletResponse response)
+            throws IOException, ServletException {
+        final String hanlerKey = handlerPathFromRequest(request);
         if (handlerMap.containsKey(hanlerKey)) {
-            InternalHandler handler = handlerMap.get(hanlerKey);
+            final InternalHandler handler = handlerMap.get(hanlerKey);
             handler.get(request, response);
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }
 
-    public void handlePostRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String hanlerKey = handlerPathFromRequest(request);
+    /**
+     * Method handles post method of InternalHandler from map or returns 404 page.
+     *
+     * @param request  HttpServletRequest from servlet container
+     * @param response HttpServletResponse from servlet container
+     */
+    public static void handlePostRequest(final HttpServletRequest request, final HttpServletResponse response)
+            throws IOException, ServletException {
+        final String hanlerKey = handlerPathFromRequest(request);
         if (handlerMap.containsKey(hanlerKey)) {
-            InternalHandler handler = handlerMap.get(hanlerKey);
+            final InternalHandler handler = handlerMap.get(hanlerKey);
             handler.post(request, response);
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }
 
-    private String handlerPathFromRequest(HttpServletRequest request) {
-        String pathInfo = request.getPathInfo();
+    private static String handlerPathFromRequest(final HttpServletRequest request) {
+        final String pathInfo = request.getPathInfo();
         return pathInfo.split("/")[1];
     }
 }
