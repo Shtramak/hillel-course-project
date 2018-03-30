@@ -8,7 +8,7 @@
 <body>
 <div align="center">
     <h3>List of customers</h3>
-    <jsp:useBean id="allCustomersAfter" scope="request" type="java.util.List"/>
+    <jsp:useBean id="customers" scope="request" type="java.util.List"/>
     <table border="2" cellpadding="5" cellspacing="5">
         <tr>
             <th>Id</th>
@@ -18,7 +18,7 @@
             <th>Phone</th>
             <th>Funds</th>
         </tr>
-        <c:forEach items="${allCustomersAfter}" var="currCustomer">
+        <c:forEach items="${customers}" var="currCustomer">
             <tr>
                 <td><c:out value="${currCustomer.id}"/></td>
                 <td><c:out value="${currCustomer.name}"/></td>

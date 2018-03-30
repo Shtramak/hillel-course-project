@@ -6,8 +6,8 @@
 </head>
 <body>
 
-<a href="/customer/add">ADD CUSTOMER</a><p>
-<a href="/customer/list">LIST OF CUSTOMERS</a>
+<a href="autosalon/customer/add">ADD CUSTOMER</a><p>
+<a href="autosalon/customer/list">LIST OF CUSTOMERS</a>
 
 </body>
 </html>
