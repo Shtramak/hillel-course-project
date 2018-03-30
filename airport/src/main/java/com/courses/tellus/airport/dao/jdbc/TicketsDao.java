@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Optional;
 
 import com.courses.tellus.airport.config.jdbc.ConnectionFactory;
-import com.courses.tellus.airport.dao.AirportDaoImpl;
+import com.courses.tellus.airport.dao.AirportDaoInterface;
 import com.courses.tellus.airport.exception.DaoException;
 import com.courses.tellus.airport.model.Ticket;
 import org.apache.log4j.Logger;
 
-public class TicketsDao implements AirportDaoImpl<Ticket> {
+public class TicketsDao implements AirportDaoInterface<Ticket> {
     private static final int INDEX_NAME = 1;
     private static final int INDEX_SURNAME = 2;
     private static final int INDEX_FLIGHT_DATE = 3;

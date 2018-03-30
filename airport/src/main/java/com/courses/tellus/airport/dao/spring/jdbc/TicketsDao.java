@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.airport.dao.AirportDaoImpl;
+import com.courses.tellus.airport.dao.AirportDaoInterface;
 import com.courses.tellus.airport.model.Ticket;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TicketsDao implements AirportDaoImpl<Ticket> {
+public class TicketsDao implements AirportDaoInterface<Ticket> {
     private static final Logger LOGGER = Logger.getLogger(TicketsDao.class);
     private final transient JdbcTemplate jdbcTemplate;
 

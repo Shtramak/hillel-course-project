@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import com.courses.tellus.airport.exception.DaoException;
 
-public interface AirportDaoImpl<E> {
+public interface AirportDaoInterface<E> {
     /**
      * Method for retrieving all object from database.
      *
