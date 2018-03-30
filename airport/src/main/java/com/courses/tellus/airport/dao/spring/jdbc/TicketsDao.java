@@ -74,7 +74,7 @@ public class TicketsDao implements AirportDaoInterface<Ticket> {
             return jdbcTemplate.update(sql, ticket.getName(), ticket.getSurname(), ticket.getDateFlight(), ticket.getDestCity());
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage());
-            return 0;
+            return -1;
         }
     }
 }

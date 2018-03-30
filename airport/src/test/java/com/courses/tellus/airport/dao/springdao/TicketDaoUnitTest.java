@@ -113,6 +113,6 @@ public class TicketDaoUnitTest {
     @Test
     void insertWhenBadConnectionReturnsZero() {
         when(jdbcTemplate.update(anyString(), (Object[]) anyVararg())).thenThrow(BadSqlGrammarException.class);
-        assertEquals(Integer.valueOf(0), ticketsDao.insert(TEST_TICKET));
+        assertEquals(Integer.valueOf(-1), ticketsDao.insert(TEST_TICKET));
     }
 }

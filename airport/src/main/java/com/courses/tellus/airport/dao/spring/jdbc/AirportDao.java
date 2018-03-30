@@ -75,7 +75,7 @@ public class AirportDao implements AirportDaoInterface<Airport> {
                     airport.getNumberTerminal(), airport.getTelephone());
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage());
-            return 0;
+            return -1;
         }
     }
 }

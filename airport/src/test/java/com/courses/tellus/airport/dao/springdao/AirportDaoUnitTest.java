@@ -110,6 +110,6 @@ public class AirportDaoUnitTest {
     @Test
     void insertWhenBadConnectionReturnsZero() {
         when(jdbcTemplate.update(anyString(), (Object[]) anyVararg())).thenThrow(BadSqlGrammarException.class);
-        assertEquals(Integer.valueOf(0), airportDao.insert(TEST_AIRPORT));
+        assertEquals(Integer.valueOf(-1), airportDao.insert(TEST_AIRPORT));
     }
 }
