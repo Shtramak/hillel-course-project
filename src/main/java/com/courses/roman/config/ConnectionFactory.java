@@ -16,7 +16,7 @@ public final class ConnectionFactory {
 	}
 
 	/**
-	 * Method to produce singleton connection factory.
+	 * Method to produce singleton config factory.
 	 *
 	 * @return ConnectionFactory instance
 	 */
@@ -38,7 +38,7 @@ public final class ConnectionFactory {
 	}
 
 	/**
-	 * Returns new connection.
+	 * Returns new config.
 	 *
 	 * @return java.sql.Connection
 	 * @throws SQLException exception
