@@ -1,4 +1,4 @@
-package com.courses.tellus.airport.config;
+package com.courses.tellus.airport.config.jdbc;
 
 import com.courses.tellus.airport.config.jdbc.ConnectionFactory;
 import com.courses.tellus.airport.dao.jdbc.TicketsDao;
