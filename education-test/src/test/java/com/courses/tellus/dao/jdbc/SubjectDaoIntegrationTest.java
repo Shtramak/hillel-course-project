@@ -34,8 +34,8 @@ class SubjectDaoIntegrationTest {
 
     @Test
     void testGetAllAndReturnEntityList() throws Exception {
-        Optional<List<Subject>> subjectList = subjectDao.getAll();
-        Assertions.assertTrue(subjectList.isPresent());
+        List<Subject> subjectList = subjectDao.getAll();
+        Assertions.assertEquals(1,subjectList.size());
     }
 
     @Test

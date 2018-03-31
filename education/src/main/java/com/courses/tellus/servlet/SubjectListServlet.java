@@ -10,28 +10,39 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.dao.jdbc.BasicDao;
 import com.courses.tellus.dao.jdbc.SubjectDao;
 import com.courses.tellus.entity.Subject;
+import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
+import org.apache.log4j.Logger;
 
 @WebServlet(name = "subjectList", value = "/subjectList")
 public class SubjectListServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private static final SubjectDao subjectDao = new SubjectDao(ConnectionFactory.getInstance());
+    private static final Logger LOGGER = Logger.getLogger(SubjectListServlet.class);
+    private SubjectDao subjectDao;
+
+    SubjectListServlet(SubjectDao subjectDao) {
+        this.subjectDao = subjectDao;
+    }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
-        final Optional<List<Subject>> opt = subjectDao.getAll();
-        if (opt.isPresent() && opt.get().size() > 0) {
-            final List<Subject> subjectList = opt.get();
-            req.setAttribute("subjectList", subjectList);
-        } else if (opt.isPresent() && opt.get().size() == 0){
-            final String error = "Database is empty!";
-            req.setAttribute("emptydb", error);
-        } else {
-            final String error = "Database error!";
-            req.setAttribute("error", error);
+        new SubjectDeleteServlet(new SubjectDao(ConnectionFactory.getInstance()));
+        try {
+            final List<Subject> subjectList = subjectDao.getAll();
+            if (subjectList.size() > 0) {
+                req.setAttribute("subjectList", subjectList);
+            } else {
+                final String error = "Database is empty!";
+                req.setAttribute("emptydb", error);
+            }
+        } catch (DatabaseConnectionException except) {
+            LOGGER.debug(except.getMessage(), except);
+            req.setAttribute("error", except);
+            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/general_error.jsp").forward(req, resp);
         }
         req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/subject_list.jsp").forward(req, resp);
     }

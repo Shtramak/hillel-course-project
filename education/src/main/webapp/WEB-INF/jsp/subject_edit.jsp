@@ -15,7 +15,7 @@
 		<jsp:include page="_nav.jsp" />
 		<p style="color: red">${error}</p>
 		<div  class="container-fluid">
-			<form class="form" method="POST" action="editSubject">
+			<form class="form" method="POST" action="/editSubject">
 				<!-- id -->
 				<div class="form-group col-6 mx-auto mt-5">
 					<label class="control-label col-2 label-inline" for="subjectId">SubjectID</label>
