@@ -11,19 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.courses.tellus.autosalon.config.springjdbc.JdbcTemplatesConfig;
+import com.courses.tellus.autosalon.dao.springjdbc.AutosalonDao;
 import com.courses.tellus.autosalon.model.Autosalon;
-import com.courses.tellus.autosalon.service.AutosalonService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @WebServlet(urlPatterns = "/allAutosalon")
 public class AllAutosalonServlet extends HttpServlet {
 
     @Override
-    protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
+    public void doGet(final HttpServletRequest request, final HttpServletResponse response)
             throws ServletException, IOException {
         final AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(JdbcTemplatesConfig.class);
-        final List<Autosalon> autosalon = context.getBean(AutosalonService.class).getAll();
+        final List<Autosalon> autosalon = context.getBean(AutosalonDao.class).getAll();
         request.setAttribute("autosalon", autosalon);
         final RequestDispatcher dispatcher =
                 request.getRequestDispatcher("WEB-INF/jsp/allAutosalon.jsp");

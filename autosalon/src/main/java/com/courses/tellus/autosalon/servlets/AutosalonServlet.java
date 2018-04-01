@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.courses.tellus.autosalon.config.springjdbc.JdbcTemplatesConfig;
+import com.courses.tellus.autosalon.dao.springjdbc.AutosalonDao;
 import com.courses.tellus.autosalon.model.Autosalon;
-import com.courses.tellus.autosalon.service.AutosalonService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @WebServlet(urlPatterns = "/CreateAutosalon")
@@ -34,7 +34,7 @@ public class AutosalonServlet extends HttpServlet {
         autosalon.setTelephone(request.getParameter("telephone"));
         final AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(JdbcTemplatesConfig.class);
-        context.getBean(AutosalonService.class).getInsert(autosalon);
+        context.getBean(AutosalonDao.class).insert(autosalon);
         request.setAttribute("autosalon", autosalon);
         final RequestDispatcher dispatcher =
                 request.getRequestDispatcher("WEB-INF/jsp/createautosalon.jsp");

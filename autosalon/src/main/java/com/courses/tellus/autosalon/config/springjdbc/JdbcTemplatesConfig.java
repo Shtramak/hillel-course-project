@@ -5,9 +5,9 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import com.courses.tellus.autosalon.dao.AutosalonDaoEntyty;
+import com.courses.tellus.autosalon.dao.AutosalonDaoInterface;
 import com.courses.tellus.autosalon.dao.springjdbc.AutosalonDao;
-import com.courses.tellus.autosalon.service.AutosalonService;
+import com.courses.tellus.autosalon.model.Autosalon;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -49,18 +49,6 @@ public class JdbcTemplatesConfig {
     }
 
     /**
-     * Create AutosalonService.
-     *
-     *
-     * @return new AutosalonService.
-     */
-
-    @Bean
-    public AutosalonService autosalonService() {
-        return new AutosalonService();
-    }
-
-    /**
      * Create AutosalonDaoEntyty.
      *
      *
@@ -68,7 +56,7 @@ public class JdbcTemplatesConfig {
      */
 
     @Bean
-    public AutosalonDaoEntyty autosalonDaoEntyty() throws SQLException, FileNotFoundException {
+    public AutosalonDaoInterface<Autosalon> autosalonDaoEntyty() throws SQLException, FileNotFoundException {
         return new AutosalonDao(jdbcTemplate(dataSource()));
     }
 }

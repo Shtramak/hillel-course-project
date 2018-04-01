@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.autosalon.dao.AutosalonDaoEntyty;
+import com.courses.tellus.autosalon.dao.AutosalonDaoInterface;
 import com.courses.tellus.autosalon.model.Autosalon;
 import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AutosalonDao implements AutosalonDaoEntyty {
+public class AutosalonDao implements AutosalonDaoInterface<Autosalon> {
 
     private static final Logger LOGGER = Logger.getLogger(AutosalonDao.class);
     private final transient JdbcTemplate jdbcTemplate;
@@ -106,25 +106,6 @@ public class AutosalonDao implements AutosalonDaoEntyty {
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage());
             return -1;
-        }
-    }
-
-    /**
-     * Return autosalon from DataBase by id.
-     *
-     * @param name  of the object to be selected from database.
-     * @return ListAutosalon.
-     */
-
-    @Override
-    public Optional<Autosalon> findAutosalonByName(final String name) {
-        try {
-            final Autosalon optionalAutosalon = jdbcTemplate.queryForObject("SELECT * FROM infoSalon WHERE name =?",
-                    new Object[]{name}, new AutosalonMapper());
-            return Optional.of(optionalAutosalon);
-        } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage());
-            return Optional.empty();
         }
     }
 }
