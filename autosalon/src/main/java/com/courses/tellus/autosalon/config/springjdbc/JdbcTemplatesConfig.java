@@ -10,6 +10,7 @@ import com.courses.tellus.autosalon.dao.springjdbc.AutosalonDao;
 import com.courses.tellus.autosalon.model.Autosalon;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -20,9 +21,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @PropertySource("classpath:config.properties")
 public class JdbcTemplatesConfig {
 
-    @Autowired
-    private transient Environment environment;
+    @Value("${jdbc.url.mysql}")
+    private String url;
 
+    @Value("${jdbc.user.mysql}")
+    private String user;
+
+    @Value("${jdbc.pass.mysql}")
+    private String password;
     /**
      * Create dataSource.
      *
@@ -31,9 +37,9 @@ public class JdbcTemplatesConfig {
     @Bean
     public DataSource dataSource() {
         final MysqlDataSource mysql = new MysqlDataSource();
-        mysql.setURL(environment.getProperty("jdbc.url.mysql"));
-        mysql.setUser(environment.getProperty("jdbc.user.mysql"));
-        mysql.setPassword(environment.getProperty("jdbc.pass.mysql"));
+        mysql.setURL(url);
+        mysql.setUser(user);
+        mysql.setPassword(password);
         return mysql;
     }
 

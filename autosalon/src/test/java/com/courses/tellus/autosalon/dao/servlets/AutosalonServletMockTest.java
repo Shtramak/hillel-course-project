@@ -1,61 +1,74 @@
 package com.courses.tellus.autosalon.dao.servlets;
 
-import com.courses.tellus.autosalon.config.springjdbc.JdbcTemplatesConfig;
-import com.courses.tellus.autosalon.servlets.AllAutosalonServlet;
+import com.courses.tellus.autosalon.dao.springjdbc.AutosalonDao;
+import com.courses.tellus.autosalon.model.Autosalon;
+import com.courses.tellus.autosalon.servlets.AutosalonHeandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ContextConfiguration(classes = {JdbcTemplatesConfig.class})
-@ExtendWith(SpringExtension.class)
 public class AutosalonServletMockTest {
 
     @Mock
-    private HttpServletRequest request;
+    HttpServletRequest request;
     @Mock
-    private HttpServletResponse response;
+    HttpServletResponse response;
     @Mock
-    private RequestDispatcher dispatcher;
+    RequestDispatcher dispatcher;
     @Mock
-    private AllAutosalonServlet servlet;
+    AutosalonDao autosalonDao;
+
+    AutosalonHeandler autosalonHeandler;
 
     @BeforeEach
-    @Sql("classpath:test.sql")
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
-        servlet = new AllAutosalonServlet();
+        autosalonHeandler = new AutosalonHeandler();
     }
 
     @Test
-    void doGetaddPath() throws Exception {
-        when(request.getPathInfo()).thenReturn("/allAutosalon");
-        when(request.getRequestDispatcher("/WEB-INF/jsp/allAutosalon.jsp")).thenReturn(dispatcher);
-        servlet.doGet(request, response);
+    public void testPost() throws ServletException, IOException {
+        when(request.getParameter("id")).thenReturn("1L");
+        when(request.getParameter("name")).thenReturn("BMW");
+        when(request.getParameter("address")).thenReturn("Germany");
+        when(request.getParameter("telephone")).thenReturn("40682016");
+        Autosalon autosalon = new Autosalon(1L, "BMW", "Germany", "40682016");
+        autosalonDao.insert(autosalon);
+        verify(autosalonDao, times(1)).insert(autosalon);
+        autosalonHeandler.post(request, response);
+        verify(response).sendRedirect(request.getContextPath() + "allAutosalon");
+    }
+
+    @Test
+    public void testGetAllAutosalon() throws ServletException, IOException {
+        when(request.getPathInfo()).thenReturn("/autosalon/allAutosalon");
+        when(request.getRequestDispatcher("/WEB-INF/views/allAutosalon.jsp")).thenReturn(dispatcher);
+        autosalonDao.getAll();
+        verify(autosalonDao, times(1)).getAll();
+        autosalonHeandler.get(request, response);
         verify(dispatcher).forward(request, response);
     }
 
-//    @Test
-//    void doGetListPath() throws Exception {
-//        when(request.getPathInfo()).thenReturn("/list");
-//        when(request.getRequestDispatcher("/WEB-INF/jsp/listCustomers.jsp")).thenReturn(dispatcher);
-//        ArgumentCaptor<List> customersCaptor = ArgumentCaptor.forClass(List.class);
-//        servlet.doGet(request, response);
-//        verify(request).setAttribute(anyString(), customersCaptor.capture());
-//        List<Customer> customers = Collections.singletonList(EXISTED_CUSTOMER);
-//        assertEquals(customersCaptor.getValue(), customers);
-//        verify(dispatcher).forward(request, response);
-//    }
+    @Test
+    public void testGetCreateAutosalon() throws ServletException, IOException {
+        when(request.getPathInfo()).thenReturn("/autosalon/createautosalon");
+        when(request.getRequestDispatcher("/WEB-INF/views/createautosalon.jsp")).thenReturn(dispatcher);
+        autosalonDao.getAll();
+        verify(autosalonDao, times(1)).getAll();
+        autosalonHeandler.get(request, response);
+        verify(dispatcher).forward(request, response);
+    }
+
 
 }
