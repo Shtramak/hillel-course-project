@@ -13,13 +13,31 @@ import com.courses.tellus.autosalon.dao.springjdbc.CustomerDao;
 import com.courses.tellus.autosalon.model.Customer;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class CustomerHandler implements InternalHandler {
+public final class CustomerHandler implements InternalHandler {
+    private static volatile CustomerHandler instance;
     private final transient CustomerDao customerDao;
 
-    public CustomerHandler() {
+    private CustomerHandler() {
         final AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(JdbcTemplatesConfig.class);
         customerDao = context.getBean(CustomerDao.class);
+    }
+
+    /**
+     * Method that generate a single instance of CustomerHandler.
+     *
+     * @return instance of CustomerHandler
+     */
+    public static CustomerHandler getInstance() {
+        if (instance == null) {
+            synchronized (CustomerHandler.class) {
+                final CustomerHandler localInstance = instance;
+                if (localInstance == null) {
+                    instance = new CustomerHandler();
+                }
+            }
+        }
+        return instance;
     }
 
     @Override
@@ -34,7 +52,7 @@ public class CustomerHandler implements InternalHandler {
         } else if (path.matches("\\d+")) {
             forwardToCustomerById(customerDao, request, response);
         } else {
-            request.getRequestDispatcher("/WEB-INF/jsp/customerNotFound.jsp").forward(request, response);
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }
 
@@ -61,13 +79,15 @@ public class CustomerHandler implements InternalHandler {
                                        final HttpServletRequest request,
                                        final HttpServletResponse response) throws ServletException, IOException {
         final String path = requestPathWithoutContext(request);
-        final Long customerId = Long.valueOf(path.substring(1));
+        final Long customerId = Long.valueOf(path);
         request.setAttribute("customerId", customerId);
         final Optional<Customer> customerOpt = customerDao.getById(customerId);
         if (customerOpt.isPresent()) {
             final Customer customer = customerOpt.get();
             request.setAttribute("customer", customer);
             request.getRequestDispatcher("/WEB-INF/jsp/customerById.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("/WEB-INF/jsp/customerNotFound.jsp").forward(request, response);
         }
     }
 

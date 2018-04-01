@@ -11,7 +11,7 @@ public final class HandlerFactory {
     private static Map<String, InternalHandler> handlerMap = new HashMap<>();
 
     static {
-        handlerMap.put("customer", new CustomerHandler());
+        handlerMap.put("customer", CustomerHandler.getInstance());
     }
 
     private HandlerFactory() {
@@ -25,9 +25,9 @@ public final class HandlerFactory {
      */
     public static void handleGetRequest(final HttpServletRequest request, final HttpServletResponse response)
             throws IOException, ServletException {
-        final String hanlerKey = handlerPathFromRequest(request);
-        if (handlerMap.containsKey(hanlerKey)) {
-            final InternalHandler handler = handlerMap.get(hanlerKey);
+        final String handlerKey = handlerPathFromRequest(request);
+        if (handlerMap.containsKey(handlerKey)) {
+            final InternalHandler handler = handlerMap.get(handlerKey);
             handler.get(request, response);
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -42,9 +42,9 @@ public final class HandlerFactory {
      */
     public static void handlePostRequest(final HttpServletRequest request, final HttpServletResponse response)
             throws IOException, ServletException {
-        final String hanlerKey = handlerPathFromRequest(request);
-        if (handlerMap.containsKey(hanlerKey)) {
-            final InternalHandler handler = handlerMap.get(hanlerKey);
+        final String handlerKey = handlerPathFromRequest(request);
+        if (handlerMap.containsKey(handlerKey)) {
+            final InternalHandler handler = handlerMap.get(handlerKey);
             handler.post(request, response);
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
