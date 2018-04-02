@@ -1,4 +1,4 @@
-package com.courses.tellus.autosalon.servlets;
+package com.courses.tellus.autosalon.servlet;
 
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Server;

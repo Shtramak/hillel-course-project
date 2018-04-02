@@ -1,4 +1,4 @@
-package com.courses.tellus.autosalon.servlets;
+package com.courses.tellus.autosalon.servlet;
 
 import com.courses.tellus.autosalon.dao.springjdbc.AutosalonDao;
 import com.courses.tellus.autosalon.model.Autosalon;

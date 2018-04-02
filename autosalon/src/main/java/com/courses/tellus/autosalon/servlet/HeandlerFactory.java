@@ -1,4 +1,4 @@
-package com.courses.tellus.autosalon.servlets;
+package com.courses.tellus.autosalon.servlet;
 
 import java.io.IOException;
 import java.util.HashMap;
