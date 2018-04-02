@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.courses.tellus.autosalon.config.jdbc.ConnectionFactory;
-import com.courses.tellus.autosalon.dao.jdbc.AutoDao;
 import com.courses.tellus.autosalon.model.Auto;
 import org.h2.tools.RunScript;
 import org.hamcrest.CoreMatchers;

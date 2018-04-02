@@ -1,4 +1,4 @@
-package com.courses.tellus.autosalon.dao.springjdbc;
+package com.courses.tellus.autosalon.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,7 +8,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.autosalon.dao.config.JdbcTemplatesConfigTest;
+import com.courses.tellus.autosalon.config.JdbcTemplatesConfigTest;
+import com.courses.tellus.autosalon.dao.springjdbc.CustomerDao;
 import com.courses.tellus.autosalon.model.Customer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

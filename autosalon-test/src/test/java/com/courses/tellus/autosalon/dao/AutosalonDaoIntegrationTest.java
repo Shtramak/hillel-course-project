@@ -1,6 +1,7 @@
-package com.courses.tellus.autosalon.dao.springjdbc;
+package com.courses.tellus.autosalon.dao;
 
-import com.courses.tellus.autosalon.dao.config.JdbcTemplatesConfigTest;
+import com.courses.tellus.autosalon.config.JdbcTemplatesConfigTest;
+import com.courses.tellus.autosalon.dao.springjdbc.AutosalonDao;
 import com.courses.tellus.autosalon.model.Autosalon;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
