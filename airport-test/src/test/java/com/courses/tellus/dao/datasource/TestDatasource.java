@@ -1,24 +1,20 @@
-package com.courses.tellus.dao.spring.jdbc.datasource;
-
-import javax.sql.DataSource;
+package com.courses.tellus.dao.datasource;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-@Configuration
-public class TestDataSource {
+import javax.sql.DataSource;
+
+public class TestDatasource {
     /**
-     * dataSource that create test config to H2 inmemory Database.
-     * @return data source for code tests
+     * dataSource that creates connection to H2
+     * @return data source
      */
     @Bean
     public DataSource embeddedDataSource() {
-        return new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.H2)
-                .build();
+        return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
     }
 
     @Bean
