@@ -56,7 +56,7 @@ public class CustomerHandlerUnitTest {
 
     @Test
     void getWhenPathIsAdd() throws Exception {
-        when(request.getPathInfo()).thenReturn("/customer/add");
+        when(request.getRequestURI()).thenReturn("/autosalon/customer/add");
         when(request.getRequestDispatcher("/WEB-INF/jsp/addCustomer.jsp")).thenReturn(requestDispatcher);
         servlet.doGet(request, response);
         verify(requestDispatcher, times(1)).forward(request, response);
@@ -64,7 +64,7 @@ public class CustomerHandlerUnitTest {
 
     @Test
     void getWhenPathIsList() throws Exception {
-        when(request.getPathInfo()).thenReturn("/customer/list");
+        when(request.getRequestURI()).thenReturn("/autosalon/customer/list");
         List<Customer> customers = Collections.singletonList(REAL_CUSTOMER);
         when(customerDao.getAll()).thenReturn(customers);
         when(request.getRequestDispatcher("/WEB-INF/jsp/listCustomers.jsp")).thenReturn(requestDispatcher);
@@ -79,7 +79,7 @@ public class CustomerHandlerUnitTest {
 
     @Test
     void getWhenPathIsNumericAndCustomerExists() throws Exception {
-        when(request.getPathInfo()).thenReturn("/customer/1");
+        when(request.getRequestURI()).thenReturn("/autosalon/customer/1");
         Long customerId = 1L;
         Optional<Customer> customer = Optional.of(REAL_CUSTOMER);
         when(customerDao.getById(customerId)).thenReturn(customer);
@@ -97,7 +97,7 @@ public class CustomerHandlerUnitTest {
 
     @Test
     void getWhenPathIsNumericAndCustomerNotExists() throws Exception {
-        when(request.getPathInfo()).thenReturn("/customer/749");
+        when(request.getRequestURI()).thenReturn("/autosalon/customer/749");
         Optional<Customer> customer = Optional.empty();
         when(customerDao.getById(749L)).thenReturn(customer);
         when(request.getRequestDispatcher("/WEB-INF/jsp/customerNotFound.jsp")).thenReturn(requestDispatcher);
@@ -107,7 +107,7 @@ public class CustomerHandlerUnitTest {
 
     @Test
     void postFromAddCustomerJsp() throws Exception {
-        when(request.getPathInfo()).thenReturn("/customer/add");
+        when(request.getRequestURI()).thenReturn("/autosalon/customer/add");
         when(request.getParameter("id")).thenReturn(String.valueOf(REAL_CUSTOMER.getId()));
         when(request.getParameter("name")).thenReturn(REAL_CUSTOMER.getName());
         when(request.getParameter("surname")).thenReturn(REAL_CUSTOMER.getSurname());
@@ -127,21 +127,21 @@ public class CustomerHandlerUnitTest {
 
     @Test
     void getWhenPathIsNotValid() throws Exception {
-        when(request.getPathInfo()).thenReturn("/customer/not-valid-path");
+        when(request.getRequestURI()).thenReturn("/autosalon/customer/not-valid-path");
         servlet.doGet(request, response);
         verify(response).sendError(HttpServletResponse.SC_NOT_FOUND);
     }
 
     @Test
     void getWhenHandlerNotExistsInHandlerFactory() throws Exception {
-        when(request.getPathInfo()).thenReturn("/Not-Valid-Path");
+        when(request.getRequestURI()).thenReturn("/autosalon/Not-Valid-Path");
         servlet.doGet(request, response);
         verify(response).sendError(HttpServletResponse.SC_NOT_FOUND);
     }
 
     @Test
     void postWhenHandlerNotExistsInHandlerFactory() throws Exception {
-        when(request.getPathInfo()).thenReturn("/Not-Valid-Path");
+        when(request.getRequestURI()).thenReturn("/autosalon/Not-Valid-Path");
         servlet.doPost(request, response);
         verify(response).sendError(HttpServletResponse.SC_NOT_FOUND);
     }

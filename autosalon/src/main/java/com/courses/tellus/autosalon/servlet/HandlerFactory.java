@@ -52,7 +52,7 @@ public final class HandlerFactory {
     }
 
     private static String handlerPathFromRequest(final HttpServletRequest request) {
-        final String pathInfo = request.getPathInfo();
-        return pathInfo.split("/")[1];
+        final String pathInfo = request.getRequestURI();
+        return pathInfo.split("/")[2];
     }
 }

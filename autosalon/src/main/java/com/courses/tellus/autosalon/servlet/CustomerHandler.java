@@ -92,8 +92,9 @@ public final class CustomerHandler implements InternalHandler {
     }
 
     private String requestPathWithoutContext(final HttpServletRequest request) {
-        final String fullPath = request.getPathInfo();
-        return fullPath.split("/")[2];
+        final String fullPath = request.getRequestURI();
+        final int pathIndex = 2 + 1;
+        return fullPath.split("/")[pathIndex];
     }
 
     private Customer customerFromRequest(final HttpServletRequest request) throws IOException {
