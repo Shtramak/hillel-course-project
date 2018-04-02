@@ -55,7 +55,8 @@ public class AutosalonHeandler implements InternalHeandler {
             request.setAttribute("autosalon", autosalonList);
             final RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/allAutosalon.jsp");
             dispatcher.forward(request, response);
-        } else if (path.equals("createautosalon")) {
+        }
+        if (path.equals("createautosalon")) {
             final RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/createautosalon.jsp");
             dispatcher.forward(request, response);
         }
@@ -63,7 +64,7 @@ public class AutosalonHeandler implements InternalHeandler {
 
     private String requestPathWithoutContext(final HttpServletRequest request) {
         final String fullPath = request.getPathInfo();
-        return fullPath.split("/")[1];
+        return fullPath.split("/")[2];
     }
 
     private Autosalon requestAutosalon(final HttpServletRequest request) {

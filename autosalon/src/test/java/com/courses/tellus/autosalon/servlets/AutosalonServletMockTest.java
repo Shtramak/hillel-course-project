@@ -34,17 +34,6 @@ public class AutosalonServletMockTest {
     public void setUp() throws NoSuchFieldException, IllegalAccessException {
         MockitoAnnotations.initMocks(this);
         autosalonServlet = new AutosalonServlet();
-
-//        AutosalonHeandler autosalonHeandler = new AutosalonHeandler();
-//        Field daoField = autosalonHeandler.getClass().getDeclaredField("autosalonDao");
-//        daoField.setAccessible(true);
-//        daoField.set(autosalonHeandler, autosalonDao);
-//
-//        Field factory = HeandlerFactory.class.getDeclaredField("handlers");
-//        factory.setAccessible(true);
-//        Map<String, InternalHeandler> handlerMap = Collections.singletonMap("autosalon", autosalonHeandler);
-//        factory.set(HeandlerFactory.class, handlerMap);
-
     }
 
     @Test
@@ -58,7 +47,6 @@ public class AutosalonServletMockTest {
         autosalonDao.insert(autosalon);
         autosalonServlet.doPost(request, response);
         verify(autosalonDao, times(1)).insert(autosalon);
-        verify(request, times(0)).setAttribute("autosalon", autosalon);
         verify(dispatcher, times(1)).forward(request, response);
     }
 
@@ -69,7 +57,7 @@ public class AutosalonServletMockTest {
         autosalonDao.getAll();
         verify(autosalonDao, times(1)).getAll();
         autosalonServlet.doGet(request, response);
-        verify(dispatcher, times(0)).forward(request, response);
+        verify(dispatcher, times(1)).forward(request, response);
     }
 
     @Test
@@ -79,7 +67,7 @@ public class AutosalonServletMockTest {
         autosalonDao.getAll();
         verify(autosalonDao, times(1)).getAll();
         autosalonServlet.doGet(request, response);
-        verify(dispatcher, times(0)).forward(request, response);
+        verify(dispatcher, times(1)).forward(request, response);
     }
 
     @Test
