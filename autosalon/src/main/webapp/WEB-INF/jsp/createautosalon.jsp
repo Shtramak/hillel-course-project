@@ -8,7 +8,7 @@
 <body>
 <div align="center">
     <h3>Create Autosalon</h3>
-    <form method="POST" action="">
+    <form method="POST" action="/autosalon/autosalon/">
         <table border="2" cellpadding="5" cellspacing="5">
             <tr>
                 <td>Autosalon Name: </td>

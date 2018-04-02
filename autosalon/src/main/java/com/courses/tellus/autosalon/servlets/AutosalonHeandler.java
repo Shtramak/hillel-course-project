@@ -36,6 +36,7 @@ public class AutosalonHeandler implements InternalHeandler {
         final Autosalon autosalon = requestAutosalon(request);
         autosalonDao.insert(autosalon);
         request.setAttribute("autosalon", autosalon);
+        request.getRequestDispatcher("/WEB-INF/jsp/createautosalon.jsp").forward(request, response);
     }
 
     /**

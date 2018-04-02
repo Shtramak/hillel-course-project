@@ -13,7 +13,6 @@ public final class HeandlerFactory {
     private static Map<String, InternalHeandler> handlers = new HashMap<>();
 
     static {
-
         handlers.put("autosalon", new AutosalonHeandler());
     }
 
