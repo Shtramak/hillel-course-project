@@ -19,6 +19,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 @Configuration
 @ComponentScan("com.courses.tellus.autosalon.dao.springjdbc")
@@ -51,6 +53,15 @@ public class JdbcTemplatesConfig {
         return dataSource;
     }
 
+    @Bean
+    public DataSource dataSourceH2()  {
+        return new EmbeddedDatabaseBuilder()
+                .setType(EmbeddedDatabaseType.H2)
+                .addScript("test.sql")
+                .build();
+    }
+
+    @Bean
     public DataSource dataSource() {
         final MysqlDataSource mysql = new MysqlDataSource();
         mysql.setURL(url);
@@ -78,7 +89,7 @@ public class JdbcTemplatesConfig {
      */
 
     @Bean
-    public AutosalonDaoInterface<Autosalon> autosalonDaoEntyty() throws SQLException, FileNotFoundException {
+    public AutosalonDao autosalonDao() throws SQLException, FileNotFoundException {
         return new AutosalonDao(jdbcTemplate(dataSource()));
     }
 }
