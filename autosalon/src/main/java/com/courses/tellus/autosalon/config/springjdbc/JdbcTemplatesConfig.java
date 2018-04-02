@@ -9,12 +9,10 @@ import com.courses.tellus.autosalon.dao.AutosalonDaoInterface;
 import com.courses.tellus.autosalon.dao.springjdbc.AutosalonDao;
 import com.courses.tellus.autosalon.model.Autosalon;
 import com.mysql.cj.jdbc.MysqlDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @Configuration
@@ -22,13 +20,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class JdbcTemplatesConfig {
 
     @Value("${jdbc.url.mysql}")
-    private String url;
+    private transient String url;
 
     @Value("${jdbc.user.mysql}")
-    private String user;
+    private transient String user;
 
     @Value("${jdbc.pass.mysql}")
-    private String password;
+    private transient String password;
+
     /**
      * Create dataSource.
      *
@@ -49,6 +48,7 @@ public class JdbcTemplatesConfig {
      * @param dataSource to save.
      * @return jdbctemplate.
      */
+
     @Bean
     public JdbcTemplate jdbcTemplate(final DataSource dataSource) {
        return new JdbcTemplate(dataSource);

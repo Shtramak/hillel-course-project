@@ -8,26 +8,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = "/autosalon/*")
+@WebServlet(urlPatterns = "/*")
 public class AutosalonServlet extends HttpServlet {
-
-    private transient HeandlerFactory handlerFactory;
-
-    @Override
-    public void init() throws ServletException {
-        handlerFactory = new HeandlerFactory();
-    }
 
     @Override
     public void doGet(final HttpServletRequest request, final HttpServletResponse response)
             throws ServletException, IOException {
-        handlerFactory.heandlerGetRequest(request, response);
+        HeandlerFactory.heandlerGetRequest(request, response);
     }
 
     @Override
     public void doPost(final HttpServletRequest request, final HttpServletResponse response)
             throws ServletException, IOException {
-        handlerFactory.heandlerPostRequest(request, response);
+        HeandlerFactory.heandlerPostRequest(request, response);
     }
 
 }

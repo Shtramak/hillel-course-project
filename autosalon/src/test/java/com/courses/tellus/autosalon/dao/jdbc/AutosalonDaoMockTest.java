@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.Optional;
 
 import com.courses.tellus.autosalon.config.jdbc.ConnectionFactory;
-import com.courses.tellus.autosalon.dao.jdbc.AutosalonDao;
 import com.courses.tellus.autosalon.model.Autosalon;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
