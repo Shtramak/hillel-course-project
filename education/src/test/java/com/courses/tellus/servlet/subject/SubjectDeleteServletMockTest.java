@@ -1,19 +1,24 @@
-package com.courses.tellus.servlet;
+package com.courses.tellus.servlet.subject;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.lang.reflect.Field;
+import java.util.GregorianCalendar;
+
+import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.SubjectDao;
+import com.courses.tellus.entity.Subject;
 import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 
@@ -23,11 +28,18 @@ class SubjectDeleteServletMockTest {
     @Mock private HttpServletResponse response;
     @Mock private RequestDispatcher dispatcher;
     @Mock private ServletContext servletContext;
-    @Mock private SubjectDao basicDao;
-    @InjectMocks private SubjectDeleteServlet servlet;
+    @Mock private SubjectDao subjectDao;
+    private SubjectDeleteServlet servlet;
+    private Subject subject;
+    private Field field;
 
     @BeforeEach
     void initMockito() throws Exception {
+        subject = new Subject("Math", " fdsd fsd", true,
+                new GregorianCalendar(2000, 10, 15));
+        servlet = new SubjectDeleteServlet();
+        field = servlet.getClass().getDeclaredField("subjectDao");
+        field.setAccessible(true);
         MockitoAnnotations.initMocks(this);
         when(request.getServletContext()).thenReturn(servletContext);
         when(servletContext.getRequestDispatcher(anyString())).thenReturn(dispatcher);
@@ -35,22 +47,30 @@ class SubjectDeleteServletMockTest {
 
     @Test
     void successFullDeleteOperation() throws Exception {
+        field.set(servlet ,subjectDao);
         doReturn("1").when(request).getParameter("subjectId");
-        when(basicDao.delete(anyLong())).thenReturn(1);
+        given(subjectDao.delete(anyLong())).willReturn(1);
         servlet.doGet(request, response);
 
-        verify(basicDao, atLeastOnce()).delete(anyLong());
+        verify(subjectDao, atLeastOnce()).delete(anyLong());
         verify(request, atLeast(1)).getServletContext();
     }
 
     @Test
     void failedDeleteOperation() throws Exception {
+        field.set(servlet ,subjectDao);
         doReturn("1").when(request).getParameter("subjectId");
-        when(basicDao.delete(anyLong())).thenThrow(new DatabaseConnectionException());
+        when(subjectDao.delete(anyLong())).thenThrow(new DatabaseConnectionException());
         servlet.doGet(request, response);
 
         verify(request,atLeastOnce()).setAttribute(anyString(), any());
         verify(request, atLeast(1)).getServletContext();
+    }
 
+    @Test
+    void initMethodTest() throws Exception {
+        ConnectionFactory factory = mock(ConnectionFactory.class);
+        SubjectDao testDao = new SubjectDao(factory);
+        servlet.init();
     }
 }

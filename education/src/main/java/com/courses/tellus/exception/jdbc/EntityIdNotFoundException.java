@@ -2,18 +2,15 @@ package com.courses.tellus.exception.jdbc;
 
 public class EntityIdNotFoundException extends Exception {
 
-
-    private String msg;
-    private int errorCode;
+    private static final String MESSAGE = "Entity not found by selected id";
+    private final int errorCode = -1;
 
     public EntityIdNotFoundException() {
         super();
-        this.msg = "Entity not found by selected id";
-        this.errorCode = -2;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return MESSAGE;
     }
 
     public int getErrorCode() {

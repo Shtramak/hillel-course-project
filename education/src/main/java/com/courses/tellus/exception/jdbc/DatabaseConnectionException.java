@@ -2,20 +2,18 @@ package com.courses.tellus.exception.jdbc;
 
 public class DatabaseConnectionException extends Exception {
 
-    private String message;
-    private int errorCode;
+    private static final String MESSAGE = "Can't get connection to Database";
+    private final int errorCode = -1;
 
     public DatabaseConnectionException() {
     }
 
-    public DatabaseConnectionException(Throwable cause) {
+    public DatabaseConnectionException(final Throwable cause) {
         super(cause);
-        this.message = "Can't get connection to Database";
-        this.errorCode = -1;
     }
 
     public String getMessage() {
-        return message;
+        return MESSAGE;
     }
 
     public int getErrorCode() {

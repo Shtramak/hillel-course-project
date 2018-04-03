@@ -33,7 +33,7 @@ public class SubjectDao implements BasicDao<Subject> {
             }
             return subjectList;
         } catch (SQLException except) {
-            LOGGER.error(except.getMessage(),except);
+            LOGGER.error(except.getCause(), except);
             throw new DatabaseConnectionException(except);
         }
     }
@@ -51,7 +51,7 @@ public class SubjectDao implements BasicDao<Subject> {
                 throw new EntityIdNotFoundException();
             }
         } catch (SQLException except) {
-            LOGGER.error(except.getMessage(), except);
+            LOGGER.error(except.getCause(), except);
             throw new DatabaseConnectionException(except);
         }
     }
@@ -68,7 +68,7 @@ public class SubjectDao implements BasicDao<Subject> {
             preState.setLong(OrderUtils.FIFTH_STATEMENT.getOrder(), subject.getSubjectId());
             return preState.executeUpdate();
         } catch (SQLException except) {
-            LOGGER.error(except.getMessage(),except);
+            LOGGER.error(except.getCause(), except);
             throw new DatabaseConnectionException(except);
         }
     }
@@ -80,7 +80,7 @@ public class SubjectDao implements BasicDao<Subject> {
             preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
             return preState.executeUpdate();
         } catch (SQLException except) {
-            LOGGER.error(except.getMessage(),except);
+            LOGGER.error(except.getCause(), except);
             throw new DatabaseConnectionException(except);
         }
     }
@@ -96,7 +96,7 @@ public class SubjectDao implements BasicDao<Subject> {
             preState.setDate(OrderUtils.FOURTH_STATEMENT.getOrder(), new java.sql.Date(subject.getDateOfCreation()));
             return preState.executeUpdate();
         } catch (SQLException except) {
-            LOGGER.error(except.getMessage(),except);
+            LOGGER.error(except.getCause(), except);
             throw new DatabaseConnectionException(except);
         }
     }

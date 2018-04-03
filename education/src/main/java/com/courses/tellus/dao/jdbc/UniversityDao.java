@@ -33,7 +33,7 @@ public class UniversityDao implements BasicDao<University> {
             }
             return universities;
         } catch (SQLException except) {
-            LOGGER.error(except.getMessage(),except);
+            LOGGER.error(except.getCause(), except);
             throw new DatabaseConnectionException(except);
         }
     }
@@ -50,7 +50,7 @@ public class UniversityDao implements BasicDao<University> {
                 throw new EntityIdNotFoundException();
             }
         } catch (SQLException except) {
-            LOGGER.error(except.getMessage(), except);
+            LOGGER.error(except.getCause(), except);
             throw new DatabaseConnectionException(except);
         }
     }
@@ -66,7 +66,7 @@ public class UniversityDao implements BasicDao<University> {
             preState.setLong(OrderUtils.FOURTH_STATEMENT.getOrder(), university.getUniId());
             return preState.executeUpdate();
         } catch (SQLException except) {
-            LOGGER.error(except);
+            LOGGER.error(except.getCause(), except);
             throw new DatabaseConnectionException(except);
         }
     }
@@ -78,7 +78,7 @@ public class UniversityDao implements BasicDao<University> {
             preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
             return preState.executeUpdate();
         } catch (SQLException except) {
-            LOGGER.error(except);
+            LOGGER.error(except.getCause(), except);
             throw new DatabaseConnectionException(except);
         }
     }
@@ -94,7 +94,7 @@ public class UniversityDao implements BasicDao<University> {
             preState.setString(OrderUtils.THIRD_STATEMENT.getOrder(), university.getSpecialization());
             return preState.executeUpdate();
         } catch (SQLException except) {
-            LOGGER.error(except);
+            LOGGER.error(except.getCause(), except);
             throw new DatabaseConnectionException(except);
         }
     }

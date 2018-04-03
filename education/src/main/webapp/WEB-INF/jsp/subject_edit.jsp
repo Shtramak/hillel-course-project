@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="ru">
@@ -44,10 +45,12 @@
 					<label class="control-label col-9 text-center">Valid</label>
 					<div class="col-6 mx-auto">
 						<label class="radio-inline">
-							<input required type="radio"  name="activeRadios" value="Y" checked="${setYes}"> Active
+							<input required type="radio" name="activeRadios" value="Y"
+								   <c:if test="${valid==true}">checked</c:if>> Active
 						</label>
 						<label class="radio-inline">
-							<input required type="radio" name="activeRadios" value="N" checked="${setNo}"> Deprecated
+							<input required type="radio" name="activeRadios" value="N"
+								   <c:if test="${valid==false}">checked</c:if>> Deprecated
 						</label>
 					</div>
 				</div>

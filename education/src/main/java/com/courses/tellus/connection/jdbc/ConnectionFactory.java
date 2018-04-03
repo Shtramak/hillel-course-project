@@ -40,7 +40,7 @@ public class ConnectionFactory {
         synchronized (ConnectionFactory.class) {
             connFactory = new ConnectionFactory();
             loadDatabaseProperties();
-            //firstInitDatabase();
+            firstInitDatabase();
         }
         return connFactory;
     }
@@ -50,8 +50,9 @@ public class ConnectionFactory {
      */
     private static void loadDatabaseProperties() {
         final Properties properties = new Properties();
-        try (final InputStream inStream = Thread.currentThread().getContextClassLoader()
-                .getResourceAsStream(DB_PROPERTIES.toString())){
+        try {
+        final InputStream inStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream(DB_PROPERTIES.toString());
             properties.load(inStream);
         } catch (IOException except) {
             LOGGER.error(except);
@@ -66,10 +67,11 @@ public class ConnectionFactory {
      * First initialise database schema and tables if it not exists.
      */
     private static void firstInitDatabase() {
-        try (final InputStream resourceAsStream = Thread.currentThread().getContextClassLoader()
-                .getResourceAsStream(DB_INITIALS.toString())){
+        try {
+        final InputStream resourceAsStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream(DB_INITIALS.toString());
             RunScript.execute(ConnectionFactory.getInstance().getConnection(), new InputStreamReader(resourceAsStream));
-        } catch (SQLException | IOException except) {
+        } catch (SQLException except) {
             LOGGER.error(except);
         }
     }
