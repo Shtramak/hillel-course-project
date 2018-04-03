@@ -3,16 +3,18 @@ package com.courses.tellus.dao.jdbc;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
+
+import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
+import com.courses.tellus.exception.jdbc.EntityIdNotFoundException;
 
 public interface BasicDao<E> {
 
     /**
      * Method for returning all object from database in Option wrapper.
      *
-     * @return list with all Object in Option wrapper or empty Optional if exception
+     * @return list with all Object or empty Optional if exception
      */
-    Optional<List<E>> getAll();
+    List<E> getAll() throws DatabaseConnectionException;
 
     /**
      * Method for returning object by unique id from database in Option wrapper.
@@ -20,7 +22,7 @@ public interface BasicDao<E> {
      * @param entityId unique id for object query
      * @return Object in Option wrapper or empty Optional (if not exist in database or exception)
      */
-    Optional<E> getById(Long entityId);
+    E getById(Long entityId) throws DatabaseConnectionException, EntityIdNotFoundException;
 
     /**
      * Method for updating object in database.
@@ -28,7 +30,7 @@ public interface BasicDao<E> {
      * @param entity updating object
      * @return number of successful operations
      */
-    int update(E entity);
+    int update(E entity) throws DatabaseConnectionException;
 
     /**
      * Method for deleting object from database.
@@ -36,7 +38,7 @@ public interface BasicDao<E> {
      * @param entityId unique id for object query
      * @return number of successful operations
      */
-    int delete(Long entityId);
+    int delete(Long entityId) throws DatabaseConnectionException;
 
     /**
      * Method for creating new object into database.
@@ -44,7 +46,7 @@ public interface BasicDao<E> {
      * @param entity object for inserting
      * @return number of successful operations
      */
-    int insert(E entity);
+    int insert(E entity) throws DatabaseConnectionException;
 
     /**
      * Method for creating new own class Object.

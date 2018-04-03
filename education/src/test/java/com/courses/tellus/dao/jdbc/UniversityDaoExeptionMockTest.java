@@ -2,6 +2,7 @@ package com.courses.tellus.dao.jdbc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -10,6 +11,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import com.courses.tellus.dao.jdbc.UniversityDao;
+import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,32 +40,27 @@ public class UniversityDaoExeptionMockTest {
     }
 
     @Test
-    void testGetByIdWhenReturnNull() throws Exception {
-        assertFalse((universityDao.getById(15L)).isPresent());
-    }
-
-    @Test
     void testGetByIdException() throws Exception {
-        assertFalse((universityDao.getById(1L)).isPresent());
+        assertThrows(DatabaseConnectionException.class, () -> universityDao.getById(1L));
     }
 
     @Test
     void testGetAllUniversitiesExeption() throws Exception {
-        assertFalse((universityDao.getAll()).isPresent());
+        assertThrows(DatabaseConnectionException.class, () -> universityDao.getAll());
     }
 
     @Test
     void testInsertUniversityExeption() throws Exception {
-        assertEquals(0, universityDao.insert(university));
+        assertThrows(DatabaseConnectionException.class, () -> universityDao.insert(university));
     }
 
     @Test
     void testUpdateUniversityException() throws Exception {
-        assertEquals(0,universityDao.update(university));
+        assertThrows(DatabaseConnectionException.class, () -> universityDao.update(university));
     }
 
     @Test
     void testDeleteUniversityException() throws Exception {
-        assertEquals(0,universityDao.delete(university.getUniId()));
+        assertThrows(DatabaseConnectionException.class, () -> universityDao.delete(1L));
     }
 }

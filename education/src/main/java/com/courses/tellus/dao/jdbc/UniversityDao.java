@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.University;
+import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
+import com.courses.tellus.exception.jdbc.EntityIdNotFoundException;
 import org.apache.log4j.Logger;
 
 public class UniversityDao implements BasicDao<University> {
@@ -22,7 +23,7 @@ public class UniversityDao implements BasicDao<University> {
         }
 
     @Override
-    public Optional<List<University>> getAll() {
+    public List<University> getAll() throws DatabaseConnectionException {
         final List<University> universities = new ArrayList<>();
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("SELECT*FROM Universities");
@@ -30,31 +31,32 @@ public class UniversityDao implements BasicDao<University> {
             while (resultSet.next()) {
                 universities.add(getNewObjectFromResultSet(resultSet));
             }
-            return Optional.of(universities);
-        } catch (SQLException e) {
-            LOGGER.error(e);
-            return Optional.empty();
+            return universities;
+        } catch (SQLException except) {
+            LOGGER.error(except.getCause(), except);
+            throw new DatabaseConnectionException(except);
         }
     }
 
     @Override
-    public Optional<University> getById(final Long entityId) {
+    public University getById(final Long entityId) throws DatabaseConnectionException, EntityIdNotFoundException {
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("SELECT*FROM Universities WHERE univer_id=?");
             preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
             final ResultSet resultSet = preState.executeQuery();
             if (resultSet.next()) {
-                return Optional.of(getNewObjectFromResultSet(resultSet));
+                return getNewObjectFromResultSet(resultSet);
+            } else {
+                throw new EntityIdNotFoundException();
             }
-        } catch (SQLException e) {
-            LOGGER.error(e);
-            return Optional.empty();
+        } catch (SQLException except) {
+            LOGGER.error(except.getCause(), except);
+            throw new DatabaseConnectionException(except);
         }
-        return Optional.empty();
     }
 
     @Override
-    public int update(final University university) {
+    public int update(final University university) throws DatabaseConnectionException {
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("UPDATE Universities SET name_of_university = ?,"
                     + " address =?, specialization =? WHERE univer_id= ?");
@@ -63,26 +65,26 @@ public class UniversityDao implements BasicDao<University> {
             preState.setString(OrderUtils.THIRD_STATEMENT.getOrder(), university.getSpecialization());
             preState.setLong(OrderUtils.FOURTH_STATEMENT.getOrder(), university.getUniId());
             return preState.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.error(e);
-            return 0;
+        } catch (SQLException except) {
+            LOGGER.error(except.getCause(), except);
+            throw new DatabaseConnectionException(except);
         }
     }
 
     @Override
-    public int delete(final Long entityId) {
+    public int delete(final Long entityId) throws DatabaseConnectionException {
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("DELETE FROM Universities WHERE univer_id=?");
             preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
             return preState.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.error(e);
-            return 0;
+        } catch (SQLException except) {
+            LOGGER.error(except.getCause(), except);
+            throw new DatabaseConnectionException(except);
         }
     }
 
     @Override
-    public int insert(final University university) {
+    public int insert(final University university) throws DatabaseConnectionException {
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement(
                     "INSERT INTO Universities(name_of_university, address, specialization)"
@@ -91,9 +93,9 @@ public class UniversityDao implements BasicDao<University> {
             preState.setString(OrderUtils.SECOND_STATEMENT.getOrder(), university.getAddress());
             preState.setString(OrderUtils.THIRD_STATEMENT.getOrder(), university.getSpecialization());
             return preState.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.error(e);
-            return 0;
+        } catch (SQLException except) {
+            LOGGER.error(except.getCause(), except);
+            throw new DatabaseConnectionException(except);
         }
     }
 
