@@ -8,6 +8,7 @@ import java.util.Optional;
 import com.courses.tellus.dao.jdbc.SubjectDao;
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.Subject;
+import com.courses.tellus.exception.jdbc.EntityIdNotFoundException;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.*;
 
@@ -21,7 +22,7 @@ class SubjectDaoIntegrationTest {
         RunScript.execute(ConnectionFactory.getInstance().getConnection(),
                 new FileReader("src/test/resources/initial/h2/table/jdbc/subject_test_table.sql"));
         subjectDao = new SubjectDao(ConnectionFactory.getInstance());
-        subject = new Subject("Biology", "Lessons about building of humans", true,
+        subject = new Subject(1L,"Biology", "Lessons about building of humans", true,
                 new GregorianCalendar(1996,5,12));
         subjectDao.insert(subject);
     }
@@ -40,38 +41,36 @@ class SubjectDaoIntegrationTest {
 
     @Test
     void testGetAllEntityAndReturnEmptyList() throws Exception {
-        subjectDao.delete(subjectDao.getAll().get().get(0).getSubjectId());
-        Optional<List<Subject>> subjectList = subjectDao.getAll();
-        Assertions.assertEquals(0, subjectList.get().size());
+        subjectDao.delete(subjectDao.getAll().get(0).getSubjectId());
+        List<Subject> subjectList = subjectDao.getAll();
+        Assertions.assertEquals(0, subjectList.size());
     }
 
     @Test
     void testGetEntityByIdAndReturnEntity() throws Exception {
-        Optional<Subject> subject = subjectDao
-                .getById(subjectDao.getAll().get().get(0).getSubjectId());
-        Assertions.assertTrue(subject.isPresent());
+        Subject subject = subjectDao.getById(subjectDao.getAll().get(0).getSubjectId());
+        Assertions.assertEquals(this.subject, subject);
     }
 
     @Test
-    void testGetEntityByIdAndReturnFalse() throws Exception {
-        Optional<Subject> subject = subjectDao.getById(12L);
-        Assertions.assertFalse(subject.isPresent());
+    void testGetEntityByIdAndIdNotFoundException() throws Exception {
+        Assertions.assertThrows(EntityIdNotFoundException.class, () -> subjectDao.getById(12L));
     }
 
     @Test
     void testUpdateSubject() throws Exception {
-        Subject subject = new Subject(1L, "Biology", "Lessons about building of humans", true,
-                new GregorianCalendar(2000,5,12));
+        Subject subject = new Subject(1L, "Biology", "Lessons about building of humans",
+                true, new GregorianCalendar(2000,5,12));
         Assertions.assertEquals(1, subjectDao.update(subject));
     }
 
     @Test
-    void testDeleteSubject() {
+    void testDeleteSubject() throws Exception {
         Assertions.assertEquals(1, subjectDao.delete(1L));
     }
 
     @Test
-    void testInsertSubject() {
+    void testInsertSubject() throws Exception {
         Assertions.assertEquals(1, subjectDao.insert(subject));
     }
 }
