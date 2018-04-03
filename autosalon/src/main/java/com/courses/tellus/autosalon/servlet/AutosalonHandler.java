@@ -13,11 +13,11 @@ import com.courses.tellus.autosalon.dao.springjdbc.AutosalonDao;
 import com.courses.tellus.autosalon.model.Autosalon;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class AutosalonHeandler implements InternalHeandler {
+public class AutosalonHandler implements InternalHandler {
 
     private final transient AutosalonDao autosalonDao;
 
-    public AutosalonHeandler() {
+    public AutosalonHandler() {
         final AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(JdbcTemplatesConfig.class);
         autosalonDao = context.getBean(AutosalonDao.class);

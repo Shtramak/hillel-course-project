@@ -7,12 +7,16 @@
 </head>
 <body>
 <div align="center">
-    <h3>Hello from Autosalon</h3>
+    <h3>Autosalon</h3>
     <table border="2" cellpadding="5" cellspacing="5">
-        <td><a href="/autosalon/autosalon/CreateAutosalon">Add New Autosalon</a></td>
-        <td><a href="/autosalon/autosalon/allAutosalon">Show All Autosalon</a></td>
-        <a href="autosalon/customer/add">ADD CUSTOMER</a><p>
-        <a href="autosalon/customer/list">LIST OF CUSTOMERS</a>
+        <tr>
+        <td><a href="/autosalon/autosalon/createautosalon">Add new autosalon</a></td>
+        <td><a href="/autosalon/autosalon/allAutosalon">Show all autosalons</a></td>
+        </tr>
+        <tr>
+        <td><a href="autosalon/customer/add">Add new customer</a></td>
+        <td><a href="autosalon/customer/list">Show all customers</a></td>
+        </tr>
     </table>
 </div>
 </body>

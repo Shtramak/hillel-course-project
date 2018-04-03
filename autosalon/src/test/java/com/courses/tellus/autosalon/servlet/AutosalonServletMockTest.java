@@ -28,12 +28,12 @@ public class AutosalonServletMockTest {
     @Mock
     AutosalonDao autosalonDao;
 
-    AutosalonServlet autosalonServlet;
+    MainServlet autosalonServlet;
 
     @BeforeEach
     public void setUp() throws NoSuchFieldException, IllegalAccessException {
         MockitoAnnotations.initMocks(this);
-        autosalonServlet = new AutosalonServlet();
+        autosalonServlet = new MainServlet();
     }
 
     @Test

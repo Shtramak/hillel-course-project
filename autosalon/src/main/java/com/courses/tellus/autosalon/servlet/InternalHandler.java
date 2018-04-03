@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface InternalHandler {
     /**
-     * Method that should invokes in doGet() method of Servlet.
+     * Method that should invokes in doGet() method of MainServlet.
      *
      * @param request  HttpServletRequest from servlet container
      * @param response HttpServletResponse from servlet container
@@ -15,7 +15,7 @@ public interface InternalHandler {
     void get(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException;
 
     /**
-     * Method that should invokes in doPost() method of Servlet.
+     * Method that should invokes in doPost() method of MainServlet.
      *
      * @param request  HttpServletRequest from servlet container
      * @param response HttpServletResponse from servlet container

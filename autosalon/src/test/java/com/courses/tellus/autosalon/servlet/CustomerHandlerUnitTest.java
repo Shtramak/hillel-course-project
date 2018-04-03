@@ -36,12 +36,12 @@ public class CustomerHandlerUnitTest {
     private CustomerDao customerDao;
     @Mock
     private RequestDispatcher requestDispatcher;
-    private Servlet servlet;
+    private MainServlet servlet;
 
     @BeforeEach
     void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        servlet = new Servlet();
+        servlet = new MainServlet();
 
         CustomerHandler customerHandler = CustomerHandler.getInstance();
         Field daoField = customerHandler.getClass().getDeclaredField("customerDao");
