@@ -38,31 +38,31 @@ public class UniversityIntegrationTest {
     }
 
     @Test
-    public void testGetAllUniversities() {
-        Optional<List<University>> universities = universityDao.getAll();
-        assertTrue(universities.isPresent());
+    void testGetAllUniversities() throws Exception {
+        List<University> universities = universityDao.getAll();
+        assertEquals(1, universities.size());
     }
 
     @Test
-    public void testGetUniversityByIdWhenReturnEntity() {
-        Optional<University> university = universityDao.getById(this.university.getUniId());
-        assertTrue(university.isPresent());
+    public void testGetUniversityByIdWhenReturnEntity() throws Exception {
+        University university = universityDao.getById(this.university.getUniId());
+        assertEquals(this.university, university);
     }
 
     @Test
-    public void testUpdateUniversity() {
-        University university1 = new University(1L,"kpi",
+    public void testUpdateUniversity() throws Exception {
+        University university = new University(1L,"kpi",
                 "Universitet","Hz");
-        assertEquals(1, universityDao.update(university1));
+        assertEquals(1, universityDao.update(university));
     }
 
     @Test
-    public void testDeleteUniversity() {
+    public void testDeleteUniversity() throws Exception {
        assertEquals(1, universityDao.delete(university.getUniId()));
     }
 
     @Test
-    public void testInsertUniversity() {
+    public void testInsertUniversity() throws Exception {
         assertEquals(1,universityDao.insert(university));
     }
 }
