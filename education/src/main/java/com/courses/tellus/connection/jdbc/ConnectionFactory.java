@@ -29,9 +29,9 @@ public class ConnectionFactory {
     }
 
     /**
-     * Method to produce singleton connection factory.
+     * Method to produce singleton config factory.
      *
-     * @return connection factory
+     * @return config factory
      */
     public static ConnectionFactory getInstance() {
         if (connFactory != null) {

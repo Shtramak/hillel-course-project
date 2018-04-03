@@ -1,12 +1,11 @@
-package com.courses.tellus.autosalon.dao;
+package com.courses.tellus.airport.dao;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.autosalon.exception.DaoException;
+import com.courses.tellus.airport.exception.DaoException;
 
-public interface AutosalonDaoInterface<E> {
-
+public interface AirportDaoInterface<E> {
     /**
      * Method for retrieving all object from database.
      *
@@ -47,4 +46,3 @@ public interface AutosalonDaoInterface<E> {
      */
     Integer insert(E entity) throws DaoException;
 }
-

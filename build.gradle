@@ -32,6 +32,13 @@ task wrapper(type: Wrapper) {
 project("autosalon") {
 }
 
+
+project("autosalon-test") {
+    dependencies {
+        compile project(':autosalon')
+    }
+}
+
 project("autosalon-test") {
     dependencies {
         compile project(':autosalon')
