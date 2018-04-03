@@ -18,7 +18,7 @@ public class JDBCTemplateConfiguration {
     private transient Environment env;
 
     /**
-     * dataSource that create connection to PostgreSQL Database.
+     * dataSource that create config to PostgreSQL Database.
      * @return data source for using
      */
     @Bean
@@ -31,7 +31,7 @@ public class JDBCTemplateConfiguration {
     }
 
     /**
-     * Provide connection from selected dataSource.
+     * Provide config from selected dataSource.
      * @param dataSource profiled data source
      * @return JdbcTemplate for queries
      */

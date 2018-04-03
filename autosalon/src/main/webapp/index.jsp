@@ -1,16 +1,23 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: yura
-  Date: 3/18/18
-  Time: 5:42 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $END$
-  </body>
+<head>
+    <title>Autosalon</title>
+</head>
+<body>
+<div align="center">
+    <h3>Autosalon</h3>
+    <table border="2" cellpadding="5" cellspacing="5">
+        <tr>
+        <td><a href="/autosalon/autosalon/createautosalon">Add new autosalon</a></td>
+        <td><a href="/autosalon/autosalon/allAutosalon">Show all autosalons</a></td>
+        </tr>
+        <tr>
+        <td><a href="autosalon/customer/add">Add new customer</a></td>
+        <td><a href="autosalon/customer/list">Show all customers</a></td>
+        </tr>
+    </table>
+</div>
+</body>
 </html>
