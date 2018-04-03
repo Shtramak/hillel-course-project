@@ -90,6 +90,4 @@ public class AutosalonServletMockTest {
         autosalonServlet.doPost(request, response);
         verify(response).sendError(HttpServletResponse.SC_NOT_FOUND);
     }
-
-
 }

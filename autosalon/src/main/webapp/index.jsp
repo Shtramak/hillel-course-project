@@ -17,6 +17,10 @@
         <td><a href="autosalon/customer/add">Add new customer</a></td>
         <td><a href="autosalon/customer/list">Show all customers</a></td>
         </tr>
+        <tr>
+        <td><a href="/autosalon/auto/createAuto">Add new auto</a></td>
+        <td><a href="/autosalon/auto/listAuto">Show all auto</a></td>
+        </tr>
     </table>
 </div>
 </body>

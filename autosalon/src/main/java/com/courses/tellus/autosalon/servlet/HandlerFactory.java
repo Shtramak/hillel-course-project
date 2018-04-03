@@ -13,6 +13,7 @@ public final class HandlerFactory {
     static {
         handlerMap.put("customer", CustomerHandler.getInstance());
         handlerMap.put("autosalon", new AutosalonHandler());
+        handlerMap.put("auto", new AutoHeandler());
     }
 
     private HandlerFactory() {
