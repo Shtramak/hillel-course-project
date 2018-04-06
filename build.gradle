@@ -64,14 +64,12 @@ project("education") {
     // New "8.1.14.v20131031"
     // Old "9.4.6.v20170531"
     dependencies {
-        compile group: 'org.eclipse.jetty', name: 'jetty-webapp', version: "$jettyVer"
-        compile group: 'org.eclipse.jetty', name: 'jetty-server', version: "$jettyVer"
-        compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: "$jettyVer"
         compile group: 'javax.servlet.jsp', name: 'javax.servlet.jsp-api', version: '2.3.1'
         compile group: 'javax.servlet', name: 'jstl', version: '1.2'
         compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0'
     }
-}
+    }
+
 
 project("education-test") {
     dependencies {
