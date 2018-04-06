@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import com.courses.tellus.dao.jdbc.SubjectDao;
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.Subject;
-import org.junit.jupiter.api.Assertions;
+import com.courses.tellus.exception.jdbc.EntityIdNotFoundException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.Matchers.anyString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class SubjectDaoMockTest {
@@ -50,13 +50,13 @@ class SubjectDaoMockTest {
         when(mockResSet.next()).thenReturn(true).thenReturn(false);
         getSubjectFromResultSet();
         spy.add(subject);
-        Assertions.assertEquals(spy.size(), subjectDao.getAll().get().size());
+        assertEquals(spy.size(), subjectDao.getAll().size());
     }
 
     @Test
     void testGetAllObjectAndReturnEmptyList() throws Exception {
         when(mockResSet.next()).thenReturn(false);
-        Assertions.assertEquals(0, (subjectDao.getAll()).get().size());
+        assertEquals(0, (subjectDao.getAll()).size());
     }
 
     @Test
@@ -65,28 +65,28 @@ class SubjectDaoMockTest {
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(true);
         getSubjectFromResultSet();
-        Assertions.assertEquals(subject, (subjectDao.getById(1L)).get());
+        assertEquals(subject, (subjectDao.getById(1L)));
     }
 
     @Test
-    void testGetEntityByIdAndReturnFalse() throws Exception {
+    void testGetEntityByIdAndThrowException() throws Exception {
         mockPreState.setLong(1, 1L);
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(false);
-        Assertions.assertFalse((subjectDao.getById(1L)).isPresent());
+        assertThrows(EntityIdNotFoundException.class, () -> subjectDao.getById(1L));
     }
 
     @Test
     void testUpdateSubject() throws Exception {
         subject.setValid(false);
         when(mockPreState.executeUpdate()).thenReturn(1);
-        Assertions.assertEquals(1, subjectDao.update(subject));
+        assertEquals(1, subjectDao.update(subject));
     }
 
     @Test
     void testDeleteSubject() throws Exception {
         when(mockPreState.executeUpdate()).thenReturn(1);
-        Assertions.assertEquals(1 ,subjectDao.delete(1L));
+        assertEquals(1 ,subjectDao.delete(1L));
     }
 
     @Test
@@ -95,7 +95,7 @@ class SubjectDaoMockTest {
                 2L, "Math", "Teach how to calculate numbers", true,
                 new GregorianCalendar(1996,5,12));
         when(mockPreState.executeUpdate()).thenReturn(1);
-        Assertions.assertEquals(1, subjectDao.insert(subject));
+        assertEquals(1, subjectDao.insert(subject));
     }
 
     private void getSubjectFromResultSet() throws SQLException {

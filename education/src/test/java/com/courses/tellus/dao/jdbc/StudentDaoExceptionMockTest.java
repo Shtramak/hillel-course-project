@@ -8,11 +8,13 @@ import java.util.Optional;
 import com.courses.tellus.dao.jdbc.StudentDao;
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.Student;
+import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -39,28 +41,26 @@ class StudentDaoExceptionMockTest {
 
     @Test
     void testGetAllEntity() throws Exception {
-        Optional<List<Student>> opt = studentDao.getAll();
-        Assertions.assertFalse(opt.isPresent());
+        assertThrows(DatabaseConnectionException.class, () -> studentDao.getAll());
     }
 
     @Test
     void testGetEntityById() throws Exception {
-        Optional<Student> opt = studentDao.getById(1L);
-        Assertions.assertFalse(opt.isPresent());
+        assertThrows(DatabaseConnectionException.class, () -> studentDao.getById(1L));
     }
 
     @Test
     void testUpdateSubject() throws Exception {
-        Assertions.assertEquals(0, studentDao.update(student));
+        assertThrows(DatabaseConnectionException.class, () -> studentDao.update(student));
     }
 
     @Test
     void testDeleteSubject() throws Exception {
-        Assertions.assertEquals(0, studentDao.delete(1L));
+        assertThrows(DatabaseConnectionException.class, () -> studentDao.delete(1L));
     }
 
     @Test
     void testInsertSubject() throws Exception {
-        Assertions.assertEquals(0, studentDao.insert(student));
+        assertThrows(DatabaseConnectionException.class, () -> studentDao.insert(student));
     }
 }

@@ -1,9 +1,7 @@
 package com.courses.tellus.dao.jdbc;
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -17,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.courses.tellus.dao.jdbc.UniversityDao;
+import com.courses.tellus.exception.jdbc.EntityIdNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +24,7 @@ import org.junit.jupiter.api.Test;
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.University;
 
-public class UniversityDaoMockTest {
+class UniversityDaoMockTest {
 
     private static ConnectionFactory connectionFactory;
     private University university;
@@ -55,16 +54,16 @@ public class UniversityDaoMockTest {
         when(mockPreState.executeQuery()).thenReturn(mockResultSet);
         when(mockResultSet.next()).thenReturn(true);
         setUniversityInResultSetMock();
-        assertTrue((universityDao.getById(university.getUniId())).isPresent());
+        assertEquals(university, universityDao.getById(university.getUniId()));
     }
 
     @Test
-    void testGetByIdWhenReturnFalse() throws Exception {
+    void testGetByIdAndThrowException() throws Exception {
         mockPreState.setLong(1, 1);
         when(mockPreState.executeQuery()).thenReturn(mockResultSet);
         when(mockResultSet.next()).thenReturn(false);
         setUniversityInResultSetMock();
-        assertFalse((universityDao.getById(university.getUniId())).isPresent());
+        assertThrows(EntityIdNotFoundException.class, () -> universityDao.getById(university.getUniId()));
     }
 
     @Test
@@ -75,7 +74,7 @@ public class UniversityDaoMockTest {
         when(mockResultSet.next()).thenReturn(true).thenReturn(false);
         setUniversityInResultSetMock();
         spy.add(university);
-        Assertions.assertEquals(1, (universityDao.getAll()).get().size());
+        assertEquals(1, (universityDao.getAll()).size());
     }
 
     @Test

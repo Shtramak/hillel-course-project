@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.Subject;
+import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
+import com.courses.tellus.exception.jdbc.EntityIdNotFoundException;
 import org.apache.log4j.Logger;
 
 public class SubjectDao implements BasicDao<Subject> {
@@ -22,7 +23,7 @@ public class SubjectDao implements BasicDao<Subject> {
     }
 
     @Override
-    public Optional<List<Subject>> getAll() {
+    public List<Subject> getAll() throws DatabaseConnectionException {
         final List<Subject> subjectList = new ArrayList<>();
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("SELECT * FROM SUBJECT");
@@ -30,32 +31,33 @@ public class SubjectDao implements BasicDao<Subject> {
             while (resultSet.next()) {
                 subjectList.add(getNewObjectFromResultSet(resultSet));
             }
-            return Optional.of(subjectList);
+            return subjectList;
         } catch (SQLException except) {
-            LOGGER.error(except);
-            return Optional.empty();
+            LOGGER.error(except.getCause(), except);
+            throw new DatabaseConnectionException(except);
         }
     }
 
     @Override
-    public Optional<Subject> getById(final Long entityId) {
+    public Subject getById(final Long entityId) throws DatabaseConnectionException, EntityIdNotFoundException {
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn
                     .prepareStatement("SELECT * FROM SUBJECT a WHERE a.subject_id = ?");
             preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
             final ResultSet resultSet = preState.executeQuery();
             if (resultSet.next()) {
-                return Optional.of(getNewObjectFromResultSet(resultSet));
+                return getNewObjectFromResultSet(resultSet);
+            } else {
+                throw new EntityIdNotFoundException();
             }
         } catch (SQLException except) {
-            LOGGER.error(except);
-            return Optional.empty();
+            LOGGER.error(except.getCause(), except);
+            throw new DatabaseConnectionException(except);
         }
-        return Optional.empty();
     }
 
     @Override
-    public int update(final Subject subject) {
+    public int update(final Subject subject) throws DatabaseConnectionException {
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement(
                     "UPDATE SUBJECT SET name = ?, descr = ?, valid = ?, date_of_creation = ? WHERE subject_id= ?");
@@ -66,25 +68,25 @@ public class SubjectDao implements BasicDao<Subject> {
             preState.setLong(OrderUtils.FIFTH_STATEMENT.getOrder(), subject.getSubjectId());
             return preState.executeUpdate();
         } catch (SQLException except) {
-            LOGGER.error(except);
-            return 0;
+            LOGGER.error(except.getCause(), except);
+            throw new DatabaseConnectionException(except);
         }
     }
 
     @Override
-    public int delete(final Long entityId) {
+    public int delete(final Long entityId) throws DatabaseConnectionException {
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("DELETE FROM SUBJECT WHERE subject_id = ?");
             preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
             return preState.executeUpdate();
         } catch (SQLException except) {
-            LOGGER.error(except);
-            return 0;
+            LOGGER.error(except.getCause(), except);
+            throw new DatabaseConnectionException(except);
         }
     }
 
     @Override
-    public int insert(final Subject subject) {
+    public int insert(final Subject subject) throws DatabaseConnectionException {
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement(
                     "INSERT INTO SUBJECT(name, descr, valid, date_of_creation) VALUES (?, ?, ?, ?)");
@@ -94,8 +96,8 @@ public class SubjectDao implements BasicDao<Subject> {
             preState.setDate(OrderUtils.FOURTH_STATEMENT.getOrder(), new java.sql.Date(subject.getDateOfCreation()));
             return preState.executeUpdate();
         } catch (SQLException except) {
-            LOGGER.error(except);
-            return 0;
+            LOGGER.error(except.getCause(), except);
+            throw new DatabaseConnectionException(except);
         }
     }
 

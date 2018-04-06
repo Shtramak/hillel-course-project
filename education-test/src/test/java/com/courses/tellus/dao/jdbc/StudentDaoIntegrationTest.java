@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.Student;
+import com.courses.tellus.exception.jdbc.EntityIdNotFoundException;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -35,28 +36,27 @@ class StudentDaoIntegrationTest {
 
     @Test
     void testGetAllAndReturnEntityList() throws Exception {
-        Optional<List<Student>> subjectList = studentDao.getAll();
-        Assertions.assertTrue(subjectList.isPresent());
+        List<Student> subjectList = studentDao.getAll();
+        Assertions.assertEquals(1, subjectList.size());
     }
 
     @Test
     void testGetAllEntityAndReturnEmptyList() throws Exception {
-        studentDao.delete(studentDao.getAll().get().get(0).getStudentId());
-        Optional<List<Student>> subjectList = studentDao.getAll();
-        Assertions.assertEquals(0, subjectList.get().size());
+        studentDao.delete(studentDao.getAll().get(0).getStudentId());
+        List<Student> subjectList = studentDao.getAll();
+        Assertions.assertEquals(0, subjectList.size());
     }
 
     @Test
     void testGetEntityByIdAndReturnEntity() throws Exception {
-        Optional<Student> student = studentDao
-                .getById(studentDao.getAll().get().get(0).getStudentId());
-        Assertions.assertTrue(student.isPresent());
+        Student student = studentDao
+                .getById(studentDao.getAll().get(0).getStudentId());
+        Assertions.assertEquals(student, this.student);
     }
 
     @Test
-    void testGetEntityByIdAndReturnFalse() throws Exception {
-        Optional<Student> student = studentDao.getById(12L);
-        Assertions.assertFalse(student.isPresent());
+    void testGetEntityByIdAndThrowException() throws Exception {
+        Assertions.assertThrows(EntityIdNotFoundException.class, () -> studentDao.getById(12L));
     }
 
     @Test
@@ -66,12 +66,12 @@ class StudentDaoIntegrationTest {
     }
 
     @Test
-    void testDeleteSubject() {
+    void testDeleteSubject() throws Exception {
         Assertions.assertEquals(1, studentDao.delete(1L));
     }
 
     @Test
-    void testInsertSubject() {
+    void testInsertSubject() throws Exception {
         Assertions.assertEquals(1, studentDao.insert(student));
     }
 }
