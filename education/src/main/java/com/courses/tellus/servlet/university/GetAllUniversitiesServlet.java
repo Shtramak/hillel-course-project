@@ -1,19 +1,18 @@
 package com.courses.tellus.servlet.university;
 
-import com.courses.tellus.connection.jdbc.ConnectionFactory;
-import com.courses.tellus.dao.jdbc.UniversityDao;
-import com.courses.tellus.entity.University;
-import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
-import org.apache.log4j.Logger;
-
+import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
 
+import com.courses.tellus.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.dao.jdbc.UniversityDao;
+import com.courses.tellus.entity.University;
+import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
+import org.apache.log4j.Logger;
 
 @WebServlet(name = "listOfUniversities", value = "/listOfUniversities")
 public class GetAllUniversitiesServlet extends HttpServlet {
@@ -30,9 +29,9 @@ public class GetAllUniversitiesServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
         try {
-            final List<University> listOfUniversities = universityDao.getAll();
-            if (listOfUniversities.size() > 0) {
-                req.setAttribute("universityList", listOfUniversities);
+            final List<University> universities = universityDao.getAll();
+            if (universities.size() > 0) {
+                req.setAttribute("universityList", universities);
             } else {
                 final String message = "Database is empty!";
                 req.setAttribute("dbIsEmpty", message);

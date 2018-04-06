@@ -1,17 +1,17 @@
 package com.courses.tellus.servlet.university;
 
-import com.courses.tellus.connection.jdbc.ConnectionFactory;
-import com.courses.tellus.dao.jdbc.UniversityDao;
-import com.courses.tellus.entity.University;
-import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
-import org.apache.log4j.Logger;
-
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import com.courses.tellus.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.dao.jdbc.UniversityDao;
+import com.courses.tellus.entity.University;
+import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
+import org.apache.log4j.Logger;
 
 @WebServlet(name = "createUniversity", value = "/createUniversity")
 public class CreateUniversityServlet extends HttpServlet {
@@ -35,7 +35,7 @@ public class CreateUniversityServlet extends HttpServlet {
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
         try {
-            universityDao.insert(createEntityFromRequest(req));
+            universityDao.insert(getUniversityFromRequest(req));
             req.getServletContext().getRequestDispatcher("/WEB-INF/UniversityViews/universityAdded.html").forward(req, resp);
         } catch (DatabaseConnectionException exception) {
             LOGGER.error(exception.getCause(), exception);
@@ -44,7 +44,7 @@ public class CreateUniversityServlet extends HttpServlet {
         }
     }
 
-    private University createEntityFromRequest(final HttpServletRequest req) {
+    private University getUniversityFromRequest(final HttpServletRequest req) {
         final String nameOfUniversity = req.getParameter("nameOfUniversity");
         final String address = req.getParameter("address");
         final String specialization = req.getParameter("specialization");

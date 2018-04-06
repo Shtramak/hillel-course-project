@@ -36,6 +36,8 @@
                 <th>NameOfUniversity</th>
                 <th>Address</th>
                 <th>Specialization</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -45,14 +47,14 @@
                     <td>${university.nameOfUniversity}</td>
                     <td>${university.address}</td>
                     <td>${university.specialization}</td>
-                    <td><a href="updateUniversity?univer_id=${university.uniId}"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                    <td><a href="deleteUniversity?univer_id=${university.uniId}"><span class="glyphicon glyphicon-trash"></span></a></td>
+                    <td><a href="updateUniversity?uniId=${university.uniId}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                    <td><a href="deleteUniversity?uniId=${university.uniId}"><span class="glyphicon glyphicon-trash"></span></a></td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
         <p class="text-warning" id="emptyBase">${dbIsEmpty}</p>
-        <p class="text-danger">${error}</p>
+        <p class="text-danger">${exception.message}</p>
     </div>
 </div>
 </div>

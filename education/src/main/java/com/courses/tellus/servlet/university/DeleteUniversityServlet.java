@@ -1,16 +1,16 @@
 package com.courses.tellus.servlet.university;
 
-import com.courses.tellus.connection.jdbc.ConnectionFactory;
-import com.courses.tellus.dao.jdbc.UniversityDao;
-import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
-import org.apache.log4j.Logger;
-
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import com.courses.tellus.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.dao.jdbc.UniversityDao;
+import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
+import org.apache.log4j.Logger;
 
 @WebServlet(name = "deleteUniversity", value = "/deleteUniversity")
 public class DeleteUniversityServlet extends HttpServlet {

@@ -25,6 +25,12 @@ public class  University  {
         this.specialization = specialization;
     }
 
+    public University(final String nameOfUniversity, final String address, final String specialization) {
+        this.nameOfUniversity = nameOfUniversity;
+        this.address = address;
+        this.specialization = specialization;
+    }
+
     public Long getUniId() {
         return uniId;
     }
@@ -59,7 +65,7 @@ public class  University  {
 
     @Override
     public String toString() {
-        return "University{"
+        return "university{"
                 + "uniId=" + uniId
                 + ", nameOfUniversity='" + nameOfUniversity + '\''
                 + ", address='" + address + '\''
