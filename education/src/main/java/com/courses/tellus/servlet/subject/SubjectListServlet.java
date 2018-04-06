@@ -40,10 +40,10 @@ public class SubjectListServlet extends HttpServlet {
         } catch (DatabaseConnectionException except) {
             LOGGER.debug(except.getMessage(), except);
             req.setAttribute("error", except);
-            req.getServletContext().getRequestDispatcher("WEB-INF/jsp/subject/general_error.jsp")
+            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/subject/general_error.jsp")
                     .forward(req, resp);
         }
-        req.getServletContext().getRequestDispatcher("WEB-INF/jsp/subject/subject_list.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/subject/subject_list.jsp").forward(req, resp);
     }
 
     @Override

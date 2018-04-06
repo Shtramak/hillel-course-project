@@ -68,17 +68,13 @@ project("education") {
         compile group: 'javax.servlet', name: 'jstl', version: '1.2'
         compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0'
     }
-    }
+}
 
 
 project("education-test") {
     dependencies {
         compile project(':education')
     }
-}
-
-repositories {
-    mavenCentral()
 }
 
 ext {

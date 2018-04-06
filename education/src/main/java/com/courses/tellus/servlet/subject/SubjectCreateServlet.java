@@ -29,7 +29,7 @@ public class SubjectCreateServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getServletContext().getRequestDispatcher("WEB-INF/jsp/subject/subject_create.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/subject/subject_create.jsp").forward(req, resp);
     }
 
     @Override
@@ -38,12 +38,12 @@ public class SubjectCreateServlet extends HttpServlet {
         try {
             final Subject subject = createEntityFromRequest(req);
             subjectDao.insert(subject);
-            req.getServletContext().getRequestDispatcher("WEB-INF/jsp/subject/subject_create.jsp")
+            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/subject/subject_create.jsp")
                     .forward(req, resp);
         } catch (DatabaseConnectionException except) {
             LOGGER.error(except.getCause(), except);
             req.setAttribute("error", except.getMessage());
-            req.getServletContext().getRequestDispatcher("WEB-INF/jsp/subject/general_error.jsp")
+            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/subject/general_error.jsp")
                     .forward(req, resp);
         }
     }
