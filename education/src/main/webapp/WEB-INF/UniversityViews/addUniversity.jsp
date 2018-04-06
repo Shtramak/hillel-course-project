@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-<!DOCTYPE html>
 <head>
     <meta charset="utf-8">
     <title>Form to setting university</title>
@@ -20,15 +18,36 @@
             <ul class="nav navbar-nav">
                 <li><a href="/createUniversity">New University</a></li>
                 <li><a href="/listOfUniversities">All Universities</a></li>
-                <li>
-                    <a href="/subjectList">Subject List</a>
-                </li>
-                <li>
-                    <a href="/createSubject">Create Subject</a>
-                </li>
             </ul>
         </div>
     </div>
+</div>
+
+<div class="container text-center">
+    <hr>
+    <form class="form-horizontal" action="/createUniversity" method="POST">
+        <div class="form-group">
+            <label class="control-label col-md-3">NameOfUniversity</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" name="nameOfUniversity"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">Address</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" name="address" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">Specialization</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" name="specialization"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Save"/>
+        </div>
+    </form>
 </div>
 </body>
 </html>
