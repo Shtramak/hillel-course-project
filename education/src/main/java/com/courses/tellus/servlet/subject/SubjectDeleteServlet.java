@@ -34,7 +34,8 @@ public class SubjectDeleteServlet extends HttpServlet {
         } catch (DatabaseConnectionException except) {
             LOGGER.debug(except.getCause(), except);
             req.setAttribute("error", except);
-            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/general_error.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher("WEB-INF/jsp/subject/general_error.jsp")
+                    .forward(req, resp);
         }
     }
 }

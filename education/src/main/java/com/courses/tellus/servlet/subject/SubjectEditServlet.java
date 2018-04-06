@@ -36,11 +36,13 @@ public class SubjectEditServlet extends HttpServlet {
         try {
             final Subject subject = subjectDao.getById(subjectId);
             setJspEditAttribute(subject, req);
-            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/subject_edit.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher("WEB-INF/jsp/subject/subject_edit.jsp")
+                    .forward(req, resp);
         } catch (EntityIdNotFoundException | DatabaseConnectionException except) {
             LOGGER.error(except.getCause(), except);
             req.setAttribute("error", except);
-            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/general_error.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher("WEB-INF/jsp/subject/general_error.jsp")
+                    .forward(req, resp);
         }
     }
 
@@ -54,7 +56,8 @@ public class SubjectEditServlet extends HttpServlet {
         } catch (DatabaseConnectionException except) {
             LOGGER.error(except.getCause(), except);
             req.setAttribute("error", except);
-            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/general_error.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher("WEB-INF/jsp/subject/general_error.jsp")
+                    .forward(req, resp);
         }
     }
 
