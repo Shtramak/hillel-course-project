@@ -22,6 +22,8 @@
         <td><a href="/autosalon/auto/listAuto">Show all auto</a></td>
         </tr>
     </table>
+    <br>
+    <a href="${pageContext.request.contextPath}/index.html">GO TO SPRING MVC MAIN PAGE</a>
 </div>
 </body>
 </html>
