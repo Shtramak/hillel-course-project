@@ -28,7 +28,7 @@ public class CreateUniversityServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getServletContext().getRequestDispatcher("/WEB-INF/UniversityViews/addUniversity.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/addUniversity.jsp").forward(req, resp);
     }
 
     @Override
@@ -36,11 +36,11 @@ public class CreateUniversityServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             universityDao.insert(getUniversityFromRequest(req));
-            req.getServletContext().getRequestDispatcher("/WEB-INF/UniversityViews/universityAdded.html").forward(req, resp);
+            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/universityAdded.html").forward(req, resp);
         } catch (DatabaseConnectionException exception) {
             LOGGER.error(exception.getCause(), exception);
             req.setAttribute("error", exception);
-            req.getServletContext().getRequestDispatcher("/WEB-INF/UniversityViews/listOfUniversities.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/listOfUniversities.jsp").forward(req, resp);
         }
     }
 

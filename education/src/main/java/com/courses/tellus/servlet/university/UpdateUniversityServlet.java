@@ -33,11 +33,11 @@ public class UpdateUniversityServlet extends HttpServlet {
         try {
            final University university = universityDao.getById(universityId);
             req.setAttribute("university", university);
-            req.getServletContext().getRequestDispatcher("/WEB-INF/UniversityViews/updateUniversity.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/updateUniversity.jsp").forward(req, resp);
             } catch (EntityIdNotFoundException | DatabaseConnectionException exception) {
                 LOGGER.error(exception.getCause(), exception);
                 req.setAttribute("error", exception);
-                req.getServletContext().getRequestDispatcher("/WEB-INF/UniversityViews/listOfUniversities.jsp")
+                req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/listOfUniversities.jsp")
                         .forward(req, resp);
         }
         }
@@ -48,12 +48,12 @@ public class UpdateUniversityServlet extends HttpServlet {
         try {
             final University university = getEntityFromRequest(req);
         universityDao.update(university);
-        req.getServletContext().getRequestDispatcher("/WEB-INF/UniversityViews/universityUpdated.html")
+        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/universityUpdated.html")
                 .forward(req, resp);
-    } catch (DatabaseConnectionException except) {
-            LOGGER.error(except.getCause(), except);
-            req.setAttribute("error", except);
-            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/general_error.jsp").forward(req, resp);
+    } catch (DatabaseConnectionException exception) {
+            LOGGER.error(exception.getCause(), exception);
+            req.setAttribute("error", exception);
+            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/listOfUniversities.jsp").forward(req, resp);
     }
     }
 

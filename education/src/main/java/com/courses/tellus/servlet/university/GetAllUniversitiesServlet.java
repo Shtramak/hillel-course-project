@@ -39,9 +39,9 @@ public class GetAllUniversitiesServlet extends HttpServlet {
         } catch (DatabaseConnectionException exception) {
             LOGGER.debug(exception.getMessage(), exception);
             req.setAttribute("error", exception);
-            req.getServletContext().getRequestDispatcher("/WEB-INF/UniversityViews/listOfUniversities.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/listOfUniversities.jsp").forward(req, resp);
         }
-        req.getServletContext().getRequestDispatcher("/WEB-INF/UniversityViews/listOfUniversities.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/listOfUniversities.jsp").forward(req, resp);
     }
 
     @Override

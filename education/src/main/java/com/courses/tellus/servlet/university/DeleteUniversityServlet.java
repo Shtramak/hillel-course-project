@@ -29,11 +29,11 @@ public class DeleteUniversityServlet extends HttpServlet {
         final Long uniId = Long.parseLong(req.getParameter("uniId"));
         try {
             universityDao.delete(uniId);
-            req.getServletContext().getRequestDispatcher("/WEB-INF/UniversityViews/universityDeleted.html").forward(req, resp);
+            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/universityDeleted.html").forward(req, resp);
         } catch (DatabaseConnectionException exception) {
             LOGGER.debug(exception.getCause(), exception);
             req.setAttribute("error", exception);
-            req.getServletContext().getRequestDispatcher("/WEB-INF/UniversityViews/listOfUniversities.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/listOfUniversities.jsp").forward(req, resp);
         }
     }
 }
