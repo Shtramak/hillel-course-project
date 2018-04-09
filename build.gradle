@@ -58,7 +58,8 @@ project("airport") {
 
 project("education") {
     dependencies {
-
+        compile group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.9.RELEASE'
+        compile group: 'org.thymeleaf', name: 'thymeleaf-spring5', version: '3.0.9.RELEASE'
     }
 }
 

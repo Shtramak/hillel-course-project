@@ -1,4 +1,4 @@
-package com.courses.tellus.config;
+package com.courses.tellus.config.spring.mvc;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,7 +11,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan({"com.courses.tellus"})
+@ComponentScan({"com.courses.tellus.config.spring.mvc"})
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
@@ -21,9 +21,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
     public InternalResourceViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver
-                = new InternalResourceViewResolver();
-        viewResolver.setViewClass(JstlView.class);
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setPrefix("/WEB-INF/views/jsp/");
         viewResolver.setSuffix(".jsp");
         return viewResolver;
