@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 
 public class TestDatasource {
     /**
-     * dataSource that creates connection to H2
+     * dataSource that creates config to H2
      * @return data source
      */
     @Bean

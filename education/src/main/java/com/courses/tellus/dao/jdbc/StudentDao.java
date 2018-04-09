@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.config.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.Student;
 import org.apache.log4j.Logger;
 

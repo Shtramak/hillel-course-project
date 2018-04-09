@@ -5,8 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.dao.jdbc.StudentDao;
-import com.courses.tellus.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.config.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.Student;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

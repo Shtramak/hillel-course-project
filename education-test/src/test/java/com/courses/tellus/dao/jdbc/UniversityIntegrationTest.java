@@ -7,13 +7,12 @@ import java.io.FileReader;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.dao.jdbc.UniversityDao;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.courses.tellus.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.config.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.University;
 
 

@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import com.courses.tellus.dao.jdbc.SubjectDao;
-import com.courses.tellus.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.config.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.Subject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

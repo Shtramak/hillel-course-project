@@ -1,4 +1,4 @@
-package com.courses.tellus.connection.spring.jdbc;
+package com.courses.tellus.config.spring.jdbc;
 
 import javax.sql.DataSource;
 
@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @PropertySource("classpath:properties/db.properties")
