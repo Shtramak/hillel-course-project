@@ -7,7 +7,7 @@
 <body>
 <div align="center">
     <jsp:useBean id="customer" scope="request" type="com.courses.tellus.autosalon.model.Customer"/>
-    <h3>Customer with id = ${customerId}</h3>
+    <h3>Customer with id = ${customer.id}</h3>
     <table border="2" cellpadding="5" cellspacing="5">
         <tr>
             <th>Id</th>
@@ -27,7 +27,7 @@
         </tr>
     </table>
     <br>
-    <a href="${pageContext.request.contextPath}/index.jsp">BACK TO MAIN PAGE</a>
+    <a href="${pageContext.request.contextPath}/index.html">BACK TO MAIN PAGE</a>
 </div>
 
 </body>

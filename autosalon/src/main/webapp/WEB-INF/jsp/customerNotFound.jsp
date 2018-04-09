@@ -5,7 +5,7 @@
 <head>
     <title>Not Found</title>
     <h2>CUSTOMER WITH ID = ${customerId} NOT FOUND</h2>
-    <a href="${pageContext.request.contextPath}/index.jsp">BACK TO MAIN PAGE</a>
+    <a href="${pageContext.request.contextPath}/index.html">BACK TO MAIN PAGE</a>
 </head>
 <body>
 

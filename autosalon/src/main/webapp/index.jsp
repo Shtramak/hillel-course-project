@@ -23,7 +23,7 @@
         </tr>
     </table>
     <br>
-    <a href="${pageContext.request.contextPath}/index.html">GO TO SPRING MVC MAIN PAGE</a>
+    <a href="/springmvc">GO TO SPRING MVC MAIN PAGE</a>
 </div>
 </body>
 </html>
