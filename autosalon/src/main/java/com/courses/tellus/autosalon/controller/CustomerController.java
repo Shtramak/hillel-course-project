@@ -44,12 +44,32 @@ public class CustomerController {
      * @return - name of jsp
      */
     @RequestMapping("{id:[0-9]+}")
-    public String userById(@PathVariable("id") final String customerId, final Model model) {
+    public String customerById(@PathVariable("id") final String customerId, final Model model) {
         final Optional<Customer> customer = service.getById(Long.valueOf(customerId));
         String viewName;
         if (customer.isPresent()) {
             model.addAttribute("customer", customer.get());
             viewName = "customerById";
+        } else {
+            model.addAttribute("customerId", customerId);
+            viewName = "customerNotFound";
+        }
+        return viewName;
+    }
+
+    /**
+     * @param customerId customer id from Http request
+     * @param model      - Model.
+     * @return - name of jsp
+     */
+    @RequestMapping("/delete/{id:[0-9]+}")
+    public String deleteById(@PathVariable("id") final String customerId, final Model model) {
+        final Optional<Customer> customer = service.getById(Long.valueOf(customerId));
+        String viewName;
+        if (customer.isPresent()) {
+            service.delete(Long.valueOf(customerId));
+            model.addAttribute("customer", customer.get());
+            viewName = "customerDeletedById";
         } else {
             model.addAttribute("customerId", customerId);
             viewName = "customerNotFound";
