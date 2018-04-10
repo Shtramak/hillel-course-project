@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
-import com.courses.tellus.autosalon.dao.springjdbc.CustomerDao;
 import com.courses.tellus.autosalon.model.Customer;
+import com.courses.tellus.autosalon.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,23 +18,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/autosalon/customer")
 public class CustomerController {
-    private final CustomerDao customerDao;
+    private final transient CustomerService service;
 
     @Autowired
-    public CustomerController(CustomerDao customerDao) {
-        this.customerDao = customerDao;
+    public CustomerController(final CustomerService service) {
+        this.service = service;
     }
 
+    /**
+     * This method forwards List of customers to listCustomers.jsp.
+     *
+     * @param model - Model.
+     * @return - name of jsp
+     */
     @RequestMapping("/list")
-    public String listOfCustomers(Model model) {
-        List<Customer> customers = customerDao.getAll();
+    public String listOfCustomers(final Model model) {
+        final List<Customer> customers = service.getAll();
         model.addAttribute("customers", customers);
         return "listCustomers";
     }
 
+    /**
+     * @param customerId customer id from Http request
+     * @param model      - Model.
+     * @return - name of jsp
+     */
     @RequestMapping("{id:[0-9]+}")
-    public String userById(@PathVariable("id") String customerId, Model model) {
-        Optional<Customer> customer = customerDao.getById(Long.valueOf(customerId));
+    public String userById(@PathVariable("id") final String customerId, final Model model) {
+        final Optional<Customer> customer = service.getById(Long.valueOf(customerId));
         String viewName;
         if (customer.isPresent()) {
             model.addAttribute("customer", customer.get());
@@ -46,16 +57,25 @@ public class CustomerController {
         return viewName;
     }
 
-    @RequestMapping(value = "/add")
-    public String addCustomerPage(Model model) {
+    /**
+     * @param model - Model.
+     * @return - name of jsp
+     */
+    @RequestMapping("/add")
+    public String addCustomerPage(final Model model) {
         return "addCustomer";
     }
 
-    @PostMapping(value = "/add")
-    public String addCustomerToBd(HttpServletRequest request, Model model) throws IOException {
+    /**
+     * @param request - Http request.
+     * @param model   - Model.
+     * @return - name of jsp
+     */
+    @PostMapping("/add")
+    public String addCustomerToBd(final HttpServletRequest request, final Model model) throws IOException {
         request.setCharacterEncoding("utf-8");
-        Customer customer = customerFromRequest(request);
-        customerDao.insert(customer);
+        final Customer customer = customerFromRequest(request);
+        service.insert(customer);
         model.addAttribute("customer", customer);
         return "successfulAdd";
     }
