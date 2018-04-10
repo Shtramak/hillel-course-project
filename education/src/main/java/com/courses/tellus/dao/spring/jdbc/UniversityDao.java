@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.courses.tellus.entity.University;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -14,8 +16,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class UniversityDao implements BasicDao<University> {
 
+
     private final transient JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public UniversityDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

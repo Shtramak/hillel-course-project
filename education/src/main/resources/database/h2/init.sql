@@ -1,7 +1,7 @@
 -- Creating table block
   -- Universities table
-CREATE TABLE Universities(
-  univer_id INT NOT NULL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS Universities(
+  univer_id INT(10) not null primary key auto_increment,
   name_of_university VARCHAR (100) NOT NULL,
   address VARCHAR (100),
   specialization VARCHAR(75)

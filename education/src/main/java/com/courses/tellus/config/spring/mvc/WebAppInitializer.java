@@ -1,21 +1,27 @@
 package com.courses.tellus.config.spring.mvc;
 
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
+
+
+public class WebAppInitializer implements WebApplicationInitializer {
     @Override
-    protected Class<?>[] getRootConfigClasses() {
-        return new Class[] {WebMvcConfig.class};
-    }
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        AnnotationConfigWebApplicationContext ctx =
+                new AnnotationConfigWebApplicationContext();
+        ctx.register(WebConfig.class, JdbcTemplateConfig.class);
+        ctx.setServletContext(servletContext);
 
-    @Override
-    protected Class<?>[] getServletConfigClasses() {
-        return null;
-    }
+        ServletRegistration.Dynamic servlet =
+                servletContext.addServlet("springDispatcherServlet",
+                        new DispatcherServlet(ctx));
 
-    @Override
-    protected String[] getServletMappings() {
-        return new String[] {"/"};
-    }
-}
+        servlet.setLoadOnStartup(1);
+        servlet.addMapping("/");
+    }}
