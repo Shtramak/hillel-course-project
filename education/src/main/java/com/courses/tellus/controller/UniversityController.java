@@ -45,7 +45,7 @@ public class UniversityController {
 
     @GetMapping("/updateUniversity/{uniId}")
     public String updateUniversity(@PathVariable("uniId") Long uniId, Model model){
-       model.addAttribute("university",universityService.getById(uniId));
+       model.addAttribute("university", universityService.getById(uniId).get());
         return "updateUniversity";
     }
 
