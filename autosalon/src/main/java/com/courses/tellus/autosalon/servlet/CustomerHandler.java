@@ -14,30 +14,12 @@ import com.courses.tellus.autosalon.model.Customer;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public final class CustomerHandler implements InternalHandler {
-    private static volatile CustomerHandler instance;
     private final transient CustomerDao customerDao;
 
-    private CustomerHandler() {
+    public CustomerHandler() {
         final AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(JdbcTemplatesConfig.class);
         customerDao = context.getBean(CustomerDao.class);
-    }
-
-    /**
-     * Method that generate a single instance of CustomerHandler.
-     *
-     * @return instance of CustomerHandler
-     */
-    public static CustomerHandler getInstance() {
-        if (instance == null) {
-            synchronized (CustomerHandler.class) {
-                final CustomerHandler localInstance = instance;
-                if (localInstance == null) {
-                    instance = new CustomerHandler();
-                }
-            }
-        }
-        return instance;
     }
 
     @Override

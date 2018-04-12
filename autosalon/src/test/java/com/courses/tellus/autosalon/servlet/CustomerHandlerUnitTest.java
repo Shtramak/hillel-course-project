@@ -43,7 +43,7 @@ public class CustomerHandlerUnitTest {
         MockitoAnnotations.initMocks(this);
         servlet = new MainServlet();
 
-        CustomerHandler customerHandler = CustomerHandler.getInstance();
+        CustomerHandler customerHandler = new CustomerHandler();
         Field daoField = customerHandler.getClass().getDeclaredField("customerDao");
         daoField.setAccessible(true);
         daoField.set(customerHandler, customerDao);
