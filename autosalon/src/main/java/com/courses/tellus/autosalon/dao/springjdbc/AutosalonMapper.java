@@ -23,7 +23,7 @@ public class AutosalonMapper implements RowMapper<Autosalon> {
         autosalon.setId(resultSet.getLong("id"));
         autosalon.setName(resultSet.getString("name"));
         autosalon.setAddress(resultSet.getString("address"));
-        autosalon.setTelophone(resultSet.getString("telephone"));
+        autosalon.setTelephone(resultSet.getString("telephone"));
         return autosalon;
     }
 }
