@@ -35,7 +35,7 @@ class SubjectDaoMockTest {
     void mockInit() throws Exception {
         MockitoAnnotations.initMocks(this);
         subject = new Subject(1L, "Law", "Lesson about orders of Ukraine", true,
-                "12/05/2000");
+                "2000-05-12");
     }
 
     @Test

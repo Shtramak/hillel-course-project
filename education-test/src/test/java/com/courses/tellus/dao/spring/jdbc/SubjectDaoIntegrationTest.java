@@ -25,7 +25,7 @@ class SubjectDaoIntegrationTest {
     @Autowired
     private SubjectDao subjectDao;
     private Subject subject = new Subject(1L,"Math", "Teach how calculate nums", true,
-            "15/04/2000");
+            "2000-05-15");
 
     @Test
     void testGetAllAndReturnEntityList() {

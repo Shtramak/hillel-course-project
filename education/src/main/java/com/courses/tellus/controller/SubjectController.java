@@ -1,14 +1,12 @@
 package com.courses.tellus.controller;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import com.courses.tellus.dao.spring.jdbc.SubjectDao;
 import com.courses.tellus.entity.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 

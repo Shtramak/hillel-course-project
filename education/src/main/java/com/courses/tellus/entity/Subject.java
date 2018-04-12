@@ -31,7 +31,7 @@ public class Subject {
         this.name = name;
         this.description = description;
         this.valid = valid;
-        this.dateOfCreation = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.dateOfCreation = LocalDate.parse(date);
     }
 
     /**
@@ -49,7 +49,7 @@ public class Subject {
         this.name = name;
         this.description = description;
         this.valid = valid;
-        this.dateOfCreation = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.dateOfCreation = LocalDate.parse(date);
     }
 
     public Long getSubjectId() {
