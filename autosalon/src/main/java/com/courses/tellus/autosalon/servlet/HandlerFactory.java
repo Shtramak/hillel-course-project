@@ -11,7 +11,7 @@ public final class HandlerFactory {
     private static Map<String, InternalHandler> handlerMap = new HashMap<>();
 
     static {
-        handlerMap.put("customer", CustomerHandler.getInstance());
+        handlerMap.put("customer", new CustomerHandler());
         handlerMap.put("autosalon", new AutosalonHandler());
         handlerMap.put("auto", new AutoHeandler());
     }
