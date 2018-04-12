@@ -8,7 +8,7 @@
 
 <div align="center">
     <h3>Add customer</h3>
-    <form method="post" action="${pageContext.request.contextPath}/autosalon/customer/add">
+    <form method="post" action="${pageContext.request.contextPath}/springmvc/autosalon/customer/add">
         <table border="2" cellpadding="5" cellspacing="5">
             <tr>
                 <td width="50" align="right">id:</td>
@@ -40,7 +40,7 @@
         <input type="reset" value="Reset">
     </form>
     <br>
-    <a href="${pageContext.request.contextPath}/index.jsp">BACK TO MAIN PAGE</a>
+    <a href="${pageContext.request.contextPath}/index.html">BACK TO MAIN PAGE</a>
 </div>
 </body>
 </html>

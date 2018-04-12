@@ -30,7 +30,7 @@
         </c:forEach>
     </table>
     <br>
-    <a href="${pageContext.request.contextPath}/index.jsp">BACK TO MAIN PAGE</a>
+    <a href="${pageContext.request.contextPath}/index.html">BACK TO MAIN PAGE</a>
 </div>
 </body>
 </html>
