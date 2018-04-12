@@ -1,6 +1,7 @@
 package com.courses.tellus.entity;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Subject {
@@ -9,7 +10,7 @@ public class Subject {
     private String name;
     private String description;
     private boolean valid;
-    private Long dateOfCreation;
+    private LocalDate dateOfCreation;
 
     /**
      * Empty Object constructor.
@@ -23,14 +24,14 @@ public class Subject {
      * @param name title of the subject
      * @param description small description
      * @param valid deprecation mark
-     * @param gregCalendar date of creation this object
+     * @param date of creation this object
      */
     public Subject(final String name, final String description, final boolean valid,
-                   final GregorianCalendar gregCalendar) {
+                   final String date) {
         this.name = name;
         this.description = description;
         this.valid = valid;
-        this.dateOfCreation = gregCalendar.getTimeInMillis();
+        this.dateOfCreation = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     /**
@@ -40,15 +41,15 @@ public class Subject {
      * @param name title of the subject
      * @param description small description
      * @param valid deprecation mark
-     * @param gregCalendar date of creation this object
+     * @param date of creation this object
      */
     public Subject(final Long subjectId, final String name, final String description,
-                   final boolean valid, final GregorianCalendar gregCalendar) {
+                   final boolean valid, final String date) {
         this.subjectId = subjectId;
         this.name = name;
         this.description = description;
         this.valid = valid;
-        this.dateOfCreation = gregCalendar.getTimeInMillis();
+        this.dateOfCreation = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public Long getSubjectId() {
@@ -83,12 +84,12 @@ public class Subject {
         this.valid = valid;
     }
 
-    public Long getDateOfCreation() {
+    public LocalDate getDateOfCreation() {
         return dateOfCreation;
     }
 
-    public void setDateOfCreation(final Long dateOfCreation) {
-        this.dateOfCreation = dateOfCreation;
+    public void setDateOfCreation(final LocalDate date) {
+        this.dateOfCreation = date;
     }
 
     @Override

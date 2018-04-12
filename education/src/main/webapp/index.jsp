@@ -21,10 +21,10 @@
                 <li><a href="/addUniversity">New University</a></li>
                 <li><a href="/getAllUniversities">All Universities</a></li>
                 <li>
-                    <a href="/subjectList">Subject List</a>
+                    <a href="/subject">Subject List</a>
                 </li>
                 <li>
-                    <a href="/createSubject">Create Subject</a>
+                    <a href="/subject/add">Create Subject</a>
                 </li>
             </ul>
         </div>

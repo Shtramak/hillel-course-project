@@ -3,6 +3,7 @@ package com.courses.tellus.dao.spring.jdbc;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +47,7 @@ public class SubjectDao implements BasicDao<Subject> {
         final String sql = "UPDATE subject SET name = ?, descr = ?,"
                 + " valid = ?, date_of_creation = ? WHERE subject_id= ?";
         return jdbcTemplate.update(sql, entity.getName(), entity.getDescription(), entity.isValid(),
-                new Date(entity.getDateOfCreation()), entity.getSubjectId());
+                Date.valueOf(entity.getDateOfCreation()), entity.getSubjectId());
     }
 
     @Override
@@ -60,7 +61,7 @@ public class SubjectDao implements BasicDao<Subject> {
         final String sql = "INSERT INTO subject(name, descr, valid, date_of_creation)"
                 + " VALUES (?, ?, ?, ?)";
         return jdbcTemplate.update(sql, entity.getName(), entity.getDescription(), entity.isValid(),
-                new Date(entity.getDateOfCreation()));
+                Date.valueOf(entity.getDateOfCreation()));
     }
 
     class SubjectMapper implements RowMapper<Subject> {
@@ -71,7 +72,7 @@ public class SubjectDao implements BasicDao<Subject> {
                 subject.setName(resultSet.getString("name"));
                 subject.setDescription(resultSet.getString("descr"));
                 subject.setValid(resultSet.getBoolean("valid"));
-                subject.setDateOfCreation(resultSet.getDate("date_of_creation").getTime());
+                subject.setDateOfCreation(resultSet.getDate("date_of_creation").toLocalDate());
                 return subject;
         }
     }

@@ -13,8 +13,8 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-@Configuration
 @EnableWebMvc
+@Configuration
 @PropertySource("classpath:properties/db.properties")
 public class JdbcTemplateConfig {
 
