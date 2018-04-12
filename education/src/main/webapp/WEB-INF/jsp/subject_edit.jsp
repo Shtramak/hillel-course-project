@@ -63,8 +63,8 @@
 						<div class="col-4">
 							<label class="control-label col-4 mx-auto">Date</label>
 							<div class="col-4">
-								<input type="date" class="form-control form-inline" name="datOfCreation"
-									   id="datOfCreation" value="${dateOfCreation}" placeholder="DD/MM/YYYY" />
+								<input type="date" class="form-control form-inline" name="dateOfCreation"
+									   id="dateOfCreation" value="${dateOfCreation}" placeholder="DD/MM/YYYY" />
 							</div>
 						</div>
 					</div>
