@@ -15,7 +15,6 @@
     </head>
     <body>
 		<jsp:include page="_nav.jsp" />
-		<p style="color: red">${error}</p>
 		<div  class="container-fluid">
 			<form class="form" method="POST" action="/subject/edit">
 				<!-- id -->
@@ -23,14 +22,14 @@
 					<label class="control-label col-2 label-inline" for="subjectId">SubjectID</label>
 					<div class="col-10">
 						<input type="text" readonly class="form-control-plaintext" id="subjectId" name="subjectId"
-							   value="${subjectId}">
+							   value="${subject.subjectId}">
 					</div>
 				</div>
 				<!-- name -->
 				<div class="form-group col-6 mx-auto">
 					<label class="control-label col-9 text-center" for="name">Subject name</label>
 					<div class="col-10">
-						<input type="text" class="form-control" id="name" name="name" value="${name}"
+						<input type="text" class="form-control" id="name" name="name" value="${subject.name}"
 							   placeholder="Input your name">
 					</div>
 				</div>
@@ -39,7 +38,7 @@
 					<label class="control-label col-9 text-center" for="description">Description</label>
 					<div class="col-10">
 						<textarea class="form-control" id="description"
-								  name="description">${description}</textarea>
+								  name="description">${subject.description}</textarea>
 					</div> 
 				</div>
 				<!-- valid -->
@@ -48,11 +47,11 @@
 					<div class="col-6 mx-auto">
 						<label class="radio-inline">
 							<input required type="radio" name="valid" value="Y"
-								   <c:if test="${valid==true}">checked</c:if>> Active
+								   <c:if test="${subject.valid==true}">checked</c:if>> Active
 						</label>
 						<label class="radio-inline">
 							<input required type="radio" name="valid" value="N"
-								   <c:if test="${valid==false}">checked</c:if>> Deprecated
+								   <c:if test="${subject.valid==false}">checked</c:if>> Deprecated
 						</label>
 					</div>
 				</div>
@@ -64,7 +63,7 @@
 							<label class="control-label col-4 mx-auto">Date</label>
 							<div class="col-4">
 								<input type="date" class="form-control form-inline" name="dateOfCreation"
-									   id="dateOfCreation" value="${dateOfCreation}" placeholder="DD/MM/YYYY" />
+									   id="dateOfCreation" value="${subject.dateOfCreation}" placeholder="DD/MM/YYYY" />
 							</div>
 						</div>
 					</div>

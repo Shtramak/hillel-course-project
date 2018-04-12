@@ -1,6 +1,7 @@
 package com.courses.tellus.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.courses.tellus.dao.spring.jdbc.SubjectDao;
@@ -45,27 +46,15 @@ public class SubjectController {
     }
 
     @GetMapping(value = "/{id:[\\d]+}/edit")
-    public ModelAndView updateEntity(@PathVariable("id") Long subjectId, Model model) {
+    public ModelAndView updateEntity(@PathVariable("id") Long subjectId) {
         Optional<Subject> opt = subjectDao.getById(subjectId);
-        if (opt.isPresent()) {
-            model.addAttribute("subjectId", opt.get().getSubjectId());
-            model.addAttribute("name", opt.get().getName());
-            model.addAttribute("description", opt.get().getDescription());
-            model.addAttribute("valid", opt.get().isValid());
-            model.addAttribute("dateOfCreation", opt.get().getDateOfCreation());
-            return new ModelAndView("subject_edit");
-        } else {
-            return new ModelAndView("subject_list");
-        }
+        return opt.map(subject -> new ModelAndView("subject_edit", "subject", subject))
+                .orElseGet(() -> new ModelAndView("subject_list"));
     }
 
     @PostMapping(value = "/edit")
-    public ModelAndView updateEntity(@RequestParam("subjectId") Long subjectId,
-                                     @RequestParam("name") String name,
-                                     @RequestParam("description") String description,
-                                     @RequestParam("valid") boolean valid,
-                                     @RequestParam("dateOfCreation") String date) {
-        subjectDao.update(new Subject(subjectId, name, description, valid, date));
+    public ModelAndView updateEntity(@ModelAttribute("subject") Subject subject) {
+        subjectDao.update(subject);
         return new ModelAndView("redirect:/subject");
     }
 }
