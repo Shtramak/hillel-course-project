@@ -1,39 +1,39 @@
 package com.courses.tellus.autosalon.config.springjdbc;
 
+import java.sql.SQLException;
 import javax.sql.DataSource;
 
-import com.mysql.cj.jdbc.MysqlDataSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 @Configuration
-@PropertySource("classpath:config.properties")
+@ComponentScan("com.courses.tellus.autosalon.dao.springjdbc")
 public class JdbcTemplatesConfig {
 
     /**
-     * Create dataSource.
-     *
-     * @return dateSource.
+     * @return dataSource.
+     * @throws SQLException if smth wrong
      */
+
     @Bean
     public DataSource dataSource() {
-        final MysqlDataSource mysql = new MysqlDataSource();
-        mysql.setURL("jdbc.url.mysql");
-        mysql.setUser("jdbc.user.mysql");
-        mysql.setPassword("jdbc.pass.mysql");
-        return mysql;
+        return new EmbeddedDatabaseBuilder()
+                .setType(EmbeddedDatabaseType.H2)
+                .addScript("test.sql")
+                .build();
     }
 
     /**
-     * Create JdbcTemplate.
-     *
-     * @param dataSource to save.
-     * @return jdbctemplate.
+     * @param dataSource is dataSource.
+     * @return JdbcTemplate
      */
+
     @Bean
     public JdbcTemplate jdbcTemplate(final DataSource dataSource) {
-       return new JdbcTemplate(dataSource);
+        return new JdbcTemplate(dataSource);
     }
 }

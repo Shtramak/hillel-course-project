@@ -19,7 +19,6 @@ import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.courses.tellus.autosalon.config.jdbc.ConnectionFactory;
-import com.courses.tellus.autosalon.dao.jdbc.CustomerDao;
 import com.courses.tellus.autosalon.exception.DaoException;
 import com.courses.tellus.autosalon.model.Customer;
 import org.junit.jupiter.api.BeforeAll;
