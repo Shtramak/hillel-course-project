@@ -117,5 +117,4 @@ public class CustomerController {
         final Integer day = Integer.valueOf(dateParameters[2]);
         return LocalDate.of(year, month, day);
     }
-
 }

@@ -19,6 +19,8 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -95,5 +97,18 @@ public class CustomerControllerIntegrationTest {
                 .perform(get("/autosalon/customer/add"))
                 .andDo(print())
                 .andExpect(view().name("addCustomer"));
+    }
+
+    @Test
+    void addCustomerToBdReturnsSuccessfulAddJspPage() throws Exception {
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/autosalon/customer/add")
+                .param("id", "2")
+                .param("name", "John")
+                .param("surname", "Rambo")
+                .param("phone", "0123456")
+                .param("birthday", "2018-04-12")
+                .param("funds", "1000000");
+        this.mockMvc.perform(builder)
+                .andExpect(view().name("successfulAdd"));
     }
 }
