@@ -1,6 +1,7 @@
-package com.courses.tellus.autosalon.dao.springjdbc;
+package com.courses.tellus.autosalon.dao;
 
-import com.courses.tellus.autosalon.dao.config.JdbcTemplatesConfigTest;
+import com.courses.tellus.autosalon.config.JdbcTemplatesConfigTest;
+import com.courses.tellus.autosalon.dao.springjdbc.AutoDao;
 import com.courses.tellus.autosalon.model.Auto;
 
 import static java.util.Optional.empty;
