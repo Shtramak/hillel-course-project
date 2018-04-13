@@ -1,6 +1,6 @@
 package com.courses.tellus.service;
 
-import com.courses.tellus.entity.University;
+import com.courses.tellus.model.University;
 
 import java.util.List;
 import java.util.Optional;

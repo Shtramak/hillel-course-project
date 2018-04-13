@@ -1,4 +1,4 @@
-package com.courses.tellus.dao.spring.jdbc;
+package com.courses.tellus.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.entity.Student;
+import com.courses.tellus.model.Student;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;

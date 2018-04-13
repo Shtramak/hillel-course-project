@@ -1,8 +1,7 @@
-package com.courses.tellus.springMVC;
+package com.courses.tellus.controller;
 
 
-import com.courses.tellus.controller.UniversityController;
-import com.courses.tellus.entity.University;
+import com.courses.tellus.model.University;
 import com.courses.tellus.service.UniversityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
-import com.courses.tellus.dao.spring.jdbc.UniversityDao;
-import com.courses.tellus.entity.University;
+import com.courses.tellus.dao.UniversityDao;
+import com.courses.tellus.model.University;
 
 @Service
 @ComponentScan("com.courses.tellus.dao.spring.jdbc")

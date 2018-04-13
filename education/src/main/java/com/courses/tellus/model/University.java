@@ -1,4 +1,4 @@
-package com.courses.tellus.entity;
+package com.courses.tellus.model;
 
 import java.util.Objects;
 

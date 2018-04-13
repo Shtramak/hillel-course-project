@@ -1,24 +1,22 @@
-package com.courses.tellus.dao.jdbc;
+package com.courses.tellus.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 public interface BasicDao<E> {
 
     /**
-     * Method for returning all object from database in Option wrapper.
+     * Method for returning all object from database.
      *
-     * @return list with all Object in Option wrapper or empty Optional if exception
+     * @return list with all Object or empty list if exception
      */
-    Optional<List<E>> getAll();
+    List<E> getAll();
 
     /**
-     * Method for returning object by unique id from database in Option wrapper.
+     * Method for returning object in option wrapper by unique id from database.
      *
      * @param entityId unique id for object query
-     * @return Object in Option wrapper or empty Optional (if not exist in database or exception)
+     * @return Object in option or Option.empty() (if not exist in database or exception)
      */
     Optional<E> getById(Long entityId);
 
@@ -45,12 +43,4 @@ public interface BasicDao<E> {
      * @return number of successful operations
      */
     int insert(E entity);
-
-    /**
-     * Method for creating new own class Object.
-     *
-     * @param resultSet returned values from the database
-     * @return new Object
-     */
-    E getNewObjectFromResultSet(ResultSet resultSet) throws SQLException;
 }
