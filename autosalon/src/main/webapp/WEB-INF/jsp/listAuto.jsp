@@ -19,15 +19,19 @@
             </tr>
             <c:forEach var="auto" items="${autoList}">
                 <tr>
-                    <td>${auto.id}</td>
+                    <td><a href="/springmvc/autosalon/auto/idAuto/${auto.id}">${auto.id}</a></td>
                     <td>${auto.brand}</td>
                     <td>${auto.model}</td>
                     <td>${auto.manufactYear}</td>
                     <td>${auto.producerCountry}</td>
                     <td>${auto.price}</td>
+                    <td><a href="/springmvc/autosalon/auto/${auto.id}">Delete</a></td>
+                    <td><a href="/springmvc/autosalon/auto/update/${auto.id}">Edit</a></td>
                 </tr>
             </c:forEach>
         </table>
+        <br>
+        <a href="${pageContext.request.contextPath}/index.html">GO TO MAIN PAGE</a>
     </div>
 </body>
 </html>
