@@ -1,6 +1,6 @@
 package com.courses.tellus.config.spring.mvc;
 
-import com.courses.tellus.service.university.UniversityService;
+import com.courses.tellus.service.UniversityServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,8 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 @EnableWebMvc
 @ComponentScan("com.courses.tellus")
 public class WebConfig  {
-
+/**return path to jsp pages
+ */
     @Bean
     public UrlBasedViewResolver setupViewResolver() {
         UrlBasedViewResolver resolver = new UrlBasedViewResolver();
@@ -31,10 +32,11 @@ public class WebConfig  {
         return viewResolver;
     }*/
 
+    /***/
 
     @Bean
-    public UniversityService getUniversityService() {
-        return new UniversityService();
+    public UniversityServiceImpl getUniversityService() {
+        return new UniversityServiceImpl();
     }
 }
 

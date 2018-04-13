@@ -1,23 +1,21 @@
-package com.courses.tellus.service.university;
+package com.courses.tellus.service;
 
-
-import com.courses.tellus.dao.spring.jdbc.UniversityDao;
-import com.courses.tellus.entity.University;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Service;
+import com.courses.tellus.dao.spring.jdbc.UniversityDao;
+import com.courses.tellus.entity.University;
 
 @Service
 @ComponentScan("com.courses.tellus.dao.spring.jdbc")
-public class UniversityService {
+public class UniversityServiceImpl implements UniversityService {
 
     @Autowired
     private transient UniversityDao universityDao;
 
-    public Integer insert(final University university){
+    public int insert(final University university){
         return universityDao.insert(university);
     }
 
@@ -29,11 +27,11 @@ public class UniversityService {
         return universityDao.getById(uniId);
     }
 
-    public Integer delete(final Long uniId){
+    public int delete(final Long uniId){
         return universityDao.delete(uniId);
         }
 
-    public Integer update(final University university){
+    public int update(final University university){
         return universityDao.update(university);
     }
 }
