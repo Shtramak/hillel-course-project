@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,7 @@
 <body>
 <p>
     University has been successfully deleted.
-    <a href="/listOfUniversities">Continue</a>
+    <a href="/list/universities">Continue</a>
 </p>
 </body>
 </html>

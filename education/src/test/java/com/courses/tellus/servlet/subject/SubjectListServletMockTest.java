@@ -9,14 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.SubjectDao;
-import com.courses.tellus.entity.Subject;
-import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
+import com.courses.tellus.model.Subject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.*;
 
 class SubjectListServletMockTest {
@@ -68,14 +66,6 @@ class SubjectListServletMockTest {
         willReturn(spyList).given(subjectDao).getAll();
         servlet.doGet(request, response);
         verify(request, atLeastOnce()).setAttribute(eq("emptydb"), any(String.class));
-    }
-
-    @Test
-    void doGetTestAndThrowException() throws Exception {
-        field.set(servlet ,subjectDao);
-        willThrow(DatabaseConnectionException.class).given(subjectDao).getAll();
-        servlet.doGet(request, response);
-        verify(request, atLeastOnce()).setAttribute(eq("error"), any());
     }
 
     @Test

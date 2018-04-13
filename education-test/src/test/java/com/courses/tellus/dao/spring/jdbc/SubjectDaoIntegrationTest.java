@@ -3,7 +3,7 @@ package com.courses.tellus.dao.spring.jdbc;
 import java.util.GregorianCalendar;
 
 import com.courses.tellus.dao.spring.jdbc.datasource.TestDataSource;
-import com.courses.tellus.entity.Subject;
+import com.courses.tellus.model.Subject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

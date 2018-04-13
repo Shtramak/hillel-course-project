@@ -2,9 +2,7 @@ package com.courses.tellus.servlet.university;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.UniversityDao;
-import com.courses.tellus.entity.University;
-import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
-import com.courses.tellus.exception.jdbc.EntityIdNotFoundException;
+import com.courses.tellus.model.University;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -15,14 +13,12 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Field;
+import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
-public class UpdateUniversityServletTest {
+class UpdateUniversityServletTest {
     @Mock private HttpServletRequest request;
     @Mock private HttpServletResponse response;
     @Mock private RequestDispatcher dispatcher;
@@ -50,31 +46,18 @@ public class UpdateUniversityServletTest {
     void doGetTestWhenGetUniversitiesParameters() throws Exception {
         field.set(servlet, universityDao);
         when(request.getParameter("uniId")).thenReturn("1");
-        when(universityDao.getById(anyLong())).thenReturn(university);
+        when(universityDao.getById(anyLong())).thenReturn(Optional.of(university));
         servlet.doGet(request, response);
         verify(universityDao, atLeastOnce()).getById(anyLong());
     }
-    @Test
-    void doGetTestWhenUniversityNotFound() throws Exception {
-        field.set(servlet, universityDao);
-        when(request.getParameter("uniId")).thenReturn("1");
-        when(universityDao.getById(anyLong())).thenThrow(EntityIdNotFoundException.class);
-        servlet.doGet(request, response);
-        verify(request, atLeastOnce()).setAttribute(anyString(), any());
-    }
+
     @Test
     void doPostTestWhenUniversityUpdated() throws Exception {
         field.set(servlet, universityDao);
         servlet.doPost(request, response);
         verify(universityDao, atLeastOnce()).update(university);
     }
-    @Test
-    void doPostTestWhenThrowDataBaseException() throws Exception {
-        field.set(servlet, universityDao);
-        when(universityDao.update(university)).thenThrow(DatabaseConnectionException.class);
-        servlet.doPost(request, response);
-        verify(request, atLeastOnce()).setAttribute(anyString(), any());
-    }
+
     @Test
     void initMethodTest() throws Exception {
         ConnectionFactory factoryForTest = mock(ConnectionFactory.class);

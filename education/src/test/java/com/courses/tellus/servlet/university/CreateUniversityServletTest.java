@@ -2,8 +2,7 @@ package com.courses.tellus.servlet.university;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.UniversityDao;
-import com.courses.tellus.entity.University;
-import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
+import com.courses.tellus.model.University;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -15,8 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Field;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -49,14 +46,6 @@ public class CreateUniversityServletTest {
         field.set(servlet , universityDao);
         servlet.doPost(request, response);
         verify(universityDao, atLeastOnce()).insert(university);
-    }
-
-    @Test
-    void doPostTestWhenThrowsException() throws Exception {
-        field.set(servlet , universityDao);
-        when(universityDao.insert(university)).thenThrow(new DatabaseConnectionException());
-        servlet.doPost(request, response);
-        verify(request, atLeastOnce()).setAttribute(anyString(), any());
     }
 
     @Test

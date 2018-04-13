@@ -10,14 +10,12 @@ import java.util.GregorianCalendar;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.SubjectDao;
-import com.courses.tellus.entity.Subject;
-import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
+import com.courses.tellus.model.Subject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -53,17 +51,6 @@ class SubjectDeleteServletMockTest {
         servlet.doGet(request, response);
 
         verify(subjectDao, atLeastOnce()).delete(anyLong());
-        verify(request, atLeast(1)).getServletContext();
-    }
-
-    @Test
-    void failedDeleteOperation() throws Exception {
-        field.set(servlet ,subjectDao);
-        doReturn("1").when(request).getParameter("subjectId");
-        when(subjectDao.delete(anyLong())).thenThrow(new DatabaseConnectionException());
-        servlet.doGet(request, response);
-
-        verify(request,atLeastOnce()).setAttribute(anyString(), any());
         verify(request, atLeast(1)).getServletContext();
     }
 

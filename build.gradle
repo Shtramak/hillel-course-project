@@ -57,24 +57,28 @@ project("airport") {
 }
 
 project("education") {
-    war {
-        archiveName = 'education.war'
-    }
-    def jettyVer = "9.4.6.v20170531"
-    // New "8.1.14.v20131031"
-    // Old "9.4.6.v20170531"
+
+    apply plugin: 'war'
+
     dependencies {
         compile group: 'javax.servlet.jsp', name: 'javax.servlet.jsp-api', version: '2.3.1'
         compile group: 'javax.servlet', name: 'jstl', version: '1.2'
         compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0'
     }
-}
 
+    war {
+        archiveName = 'education.war'
+    }
+}
 
 project("education-test") {
     dependencies {
         compile project(':education')
     }
+}
+
+repositories{
+    mavenCentral()
 }
 
 ext {

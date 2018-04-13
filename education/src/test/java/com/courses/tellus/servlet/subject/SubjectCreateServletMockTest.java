@@ -9,15 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.SubjectDao;
-import com.courses.tellus.entity.Subject;
-import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
+import com.courses.tellus.model.Subject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -55,14 +52,6 @@ class SubjectCreateServletMockTest {
         field.set(servlet ,subjectDao);
         servlet.doPost(request, response);
         verify(subjectDao, atLeastOnce()).insert(subject);
-    }
-
-    @Test
-    void doPostTestAndThrowsException() throws Exception {
-        field.set(servlet ,subjectDao);
-        when(subjectDao.insert(subject)).thenThrow(new DatabaseConnectionException());
-        servlet.doPost(request, response);
-        verify(request, atLeastOnce()).setAttribute(anyString(), any());
     }
 
     @Test

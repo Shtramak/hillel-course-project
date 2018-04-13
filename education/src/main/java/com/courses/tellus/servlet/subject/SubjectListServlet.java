@@ -10,15 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.SubjectDao;
-import com.courses.tellus.entity.Subject;
-import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
-import org.apache.log4j.Logger;
+import com.courses.tellus.model.Subject;
 
-@WebServlet(name = "subjectList", value = "/subjectList")
+@WebServlet(name = "subjectList", value = "/list/subject")
 public class SubjectListServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger(SubjectListServlet.class);
     private transient SubjectDao subjectDao;
 
     @Override
@@ -29,19 +26,12 @@ public class SubjectListServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
-        try {
-            final List<Subject> subjectList = subjectDao.getAll();
-            if (subjectList.size() > 0) {
-                req.setAttribute("subjectList", subjectList);
-            } else {
-                final String message = "Database is empty!";
-                req.setAttribute("emptydb", message);
-            }
-        } catch (DatabaseConnectionException except) {
-            LOGGER.debug(except.getMessage(), except);
-            req.setAttribute("error", except);
-            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/subject/general_error.jsp")
-                    .forward(req, resp);
+        final List<Subject> subjectList = subjectDao.getAll();
+        if (subjectList.size() > 0) {
+            req.setAttribute("subjectList", subjectList);
+        } else {
+            final String message = "Database is empty!";
+            req.setAttribute("emptydb", message);
         }
         req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/subject/subject_list.jsp").forward(req, resp);
     }

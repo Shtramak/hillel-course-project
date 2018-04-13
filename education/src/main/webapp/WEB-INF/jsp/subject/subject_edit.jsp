@@ -16,7 +16,7 @@
 		<jsp:include page="_nav.jsp" />
 		<p style="color: red">${error}</p>
 		<div  class="container-fluid">
-			<form class="form" method="POST" action="/editSubject">
+			<form class="form" method="POST" action="/update/subject">
 				<!-- id -->
 				<div class="form-group col-6 mx-auto mt-5">
 					<label class="control-label col-2 label-inline" for="subjectId">SubjectID</label>
@@ -86,7 +86,7 @@
 				<div class="form-group col-10 mx-auto">
 				<div class="col-4 mx-auto">
 					<input type="submit" class="btn btn-primary" value="Update">
-					<a href="/subjectList"><input type="button" class="btn btn-outline-danger" value="Cancel"></a>
+					<a href="/list/subject"><input type="button" class="btn btn-outline-danger" value="Cancel"></a>
 				</div>
 			</div>
 			</form>

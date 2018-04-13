@@ -5,12 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
-import com.courses.tellus.entity.Subject;
-import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
-import com.courses.tellus.exception.jdbc.EntityIdNotFoundException;
+import com.courses.tellus.model.Subject;
 import org.apache.log4j.Logger;
 
 public class SubjectDao implements BasicDao<Subject> {
@@ -23,7 +23,7 @@ public class SubjectDao implements BasicDao<Subject> {
     }
 
     @Override
-    public List<Subject> getAll() throws DatabaseConnectionException {
+    public List<Subject> getAll() {
         final List<Subject> subjectList = new ArrayList<>();
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("SELECT * FROM SUBJECT");
@@ -34,30 +34,29 @@ public class SubjectDao implements BasicDao<Subject> {
             return subjectList;
         } catch (SQLException except) {
             LOGGER.error(except.getCause(), except);
-            throw new DatabaseConnectionException(except);
+            return Collections.emptyList();
         }
     }
 
     @Override
-    public Subject getById(final Long entityId) throws DatabaseConnectionException, EntityIdNotFoundException {
+    public Optional<Subject> getById(final Long entityId) {
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn
                     .prepareStatement("SELECT * FROM SUBJECT a WHERE a.subject_id = ?");
             preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
             final ResultSet resultSet = preState.executeQuery();
             if (resultSet.next()) {
-                return getNewObjectFromResultSet(resultSet);
-            } else {
-                throw new EntityIdNotFoundException();
+                return Optional.of(getNewObjectFromResultSet(resultSet));
             }
+            return Optional.empty();
         } catch (SQLException except) {
             LOGGER.error(except.getCause(), except);
-            throw new DatabaseConnectionException(except);
+            return Optional.empty();
         }
     }
 
     @Override
-    public int update(final Subject subject) throws DatabaseConnectionException {
+    public int update(final Subject subject) {
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement(
                     "UPDATE SUBJECT SET name = ?, descr = ?, valid = ?, date_of_creation = ? WHERE subject_id= ?");
@@ -69,24 +68,24 @@ public class SubjectDao implements BasicDao<Subject> {
             return preState.executeUpdate();
         } catch (SQLException except) {
             LOGGER.error(except.getCause(), except);
-            throw new DatabaseConnectionException(except);
+            return 0;
         }
     }
 
     @Override
-    public int delete(final Long entityId) throws DatabaseConnectionException {
+    public int delete(final Long entityId) {
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("DELETE FROM SUBJECT WHERE subject_id = ?");
             preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
             return preState.executeUpdate();
         } catch (SQLException except) {
             LOGGER.error(except.getCause(), except);
-            throw new DatabaseConnectionException(except);
+            return 0;
         }
     }
 
     @Override
-    public int insert(final Subject subject) throws DatabaseConnectionException {
+    public int insert(final Subject subject) {
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement(
                     "INSERT INTO SUBJECT(name, descr, valid, date_of_creation) VALUES (?, ?, ?, ?)");
@@ -97,7 +96,7 @@ public class SubjectDao implements BasicDao<Subject> {
             return preState.executeUpdate();
         } catch (SQLException except) {
             LOGGER.error(except.getCause(), except);
-            throw new DatabaseConnectionException(except);
+            return 0;
         }
     }
 

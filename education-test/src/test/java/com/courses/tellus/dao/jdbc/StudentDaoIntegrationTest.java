@@ -5,13 +5,14 @@ import java.util.List;
 import java.util.Optional;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
-import com.courses.tellus.entity.Student;
-import com.courses.tellus.exception.jdbc.EntityIdNotFoundException;
+import com.courses.tellus.model.Student;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class StudentDaoIntegrationTest {
 
@@ -49,14 +50,14 @@ class StudentDaoIntegrationTest {
 
     @Test
     void testGetEntityByIdAndReturnEntity() throws Exception {
-        Student student = studentDao
-                .getById(studentDao.getAll().get(0).getStudentId());
-        Assertions.assertEquals(student, this.student);
+        Optional<Student> student = studentDao.getById(studentDao.getAll().get(0).getStudentId());
+        Assertions.assertTrue(student.isPresent());
     }
 
     @Test
-    void testGetEntityByIdAndThrowException() throws Exception {
-        Assertions.assertThrows(EntityIdNotFoundException.class, () -> studentDao.getById(12L));
+    void testGetEntityByIdAndReturnFalse() throws Exception {
+        Optional<Student> student = studentDao.getById(12L);
+        assertFalse(student.isPresent());
     }
 
     @Test
@@ -66,12 +67,12 @@ class StudentDaoIntegrationTest {
     }
 
     @Test
-    void testDeleteSubject() throws Exception {
+    void testDeleteStudent() throws Exception {
         Assertions.assertEquals(1, studentDao.delete(1L));
     }
 
     @Test
-    void testInsertSubject() throws Exception {
+    void testInsertStudent() throws Exception {
         Assertions.assertEquals(1, studentDao.insert(student));
     }
 }

@@ -9,13 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.UniversityDao;
-import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
-import org.apache.log4j.Logger;
 
-@WebServlet(name = "deleteUniversity", value = "/deleteUniversity")
+@WebServlet(name = "deleteUniversity", value = "/delete/university")
 public class DeleteUniversityServlet extends HttpServlet {
+
     public static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger(DeleteUniversityServlet.class);
     private transient UniversityDao universityDao;
 
     @Override
@@ -27,13 +25,8 @@ public class DeleteUniversityServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
         final Long uniId = Long.parseLong(req.getParameter("uniId"));
-        try {
-            universityDao.delete(uniId);
-            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/universityDeleted.html").forward(req, resp);
-        } catch (DatabaseConnectionException exception) {
-            LOGGER.debug(exception.getCause(), exception);
-            req.setAttribute("error", exception);
-            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/listOfUniversities.jsp").forward(req, resp);
-        }
+        universityDao.delete(uniId);
+        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/universityDeleted.jsp")
+                .forward(req, resp);
     }
 }

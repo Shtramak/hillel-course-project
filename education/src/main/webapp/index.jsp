@@ -18,13 +18,13 @@
         <a href="/" class="navbar-brand">Universities</a>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/createUniversity">New University</a></li>
-                <li><a href="/listOfUniversities">All Universities</a></li>
+                <li><a href="/create/university">New University</a></li>
+                <li><a href="/list/universities">All Universities</a></li>
                 <li>
-                    <a href="/subjectList">Subject List</a>
+                    <a href="/list/subject">Subject List</a>
                 </li>
                 <li>
-                    <a href="/createSubject">Create Subject</a>
+                    <a href="/create/subject">Create Subject</a>
                 </li>
             </ul>
         </div>

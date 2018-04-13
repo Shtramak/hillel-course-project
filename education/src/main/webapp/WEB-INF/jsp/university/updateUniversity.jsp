@@ -17,8 +17,8 @@
         <a href="/" class="navbar-brand">Universities</a>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/createUniversity">New University</a></li>
-                <li><a href="/listOfUniversities">All Universities</a></li>
+                <li><a href="/create/university">New University</a></li>
+                <li><a href="/list/universities">All Universities</a></li>
             </ul>
         </div>
     </div>
@@ -27,7 +27,7 @@
 <div class="container text-center">
     <hr>
 
-    <form class="form-horizontal" method="POST" action="/updateUniversity">
+    <form class="form-horizontal" method="POST" action="/update/university">
             <input type="hidden" readonly name="uniId" value="${university.uniId}"/>
         <div class="form-group">
             <label class="control-label col-md-3" for="nameOfUniversity">NameOfUniversity</label>

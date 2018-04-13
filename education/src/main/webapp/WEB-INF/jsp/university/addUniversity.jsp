@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
@@ -16,8 +17,8 @@
         <a href="/" class="navbar-brand">Universities</a>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/createUniversity">New University</a></li>
-                <li><a href="/listOfUniversities">All Universities</a></li>
+                <li><a href="/create/university">New University</a></li>
+                <li><a href="/list/universities">All Universities</a></li>
             </ul>
         </div>
     </div>
@@ -25,7 +26,7 @@
 
 <div class="container text-center">
     <hr>
-    <form class="form-horizontal" action="/createUniversity" method="POST">
+    <form class="form-horizontal" action="/create/university" method="POST">
         <div class="form-group">
             <label class="control-label col-md-3">NameOfUniversity</label>
             <div class="col-md-7">

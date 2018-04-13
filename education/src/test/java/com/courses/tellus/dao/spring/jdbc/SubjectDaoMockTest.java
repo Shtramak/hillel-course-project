@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import com.courses.tellus.entity.Subject;
+import com.courses.tellus.model.Subject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

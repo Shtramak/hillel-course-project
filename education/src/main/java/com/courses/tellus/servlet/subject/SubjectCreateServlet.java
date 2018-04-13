@@ -10,15 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.SubjectDao;
-import com.courses.tellus.entity.Subject;
-import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
-import org.apache.log4j.Logger;
+import com.courses.tellus.model.Subject;
 
-@WebServlet(name = "createSubject", value = "/createSubject")
+@WebServlet(name = "createSubject", value = "/create/subject")
 public class SubjectCreateServlet extends HttpServlet {
 
     public static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger(SubjectCreateServlet.class);
     private transient SubjectDao subjectDao;
 
     @Override
@@ -35,17 +32,9 @@ public class SubjectCreateServlet extends HttpServlet {
     @Override
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
-        try {
-            final Subject subject = createEntityFromRequest(req);
-            subjectDao.insert(subject);
-            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/subject/subject_create.jsp")
-                    .forward(req, resp);
-        } catch (DatabaseConnectionException except) {
-            LOGGER.error(except.getCause(), except);
-            req.setAttribute("error", except.getMessage());
-            req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/subject/general_error.jsp")
-                    .forward(req, resp);
-        }
+        final Subject subject = createEntityFromRequest(req);
+        subjectDao.insert(subject);
+        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/subject/subject_list.jsp").forward(req, resp);
     }
 
     private Subject createEntityFromRequest(final HttpServletRequest request) {
@@ -56,6 +45,5 @@ public class SubjectCreateServlet extends HttpServlet {
         final int month = Integer.parseInt(request.getParameter("month"));
         final int year = Integer.parseInt(request.getParameter("year"));
         return new Subject(name, description, valid, new GregorianCalendar(year, month, day));
-
     }
 }

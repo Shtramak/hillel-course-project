@@ -6,14 +6,12 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
-import com.courses.tellus.entity.Subject;
-import com.courses.tellus.exception.jdbc.EntityIdNotFoundException;
+import com.courses.tellus.model.Subject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class SubjectDaoMockTest {
@@ -65,15 +63,15 @@ class SubjectDaoMockTest {
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(true);
         getSubjectFromResultSet();
-        assertEquals(subject, (subjectDao.getById(1L)));
+        assertTrue(subjectDao.getById(1L).isPresent());
     }
 
     @Test
-    void testGetEntityByIdAndThrowException() throws Exception {
+    void testGetEntityByIdAndReturnFalse() throws Exception {
         mockPreState.setLong(1, 1L);
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(false);
-        assertThrows(EntityIdNotFoundException.class, () -> subjectDao.getById(1L));
+        assertFalse((subjectDao.getById(1L)).isPresent());
     }
 
     @Test

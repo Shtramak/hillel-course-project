@@ -2,8 +2,7 @@ package com.courses.tellus.servlet.university;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.UniversityDao;
-import com.courses.tellus.entity.University;
-import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
+import com.courses.tellus.model.University;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -17,9 +16,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.spy;
@@ -45,12 +41,14 @@ public class GetAllUniversitiesServletTest {
         given(request.getServletContext()).willReturn(servletContext);
         given(servletContext.getRequestDispatcher(anyString())).willReturn(dispatcher);
     }
+
     @Test
     void doPostTest() throws Exception {
         field.set(servlet ,universityDao);
         servlet.doPost(request, response);
         verify(universityDao, atLeastOnce()).getAll();
     }
+
     @Test
     void doGetTestWhenReturnListOfUniversities() throws Exception {
         field.set(servlet ,universityDao);
@@ -61,6 +59,7 @@ public class GetAllUniversitiesServletTest {
         servlet.doGet(request, response);
         verify(request, atLeastOnce()).setAttribute(eq("universityList"), any(List.class));
     }
+
     @Test
     void doGetTestWhenDataBaseIsEmpty() throws Exception {
         field.set(servlet ,universityDao);
@@ -69,13 +68,7 @@ public class GetAllUniversitiesServletTest {
         servlet.doGet(request, response);
         verify(request, atLeastOnce()).setAttribute(eq("dbIsEmpty"), any(String.class));
     }
-    @Test
-    void doGetTestWhenThrowException() throws Exception {
-        field.set(servlet ,universityDao);
-        willThrow(DatabaseConnectionException.class).given(universityDao).getAll();
-        servlet.doGet(request, response);
-        verify(request, atLeastOnce()).setAttribute(eq("error"), any());
-    }
+
     @Test
     void initMethodTest() throws Exception {
         ConnectionFactory factoryForTest = mock(ConnectionFactory.class);

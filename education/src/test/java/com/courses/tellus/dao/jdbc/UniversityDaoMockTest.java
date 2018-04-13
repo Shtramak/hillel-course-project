@@ -14,15 +14,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.courses.tellus.dao.jdbc.UniversityDao;
-import com.courses.tellus.exception.jdbc.EntityIdNotFoundException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
-import com.courses.tellus.entity.University;
+import com.courses.tellus.model.University;
 
 class UniversityDaoMockTest {
 
@@ -54,16 +51,16 @@ class UniversityDaoMockTest {
         when(mockPreState.executeQuery()).thenReturn(mockResultSet);
         when(mockResultSet.next()).thenReturn(true);
         setUniversityInResultSetMock();
-        assertEquals(university, universityDao.getById(university.getUniId()));
+        assertTrue((universityDao.getById(university.getUniId())).isPresent());
     }
 
     @Test
-    void testGetByIdAndThrowException() throws Exception {
+    void testGetByIdWhenReturnFalse() throws Exception {
         mockPreState.setLong(1, 1);
         when(mockPreState.executeQuery()).thenReturn(mockResultSet);
         when(mockResultSet.next()).thenReturn(false);
         setUniversityInResultSetMock();
-        assertThrows(EntityIdNotFoundException.class, () -> universityDao.getById(university.getUniId()));
+        assertFalse((universityDao.getById(university.getUniId())).isPresent());
     }
 
     @Test
@@ -74,7 +71,7 @@ class UniversityDaoMockTest {
         when(mockResultSet.next()).thenReturn(true).thenReturn(false);
         setUniversityInResultSetMock();
         spy.add(university);
-        assertEquals(1, (universityDao.getAll()).size());
+        assertEquals(1, universityDao.getAll().size());
     }
 
     @Test

@@ -7,18 +7,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.lang.reflect.Field;
 import java.util.GregorianCalendar;
+import java.util.Optional;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.SubjectDao;
-import com.courses.tellus.entity.Subject;
-import com.courses.tellus.exception.jdbc.DatabaseConnectionException;
-import com.courses.tellus.exception.jdbc.EntityIdNotFoundException;
+import com.courses.tellus.model.Subject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -57,18 +55,9 @@ class SubjectEditServletMockTest {
     void doGetTestAndGetSubjectParamsWhenActive() throws Exception {
         field.set(servlet, subjectDao);
         when(request.getParameter("subjectId")).thenReturn("1");
-        when(subjectDao.getById(anyLong())).thenReturn(subject);
+        when(subjectDao.getById(anyLong())).thenReturn(Optional.of(subject));
         servlet.doGet(request, response);
         verify(subjectDao, atLeastOnce()).getById(anyLong());
-    }
-
-    @Test
-    void doGetTestAndThrowException() throws Exception {
-        field.set(servlet, subjectDao);
-        when(request.getParameter("subjectId")).thenReturn("1");
-        when(subjectDao.getById(anyLong())).thenThrow(EntityIdNotFoundException.class);
-        servlet.doGet(request, response);
-        verify(request, atLeastOnce()).setAttribute(anyString(), any());
     }
 
     @Test
@@ -76,14 +65,6 @@ class SubjectEditServletMockTest {
         field.set(servlet, subjectDao);
         servlet.doPost(request, response);
         verify(subjectDao, atLeastOnce()).update(subject);
-    }
-
-    @Test
-    void doPostTestAndThrowException() throws Exception {
-        field.set(servlet, subjectDao);
-        when(subjectDao.update(subject)).thenThrow(DatabaseConnectionException.class);
-        servlet.doPost(request, response);
-        verify(request, atLeastOnce()).setAttribute(anyString(), any());
     }
 
     @Test

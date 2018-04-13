@@ -5,12 +5,12 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.dao.jdbc.SubjectDao;
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
-import com.courses.tellus.entity.Subject;
-import com.courses.tellus.exception.jdbc.EntityIdNotFoundException;
+import com.courses.tellus.model.Subject;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SubjectDaoIntegrationTest {
 
@@ -48,13 +48,14 @@ class SubjectDaoIntegrationTest {
 
     @Test
     void testGetEntityByIdAndReturnEntity() throws Exception {
-        Subject subject = subjectDao.getById(subjectDao.getAll().get(0).getSubjectId());
-        Assertions.assertEquals(this.subject, subject);
+        Optional<Subject> subject = subjectDao.getById(subjectDao.getAll().get(0).getSubjectId());
+        assertTrue(subject.isPresent());
     }
 
     @Test
-    void testGetEntityByIdAndIdNotFoundException() throws Exception {
-        Assertions.assertThrows(EntityIdNotFoundException.class, () -> subjectDao.getById(12L));
+    void testGetEntityByIdAndReturnFalse() throws Exception {
+        Optional<Subject> subject = subjectDao.getById(12L);
+        Assertions.assertFalse(subject.isPresent());
     }
 
     @Test

@@ -4,17 +4,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.courses.tellus.dao.jdbc.StudentDao;
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
-import com.courses.tellus.entity.Student;
-import com.courses.tellus.exception.jdbc.EntityIdNotFoundException;
-import org.junit.jupiter.api.Assertions;
+import com.courses.tellus.model.Student;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -51,13 +47,13 @@ class StudentDaoMockTest {
         when(mockResSet.next()).thenReturn(true).thenReturn(false);
         getSubjectFromResultSet();
         spy.add(student);
-        assertEquals(1, (studentDao.getAll()).size());
+        assertEquals(1, studentDao.getAll().size());
     }
 
     @Test
     void testGetAllEntityAndReturnEmptyList() throws Exception {
         when(mockResSet.next()).thenReturn(false);
-        assertEquals(0, (studentDao.getAll()).size());
+        assertEquals(0, studentDao.getAll().size());
     }
 
     @Test
@@ -66,15 +62,15 @@ class StudentDaoMockTest {
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(true);
         getSubjectFromResultSet();
-        assertEquals(student, studentDao.getById(1L));
+        assertTrue((studentDao.getById(1L)).isPresent());
     }
 
     @Test
-    void testGetEntityByIdAndThrowException() throws Exception {
+    void testGetEntityByIdAndReturnFalse() throws Exception {
         mockPreState.setLong(1, 1L);
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(false);
-        assertThrows(EntityIdNotFoundException.class,() -> studentDao.getById(1L));
+        assertFalse((studentDao.getById(1L)).isPresent());
     }
 
     @Test
