@@ -2,24 +2,19 @@ package com.courses.tellus.config.spring.mvc;
 
 import javax.sql.DataSource;
 
-import org.postgresql.ds.PGSimpleDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-@EnableWebMvc
 @Configuration
 @PropertySource("classpath:properties/db.properties")
 public class JdbcTemplateConfig {
 
     /**
-     *
+     * Provide data source for H2 database in-memory.
      * @return dataSource.
      */
     @Bean

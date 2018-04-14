@@ -19,26 +19,25 @@
 			<form class="form" method="POST" action="/subject/edit">
 				<!-- id -->
 				<div class="form-group col-6 mx-auto mt-5">
-					<label class="control-label col-2 label-inline" for="subjectId">SubjectID</label>
+					<label class="control-label col-2 label-inline" >SubjectID</label>
 					<div class="col-10">
-						<input type="text" readonly class="form-control-plaintext" id="subjectId" name="subjectId"
+						<input type="text" readonly class="form-control-plaintext" name="subjectId"
 							   value="${subject.subjectId}">
 					</div>
 				</div>
 				<!-- name -->
 				<div class="form-group col-6 mx-auto">
-					<label class="control-label col-9 text-center" for="name">Subject name</label>
+					<label class="control-label col-9 text-center" >Subject name</label>
 					<div class="col-10">
-						<input type="text" class="form-control" id="name" name="name" value="${subject.name}"
+						<input type="text" class="form-control" name="name" value="${subject.name}"
 							   placeholder="Input your name">
 					</div>
 				</div>
 				<!-- description -->
 				<div class="form-group col-6 mx-auto">
-					<label class="control-label col-9 text-center" for="description">Description</label>
+					<label class="control-label col-9 text-center" >Description</label>
 					<div class="col-10">
-						<textarea class="form-control" id="description"
-								  name="description">${subject.description}</textarea>
+						<textarea class="form-control" name="description">${subject.description}</textarea>
 					</div> 
 				</div>
 				<!-- valid -->
@@ -46,11 +45,11 @@
 					<label class="control-label col-9 text-center">Valid</label>
 					<div class="col-6 mx-auto">
 						<label class="radio-inline">
-							<input required type="radio" name="valid" value="Y"
+							<input required type="radio" name="valid" value="true"
 								   <c:if test="${subject.valid==true}">checked</c:if>> Active
 						</label>
 						<label class="radio-inline">
-							<input required type="radio" name="valid" value="N"
+							<input required type="radio" name="valid" value="true"
 								   <c:if test="${subject.valid==false}">checked</c:if>> Deprecated
 						</label>
 					</div>
@@ -63,7 +62,7 @@
 							<label class="control-label col-4 mx-auto">Date</label>
 							<div class="col-4">
 								<input type="date" class="form-control form-inline" name="dateOfCreation"
-									   id="dateOfCreation" value="${subject.dateOfCreation}" placeholder="DD/MM/YYYY" />
+									   value="${subject.dateOfCreation}" />
 							</div>
 						</div>
 					</div>

@@ -13,9 +13,13 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan("com.courses.tellus")
 public class WebAppConfig implements WebMvcConfigurer {
 
+    /**
+     * Provide configuration for views.
+     * @return ViewResolver
+     */
     @Bean
     public InternalResourceViewResolver setupViewResolver() {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        final InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix("/WEB-INF/jsp/");
         resolver.setSuffix(".jsp");
         resolver.setViewClass(JstlView.class);

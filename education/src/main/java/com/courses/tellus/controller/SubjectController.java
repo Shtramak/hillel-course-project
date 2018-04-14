@@ -3,56 +3,97 @@ package com.courses.tellus.controller;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.dao.spring.jdbc.SubjectDao;
-import com.courses.tellus.entity.Subject;
+import com.courses.tellus.dto.SubjectDTO;
+import com.courses.tellus.model.Subject;
+import com.courses.tellus.service.SubjectServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping(value = "/subject")
+@RequestMapping("/subject")
 public class SubjectController {
 
-    @Autowired
-    private transient SubjectDao subjectDao;
+    private final transient SubjectServiceImpl subjectService;
+    private static final String MAIN_PATH = "redirect:/subject";
 
+    @Autowired
+    public SubjectController(final SubjectServiceImpl subjectService) {
+        this.subjectService = subjectService;
+    }
+
+    /**
+     * Method provide all subjects from database to view.
+     *
+     * @return model with subjects and view "subject_list.jsp"
+     */
     @GetMapping
     public ModelAndView getAllEntity() {
-        List<Subject> subjectList = subjectDao.getAll();
+        final List<Subject> subjectList = subjectService.getAll();
         return new ModelAndView("subject_list", "subjectList", subjectList);
     }
 
-    @GetMapping(value = "/add")
+    /**
+     * Method provide view for creating new subject.
+     *
+     * @return view "subject_create.jsp"
+     */
+    @GetMapping("/add")
     public ModelAndView insertEntity() {
         return new ModelAndView("subject_create");
     }
 
-    @PostMapping(value = "/add")
-    public ModelAndView insertEntity(@RequestParam("name") String name,
-                                     @RequestParam("description") String description,
-                                     @RequestParam("valid") boolean valid,
-                                     @RequestParam("dateOfCreation") String date) {
-        subjectDao.insert(new Subject(name, description, valid, date));
-        return new ModelAndView("subject_create");
+    /**
+     * Method provide creating new object and insert into database.
+     *
+     * @param subject dto object obtained from jsp
+     * @return to /subject path
+     */
+    @PostMapping("/add")
+    public ModelAndView insertEntity(@ModelAttribute("subject") final SubjectDTO subject) {
+        subjectService.insert(subject);
+        return new ModelAndView(MAIN_PATH);
     }
 
-    @GetMapping(value = "/{id:[\\d]+}/delete")
-    public ModelAndView deleteEntity(@PathVariable("id") Long subjectId) {
-        subjectDao.delete(subjectId);
-        return new ModelAndView("redirect:/subject");
+    /**
+     * Method provide delete subject from database.
+     *
+     * @param subjectId part of path and id of needed object
+     * @return to /subject path
+     */
+    @GetMapping("/delete/{id:[\\d]+}")
+    public ModelAndView deleteEntity(@PathVariable("id") final Long subjectId) {
+        subjectService.delete(subjectId);
+        return new ModelAndView(MAIN_PATH);
     }
 
-    @GetMapping(value = "/{id:[\\d]+}/edit")
-    public ModelAndView updateEntity(@PathVariable("id") Long subjectId) {
-        Optional<Subject> opt = subjectDao.getById(subjectId);
+    /**
+     * Method provide search in database by id and return it to view.
+     *
+     * @param subjectId part of path and id of needed object
+     * @return model with subject and view "subject_edit.jsp" or redirect to /subject path
+     */
+    @GetMapping("/edit/{id:[\\d]+}")
+    public ModelAndView updateEntity(@PathVariable("id") final Long subjectId) {
+        final Optional<Subject> opt = subjectService.getById(subjectId);
         return opt.map(subject -> new ModelAndView("subject_edit", "subject", subject))
-                .orElseGet(() -> new ModelAndView("subject_list"));
+                .orElseGet(() -> new ModelAndView(MAIN_PATH));
     }
 
-    @PostMapping(value = "/edit")
-    public ModelAndView updateEntity(@ModelAttribute("subject") Subject subject) {
-        subjectDao.update(subject);
-        return new ModelAndView("redirect:/subject");
+    /**
+     * Method provide updating object into database.
+     *
+     * @param subject dto object obtained from jsp
+     * @return to /subject path
+     */
+    @PostMapping("/edit")
+    public ModelAndView updateEntity(@ModelAttribute("subject") final SubjectDTO subject) {
+        subjectService.update(subject);
+        return new ModelAndView(MAIN_PATH);
     }
 }

@@ -17,18 +17,17 @@
 			<form class="form" method="POST" action="/subject/add">
 				<!-- name -->
 				<div class="form-group col-6 mx-auto mt-5">
-					<label class="control-label col-9 text-center" for="name">Subject name</label>
+					<label class="control-label col-9 text-center" >Subject name</label>
 					<div class="col-10">
-						<input type="text" class="form-control" id="name" name="name" value="${name}"
+						<input type="text" class="form-control" name="name" value="${subject.name}"
 							   placeholder="Input your name">
 					</div>
 				</div>
 				<!-- description -->
 				<div class="form-group col-6 mx-auto">
-					<label class="control-label col-9 text-center" for="description">Description</label>
+					<label class="control-label col-9 text-center" >Description</label>
 					<div class="col-10">
-						<textarea class="form-control" id="description" name="description"
-								  value="${description}"></textarea>
+						<textarea class="form-control" name="description" value="${subject.description}"></textarea>
 					</div> 
 				</div>
 				<!-- valid -->
@@ -47,8 +46,8 @@
 				<div class="form-group col-9 mx-auto">
 					<label class="control-label col-10 text-center">Date of creation</label>
 					<div class="form-inline col-10">
-						<input type="date" class="form-control form-inline" id="dateOfCreation" name="dateOfCreation"
-							   value="${dateOfCreation}" placeholder="DD/MM/YYYY">
+						<input type="date" class="form-control form-inline" name="dateOfCreation"
+							   value="${subject.dateOfCreation}">
 					</div>
 				</div>
 			<br />
