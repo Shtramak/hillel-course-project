@@ -55,15 +55,11 @@
 					</div>
 				</div>
 				<!-- date_of_creation -->
-				<div class="form-group col-9 mx-auto">
-					<label class="control-label col-10 text-center">Date of creation</label>
-					<div class="form-inline col-10">
-						<div class="col-4">
-							<label class="control-label col-4 mx-auto">Date</label>
-							<div class="col-4">
-								<input type="date" class="form-control form-inline" name="dateOfCreation"
-									   value="${subject.dateOfCreation}" />
-							</div>
+				<div class="form-group col-3 mx-auto">
+					<label class="control-label col-12 ">Date of creation</label>
+					<div class="form-inline col-12">
+						<input type="date" class="form-control form-inline" name="dateOfCreation"
+							   value="${subject.dateOfCreation}" />
 						</div>
 					</div>
 				</div>
