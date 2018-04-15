@@ -1,4 +1,4 @@
-package com.courses.tellus.entity;
+package com.courses.tellus.model;
 
 import java.util.GregorianCalendar;
 import java.util.Objects;
@@ -89,6 +89,16 @@ public class Subject {
 
     public void setDateOfCreation(final Long dateOfCreation) {
         this.dateOfCreation = dateOfCreation;
+    }
+
+    /**
+     * Overloaded method of setting parsed time to long.
+     * @param day of creation
+     * @param month of creation
+     * @param year of creation
+     */
+    public void setDateOfCreation(final int day, final int month, final int year) {
+        this.dateOfCreation = new GregorianCalendar(year, month, day).getTimeInMillis();
     }
 
     @Override

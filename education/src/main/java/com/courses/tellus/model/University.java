@@ -1,4 +1,4 @@
-package com.courses.tellus.entity;
+package com.courses.tellus.model;
 
 import java.util.Objects;
 
@@ -20,6 +20,12 @@ public class  University  {
     public University(final Long uniId, final String nameOfUniversity, final String address,
                       final String specialization) {
         this.uniId = uniId;
+        this.nameOfUniversity = nameOfUniversity;
+        this.address = address;
+        this.specialization = specialization;
+    }
+
+    public University(final String nameOfUniversity, final String address, final String specialization) {
         this.nameOfUniversity = nameOfUniversity;
         this.address = address;
         this.specialization = specialization;
@@ -59,7 +65,7 @@ public class  University  {
 
     @Override
     public String toString() {
-        return "University{"
+        return "university{"
                 + "uniId=" + uniId
                 + ", nameOfUniversity='" + nameOfUniversity + '\''
                 + ", address='" + address + '\''
