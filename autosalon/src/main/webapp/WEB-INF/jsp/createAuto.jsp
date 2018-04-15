@@ -8,7 +8,7 @@
 <body>
 <div align="center">
     <h3>Create Auto</h3>
-    <form method="post" action="createAuto">
+    <form method="post" action="create">
         <table border="2" cellpadding="5" cellspacing="5">
             <tr>
                 <td>Auto Brend: </td>

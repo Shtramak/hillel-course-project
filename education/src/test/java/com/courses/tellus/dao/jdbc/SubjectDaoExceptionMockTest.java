@@ -6,15 +6,15 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.dao.jdbc.SubjectDao;
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
 
-import com.courses.tellus.entity.Subject;
-import org.junit.jupiter.api.Assertions;
+import com.courses.tellus.model.Subject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -42,28 +42,28 @@ class SubjectDaoExceptionMockTest {
 
     @Test
     void testGetAllEntity() throws Exception {
-        Optional<List<Subject>> opt = subjectDao.getAll();
-        Assertions.assertFalse(opt.isPresent());
+        List<Subject> opt = subjectDao.getAll();
+        assertEquals(0, opt.size());
     }
 
     @Test
     void testGetEntityById() throws Exception {
         Optional<Subject> opt = subjectDao.getById(1L);
-        Assertions.assertFalse(opt.isPresent());
+        assertFalse(opt.isPresent());
     }
 
     @Test
     void testUpdateSubject() throws Exception {
-        Assertions.assertEquals(0, subjectDao.update(subject));
+        assertEquals(0, subjectDao.update(subject));
     }
 
     @Test
     void testDeleteSubject() throws Exception {
-        Assertions.assertEquals(0, subjectDao.delete(1L));
+        assertEquals(0, subjectDao.delete(1L));
     }
 
     @Test
     void testInsertSubject() throws Exception {
-        Assertions.assertEquals(0, subjectDao.insert(subject));
+        assertEquals(0, subjectDao.insert(subject));
     }
 }

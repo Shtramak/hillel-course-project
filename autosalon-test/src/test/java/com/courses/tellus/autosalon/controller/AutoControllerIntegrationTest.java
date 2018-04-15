@@ -42,21 +42,21 @@ public class AutoControllerIntegrationTest {
 
     @Test
     public void testListAuto() throws Exception {
-        this.mockMvc.perform(get("/autosalon/auto/listAuto"))
+        this.mockMvc.perform(get("/autosalon/auto/list"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("listAuto"));
     }
 
     @Test
     public void testCreateAutoGetMethod() throws Exception {
-        this.mockMvc.perform(get("/autosalon/auto/createAuto"))
+        this.mockMvc.perform(get("/autosalon/auto/create"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("createAuto"));
     }
 
     @Test
     public void testCreateAutoPostMethod() throws Exception {
-        MockHttpServletRequestBuilder builder = post("/autosalon/auto/createAuto")
+        MockHttpServletRequestBuilder builder = post("/autosalon/auto/create")
                 .param("id", "6")
                 .param("brand", "Toyota")
                 .param("model", "Camry")
@@ -64,12 +64,12 @@ public class AutoControllerIntegrationTest {
                 .param("producerCountry", "Japan")
                 .param("price", "300000");
         this.mockMvc.perform(builder)
-                .andExpect(view().name("redirect:listAuto"));
+                .andExpect(view().name("redirect:list"));
     }
 
     @Test
     public void testGetAutoById() throws Exception {
-        this.mockMvc.perform(get("/autosalon/auto/idAuto/1"))
+        this.mockMvc.perform(get("/autosalon/auto/id/1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("showAuto"));
     }
@@ -83,7 +83,7 @@ public class AutoControllerIntegrationTest {
 
     @Test
     public void testUpdateAutoPostMethod() throws Exception {
-        MockHttpServletRequestBuilder builder = post("/autosalon/auto/updateAuto")
+        MockHttpServletRequestBuilder builder = post("/autosalon/auto/update")
                 .param("id", "6")
                 .param("brand", "Toyota")
                 .param("model", "Camry")
@@ -91,13 +91,6 @@ public class AutoControllerIntegrationTest {
                 .param("producerCountry", "Japan")
                 .param("price", "300000");
         this.mockMvc.perform(builder)
-                .andExpect(view().name("redirect:listAuto"));
-    }
-
-    @Test
-    public void testIndex() throws Exception {
-        this.mockMvc.perform(get("/autosalon/auto/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("index"));
+                .andExpect(view().name("redirect:list"));
     }
 }

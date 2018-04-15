@@ -5,11 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
-import com.courses.tellus.entity.Student;
+import com.courses.tellus.model.Student;
 import org.apache.log4j.Logger;
 
 public class StudentDao implements BasicDao<Student> {
@@ -22,7 +23,7 @@ public class StudentDao implements BasicDao<Student> {
     }
 
     @Override
-    public Optional<List<Student>> getAll() {
+    public List<Student> getAll() {
         final List<Student> studentList = new ArrayList<>();
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("SELECT * FROM STUDENT");
@@ -30,10 +31,10 @@ public class StudentDao implements BasicDao<Student> {
             while (resultSet.next()) {
                 studentList.add(getNewObjectFromResultSet(resultSet));
             }
-            return Optional.of(studentList);
+            return studentList;
         } catch (SQLException except) {
-            LOGGER.error(except);
-            return Optional.empty();
+            LOGGER.error(except.getCause(), except);
+            return Collections.emptyList();
         }
     }
 
@@ -49,7 +50,7 @@ public class StudentDao implements BasicDao<Student> {
             }
             return Optional.empty();
         } catch (SQLException except) {
-            LOGGER.error(except);
+            LOGGER.error(except.getCause(), except);
             return Optional.empty();
         }
     }
@@ -67,7 +68,7 @@ public class StudentDao implements BasicDao<Student> {
             preState.setLong(OrderUtils.FIFTH_STATEMENT.getOrder(), student.getStudentId());
             return preState.executeUpdate();
         } catch (SQLException except) {
-            LOGGER.error(except);
+            LOGGER.error(except.getCause(), except);
             return 0;
         }
     }
@@ -79,14 +80,14 @@ public class StudentDao implements BasicDao<Student> {
             preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
             return preState.executeUpdate();
         } catch (SQLException except) {
-            LOGGER.error(except);
+            LOGGER.error(except.getCause(), except);
             return 0;
         }
     }
 
     @Override
     public int insert(final Student student) {
-        try (Connection conn = connectionFactory.getConnection()) {
+        try (Connection conn = connectionFactory.getConnection())  {
             final PreparedStatement preState = conn.prepareStatement(
                     "INSERT INTO STUDENT(firstName, lastName, student_card_number, address) VALUES (?, ?, ?, ?)");
             preState.setString(OrderUtils.FIRST_STATEMENT.getOrder(), student.getFirstName());
@@ -95,7 +96,7 @@ public class StudentDao implements BasicDao<Student> {
             preState.setString(OrderUtils.FOURTH_STATEMENT.getOrder(), student.getAddress());
             return preState.executeUpdate();
         } catch (SQLException except) {
-            LOGGER.error(except);
+            LOGGER.error(except.getCause(), except);
             return 0;
         }
     }

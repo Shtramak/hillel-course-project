@@ -1,9 +1,8 @@
 package com.courses.tellus.autosalon.service;
 
-import com.courses.tellus.autosalon.model.Autosalon;
-
 import java.util.List;
-import java.util.Optional;
+
+import com.courses.tellus.autosalon.model.Autosalon;
 
 public interface AutosalonService {
     /**

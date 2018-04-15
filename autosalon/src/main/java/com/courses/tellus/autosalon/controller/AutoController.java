@@ -24,20 +24,11 @@ public class AutoController {
     }
 
     /**
-     *Get page index.html.
-     * @return page index.
-     */
-    @GetMapping("/")
-    public String index() {
-        return "index";
-    }
-
-    /**
-     *Get list of auto.
+     * Get all auto.
      * @param model model.
-     * @return page listAuto.
+     * @return list of auto.
      */
-    @GetMapping("/listAuto")
+    @GetMapping("/list")
     public String getAllAuto(final Model model) {
         model.addAttribute("autoList", autoService.getAll());
         return "listAuto";
@@ -48,17 +39,17 @@ public class AutoController {
      * @param auto auto.
      * @return page listAuto.
      */
-    @PostMapping("/createAuto")
+    @PostMapping("/create")
     public String createAuto(final Auto auto) {
         autoService.insert(auto);
-        return "redirect:listAuto";
+        return "redirect:list";
     }
 
     /**
      *Show form for create new auto.
      * @return page createAuto.
      */
-    @GetMapping("/createAuto")
+    @GetMapping("/create")
     public String createAutoPage() {
         return "createAuto";
     }
@@ -69,7 +60,7 @@ public class AutoController {
      * @param model model.
      * @return page showAuto.
      */
-    @GetMapping("/idAuto/{id}")
+    @GetMapping("/id/{id}")
     public String getAutoById(@PathVariable("id") final Long idAuto, final Model model) {
         final Optional<Auto> auto = autoService.getAutoById(idAuto);
         model.addAttribute("auto", auto.get());
@@ -84,7 +75,7 @@ public class AutoController {
     @GetMapping("/{id}")
     public String deleteAutoByid(@PathVariable("id") final Long idAuto) {
             autoService.delete(idAuto);
-            return "redirect:listAuto";
+            return "redirect:list";
     }
 
     /**
@@ -105,9 +96,9 @@ public class AutoController {
      * @param auto auto.
      * @return page listAuto.
      */
-    @PostMapping("/updateAuto")
+    @PostMapping("/update")
     public String updateAuto(final Auto auto) {
         autoService.update(auto);
-        return "redirect:listAuto";
+        return "redirect:list";
     }
 }

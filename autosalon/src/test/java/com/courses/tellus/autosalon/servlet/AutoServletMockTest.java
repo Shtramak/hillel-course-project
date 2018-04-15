@@ -13,7 +13,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.Map;
 
 import static org.mockito.Mockito.*;
 
@@ -31,9 +34,19 @@ public class AutoServletMockTest {
     MainServlet autoServlet;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws IOException, NoSuchFieldException, IllegalAccessException {
         MockitoAnnotations.initMocks(this);
         autoServlet = new MainServlet();
+
+        AutoHeandler autoHeandler = new AutoHeandler();
+        Field daoField = autoHeandler.getClass().getDeclaredField("autoDao");
+        daoField.setAccessible(true);
+        daoField.set(autoHeandler, autoDao);
+
+        Field factory = HandlerFactory.class.getDeclaredField("handlerMap");
+        factory.setAccessible(true);
+        Map<String, InternalHandler> handlerMap = Collections.singletonMap("auto", autoHeandler);
+        factory.set(HandlerFactory.class, handlerMap);
     }
 
     @Test

@@ -8,11 +8,11 @@ import java.util.Optional;
 public interface BasicDao<E> {
 
     /**
-     * Method for returning all object from database in Option wrapper.
+     * Method for returning all object from database.
      *
-     * @return list with all Object in Option wrapper or empty Optional if exception
+     * @return list with all Object or empty list
      */
-    Optional<List<E>> getAll();
+    List<E> getAll();
 
     /**
      * Method for returning object by unique id from database in Option wrapper.

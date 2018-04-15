@@ -1,12 +1,11 @@
 package com.courses.tellus.autosalon.service;
 
+import java.util.List;
+
 import com.courses.tellus.autosalon.dao.springjdbc.AutosalonDao;
 import com.courses.tellus.autosalon.model.Autosalon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AutosalonServiceImpl implements AutosalonService {
@@ -24,7 +23,7 @@ public class AutosalonServiceImpl implements AutosalonService {
     }
 
     @Override
-    public Integer insert(Autosalon autosalon) {
+    public Integer insert(final Autosalon autosalon) {
         return autosalonDao.insert(autosalon);
     }
 }

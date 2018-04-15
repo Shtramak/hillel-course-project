@@ -19,7 +19,7 @@
             </tr>
             <c:forEach var="auto" items="${autoList}">
                 <tr>
-                    <td><a href="/springmvc/autosalon/auto/idAuto/${auto.id}">${auto.id}</a></td>
+                    <td><a href="/springmvc/autosalon/auto/id/${auto.id}">${auto.id}</a></td>
                     <td>${auto.brand}</td>
                     <td>${auto.model}</td>
                     <td>${auto.manufactYear}</td>

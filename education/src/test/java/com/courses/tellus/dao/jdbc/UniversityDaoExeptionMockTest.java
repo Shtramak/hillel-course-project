@@ -9,13 +9,12 @@ import static org.mockito.Mockito.when;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.courses.tellus.dao.jdbc.UniversityDao;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.courses.tellus.connection.jdbc.ConnectionFactory;
-import com.courses.tellus.entity.University;
+import com.courses.tellus.model.University;
 
 public class UniversityDaoExeptionMockTest {
     private static ConnectionFactory connectionFactory;
@@ -38,18 +37,13 @@ public class UniversityDaoExeptionMockTest {
     }
 
     @Test
-    void testGetByIdWhenReturnNull() throws Exception {
-        assertFalse((universityDao.getById(15L)).isPresent());
-    }
-
-    @Test
     void testGetByIdException() throws Exception {
         assertFalse((universityDao.getById(1L)).isPresent());
     }
 
     @Test
     void testGetAllUniversitiesExeption() throws Exception {
-        assertFalse((universityDao.getAll()).isPresent());
+        assertEquals(0, universityDao.getAll().size());
     }
 
     @Test

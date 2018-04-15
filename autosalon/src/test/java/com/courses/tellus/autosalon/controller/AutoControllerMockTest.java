@@ -53,7 +53,7 @@ public class AutoControllerMockTest {
     @Test
     public void  testCreateAutoMethodPost(){
         when(autoService.insert(anyObject())).thenReturn(1);
-        assertEquals("redirect:listAuto", autoController.createAuto(auto));
+        assertEquals("redirect:list", autoController.createAuto(auto));
     }
 
     @Test
@@ -70,7 +70,7 @@ public class AutoControllerMockTest {
     @Test
     public void testUpdateAutoMethodPost(){
         when(autoService.update(anyObject())).thenReturn(1);
-        assertEquals("redirect:listAuto", autoController.updateAuto(auto));
+        assertEquals("redirect:list", autoController.updateAuto(auto));
     }
 
     @Test
@@ -80,14 +80,8 @@ public class AutoControllerMockTest {
     }
 
     @Test
-    public void testDeleteAuto(){
+    public void testDelete(){
         when(autoService.delete(anyLong())).thenReturn(1);
-        assertEquals("redirect:listAuto", autoController.deleteAutoByid(2L));
+        assertEquals("redirect:list", autoController.deleteAutoByid(1L));
     }
-
-    @Test
-    public void testIndex(){
-        assertEquals("index", autoController.index());
-    }
-
 }
