@@ -12,7 +12,6 @@ class SharedDependencies {
     Closure globalJavaConfig = {
         apply plugin: 'java'
         apply plugin: 'idea'
-        apply plugin: 'war'
 
         sourceCompatibility = 1.9
         targetCompatibility = 1.9
