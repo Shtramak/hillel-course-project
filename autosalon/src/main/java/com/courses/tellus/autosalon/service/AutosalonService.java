@@ -19,24 +19,4 @@ public interface AutosalonService {
      */
     Integer insert(final Autosalon autosalon);
 
-    /**
-     * Update autosalon in database.
-     * @param autosalon autosalon.
-     * @return number of affected rows in database.
-     */
-    Integer update(final Autosalon autosalon);
-
-    /**
-     * Delete autosalon from database.
-     * @param idAutosalon id autosalon.
-     * @return number of affected rows in database.
-     */
-    Integer delete(final Long idAutosalon);
-
-    /**
-     * Get auto by id.
-     * @param idAutosalon id auto.
-     * @return auto.
-     */
-    Optional<Autosalon> getAutosalonById(final Long idAutosalon);
 }

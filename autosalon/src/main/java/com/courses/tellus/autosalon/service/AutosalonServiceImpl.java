@@ -27,19 +27,4 @@ public class AutosalonServiceImpl implements AutosalonService {
     public Integer insert(Autosalon autosalon) {
         return null;
     }
-
-    @Override
-    public Integer update(Autosalon autosalon) {
-        return null;
-    }
-
-    @Override
-    public Integer delete(Long idAutosalon) {
-        return null;
-    }
-
-    @Override
-    public Optional<Autosalon> getAutosalonById(Long idAutosalon) {
-        return Optional.empty();
-    }
 }
