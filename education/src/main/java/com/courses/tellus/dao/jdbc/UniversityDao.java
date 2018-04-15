@@ -5,11 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import com.courses.tellus.config.jdbc.ConnectionFactory;
-import com.courses.tellus.entity.University;
+import com.courses.tellus.model.University;
 import org.apache.log4j.Logger;
 
 public class UniversityDao implements BasicDao<University> {
@@ -22,7 +23,7 @@ public class UniversityDao implements BasicDao<University> {
         }
 
     @Override
-    public Optional<List<University>> getAll() {
+    public List<University> getAll() {
         final List<University> universities = new ArrayList<>();
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("SELECT*FROM Universities");
@@ -30,10 +31,10 @@ public class UniversityDao implements BasicDao<University> {
             while (resultSet.next()) {
                 universities.add(getNewObjectFromResultSet(resultSet));
             }
-            return Optional.of(universities);
-        } catch (SQLException e) {
-            LOGGER.error(e);
-            return Optional.empty();
+            return universities;
+        } catch (SQLException except) {
+            LOGGER.error(except.getCause(), except);
+            return Collections.emptyList();
         }
     }
 
@@ -46,11 +47,11 @@ public class UniversityDao implements BasicDao<University> {
             if (resultSet.next()) {
                 return Optional.of(getNewObjectFromResultSet(resultSet));
             }
-        } catch (SQLException e) {
-            LOGGER.error(e);
+            return Optional.empty();
+        } catch (SQLException except) {
+            LOGGER.error(except.getCause(), except);
             return Optional.empty();
         }
-        return Optional.empty();
     }
 
     @Override
@@ -63,8 +64,8 @@ public class UniversityDao implements BasicDao<University> {
             preState.setString(OrderUtils.THIRD_STATEMENT.getOrder(), university.getSpecialization());
             preState.setLong(OrderUtils.FOURTH_STATEMENT.getOrder(), university.getUniId());
             return preState.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.error(e);
+        } catch (SQLException except) {
+            LOGGER.error(except.getCause(), except);
             return 0;
         }
     }
@@ -75,8 +76,8 @@ public class UniversityDao implements BasicDao<University> {
             final PreparedStatement preState = conn.prepareStatement("DELETE FROM Universities WHERE univer_id=?");
             preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
             return preState.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.error(e);
+        } catch (SQLException except) {
+            LOGGER.error(except.getCause(), except);
             return 0;
         }
     }
@@ -91,8 +92,8 @@ public class UniversityDao implements BasicDao<University> {
             preState.setString(OrderUtils.SECOND_STATEMENT.getOrder(), university.getAddress());
             preState.setString(OrderUtils.THIRD_STATEMENT.getOrder(), university.getSpecialization());
             return preState.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.error(e);
+        } catch (SQLException except) {
+            LOGGER.error(except.getCause(), except);
             return 0;
         }
     }

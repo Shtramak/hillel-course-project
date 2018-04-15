@@ -63,7 +63,14 @@ project("airport") {
 }
 
 project("education") {
+
+    apply plugin: 'war'
+
     dependencies {
+    }
+
+    war {
+        archiveName = 'education.war'
     }
 }
 

@@ -1,9 +1,7 @@
 package com.courses.tellus.dao.jdbc;
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -16,15 +14,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
+import com.courses.tellus.config.jdbc.ConnectionFactory;
+import com.courses.tellus.model.University;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.courses.tellus.config.jdbc.ConnectionFactory;
-import com.courses.tellus.entity.University;
-
-public class UniversityDaoMockTest {
+class UniversityDaoMockTest {
 
     private static ConnectionFactory connectionFactory;
     private University university;
@@ -74,7 +70,7 @@ public class UniversityDaoMockTest {
         when(mockResultSet.next()).thenReturn(true).thenReturn(false);
         setUniversityInResultSetMock();
         spy.add(university);
-        Assertions.assertEquals(1, (universityDao.getAll()).get().size());
+        assertEquals(1, universityDao.getAll().size());
     }
 
     @Test

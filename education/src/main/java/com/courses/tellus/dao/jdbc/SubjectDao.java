@@ -5,11 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import com.courses.tellus.config.jdbc.ConnectionFactory;
-import com.courses.tellus.entity.Subject;
+import com.courses.tellus.model.Subject;
 import org.apache.log4j.Logger;
 
 public class SubjectDao implements BasicDao<Subject> {
@@ -22,7 +23,7 @@ public class SubjectDao implements BasicDao<Subject> {
     }
 
     @Override
-    public Optional<List<Subject>> getAll() {
+    public List<Subject> getAll() {
         final List<Subject> subjectList = new ArrayList<>();
         try (Connection conn = connectionFactory.getConnection()) {
             final PreparedStatement preState = conn.prepareStatement("SELECT * FROM SUBJECT");
@@ -30,10 +31,10 @@ public class SubjectDao implements BasicDao<Subject> {
             while (resultSet.next()) {
                 subjectList.add(getNewObjectFromResultSet(resultSet));
             }
-            return Optional.of(subjectList);
+            return subjectList;
         } catch (SQLException except) {
-            LOGGER.error(except);
-            return Optional.empty();
+            LOGGER.error(except.getCause(), except);
+            return Collections.emptyList();
         }
     }
 
@@ -47,11 +48,11 @@ public class SubjectDao implements BasicDao<Subject> {
             if (resultSet.next()) {
                 return Optional.of(getNewObjectFromResultSet(resultSet));
             }
+            return Optional.empty();
         } catch (SQLException except) {
-            LOGGER.error(except);
+            LOGGER.error(except.getCause(), except);
             return Optional.empty();
         }
-        return Optional.empty();
     }
 
     @Override
@@ -66,7 +67,7 @@ public class SubjectDao implements BasicDao<Subject> {
             preState.setLong(OrderUtils.FIFTH_STATEMENT.getOrder(), subject.getSubjectId());
             return preState.executeUpdate();
         } catch (SQLException except) {
-            LOGGER.error(except);
+            LOGGER.error(except.getCause(), except);
             return 0;
         }
     }
@@ -78,7 +79,7 @@ public class SubjectDao implements BasicDao<Subject> {
             preState.setLong(OrderUtils.FIRST_STATEMENT.getOrder(), entityId);
             return preState.executeUpdate();
         } catch (SQLException except) {
-            LOGGER.error(except);
+            LOGGER.error(except.getCause(), except);
             return 0;
         }
     }
@@ -94,7 +95,7 @@ public class SubjectDao implements BasicDao<Subject> {
             preState.setDate(OrderUtils.FOURTH_STATEMENT.getOrder(), new java.sql.Date(subject.getDateOfCreation()));
             return preState.executeUpdate();
         } catch (SQLException except) {
-            LOGGER.error(except);
+            LOGGER.error(except.getCause(), except);
             return 0;
         }
     }

@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.courses.tellus.config.jdbc.ConnectionFactory;
-import com.courses.tellus.entity.Student;
-import org.junit.jupiter.api.Assertions;
+import com.courses.tellus.model.Student;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -47,13 +47,13 @@ class StudentDaoMockTest {
         when(mockResSet.next()).thenReturn(true).thenReturn(false);
         getSubjectFromResultSet();
         spy.add(student);
-        Assertions.assertEquals(1, (studentDao.getAll()).get().size());
+        assertEquals(1, studentDao.getAll().size());
     }
 
     @Test
     void testGetAllEntityAndReturnEmptyList() throws Exception {
         when(mockResSet.next()).thenReturn(false);
-        Assertions.assertEquals(0, (studentDao.getAll()).get().size());
+        assertEquals(0, studentDao.getAll().size());
     }
 
     @Test
@@ -62,7 +62,7 @@ class StudentDaoMockTest {
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(true);
         getSubjectFromResultSet();
-        Assertions.assertTrue((studentDao.getById(1L)).isPresent());
+        assertTrue((studentDao.getById(1L)).isPresent());
     }
 
     @Test
@@ -70,26 +70,26 @@ class StudentDaoMockTest {
         mockPreState.setLong(1, 1L);
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
         when(mockResSet.next()).thenReturn(false);
-        Assertions.assertFalse((studentDao.getById(1L)).isPresent());
+        assertFalse((studentDao.getById(1L)).isPresent());
     }
 
     @Test
     void testUpdateSubject() throws Exception {
         student.setStudentCardNumber("0213456789");
         when(mockPreState.executeUpdate()).thenReturn(1);
-        Assertions.assertEquals(1, studentDao.update(student));
+        assertEquals(1, studentDao.update(student));
     }
 
     @Test
     void testDeleteSubject() throws Exception {
         when(mockPreState.executeUpdate()).thenReturn(1);
-        Assertions.assertEquals(1 , studentDao.delete(1L));
+        assertEquals(1 , studentDao.delete(1L));
     }
 
     @Test
     void testInsertSubject() throws Exception {
         when(mockPreState.executeUpdate()).thenReturn(1);
-        Assertions.assertEquals(1, studentDao.insert(student));
+        assertEquals(1, studentDao.insert(student));
     }
 
     private void getSubjectFromResultSet() throws SQLException {
