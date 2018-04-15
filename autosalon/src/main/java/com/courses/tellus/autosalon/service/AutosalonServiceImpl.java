@@ -20,11 +20,11 @@ public class AutosalonServiceImpl implements AutosalonService {
 
     @Override
     public List<Autosalon> getAll() {
-        return null;
+        return autosalonDao.getAll();
     }
 
     @Override
     public Integer insert(Autosalon autosalon) {
-        return null;
+        return autosalonDao.insert(autosalon);
     }
 }
