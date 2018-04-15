@@ -26,7 +26,7 @@ public class CustomerMapperTest {
         when(resultSetMock.getDate("date_of_birth")).thenReturn(date);
         when(resultSetMock.getString("phone_number")).thenReturn(REAL_CUSTOMER.getPhoneNumber());
         when(resultSetMock.getDouble("available_fund")).thenReturn(REAL_CUSTOMER.getAvailableFunds());
-        com.courses.tellus.autosalon.dao.springjdbc.CustomerMapper customerMapper = new com.courses.tellus.autosalon.dao.springjdbc.CustomerMapper();
+        CustomerMapper customerMapper = new CustomerMapper();
         assertEquals(REAL_CUSTOMER, customerMapper.mapRow(resultSetMock, 1));
     }
 }

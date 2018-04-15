@@ -4,35 +4,27 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
-import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
-@Configuration
 @EnableWebMvc
+@Configuration
 @ComponentScan("com.courses.tellus")
-public class WebConfig  {
+public class WebAppConfig implements WebMvcConfigurer {
+
     /**
      * Provide configuration for views.
      * @return ViewResolver
      */
     @Bean
-    public UrlBasedViewResolver setupViewResolver() {
-       final UrlBasedViewResolver resolver = new UrlBasedViewResolver();
+    public InternalResourceViewResolver setupViewResolver() {
+        final InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix("/WEB-INF/jsp/");
         resolver.setSuffix(".jsp");
         resolver.setViewClass(JstlView.class);
-        resolver.setOrder(1);
         return resolver;
     }
-    /*@Bean
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver =
-                new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEB-INF/jsp/university");
-        viewResolver.setSuffix(".jsp");
-        return viewResolver;
-    }*/
-
 }
 
 

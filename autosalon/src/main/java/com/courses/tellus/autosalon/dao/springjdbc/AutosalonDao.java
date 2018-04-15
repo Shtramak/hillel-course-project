@@ -30,7 +30,7 @@ public class AutosalonDao implements AutosalonDaoInterface<Autosalon> {
     @Override
     public List<Autosalon> getAll() {
         try {
-            return jdbcTemplate.query("SELECT * FROM INFOSALON", new AutosalonMapper());
+            return jdbcTemplate.query("SELECT * FROM infoSalon", new AutosalonMapper());
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage());
             return Collections.emptyList();
@@ -47,7 +47,7 @@ public class AutosalonDao implements AutosalonDaoInterface<Autosalon> {
     @Override
     public Optional<Autosalon> getById(final Long entityId) {
         try {
-            final Autosalon optionalAutosalon = jdbcTemplate.queryForObject("SELECT * FROM INFOSALON WHERE ID =?",
+            final Autosalon optionalAutosalon = jdbcTemplate.queryForObject("SELECT * FROM infoSalon WHERE ID =?",
                     new Object[]{entityId}, new AutosalonMapper());
             return Optional.of(optionalAutosalon);
         } catch (DataAccessException e) {
@@ -66,8 +66,8 @@ public class AutosalonDao implements AutosalonDaoInterface<Autosalon> {
     @Override
     public Integer update(final Autosalon autosalon) {
         try {
-            return jdbcTemplate.update("UPDATE INFOSALON SET NAME = ?, ADDRESS = ?, TELEPHONE = ? WHERE ID = ?",
-                    autosalon.getName(), autosalon.getAddress(), autosalon.getTelophone(), autosalon.getId());
+            return jdbcTemplate.update("UPDATE infoSalon SET name = ?, address = ?, telephone = ? WHERE id = ?",
+                    autosalon.getName(), autosalon.getAddress(), autosalon.getTelephone(), autosalon.getId());
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage());
             return -1;
@@ -84,7 +84,7 @@ public class AutosalonDao implements AutosalonDaoInterface<Autosalon> {
     @Override
     public Integer delete(final Long entityId) {
         try {
-            return jdbcTemplate.update("DELETE FROM INFOSALON WHERE ID = ?", entityId);
+            return jdbcTemplate.update("DELETE FROM infoSalon WHERE id = ?", entityId);
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage());
             return -1;
@@ -101,8 +101,8 @@ public class AutosalonDao implements AutosalonDaoInterface<Autosalon> {
     @Override
     public Integer insert(final Autosalon autosalon) {
         try {
-            return jdbcTemplate.update("INSERT INTO INFOSALON (NAME,ADDRESS,TELEPHONE) VALUES(?,?,?)",
-                    autosalon.getName(), autosalon.getAddress(), autosalon.getTelophone());
+            return jdbcTemplate.update("INSERT INTO infoSalon (name,address,telephone) VALUES(?,?,?)",
+                    autosalon.getName(), autosalon.getAddress(), autosalon.getTelephone());
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage());
             return -1;

@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.courses.tellus.model.Subject;
@@ -35,7 +34,7 @@ class SubjectDaoMockTest {
     void mockInit() throws Exception {
         MockitoAnnotations.initMocks(this);
         subject = new Subject(1L, "Law", "Lesson about orders of Ukraine", true,
-                new GregorianCalendar(2000, 5, 12));
+                "2000-05-12");
     }
 
     @Test
@@ -109,6 +108,6 @@ class SubjectDaoMockTest {
         when(mockResSet.getString("descr")).thenReturn(subject.getDescription());
         when(mockResSet.getBoolean("valid")).thenReturn(subject.isValid());
         when(mockResSet.getDate("date_of_creation")).thenReturn(mockSqlDate);
-        when(mockSqlDate.getTime()).thenReturn(subject.getDateOfCreation());
+        when(mockSqlDate.toLocalDate()).thenReturn(subject.getDateOfCreation());
     }
 }

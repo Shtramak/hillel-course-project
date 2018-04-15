@@ -1,7 +1,5 @@
 package com.courses.tellus.dao;
 
-import java.util.GregorianCalendar;
-
 import com.courses.tellus.datasource.TestDataSource;
 import com.courses.tellus.model.Subject;
 import org.junit.jupiter.api.Assertions;
@@ -27,7 +25,7 @@ class SubjectDaoIntegrationTest {
     @Autowired
     private SubjectDao subjectDao;
     private Subject subject = new Subject(1L,"Math", "Teach how calculate nums", true,
-            new GregorianCalendar(2000,4, 15));
+            "2000-05-15");
 
     @Test
     void testGetAllAndReturnEntityList() {

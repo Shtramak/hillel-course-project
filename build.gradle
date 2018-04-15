@@ -30,14 +30,20 @@ task wrapper(type: Wrapper) {
 }
 
 project("autosalon") {
-}
+    apply plugin: 'war'
 
+    dependencies{
+        compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0'
+        compile group: 'javax.servlet.jsp', name: 'javax.servlet.jsp-api', version: '2.3.1'
+        compile group: 'jstl', name: 'jstl', version: '1.2'
 
-project("autosalon-test") {
-    dependencies {
-        compile project(':autosalon')
+        compile group: 'org.springframework', name: 'spring-webmvc', version: "5.0.4.RELEASE"
+    }
+    war {
+        archiveName='autosalon.war'
     }
 }
+
 
 project("autosalon-test") {
     dependencies {
@@ -57,9 +63,14 @@ project("airport") {
 }
 
 project("education") {
+
+    apply plugin: 'war'
+
     dependencies {
-        compile group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.9.RELEASE'
-        compile group: 'org.thymeleaf', name: 'thymeleaf-spring5', version: '3.0.9.RELEASE'
+    }
+
+    war {
+        archiveName='education.war'
     }
 }
 

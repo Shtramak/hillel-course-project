@@ -8,15 +8,13 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
-@EnableWebMvc
 @PropertySource("classpath:properties/db.properties")
 public class JdbcTemplateConfig {
 
     /**
-     *
+     * Provide data source for H2 database in-memory.
      * @return dataSource.
      */
     @Bean
