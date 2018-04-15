@@ -12,6 +12,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.Map;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -34,6 +37,16 @@ public class AutosalonServletMockTest {
     public void setUp() throws NoSuchFieldException, IllegalAccessException {
         MockitoAnnotations.initMocks(this);
         autosalonServlet = new MainServlet();
+
+        AutosalonHandler autosalonHandler = new AutosalonHandler();
+        Field daoField = autosalonHandler.getClass().getDeclaredField("autosalonDao");
+        daoField.setAccessible(true);
+        daoField.set(autosalonHandler, autosalonDao);
+
+        Field factory = HandlerFactory.class.getDeclaredField("handlerMap");
+        factory.setAccessible(true);
+        Map<String, InternalHandler> handlerMap = Collections.singletonMap("autosalon", autosalonHandler);
+        factory.set(HandlerFactory.class, handlerMap);
     }
 
     @Test

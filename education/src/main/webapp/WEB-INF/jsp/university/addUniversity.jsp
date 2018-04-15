@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+>>>>>>> b05c7fe3ff1ec61e3becb1733a65c9d41826c81b
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
@@ -16,8 +20,13 @@
         <a href="/" class="navbar-brand">Universities</a>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+<<<<<<< HEAD
                 <li><a href="/addUniversity">New University</a></li>
                 <li><a href="/getAllUniversities">All Universities</a></li>
+=======
+                <li><a href="/create/university">New University</a></li>
+                <li><a href="/list/universities">All Universities</a></li>
+>>>>>>> b05c7fe3ff1ec61e3becb1733a65c9d41826c81b
             </ul>
         </div>
     </div>
@@ -25,7 +34,11 @@
 
 <div class="container text-center">
     <hr>
+<<<<<<< HEAD
     <form class="form-horizontal" action="/addUniversity" method="POST">
+=======
+    <form class="form-horizontal" action="/create/university" method="POST">
+>>>>>>> b05c7fe3ff1ec61e3becb1733a65c9d41826c81b
         <div class="form-group">
             <label class="control-label col-md-3">NameOfUniversity</label>
             <div class="col-md-7">

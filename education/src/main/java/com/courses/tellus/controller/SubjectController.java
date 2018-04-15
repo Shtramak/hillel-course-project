@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class SubjectController {
 
     private final transient SubjectServiceImpl subjectService;
-    private static final String MAIN_REDIRECT_PATH = "redirect:/subject";
+    private static final String REDIRECT_PATH = "redirect:/subject";
 
     @Autowired
     public SubjectController(final SubjectServiceImpl subjectService) {
@@ -57,7 +57,7 @@ public class SubjectController {
     @PostMapping("/add")
     public ModelAndView insertEntity(@ModelAttribute("subject") final SubjectDTO subject) {
         subjectService.insert(subject);
-        return new ModelAndView(MAIN_REDIRECT_PATH);
+        return new ModelAndView(REDIRECT_PATH);
     }
 
     /**
@@ -69,7 +69,7 @@ public class SubjectController {
     @GetMapping("/delete/{id:[\\d]+}")
     public ModelAndView deleteEntity(@PathVariable("id") final Long subjectId) {
         subjectService.delete(subjectId);
-        return new ModelAndView(MAIN_REDIRECT_PATH);
+        return new ModelAndView(REDIRECT_PATH);
     }
 
     /**
@@ -82,7 +82,7 @@ public class SubjectController {
     public ModelAndView updateEntity(@PathVariable("id") final Long subjectId) {
         final Optional<Subject> opt = subjectService.getById(subjectId);
         return opt.map(subject -> new ModelAndView("subject_edit", "subject", subject))
-                .orElseGet(() -> new ModelAndView(MAIN_REDIRECT_PATH));
+                .orElseGet(() -> new ModelAndView(REDIRECT_PATH));
     }
 
     /**
@@ -94,6 +94,6 @@ public class SubjectController {
     @PostMapping("/edit")
     public ModelAndView updateEntity(@ModelAttribute("subject") final SubjectDTO subject) {
         subjectService.update(subject);
-        return new ModelAndView(MAIN_REDIRECT_PATH);
+        return new ModelAndView(REDIRECT_PATH);
     }
 }

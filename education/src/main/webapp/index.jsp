@@ -18,6 +18,7 @@
         <a href="/" class="navbar-brand">Universities</a>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+<<<<<<< HEAD
                 <li><a href="/addUniversity">New University</a></li>
                 <li><a href="/getAllUniversities">All Universities</a></li>
                 <li>
@@ -25,6 +26,15 @@
                 </li>
                 <li>
                     <a href="/subject/add">Create Subject</a>
+=======
+                <li><a href="/create/university">New University</a></li>
+                <li><a href="/list/universities">All Universities</a></li>
+                <li>
+                    <a href="/list/subject">Subject List</a>
+                </li>
+                <li>
+                    <a href="/create/subject">Create Subject</a>
+>>>>>>> b05c7fe3ff1ec61e3becb1733a65c9d41826c81b
                 </li>
             </ul>
         </div>

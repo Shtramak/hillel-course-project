@@ -19,8 +19,13 @@
         <a href="/" class="navbar-brand">Universities</a>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+<<<<<<< HEAD
                 <li><a href="/addUniversity">New University</a></li>
                 <li><a href="/getAllUniversities">All Universities</a></li>
+=======
+                <li><a href="/create/university">New University</a></li>
+                <li><a href="/list/universities">All Universities</a></li>
+>>>>>>> b05c7fe3ff1ec61e3becb1733a65c9d41826c81b
             </ul>
         </div>
     </div>
@@ -47,8 +52,15 @@
                     <td>${university.nameOfUniversity}</td>
                     <td>${university.address}</td>
                     <td>${university.specialization}</td>
+<<<<<<< HEAD
                     <td><a href="/updateUniversity/${university.uniId}"><span class="glyphicon glyphicon-pencil"></span></a></td>
                     <td><a href="/deleteUniversity/${university.uniId}"><span class="glyphicon glyphicon-trash"></span></a></td>
+=======
+                    <td><a href="update/university?uniId=${university.uniId}"><span
+                            class="glyphicon glyphicon-pencil"></span></a></td>
+                    <td><a href="delete/university?uniId=${university.uniId}"><span
+                            class="glyphicon glyphicon-trash"></span></a></td>
+>>>>>>> b05c7fe3ff1ec61e3becb1733a65c9d41826c81b
                 </tr>
             </c:forEach>
             </tbody>
