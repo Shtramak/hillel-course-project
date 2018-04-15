@@ -1,4 +1,4 @@
-package com.courses.tellus.autosalon.dao.config;
+package com.courses.tellus.autosalon.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
