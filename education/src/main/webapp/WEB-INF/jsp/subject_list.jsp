@@ -12,7 +12,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <jsp:include page="../_nav.jsp" />
+        <jsp:include page="in_nav.jsp" />
         </div>
             <div class="container text-center">
                 <h3>Subjects list</h3>
@@ -40,10 +40,10 @@
                                 <td>${subject.description}</td>
                                 <td>${subject.valid}</td>
                                 <td>${subject.dateOfCreation}</td>
-                                <td><a href="editSubject?subjectId=${subject.subjectId}">
+                                <td><a href="subject/edit/${subject.subjectId}">
                                     <span class="fa fa-pencil text-center"></span></a>
                                 </td>
-                                <td><a href="deleteSubject?subjectId=${subject.subjectId}">
+                                <td><a href="subject/delete/${subject.subjectId}">
                                     <span class="fa fa-trash text-center"></span></a>
                                 </td>
                             </tr>

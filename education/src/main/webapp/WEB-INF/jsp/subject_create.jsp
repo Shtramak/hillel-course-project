@@ -14,21 +14,20 @@
     <body>
 		<jsp:include page="in_nav.jsp" />
 		<div  class="container-fluid">
-			<form class="form" method="POST" action="/create/subject">
+			<form class="form" method="POST" action="/subject/add">
 				<!-- name -->
 				<div class="form-group col-6 mx-auto mt-5">
-					<label class="control-label col-9 text-center" for="name">Subject name</label>
+					<label class="control-label col-9 text-center" >Subject name</label>
 					<div class="col-10">
-						<input type="text" class="form-control" id="name" name="name" value="${name}"
+						<input type="text" class="form-control" name="name" value="${subject.name}"
 							   placeholder="Input your name">
 					</div>
 				</div>
 				<!-- description -->
 				<div class="form-group col-6 mx-auto">
-					<label class="control-label col-9 text-center" for="description">Description</label>
+					<label class="control-label col-9 text-center" >Description</label>
 					<div class="col-10">
-						<textarea class="form-control" id="description" name="description"
-								  value="${description}"></textarea>
+						<textarea class="form-control" name="description" value="${subject.description}"></textarea>
 					</div> 
 				</div>
 				<!-- valid -->
@@ -36,10 +35,10 @@
 					<label class="control-label col-9 text-center">Valid</label>
 					<div class="col-6 mx-auto">
 						<label class="radio-inline">
-							<input type="radio"  name="activeRadios" value="Y"> Active
+							<input type="radio" name="valid" value="true"> Active
 						</label>
 						<label class="radio-inline">
-							<input type="radio" name="activeRadios" value="N"> Deprecated
+							<input type="radio" name="valid" value="false"> Deprecated
 						</label>
 					</div>
 				</div>
@@ -47,27 +46,8 @@
 				<div class="form-group col-9 mx-auto">
 					<label class="control-label col-10 text-center">Date of creation</label>
 					<div class="form-inline col-10">
-							<div class="col-4">
-								<label class="control-label col-4 mx-auto" for="day">Day</label>
-								<div class="col-4">
-									<input type="text" class="form-control form-inline" id="day" name="day"
-										   value="${days}" placeholder="DD">
-								</div>
-							</div>
-							<div class="col-4">
-								<label class="control-label col-4 mx-auto" for="month">Month</label>
-								<div class="col-4">
-									<input type="text" class="form-control" id="month" name="month" value="${month}"
-										   placeholder="MM">
-								</div>
-							</div>
-							<div class="col-4">
-								<label class="control-label col-4 mx-auto" for="year">Year</label>
-								<div class="col-4">
-									<input type="text" class="form-control" id="year" name="year" value="${year}"
-										   placeholder="YYYY">
-							</div>
-						</div>						
+						<input type="date" class="form-control form-inline" name="dateOfCreation"
+							   value="${subject.dateOfCreation}">
 					</div>
 				</div>
 			<br />

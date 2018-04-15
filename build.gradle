@@ -70,7 +70,7 @@ project("education") {
     }
 
     war {
-        archiveName = 'education.war'
+        archiveName='education.war'
     }
 }
 
