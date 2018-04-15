@@ -6,10 +6,11 @@ import java.util.Optional;
 public interface BasicDao<E> {
 
     /**
-     * Method for returning all object from database.
+     * Method for getting all objects from database.
      *
-     * @return list with all Object or empty list if exception
+     * @return list with all Object or empty list
      */
+
     List<E> getAll();
 
     /**
@@ -18,6 +19,7 @@ public interface BasicDao<E> {
      * @param entityId unique id for object query
      * @return Object in option or Option.empty() (if not exist in database or exception)
      */
+
     Optional<E> getById(Long entityId);
 
     /**

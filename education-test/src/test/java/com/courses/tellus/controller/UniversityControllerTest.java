@@ -1,6 +1,7 @@
 package com.courses.tellus.controller;
 
 import com.courses.tellus.config.spring.mvc.WebConfig;
+import com.courses.tellus.model.University;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @ContextConfiguration(classes = WebConfig.class)
@@ -35,6 +38,7 @@ public class UniversityControllerTest {
     private WebApplicationContext webContext;
 
     private MockMvc mockMvc;
+
 
     @BeforeEach
     void setup() {
@@ -53,7 +57,7 @@ public class UniversityControllerTest {
     @Test
     void testGetAllUniversitiesWhenReturnListWithUniversities() throws Exception {
         this.mockMvc
-                .perform(get("/getAllUniversities"))
+                .perform(get("/university/list"))
                 .andDo(print())
                 .andExpect(view().name("listOfUniversities"));
     }
@@ -62,27 +66,45 @@ public class UniversityControllerTest {
     @Test
     void deleteByIdWhenDeletingIsSuccess() throws Exception {
         this.mockMvc
-                .perform(get("/deleteUniversity/1"))
+                .perform(get("/university/delete/1"))
                 .andDo(print())
-                .andExpect(view().name("redirect:/getAllUniversities"));
+                .andExpect(status().isFound());
     }
 
     @Test
     void addUniversityMethodGet() throws Exception {
         this.mockMvc
-                .perform(get("/addUniversity"))
+                .perform(get("/university/add"))
                 .andDo(print())
-                .andExpect(view().name("addUniversity"));
+                .andExpect(status().isOk());
     }
 
     @Test
     void addUniversityMethodPost() throws Exception {
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/addUniversity")
+        University university = new University(1L,"nameTest","addressTest",
+                "specializationTest");
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/university/add")
                 .param("uniId", "1")
-                .param("nameOfUniversity", "KpiTest")
-                .param("address", "pr.peremohy TEst")
-                .param("specialization", "TechnicalTest");
+                .param("nameOfUniversity", "nameTest")
+                .param("address", "addressTest")
+                .param("specialization", "specializationTest");
         this.mockMvc.perform(builder)
-                .andExpect(view().name("redirect:/getAllUniversities"));
+                .andExpect(model().attribute("university",university));
+    }
+    @Test
+    void updateUniversityMethodGet() throws Exception{
+        mockMvc.perform(get("/university/update/1")).andExpect(status().isOk());
+    }
+    @Test
+    void updateUniversityMethodPost() throws Exception {
+        University university = new University(1L,"nameTest","addressTest",
+                "specializationTest");
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/university/update")
+                .param("uniId", "1")
+                .param("nameOfUniversity", "nameTest")
+                .param("address", "addressTest")
+                .param("specialization", "specializationTest");
+        this.mockMvc.perform(builder)
+                .andExpect(model().attribute("university",university));
     }
 }

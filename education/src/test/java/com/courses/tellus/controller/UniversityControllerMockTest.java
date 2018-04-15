@@ -5,6 +5,7 @@ import com.courses.tellus.model.University;
 import com.courses.tellus.service.UniversityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
@@ -30,24 +31,18 @@ public class UniversityControllerMockTest {
     @Mock
     private UniversityService universityServiceImpl;
 
+    @InjectMocks
     private UniversityController universityController;
 
-    private Field field;
-
-
-
     @BeforeEach
-    public void setUp() throws NoSuchFieldException {
+    public void setUp() {
         universityController = new UniversityController();
-        field = universityController.getClass().getDeclaredField("universityServiceImpl");
-        field.setAccessible(true);
         MockitoAnnotations.initMocks(this);
 
     }
 
     @Test
-    public void testGetAllUniversities() throws IllegalAccessException {
-        field.set(universityController , universityServiceImpl);
+    public void testGetAllUniversities() {
         List<University> universities = new ArrayList<>();
         universities.add(university);
         when(universityServiceImpl.getAll()).thenReturn(universities);
@@ -55,10 +50,9 @@ public class UniversityControllerMockTest {
     }
 
     @Test
-    public void  testAddUniversityMethodPost() throws IllegalAccessException{
-        field.set(universityController , universityServiceImpl);
+    public void  testAddUniversityMethodPost() {
         when(universityServiceImpl.insert(anyObject())).thenReturn(1);
-        assertEquals("redirect:/getAllUniversities", universityController.addUniversity(university));
+        assertEquals("redirect:/university/list", universityController.addUniversity(university));
     }
 
     @Test
@@ -67,29 +61,22 @@ public class UniversityControllerMockTest {
     }
 
     @Test
-    public void testUpdateUniversityMethodPost() throws IllegalAccessException{
-        field.set(universityController , universityServiceImpl);
+    public void testUpdateUniversityMethodPost() {
         when(universityServiceImpl.update(anyObject())).thenReturn(1);
-        assertEquals("redirect:/getAllUniversities", universityController.updateUniversity(university));
+        assertEquals("redirect:/university/list", universityController.updateUniversity(university));
     }
 
     @Test
-    public void testUpdateAutoMethodGet() throws IllegalAccessException{
-        field.set(universityController , universityServiceImpl);
+    public void testUpdateAutoMethodGet() {
         when(universityServiceImpl.getById(anyLong())).thenReturn(Optional.of(university));
         assertEquals("updateUniversity", universityController.updateUniversity(anyLong(), model));
     }
 
     @Test
-    public void testDeleteUniversity() throws IllegalAccessException{
-        field.set(universityController , universityServiceImpl);
+    public void testDeleteUniversity() {
         when(universityServiceImpl.delete(anyLong())).thenReturn(1);
-        assertEquals("redirect:/getAllUniversities", universityController.deleteUniversity(anyLong()));
+        assertEquals("redirect:/university/list", universityController.deleteUniversity(anyLong()));
     }
 
-    @Test
-    public void testIndex() throws IllegalAccessException{
-        assertEquals("index", universityController.index());
-    }
 }
 
