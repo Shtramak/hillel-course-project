@@ -1,14 +1,20 @@
 package com.courses.tellus.autosalon.model;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@Entity
 public class Auto {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String brand;
     private String model;
+    @Column(name = "manufact_year")
     private Integer manufactYear;
+    @Column(name = "producer_country")
     private String producerCountry;
     private BigDecimal price;
 
