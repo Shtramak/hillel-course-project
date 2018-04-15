@@ -12,10 +12,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<jsp:include page="_nav.jsp" />
+<jsp:include page="in_nav.jsp" />
     ${error.message}
 
-<jsp:include page="_footer.jsp" />
+<jsp:include page="in_footer.jsp" />
 </div>
 </body>
 </html>

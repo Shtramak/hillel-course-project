@@ -13,7 +13,7 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     </head>
     <body>
-		<jsp:include page="_nav.jsp" />
+		<jsp:include page="in_nav.jsp" />
 		<p style="color: red">${error}</p>
 		<div  class="container-fluid">
 			<form class="form" method="POST" action="/update/subject">
