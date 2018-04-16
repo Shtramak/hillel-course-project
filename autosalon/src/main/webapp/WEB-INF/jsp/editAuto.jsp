@@ -8,7 +8,7 @@
 <body>
 <div align="center">
     <h3>Edit Auto By Id ${auto.id}</h3>
-    <form method="post" action="/springmvc/autosalon/auto/update">
+    <form method="post" action="${pageContext.request.contextPath}/springmvc/autosalon/auto/update">
         <table border="2" cellpadding="5" cellspacing="5">
             <tr>
                 <td>Id: </td>
@@ -37,7 +37,7 @@
             <tr>
                 <td colspan="3" align="center">
                     <input type="submit" value="Submit">
-                    <a href="/springmvc/autosalon/auto/list">Cancel</a>
+                    <a href="${pageContext.request.contextPath}/springmvc/autosalon/auto/list">Cancel</a>
                 </td>
             </tr>
         </table>

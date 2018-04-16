@@ -33,7 +33,7 @@
             <tr>
                 <td colspan="3" align="center">
                     <input type="submit" value="Submit">
-                    <a href="/index.html">Cancel</a>
+                    <a href="${pageContext.request.contextPath}/index.jsp">Cancel</a>
                 </td>
             </tr>
         </table>
