@@ -1,6 +1,6 @@
 package com.courses.tellus.controller;
 
-import com.courses.tellus.config.spring.mvc.WebConfig;
+import com.courses.tellus.config.spring.mvc.WebAppConfig;
 import com.courses.tellus.model.University;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-@ContextConfiguration(classes = WebConfig.class)
+@ContextConfiguration(classes = WebAppConfig.class)
 @WebAppConfiguration
 @ExtendWith(SpringExtension.class)
 @Sql("classpath:initial/h2/table/spring/univer_test_table.sql")
@@ -93,13 +93,13 @@ public class UniversityControllerTest {
     }
     @Test
     void updateUniversityMethodGet() throws Exception{
-        mockMvc.perform(get("/university/update/1")).andExpect(status().isOk());
+        mockMvc.perform(get("/university/edit/1")).andExpect(status().isOk());
     }
     @Test
     void updateUniversityMethodPost() throws Exception {
         University university = new University(1L,"nameTest","addressTest",
                 "specializationTest");
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/university/update")
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/university/edit")
                 .param("uniId", "1")
                 .param("nameOfUniversity", "nameTest")
                 .param("address", "addressTest")

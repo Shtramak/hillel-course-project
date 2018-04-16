@@ -17,7 +17,7 @@
 <div class="container col-6 text-center">
     <hr>
 
-    <form class="form-horizontal" method="POST" action="/university/update">
+    <form class="form-horizontal" method="POST" action="/university/edit">
         <input type="hidden" readonly name="uniId" value="${university.uniId}"/>
         <div class="form-group">
             <label class="control-label col-md-3" for="nameOfUniversity">NameOfUniversity</label>

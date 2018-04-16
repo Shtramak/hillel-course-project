@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>EDUCATION - Subject list</title>
+    <title>EDUCATION - Universities</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -36,7 +36,7 @@
                     <td>${university.nameOfUniversity}</td>
                     <td>${university.address}</td>
                     <td>${university.specialization}</td>
-                    <td><a href="/university/update/${university.uniId}"><span class="fa fa-pencil text-center"></span></a></td>
+                    <td><a href="/university/edit/${university.uniId}"><span class="fa fa-pencil text-center"></span></a></td>
                     <td><a href="/university/delete/${university.uniId}"><span class="fa fa-trash text-center"></span></a></td>
                 </tr>
             </c:forEach>

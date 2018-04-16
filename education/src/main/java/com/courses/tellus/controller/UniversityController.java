@@ -3,7 +3,6 @@ package com.courses.tellus.controller;
 import com.courses.tellus.model.University;
 import com.courses.tellus.service.UniversityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @SuppressWarnings("PMD.LongVariable")
 @Controller
 @RequestMapping("/university")
-@ComponentScan
 public class UniversityController {
 
     @Autowired
@@ -69,7 +67,7 @@ public class UniversityController {
      * @param uniId from Http request.
      * @return - name of jsp
      */
-    @GetMapping("/update/{uniId}")
+    @GetMapping("/edit/{uniId}")
     public String updateUniversity(@PathVariable("uniId") final Long uniId, final Model model) {
        model.addAttribute("university", universityServiceImpl.getById(uniId).get());
         return "updateUniversity";
@@ -81,7 +79,7 @@ public class UniversityController {
      * @return - name of jsp
      */
 
-    @PostMapping("/update")
+    @PostMapping("/edit")
     public String updateUniversity(@ModelAttribute("university") final University university) {
         universityServiceImpl.update(university);
         return "redirect:/university/list";

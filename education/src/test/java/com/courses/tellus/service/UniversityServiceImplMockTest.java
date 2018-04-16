@@ -1,5 +1,6 @@
-package com.courses.tellus.dao;
+package com.courses.tellus.service;
 
+import com.courses.tellus.dao.UniversityDao;
 import com.courses.tellus.model.University;
 import com.courses.tellus.service.UniversityServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
