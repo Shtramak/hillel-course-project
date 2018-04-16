@@ -2,58 +2,92 @@ package com.courses.tellus.autosalon.dao.hibernate;
 
 import com.courses.tellus.autosalon.dao.AutosalonDaoInterface;
 import com.courses.tellus.autosalon.model.Auto;
-import org.springframework.stereotype.Repository;
+import org.apache.log4j.Logger;
+import org.springframework.dao.DataAccessException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.*;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public class AutoDao implements AutosalonDaoInterface<Auto> {
 
-    private EntityManagerFactory  managerFactory = Persistence.createEntityManagerFactory("autosalon");
+    private static final Logger LOGGER = Logger.getLogger(AutoDao.class);
+
     private EntityManager entityManager;
 
     public AutoDao() {
-        entityManager = managerFactory.createEntityManager();
+    }
+
+    public AutoDao(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Override
     public List<Auto> getAll() {
-        return null;
+        try {
+            Query query = entityManager.createQuery("select auto from Auto auto");
+            return query.getResultList();
+        } catch (DataAccessException e) {
+            LOGGER.debug(e.getMessage());
+            return Collections.emptyList();
+        }
     }
 
     @Override
     public Optional<Auto> getById(Long idAuto) {
-        entityManager.getTransaction().begin();
-        Auto auto = entityManager.find(Auto.class, idAuto);
-        entityManager.getTransaction().commit();
-        return Optional.of(auto);
+        try {
+            Auto auto = entityManager.find(Auto.class, idAuto);
+            return Optional.of(auto);
+        } catch (DataAccessException e) {
+            LOGGER.debug(e.getMessage());
+            return Optional.empty();
+        }
     }
 
     @Override
     public Integer update(Auto auto) {
-        entityManager.getTransaction().begin();
-        entityManager.merge(auto);
-        entityManager.getTransaction().commit();
-        return 1;
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.merge(auto);
+            transaction.commit();
+            return 1;
+        } catch (RuntimeException e){
+            transaction.rollback();
+            LOGGER.debug(e.getMessage());
+            return -1;
+        }
     }
 
     @Override
     public Integer delete(Long idAuto) {
-        entityManager.getTransaction().begin();
-        entityManager.remove(idAuto);
-        entityManager.getTransaction().commit();
-        return 1;
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            Auto auto = entityManager.find(Auto.class, idAuto);
+            entityManager.remove(auto);
+            transaction.commit();
+            return 1;
+        } catch (RuntimeException e){
+            transaction.rollback();
+            LOGGER.debug(e.getMessage());
+            return -1;
+        }
     }
 
     @Override
     public Integer insert(Auto auto) {
-        entityManager.getTransaction().begin();
-        entityManager.persist(auto);
-        entityManager.getTransaction().commit();
-        return 1;
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.merge(auto);
+            transaction.commit();
+            return 1;
+        } catch (RuntimeException e){
+            transaction.rollback();
+            LOGGER.debug(e.getMessage());
+            return -1;
+        }
     }
 }
