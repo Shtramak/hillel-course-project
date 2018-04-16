@@ -8,13 +8,20 @@ public class EntityFactory {
     private static final String PERSISTANCE_NAME = "autosalon";
     private static EntityManagerFactory factory;
 
+    /**
+     * Create singleton for EntityManagerFactory
+     * @return EntityManagerFactory.
+     */
     public static EntityManagerFactory getFactory() {
-        if (factory == null){
+        if (factory == null) {
             factory = Persistence.createEntityManagerFactory(PERSISTANCE_NAME);
         }
         return factory;
     }
 
+    /**
+     * Close EntityManagerFactory.
+     */
     public static void close(){
         factory.close();
     }
