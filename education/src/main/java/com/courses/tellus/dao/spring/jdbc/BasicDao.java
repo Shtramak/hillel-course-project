@@ -10,7 +10,6 @@ public interface BasicDao<E> {
      *
      * @return list with all Object or empty list
      */
-
     List<E> getAll();
 
     /**
@@ -19,7 +18,6 @@ public interface BasicDao<E> {
      * @param entityId unique id for object query
      * @return Object in option or Option.empty() (if not exist in database or exception)
      */
-
     Optional<E> getById(Long entityId);
 
     /**
