@@ -1,8 +1,7 @@
 package com.courses.tellus.service;
 
-import com.courses.tellus.dao.UniversityDao;
+import com.courses.tellus.dao.spring.jdbc.UniversityDao;
 import com.courses.tellus.model.University;
-import com.courses.tellus.service.UniversityServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,7 +20,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 
 public class UniversityServiceImplMockTest {

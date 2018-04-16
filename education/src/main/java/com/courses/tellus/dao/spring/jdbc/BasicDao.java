@@ -1,4 +1,4 @@
-package com.courses.tellus.dao;
+package com.courses.tellus.dao.spring.jdbc;
 
 import java.util.List;
 import java.util.Optional;

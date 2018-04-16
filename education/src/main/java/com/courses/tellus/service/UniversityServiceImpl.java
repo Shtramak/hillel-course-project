@@ -3,7 +3,7 @@ package com.courses.tellus.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.dao.UniversityDao;
+import com.courses.tellus.dao.spring.jdbc.UniversityDao;
 import com.courses.tellus.model.University;
 
 import org.springframework.beans.factory.annotation.Autowired;
