@@ -40,19 +40,31 @@ public class UniversityServiceImplMockTest {
 
     @Test
      void testInsertUniversity() {
-        assertEquals(0, universityServiceImpl.insert(university));
+        given(university.getNameOfUniversity()).willReturn("testN");
+        given(university.getAddress()).willReturn("testA");
+        given(university.getSpecialization()).willReturn("testS");
+        given(universityDao.insert(any())).willReturn(1);
+
+        assertEquals(1, universityServiceImpl.insert(university));
         verify(universityDao, atLeastOnce()).insert(any());
         }
 
         @Test
     void testUpdateUniversity() {
-            assertEquals(0, universityServiceImpl.update(university));
+            given(university.getNameOfUniversity()).willReturn("testN");
+            given(university.getAddress()).willReturn("testA");
+            given(university.getSpecialization()).willReturn("testS");
+            given(universityDao.update(any())).willReturn(1);
+
+            assertEquals(1, universityServiceImpl.update(university));
             verify(universityDao, atLeastOnce()).update(any());
         }
 
         @Test
     void testDeleteUniversity(){
-        assertEquals(0,universityServiceImpl.delete(anyLong()));
+        given(universityDao.delete(anyLong())).willReturn(1);
+
+        assertEquals(1,universityServiceImpl.delete(anyLong()));
         verify(universityDao, atLeastOnce()).delete(anyLong());
 
         }

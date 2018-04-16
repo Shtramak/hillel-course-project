@@ -1,4 +1,4 @@
-package com.courses.tellus.datasource;
+package com.courses.tellus.dao.spring.jdbc.datasource;
 
 import javax.sql.DataSource;
 

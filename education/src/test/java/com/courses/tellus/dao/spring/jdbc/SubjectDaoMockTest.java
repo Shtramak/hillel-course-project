@@ -1,4 +1,4 @@
-package com.courses.tellus.dao;
+package com.courses.tellus.dao.spring.jdbc;
 
 import java.sql.Date;
 import java.sql.ResultSet;
