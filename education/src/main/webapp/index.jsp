@@ -17,8 +17,8 @@
     <div class="collapse navbar-collapse">
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="/create/university">New University</a>
-                <a class="nav-item nav-link" href="/list/universities">All Universities</a>
+                <a class="nav-item nav-link" href="/university/add">New University</a>
+                <a class="nav-item nav-link" href="/university/list">All Universities</a>
                 <a class="nav-item nav-link" href="/subject">Subject List</a>
                 <a class="nav-item nav-link" href="/subject/add">Create Subject</a>
             </div>
