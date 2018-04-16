@@ -60,7 +60,7 @@ class SubjectServiceImplMockTest {
     }
 
     @Test
-    void insertTest() {
+    void insertTestWhenItSuccessful() {
         given(subjectDTO.getName()).willReturn("Math");
         given(subjectDTO.getDescription()).willReturn("Leave me alone");
         given(subjectDTO.getValid()).willReturn("Y");
@@ -72,7 +72,17 @@ class SubjectServiceImplMockTest {
     }
 
     @Test
-    void updateTest() {
+    void insertTestWhenItGetException() {
+        given(subjectDTO.getName()).willReturn("");
+        given(subjectDTO.getDescription()).willReturn("");
+        given(subjectDTO.getValid()).willReturn("");
+        given(subjectDTO.getDateOfCreation()).willReturn("");
+
+        assertEquals(0, service.insert(subjectDTO));
+    }
+
+    @Test
+    void updateTestWhenItSuccessful() {
         given(subjectDTO.getSubjectId()).willReturn("1");
         given(subjectDTO.getName()).willReturn("Math");
         given(subjectDTO.getDescription()).willReturn("Leave me alone");
@@ -82,5 +92,16 @@ class SubjectServiceImplMockTest {
 
         assertEquals(1, service.update(subjectDTO));
         verify(subjectDao, atLeastOnce()).update(any());
+    }
+
+    @Test
+    void updateTestWhenItGetException() {
+        given(subjectDTO.getSubjectId()).willReturn("");
+        given(subjectDTO.getName()).willReturn("");
+        given(subjectDTO.getDescription()).willReturn("");
+        given(subjectDTO.getValid()).willReturn("");
+        given(subjectDTO.getDateOfCreation()).willReturn("");
+
+        assertEquals(0, service.update(subjectDTO));
     }
 }

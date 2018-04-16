@@ -49,7 +49,7 @@
 								   <c:if test="${subject.valid==true}">checked</c:if>> Active
 						</label>
 						<label class="radio-inline">
-							<input required type="radio" name="valid" value="true"
+							<input required type="radio" name="valid" value="false"
 								   <c:if test="${subject.valid==false}">checked</c:if>> Deprecated
 						</label>
 					</div>
