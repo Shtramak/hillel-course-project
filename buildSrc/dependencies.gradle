@@ -12,7 +12,6 @@ class SharedDependencies {
     Closure globalJavaConfig = {
         apply plugin: 'java'
         apply plugin: 'idea'
-
         sourceCompatibility = 1.9
         targetCompatibility = 1.9
     }
@@ -35,12 +34,9 @@ class SharedDependencies {
     }
 
     Closure applicationDependencies = {
+        compile group: 'log4j', name: 'log4j', version: '1.2.17'
         compile group: 'org.springframework', name: 'spring-context', version: "$springVersion"
         compile group: 'org.springframework', name: 'spring-jdbc', version: "$springVersion"
-        compile group: 'org.springframework', name: 'spring-webmvc', version: "$springVersion"
-        compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0'
-        compile group: 'javax.servlet', name: 'jstl', version: '1.2'
-        compile group: 'log4j', name: 'log4j', version: '1.2.17'
     }
 
     Closure securityDependencies = {

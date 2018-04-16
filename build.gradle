@@ -67,10 +67,13 @@ project("education") {
     apply plugin: 'war'
 
     dependencies {
+        compile group: 'org.springframework', name: 'spring-webmvc', version: "$springVersion"
+        compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0'
+        compile group: 'javax.servlet', name: 'jstl', version: '1.2'
     }
 
     war {
-        archiveName='education.war'
+        archiveName = 'education.war'
     }
 }
 
