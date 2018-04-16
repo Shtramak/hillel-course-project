@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@SuppressWarnings("PMD.LongVariable")
 @Controller
 @RequestMapping("/university")
 public class UniversityController {
 
     @Autowired
-    private transient UniversityService universityServiceImpl;
+    private transient UniversityService serviceImpl;
 
     /**
      * This method forwards List of universities to listOfUniversities.jsp.
@@ -28,7 +27,7 @@ public class UniversityController {
      */
     @GetMapping("/list")
     public String getAllUniversities(final Model model) {
-        model.addAttribute("universityList", universityServiceImpl.getAll());
+        model.addAttribute("universityList", serviceImpl.getAll());
         return "listOfUniversities";
     }
 
@@ -49,7 +48,7 @@ public class UniversityController {
      */
     @PostMapping("/add")
     public String addUniversity(@ModelAttribute("university") final University university) {
-     universityServiceImpl.insert(university);
+     serviceImpl.insert(university);
      return "redirect:/university/list";
     }
 
@@ -59,7 +58,7 @@ public class UniversityController {
      */
     @GetMapping("/delete/{uniId}")
     public String deleteUniversity(@PathVariable("uniId") final Long uniId) {
-    universityServiceImpl.delete(uniId);
+    serviceImpl.delete(uniId);
     return "redirect:/university/list";
     }
 
@@ -69,7 +68,7 @@ public class UniversityController {
      */
     @GetMapping("/edit/{uniId}")
     public String updateUniversity(@PathVariable("uniId") final Long uniId, final Model model) {
-       model.addAttribute("university", universityServiceImpl.getById(uniId).get());
+       model.addAttribute("university", serviceImpl.getById(uniId).get());
         return "updateUniversity";
     }
 
@@ -81,7 +80,7 @@ public class UniversityController {
 
     @PostMapping("/edit")
     public String updateUniversity(@ModelAttribute("university") final University university) {
-        universityServiceImpl.update(university);
+        serviceImpl.update(university);
         return "redirect:/university/list";
     }
 }
