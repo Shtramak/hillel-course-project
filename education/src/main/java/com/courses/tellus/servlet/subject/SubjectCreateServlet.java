@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.courses.tellus.config.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.SubjectDao;
-import com.courses.tellus.model.jdbc.Subject;
+import com.courses.tellus.model.Subject;
 
 @WebServlet(name = "createSubject", value = "/create/subject")
 public class SubjectCreateServlet extends HttpServlet {

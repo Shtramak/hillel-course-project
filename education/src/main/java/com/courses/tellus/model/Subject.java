@@ -1,4 +1,4 @@
-package com.courses.tellus.model.jdbc;
+package com.courses.tellus.model;
 
 import java.util.GregorianCalendar;
 import java.util.Objects;

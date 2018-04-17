@@ -2,7 +2,7 @@ package com.courses.tellus.servlet.university;
 
 import com.courses.tellus.config.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.UniversityDao;
-import com.courses.tellus.model.jdbc.University;
+import com.courses.tellus.model.University;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
