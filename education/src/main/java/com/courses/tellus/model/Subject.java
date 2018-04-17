@@ -1,14 +1,20 @@
 package com.courses.tellus.model;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Entity
 public class Subject {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "subject_id")
     private Long subjectId;
     private String name;
     private String description;
     private boolean valid;
+    @Column(name = "date_of_creation")
     private LocalDate dateOfCreation;
 
     /**
