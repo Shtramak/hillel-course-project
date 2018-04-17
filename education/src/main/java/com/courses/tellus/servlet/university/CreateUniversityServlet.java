@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.courses.tellus.config.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.UniversityDao;
-import com.courses.tellus.model.jdbc.University;
+import com.courses.tellus.model.University;
 
 @WebServlet(name = "createUniversity", value = "/create/university")
 public class CreateUniversityServlet extends HttpServlet {

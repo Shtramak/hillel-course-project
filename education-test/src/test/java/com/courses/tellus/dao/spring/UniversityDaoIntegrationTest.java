@@ -1,7 +1,7 @@
-package com.courses.tellus.dao.spring.jdbc;
+package com.courses.tellus.dao.spring;
 
-import com.courses.tellus.dao.spring.jdbc.datasource.TestDataSource;
-import com.courses.tellus.model.jdbc.Student;
+import com.courses.tellus.model.University;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,57 +12,57 @@ import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TestDataSource.class, StudentDao.class})
+@ContextConfiguration(classes = {TestDataSource.class, UniversityDao.class})
 @SqlGroup({
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
-                scripts = "classpath:initial/h2/table/spring/student_test_table.sql"),
+                scripts = "classpath:initial/h2/table/spring/univer_test_table.sql"),
         @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD,
                 scripts = "classpath:initial/h2/util/trunc.sql")
 })
-class StudentDaoIntegrationTest {
+
+class UniversityDaoIntegrationTest {
 
     @Autowired
-    private StudentDao studentDao;
-    private Student student = new Student(1L,"Givi", "Trump", "37773",
-            "Street 23");
+    private UniversityDao universityDao;
+    private University university = new University(1L,"KPI",
+            "pr.Peremogy", "technical");
 
     @Test
     void testGetAllWhenReturnEntityList() {
-        assertEquals(1, studentDao.getAll().size());
+        assertEquals(1, universityDao.getAll().size());
     }
 
     @Test
     void testGetAllWhenReturnFalse() {
-        studentDao.delete(1L);
-        assertEquals(0, studentDao.getAll().size());
+        universityDao.delete(1L);
+        assertEquals(0, universityDao.getAll().size());
     }
 
     @Test
     void testGetByIdWhenReturnEntity() {
-        assertEquals(student, studentDao.getById(1L).get());
+        assertEquals(university, universityDao.getById(1L).get());
     }
 
     @Test
     void testGetByIdWhenThrowException() {
-        assertThrows(EmptyResultDataAccessException.class, () -> studentDao.getById(10L));
+        Assertions.assertThrows(EmptyResultDataAccessException.class, () -> universityDao.getById(10L));
     }
 
     @Test
     void testInsert() {
-        assertEquals(1, studentDao.insert(student));
+        assertEquals(1,universityDao.insert(university));
     }
 
     @Test
     void testUpdate() {
-        student.setAddress("new Address");
-        assertEquals(1, studentDao.update(student));
+        university.setAddress("new Address");
+        assertEquals(1, universityDao.update(university));
     }
 
     @Test
     void testDelete() {
-        assertEquals(1, studentDao.delete(1L));
+        assertEquals(1, universityDao.delete(1L));
     }
 }

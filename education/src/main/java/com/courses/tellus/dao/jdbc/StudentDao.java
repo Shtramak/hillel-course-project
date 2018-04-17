@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.courses.tellus.config.jdbc.ConnectionFactory;
-import com.courses.tellus.model.jdbc.Student;
+import com.courses.tellus.model.Student;
 import org.apache.log4j.Logger;
 
 public class StudentDao implements BasicDao<Student> {

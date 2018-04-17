@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.courses.tellus.config.jdbc.ConnectionFactory;
-import com.courses.tellus.model.jdbc.University;
+import com.courses.tellus.model.University;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
