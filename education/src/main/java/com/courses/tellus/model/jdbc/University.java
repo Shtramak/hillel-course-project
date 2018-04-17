@@ -1,4 +1,4 @@
-package com.courses.tellus.model;
+package com.courses.tellus.model.jdbc;
 
 import java.util.Objects;
 

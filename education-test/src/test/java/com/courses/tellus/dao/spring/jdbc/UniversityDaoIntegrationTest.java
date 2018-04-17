@@ -1,7 +1,7 @@
 package com.courses.tellus.dao.spring.jdbc;
 
 import com.courses.tellus.dao.spring.jdbc.datasource.TestDataSource;
-import com.courses.tellus.model.University;
+import com.courses.tellus.model.jdbc.University;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
