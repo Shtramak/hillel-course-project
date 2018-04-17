@@ -19,6 +19,6 @@ public class WebAppInitializer implements WebApplicationInitializer {
                 new DispatcherServlet(ctx));
 
         servlet.setLoadOnStartup(1);
-        servlet.addMapping("/");
+        servlet.addMapping("/springmvc/*");
     }
 }

@@ -52,7 +52,7 @@ public class UniversityControllerMockTest {
     @Test
     public void  testAddUniversityMethodPost() {
         when(universityServiceImpl.insert(anyObject())).thenReturn(1);
-        assertEquals("redirect:/university/list", universityController.addUniversity(university));
+        assertEquals("redirect:/springmvc/university/list", universityController.addUniversity(university));
     }
 
     @Test
@@ -63,7 +63,7 @@ public class UniversityControllerMockTest {
     @Test
     public void testUpdateUniversityMethodPost() {
         when(universityServiceImpl.update(anyObject())).thenReturn(1);
-        assertEquals("redirect:/university/list", universityController.updateUniversity(university));
+        assertEquals("redirect:/springmvc/university/list", universityController.updateUniversity(university));
     }
 
     @Test
@@ -75,7 +75,7 @@ public class UniversityControllerMockTest {
     @Test
     public void testDeleteUniversity() {
         when(universityServiceImpl.delete(anyLong())).thenReturn(1);
-        assertEquals("redirect:/university/list", universityController.deleteUniversity(anyLong()));
+        assertEquals("redirect:/springmvc/university/list", universityController.deleteUniversity(anyLong()));
     }
 
 }

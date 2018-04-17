@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.dao.spring.jdbc.SubjectDao;
+import com.courses.tellus.dao.spring.SubjectDao;
 import com.courses.tellus.dto.SubjectDTO;
 import com.courses.tellus.model.Subject;
 import org.apache.log4j.Logger;
