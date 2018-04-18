@@ -37,9 +37,8 @@ class SubjectDaoMockTest {
         when(connFactory.getConnection()).thenReturn(mockConnection);
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreState);
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
-        subject = new Subject(
-                1L, "Biology", "Lessons about building of humans", true,
-                "1996-05-12");
+        subject = new Subject(1L, "Biology", "Lessons about building of humans", true,
+                LocalDate.of(1996,05, 12));
     }
 
     @Test
@@ -91,7 +90,7 @@ class SubjectDaoMockTest {
     @Test
     void testInsertSubject() throws Exception {
         Subject subject = new Subject(2L, "Math", "Teach how to calculate numbers", true,
-                LocalDate.of(1996,05, 12).toString());
+                LocalDate.of(1996,05, 12));
         when(mockPreState.executeUpdate()).thenReturn(1);
         assertEquals(1, subjectDao.insert(subject));
     }

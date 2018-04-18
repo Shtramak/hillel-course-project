@@ -46,6 +46,6 @@ public class SubjectCreateServlet extends HttpServlet {
         final int day = Integer.parseInt(request.getParameter("day"));
         final int month = Integer.parseInt(request.getParameter("month"));
         final int year = Integer.parseInt(request.getParameter("year"));
-        return new Subject(name, description, valid, LocalDate.of(year, month, day).toString());
+        return new Subject(name, description, valid, LocalDate.of(year, month, day));
     }
 }

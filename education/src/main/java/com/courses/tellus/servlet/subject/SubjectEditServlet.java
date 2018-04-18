@@ -50,7 +50,7 @@ public class SubjectEditServlet extends HttpServlet {
         final int day = Integer.parseInt(request.getParameter("day"));
         final int month = Integer.parseInt(request.getParameter("month"));
         final int year = Integer.parseInt(request.getParameter("year"));
-        return new Subject(subjectId, name, description, valid, LocalDate.of(year, month, day).toString());
+        return new Subject(subjectId, name, description, valid, LocalDate.of(year, month, day));
     }
 
     private void setJspEditAttribute(final Subject subject, final HttpServletRequest req) {
