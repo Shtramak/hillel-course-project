@@ -47,9 +47,9 @@
                     <td>${university.nameOfUniversity}</td>
                     <td>${university.address}</td>
                     <td>${university.specialization}</td>
-                    <td><a href="update/university?uniId=${university.uniId}"><span
+                    <td><a href="/update/university?uniId=${university.uniId}"><span
                             class="glyphicon glyphicon-pencil"></span></a></td>
-                    <td><a href="delete/university?uniId=${university.uniId}"><span
+                    <td><a href="/delete/university?uniId=${university.uniId}"><span
                             class="glyphicon glyphicon-trash"></span></a></td>
                 </tr>
             </c:forEach>

@@ -25,14 +25,15 @@ public class CreateUniversityServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/addUniversity.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/servlets/university/addUniversity.jsp")
+                .forward(req, resp);
     }
 
     @Override
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
         universityDao.insert(getUniversityFromRequest(req));
-        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/universityAdded.jsp")
+        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/servlets/university/universityAdded.jsp")
                 .forward(req, resp);
     }
 

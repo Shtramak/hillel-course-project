@@ -1,7 +1,7 @@
 package com.courses.tellus.servlet.subject;
 
 import java.io.IOException;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,7 +26,8 @@ public class SubjectCreateServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/subject/subject_create.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/servlets/subject/subject_create.jsp")
+                .forward(req, resp);
     }
 
     @Override
@@ -34,7 +35,8 @@ public class SubjectCreateServlet extends HttpServlet {
             throws ServletException, IOException {
         final Subject subject = createEntityFromRequest(req);
         subjectDao.insert(subject);
-        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/subject/subject_list.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/servlets/subject/subject_create.jsp")
+                .forward(req, resp);
     }
 
     private Subject createEntityFromRequest(final HttpServletRequest request) {
@@ -44,6 +46,6 @@ public class SubjectCreateServlet extends HttpServlet {
         final int day = Integer.parseInt(request.getParameter("day"));
         final int month = Integer.parseInt(request.getParameter("month"));
         final int year = Integer.parseInt(request.getParameter("year"));
-        return new Subject(name, description, valid, new GregorianCalendar(year, month, day));
+        return new Subject(name, description, valid, LocalDate.of(year, month, day));
     }
 }

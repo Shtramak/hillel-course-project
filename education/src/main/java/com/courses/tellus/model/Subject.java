@@ -1,6 +1,6 @@
 package com.courses.tellus.model;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Subject {
@@ -9,7 +9,7 @@ public class Subject {
     private String name;
     private String description;
     private boolean valid;
-    private Long dateOfCreation;
+    private LocalDate dateOfCreation;
 
     /**
      * Empty Object constructor.
@@ -23,14 +23,13 @@ public class Subject {
      * @param name title of the subject
      * @param description small description
      * @param valid deprecation mark
-     * @param gregCalendar date of creation this object
+     * @param date of creation this object
      */
-    public Subject(final String name, final String description, final boolean valid,
-                   final GregorianCalendar gregCalendar) {
+    public Subject(final String name, final String description, final boolean valid, final LocalDate date) {
         this.name = name;
         this.description = description;
         this.valid = valid;
-        this.dateOfCreation = gregCalendar.getTimeInMillis();
+        this.dateOfCreation = date;
     }
 
     /**
@@ -40,15 +39,15 @@ public class Subject {
      * @param name title of the subject
      * @param description small description
      * @param valid deprecation mark
-     * @param gregCalendar date of creation this object
+     * @param date of creation this object
      */
-    public Subject(final Long subjectId, final String name, final String description,
-                   final boolean valid, final GregorianCalendar gregCalendar) {
+    public Subject(final Long subjectId, final String name, final String description, final boolean valid,
+                   final LocalDate date) {
         this.subjectId = subjectId;
         this.name = name;
         this.description = description;
         this.valid = valid;
-        this.dateOfCreation = gregCalendar.getTimeInMillis();
+        this.dateOfCreation = date;
     }
 
     public Long getSubjectId() {
@@ -83,22 +82,12 @@ public class Subject {
         this.valid = valid;
     }
 
-    public Long getDateOfCreation() {
+    public LocalDate getDateOfCreation() {
         return dateOfCreation;
     }
 
-    public void setDateOfCreation(final Long dateOfCreation) {
-        this.dateOfCreation = dateOfCreation;
-    }
-
-    /**
-     * Overloaded method of setting parsed time to long.
-     * @param day of creation
-     * @param month of creation
-     * @param year of creation
-     */
-    public void setDateOfCreation(final int day, final int month, final int year) {
-        this.dateOfCreation = new GregorianCalendar(year, month, day).getTimeInMillis();
+    public void setDateOfCreation(final LocalDate date) {
+        this.dateOfCreation = date;
     }
 
     @Override

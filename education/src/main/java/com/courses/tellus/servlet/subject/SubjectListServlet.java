@@ -33,7 +33,8 @@ public class SubjectListServlet extends HttpServlet {
             final String message = "Database is empty!";
             req.setAttribute("emptydb", message);
         }
-        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/subject/subject_list.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/servlets/subject/subject_list.jsp")
+                .forward(req, resp);
     }
 
     @Override

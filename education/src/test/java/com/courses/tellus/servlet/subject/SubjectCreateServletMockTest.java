@@ -1,7 +1,7 @@
 package com.courses.tellus.servlet.subject;
 
 import java.lang.reflect.Field;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +32,7 @@ class SubjectCreateServletMockTest {
     @BeforeEach
     void initMocks() throws Exception {
         subject = new Subject("Math", " fdsd fsd", true,
-                new GregorianCalendar(2000, 10, 15));
+                LocalDate.of(2000,10, 15));
         servlet = new SubjectCreateServlet();
         field = servlet.getClass().getDeclaredField("subjectDao");
         field.setAccessible(true);

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.lang.reflect.Field;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import com.courses.tellus.config.jdbc.ConnectionFactory;
@@ -35,7 +35,7 @@ class SubjectEditServletMockTest {
     void initMocks() throws Exception {
         servlet = new SubjectEditServlet();
         subject = new Subject(1L,"Math", " fdsd fsd", true,
-                new GregorianCalendar(2000, 10, 15));
+                LocalDate.of(2000,10, 15));
         MockitoAnnotations.initMocks(this);
         field = servlet.getClass().getDeclaredField("subjectDao");
         field.setAccessible(true);

@@ -2,6 +2,7 @@ package com.courses.tellus.dao.jdbc;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +34,7 @@ class SubjectDaoExceptionMockTest {
     @BeforeEach
     void reInitDepartmentDao() throws SQLException {
         subject = new Subject(1L, "Math", "Teach how to calculate numbers", true,
-                new GregorianCalendar(1996,5,12));
+                LocalDate.of(2000, 10, 15));
         Connection mockConnection = mock(Connection.class);
         when(connectionFactory.getConnection()).thenReturn(mockConnection);
         when(mockConnection.prepareStatement(anyString())).thenThrow(new SQLException());

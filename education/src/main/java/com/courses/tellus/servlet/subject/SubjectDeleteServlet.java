@@ -26,6 +26,6 @@ public class SubjectDeleteServlet extends HttpServlet {
             throws ServletException, IOException {
         final Long subjectId = Long.parseLong(req.getParameter("subjectId"));
         subjectDao.delete(subjectId);
-        req.getServletContext().getRequestDispatcher("/subjectList").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/list/subject").forward(req, resp);
     }
 }

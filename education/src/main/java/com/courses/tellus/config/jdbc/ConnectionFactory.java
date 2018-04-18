@@ -16,7 +16,7 @@ import org.h2.tools.RunScript;
 @SuppressWarnings("PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal")
 public class ConnectionFactory {
 
-    private static final Path DB_INITIALS = Paths.get("database/h2/init_h2.sql");
+    private static final Path DB_INITIALS = Paths.get("database/h2/init.sql");
     private static final Path DB_PROPERTIES = Paths.get("properties/db.properties");
     private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class);
     private static ConnectionFactory connFactory;
