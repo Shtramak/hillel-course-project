@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.lang.reflect.Field;
-import java.util.GregorianCalendar;
 
 import com.courses.tellus.config.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.SubjectDao;
@@ -18,7 +17,6 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
-
 
 class SubjectDeleteServletMockTest {
 
@@ -33,8 +31,7 @@ class SubjectDeleteServletMockTest {
 
     @BeforeEach
     void initMockito() throws Exception {
-        subject = new Subject("Math", " fdsd fsd", true,
-                new GregorianCalendar(2000, 10, 15));
+        subject = new Subject("Math", " fdsd fsd", true, "2000-10-15");
         servlet = new SubjectDeleteServlet();
         field = servlet.getClass().getDeclaredField("subjectDao");
         field.setAccessible(true);

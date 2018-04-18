@@ -31,8 +31,7 @@ class SubjectListServletMockTest {
     @BeforeEach
     void initMocks() throws Exception {
         servlet = new SubjectListServlet();
-        subject = new Subject(1L,"Math", " fdsd fsd", true,
-                new GregorianCalendar(2000, 10, 15));
+        subject = new Subject(1L,"Math", " fdsd fsd", true, "2000-10-15");
         MockitoAnnotations.initMocks(this);
         field = servlet.getClass().getDeclaredField("subjectDao");
         field.setAccessible(true);

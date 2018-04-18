@@ -33,7 +33,7 @@ public class GetAllUniversitiesServlet extends HttpServlet {
             final String message = "Database is empty!";
             req.setAttribute("dbIsEmpty", message);
         }
-        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/listOfUniversities.jsp")
+        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/servlets/university/listOfUniversities.jsp")
                 .forward(req, resp);
     }
 

@@ -23,7 +23,7 @@ class SubjectDaoIntegrationTest {
                 new FileReader("src/test/resources/initial/h2/table/jdbc/subject_test_table.sql"));
         subjectDao = new SubjectDao(ConnectionFactory.getInstance());
         subject = new Subject(1L,"Biology", "Lessons about building of humans", true,
-                new GregorianCalendar(1996,5,12));
+                "1996-05-12");
         subjectDao.insert(subject);
     }
 
@@ -61,7 +61,7 @@ class SubjectDaoIntegrationTest {
     @Test
     void testUpdateSubject() throws Exception {
         Subject subject = new Subject(1L, "Biology", "Lessons about building of humans",
-                true, new GregorianCalendar(2000,5,12));
+                true, "1996-05-12");
         Assertions.assertEquals(1, subjectDao.update(subject));
     }
 
