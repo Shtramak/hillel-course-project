@@ -1,6 +1,7 @@
 package com.courses.tellus.servlet.subject;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.*;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -31,7 +32,8 @@ class SubjectListServletMockTest {
     @BeforeEach
     void initMocks() throws Exception {
         servlet = new SubjectListServlet();
-        subject = new Subject(1L,"Math", " fdsd fsd", true, "2000-10-15");
+        subject = new Subject(1L,"Math", " fdsd fsd", true,
+                LocalDate.of(1996,05, 12));
         MockitoAnnotations.initMocks(this);
         field = servlet.getClass().getDeclaredField("subjectDao");
         field.setAccessible(true);

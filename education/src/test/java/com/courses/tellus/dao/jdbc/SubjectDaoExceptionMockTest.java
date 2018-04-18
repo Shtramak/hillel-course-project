@@ -34,7 +34,7 @@ class SubjectDaoExceptionMockTest {
     @BeforeEach
     void reInitDepartmentDao() throws SQLException {
         subject = new Subject(1L, "Math", "Teach how to calculate numbers", true,
-                LocalDate.of(2000, 10, 15).toString());
+                LocalDate.of(2000, 10, 15));
         Connection mockConnection = mock(Connection.class);
         when(connectionFactory.getConnection()).thenReturn(mockConnection);
         when(mockConnection.prepareStatement(anyString())).thenThrow(new SQLException());

@@ -1,6 +1,7 @@
 package com.courses.tellus.dao.jdbc;
 
 import java.io.FileReader;
+import java.time.LocalDate;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,7 @@ class SubjectDaoIntegrationTest {
                 new FileReader("src/test/resources/initial/h2/table/jdbc/subject_test_table.sql"));
         subjectDao = new SubjectDao(ConnectionFactory.getInstance());
         subject = new Subject(1L,"Biology", "Lessons about building of humans", true,
-                "1996-05-12");
+                LocalDate.of(1996,5, 12));
         subjectDao.insert(subject);
     }
 
@@ -61,7 +62,7 @@ class SubjectDaoIntegrationTest {
     @Test
     void testUpdateSubject() throws Exception {
         Subject subject = new Subject(1L, "Biology", "Lessons about building of humans",
-                true, "1996-05-12");
+                true, LocalDate.of(1996,5, 12));
         Assertions.assertEquals(1, subjectDao.update(subject));
     }
 

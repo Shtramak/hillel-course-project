@@ -3,6 +3,7 @@ package com.courses.tellus.dao.spring;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ class SubjectDaoMockTest {
     void mockInit() throws Exception {
         MockitoAnnotations.initMocks(this);
         subject = new Subject(1L, "Law", "Lesson about orders of Ukraine", true,
-                "2000-05-12");
+                LocalDate.of(1996,05, 12));
     }
 
     @Test

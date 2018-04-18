@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 
 import com.courses.tellus.config.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.SubjectDao;
@@ -31,7 +32,8 @@ class SubjectDeleteServletMockTest {
 
     @BeforeEach
     void initMockito() throws Exception {
-        subject = new Subject("Math", " fdsd fsd", true, "2000-10-15");
+        subject = new Subject("Math", " fdsd fsd", true,
+                LocalDate.of(1996,05, 12));
         servlet = new SubjectDeleteServlet();
         field = servlet.getClass().getDeclaredField("subjectDao");
         field.setAccessible(true);
