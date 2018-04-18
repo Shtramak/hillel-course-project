@@ -25,12 +25,11 @@ public class Subject {
      * @param valid deprecation mark
      * @param date of creation this object
      */
-    public Subject(final String name, final String description, final boolean valid,
-                   final String date) {
+    public Subject(final String name, final String description, final boolean valid, final LocalDate date) {
         this.name = name;
         this.description = description;
         this.valid = valid;
-        this.dateOfCreation = LocalDate.parse(date);
+        this.dateOfCreation = date;
     }
 
     /**
@@ -42,13 +41,13 @@ public class Subject {
      * @param valid deprecation mark
      * @param date of creation this object
      */
-    public Subject(final Long subjectId, final String name, final String description,
-                   final boolean valid, final String date) {
+    public Subject(final Long subjectId, final String name, final String description, final boolean valid,
+                   final LocalDate date) {
         this.subjectId = subjectId;
         this.name = name;
         this.description = description;
         this.valid = valid;
-        this.dateOfCreation = LocalDate.parse(date);
+        this.dateOfCreation = date;
     }
 
     public Long getSubjectId() {
