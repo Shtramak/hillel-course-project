@@ -15,14 +15,38 @@
 <nav class="navbar navbar-expand bg-dark navbar-dark">
     <a href="/" class="navbar-brand">EDUCATION</a>
     <div class="collapse navbar-collapse">
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" href="/university/add">New University</a>
-                <a class="nav-item nav-link" href="/university/list">All Universities</a>
-                <a class="nav-item nav-link" href="/subject">Subject List</a>
-                <a class="nav-item nav-link" href="/subject/add">Create Subject</a>
+        <ul class="nav navbar-nav">
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-light" href="#" data-toggle="dropdown">Spring create</a>
+                <div class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/springmvc/university/add">University</a></li>
+                    <li><a class="dropdown-item" href="#">Student</a></li>
+                    <li><a class="dropdown-item" href="/springmvc/subject/add">Subject</a></li>
+                </div>
+            </div><div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-light" href="#" data-toggle="dropdown">Spring list</a>
+                <div class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/springmvc/university/list">University</a></li>
+                    <li><a class="dropdown-item" href="#">Student</a></li>
+                    <li><a class="dropdown-item" href="/springmvc/subject">Subject</a></li>
+                </div>
+            </div><div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-light" href="#" data-toggle="dropdown">Servlets create</a>
+                <div class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/create/university">University</a></li>
+                    <li><a class="dropdown-item" href="#">Student</a></li>
+                    <li><a class="dropdown-item" href="/create/subject">Subject</a></li>
+                </div>
             </div>
-        </div>
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-light" href="#" data-toggle="dropdown">Servlets list</a>
+                <div class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/list/universities">University</a></li>
+                    <li><a class="dropdown-item" href="#">Student</a></li>
+                    <li><a class="dropdown-item" href="/list/subject">Subject</a></li>
+                </div>
+            </div>
+        </ul>
     </div>
 </nav>
 </body>

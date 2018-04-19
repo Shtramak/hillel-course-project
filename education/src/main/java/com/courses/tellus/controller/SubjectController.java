@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class SubjectController {
 
     private final transient SubjectServiceImpl subjectService;
-    private static final String REDIRECT_PATH = "redirect:/subject";
+    private static final String REDIRECT_PATH = "redirect:/springmvc/subject";
 
     @Autowired
     public SubjectController(final SubjectServiceImpl subjectService) {

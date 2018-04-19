@@ -47,14 +47,14 @@ class SubjectControllerMockTest {
     void insertEntityPostRequestTest() {
         given(service.insert(subjectDTO)).willReturn(1);
 
-        assertEquals("redirect:/subject", controller.insertEntity(subjectDTO).getViewName());
+        assertEquals("redirect:/springmvc/subject", controller.insertEntity(subjectDTO).getViewName());
     }
 
     @Test
     void deleteEntityGetRequestTest() {
         given(service.delete(anyLong())).willReturn(1);
 
-        assertEquals("redirect:/subject", controller.deleteEntity(anyLong()).getViewName());
+        assertEquals("redirect:/springmvc/subject", controller.deleteEntity(anyLong()).getViewName());
     }
 
     @Test
@@ -69,13 +69,13 @@ class SubjectControllerMockTest {
     void updateEntityGetRequestAndIsAbsentTest() {
         given(service.getById(anyLong())).willReturn(Optional.empty());
 
-        assertEquals("redirect:/subject", controller.updateEntity(anyLong()).getViewName());
+        assertEquals("redirect:/springmvc/subject", controller.updateEntity(anyLong()).getViewName());
     }
 
     @Test
     void updateEntityPostRequestTest() {
         given(service.update(subjectDTO)).willReturn(1);
 
-        assertEquals("redirect:/subject", controller.updateEntity(subjectDTO).getViewName());
+        assertEquals("redirect:/springmvc/subject", controller.updateEntity(subjectDTO).getViewName());
     }
 }

@@ -20,7 +20,7 @@ public class WebAppConfig implements WebMvcConfigurer {
     @Bean
     public InternalResourceViewResolver setupViewResolver() {
         final InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/jsp/");
+        resolver.setPrefix("/WEB-INF/jsp/spring/");
         resolver.setSuffix(".jsp");
         resolver.setViewClass(JstlView.class);
         return resolver;
