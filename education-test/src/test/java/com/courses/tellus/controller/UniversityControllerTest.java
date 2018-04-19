@@ -81,15 +81,13 @@ public class UniversityControllerTest {
 
     @Test
     void addUniversityMethodPost() throws Exception {
-        University university = new University(1L,"nameTest","addressTest",
-                "specializationTest");
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/university/add")
                 .param("uniId", "1")
                 .param("nameOfUniversity", "nameTest")
                 .param("address", "addressTest")
                 .param("specialization", "specializationTest");
         this.mockMvc.perform(builder)
-                .andExpect(model().attribute("university",university));
+                .andExpect(model().size(1));
     }
     @Test
     void updateUniversityMethodGet() throws Exception{
@@ -97,14 +95,12 @@ public class UniversityControllerTest {
     }
     @Test
     void updateUniversityMethodPost() throws Exception {
-        University university = new University(1L,"nameTest","addressTest",
-                "specializationTest");
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/university/edit")
                 .param("uniId", "1")
                 .param("nameOfUniversity", "nameTest")
                 .param("address", "addressTest")
                 .param("specialization", "specializationTest");
         this.mockMvc.perform(builder)
-                .andExpect(model().attribute("university",university));
+                .andExpect(model().size(1));
     }
 }
