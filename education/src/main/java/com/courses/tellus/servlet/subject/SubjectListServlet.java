@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.courses.tellus.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.config.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.SubjectDao;
 import com.courses.tellus.model.Subject;
 
@@ -33,7 +33,8 @@ public class SubjectListServlet extends HttpServlet {
             final String message = "Database is empty!";
             req.setAttribute("emptydb", message);
         }
-        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/subject/subject_list.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/servlets/subject/subject_list.jsp")
+                .forward(req, resp);
     }
 
     @Override

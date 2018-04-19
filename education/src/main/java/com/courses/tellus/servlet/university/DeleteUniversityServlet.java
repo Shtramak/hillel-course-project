@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.courses.tellus.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.config.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.UniversityDao;
 
 @WebServlet(name = "deleteUniversity", value = "/delete/university")
@@ -26,7 +26,7 @@ public class DeleteUniversityServlet extends HttpServlet {
             throws ServletException, IOException {
         final Long uniId = Long.parseLong(req.getParameter("uniId"));
         universityDao.delete(uniId);
-        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/universityDeleted.jsp")
+        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/servlets/university/universityDeleted.jsp")
                 .forward(req, resp);
     }
 }

@@ -1,11 +1,12 @@
 package com.courses.tellus.dao.jdbc;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import com.courses.tellus.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.config.jdbc.ConnectionFactory;
 import com.courses.tellus.model.Subject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +39,7 @@ class SubjectDaoMockTest {
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
         subject = new Subject(
                 1L, "Biology", "Lessons about building of humans", true,
-                new GregorianCalendar(1996,5,12));
+                LocalDate.of(1996,05, 12));
     }
 
     @Test
@@ -89,9 +90,8 @@ class SubjectDaoMockTest {
 
     @Test
     void testInsertSubject() throws Exception {
-        Subject subject = new Subject(
-                2L, "Math", "Teach how to calculate numbers", true,
-                new GregorianCalendar(1996,5,12));
+        Subject subject = new Subject(2L, "Math", "Teach how to calculate numbers", true,
+                LocalDate.of(1996,05, 12));
         when(mockPreState.executeUpdate()).thenReturn(1);
         assertEquals(1, subjectDao.insert(subject));
     }
@@ -103,6 +103,6 @@ class SubjectDaoMockTest {
         when(mockResSet.getString("descr")).thenReturn(subject.getDescription());
         when(mockResSet.getBoolean("valid")).thenReturn(subject.isValid());
         when(mockResSet.getDate("date_of_creation")).thenReturn(mockSqlDate);
-        when(mockSqlDate.getTime()).thenReturn(subject.getDateOfCreation());
+        when(mockSqlDate.toLocalDate()).thenReturn(subject.getDateOfCreation());
     }
 }

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.courses.tellus.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.config.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.UniversityDao;
 import com.courses.tellus.model.University;
 
@@ -29,7 +29,7 @@ public class UpdateUniversityServlet extends HttpServlet {
         final Long universityId = Long.parseLong(req.getParameter("uniId"));
         final Optional<University> university = universityDao.getById(universityId);
         req.setAttribute("university", university.get());
-        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/updateUniversity.jsp")
+        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/servlets/university/updateUniversity.jsp")
                 .forward(req, resp);
     }
 
@@ -38,7 +38,7 @@ public class UpdateUniversityServlet extends HttpServlet {
             throws ServletException, IOException {
         final University university = getEntityFromRequest(req);
         universityDao.update(university);
-        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/university/universityUpdated.jsp")
+        req.getServletContext().getRequestDispatcher("/WEB-INF/jsp/servlets/university/universityUpdated.jsp")
                 .forward(req, resp);
         }
 
