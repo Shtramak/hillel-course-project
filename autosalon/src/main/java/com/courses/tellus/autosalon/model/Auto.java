@@ -1,19 +1,22 @@
 package com.courses.tellus.autosalon.model;
 
-
+import java.math.BigDecimal;
+import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Column;
 import javax.persistence.Id;
-import java.math.BigDecimal;
-import java.util.Objects;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "Auto")
 public class Auto {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "auto_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String brand;
     private String model;
@@ -22,6 +25,9 @@ public class Auto {
     @Column(name = "producer_country")
     private String producerCountry;
     private BigDecimal price;
+    @ManyToOne
+    @JoinColumn(name = "autosalon_id")
+    private Autosalon autosalon;
 
     public Auto() {
     }
@@ -83,6 +89,14 @@ public class Auto {
         this.price = price;
     }
 
+    public Autosalon getAutosalon() {
+        return autosalon;
+    }
+
+    public void setAutosalon(Autosalon autosalon) {
+        this.autosalon = autosalon;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -105,4 +119,3 @@ public class Auto {
         return Objects.hash(getId(), getBrand(), getModel(), getManufactYear(), getProducerCountry(), getPrice());
     }
 }
-
