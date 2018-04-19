@@ -40,10 +40,10 @@
                                 <td>${subject.description}</td>
                                 <td>${subject.valid}</td>
                                 <td>${subject.dateOfCreation}</td>
-                                <td><a href="editSubject?subjectId=${subject.subjectId}">
+                                <td><a href="/update/subject?subjectId=${subject.subjectId}">
                                     <span class="fa fa-pencil text-center"></span></a>
                                 </td>
-                                <td><a href="deleteSubject?subjectId=${subject.subjectId}">
+                                <td><a href="/delete/subject?subjectId=${subject.subjectId}">
                                     <span class="fa fa-trash text-center"></span></a>
                                 </td>
                             </tr>

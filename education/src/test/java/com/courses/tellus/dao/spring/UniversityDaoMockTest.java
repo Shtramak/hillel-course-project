@@ -1,4 +1,4 @@
-package com.courses.tellus.dao.spring.jdbc;
+package com.courses.tellus.dao.spring;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

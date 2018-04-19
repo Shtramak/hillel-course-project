@@ -1,6 +1,7 @@
 package com.courses.tellus.dao.jdbc;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.config.jdbc.ConnectionFactory;
 import com.courses.tellus.model.Subject;
 import org.apache.log4j.Logger;
 
@@ -63,7 +64,7 @@ public class SubjectDao implements BasicDao<Subject> {
             preState.setString(OrderUtils.FIRST_STATEMENT.getOrder(), subject.getName());
             preState.setString(OrderUtils.SECOND_STATEMENT.getOrder(), subject.getDescription());
             preState.setBoolean(OrderUtils.THIRD_STATEMENT.getOrder(), subject.isValid());
-            preState.setDate(OrderUtils.FOURTH_STATEMENT.getOrder(), new java.sql.Date(subject.getDateOfCreation()));
+            preState.setDate(OrderUtils.FOURTH_STATEMENT.getOrder(), Date.valueOf(subject.getDateOfCreation()));
             preState.setLong(OrderUtils.FIFTH_STATEMENT.getOrder(), subject.getSubjectId());
             return preState.executeUpdate();
         } catch (SQLException except) {
@@ -92,7 +93,7 @@ public class SubjectDao implements BasicDao<Subject> {
             preState.setString(OrderUtils.FIRST_STATEMENT.getOrder(), subject.getName());
             preState.setString(OrderUtils.SECOND_STATEMENT.getOrder(), subject.getDescription());
             preState.setBoolean(OrderUtils.THIRD_STATEMENT.getOrder(), subject.isValid());
-            preState.setDate(OrderUtils.FOURTH_STATEMENT.getOrder(), new java.sql.Date(subject.getDateOfCreation()));
+            preState.setDate(OrderUtils.FOURTH_STATEMENT.getOrder(), Date.valueOf(subject.getDateOfCreation()));
             return preState.executeUpdate();
         } catch (SQLException except) {
             LOGGER.error(except.getCause(), except);
@@ -107,7 +108,7 @@ public class SubjectDao implements BasicDao<Subject> {
         subject.setName(resultSet.getString("name"));
         subject.setDescription(resultSet.getString("descr"));
         subject.setValid(resultSet.getBoolean("valid"));
-        subject.setDateOfCreation(resultSet.getDate("date_of_creation").getTime());
+        subject.setDateOfCreation(resultSet.getDate("date_of_creation").toLocalDate());
         return subject;
     }
 }

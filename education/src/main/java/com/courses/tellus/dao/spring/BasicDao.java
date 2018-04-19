@@ -1,4 +1,4 @@
-package com.courses.tellus.dao.spring.jdbc;
+package com.courses.tellus.dao.spring;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,9 +6,9 @@ import java.util.Optional;
 public interface BasicDao<E> {
 
     /**
-     * Method for returning all object from database.
+     * Method for getting all objects from database.
      *
-     * @return list with all Object or empty list if exception
+     * @return list with all Object or empty list
      */
     List<E> getAll();
 

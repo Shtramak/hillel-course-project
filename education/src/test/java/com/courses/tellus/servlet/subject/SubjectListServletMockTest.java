@@ -1,13 +1,14 @@
 package com.courses.tellus.servlet.subject;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.*;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.courses.tellus.connection.jdbc.ConnectionFactory;
+import com.courses.tellus.config.jdbc.ConnectionFactory;
 import com.courses.tellus.dao.jdbc.SubjectDao;
 import com.courses.tellus.model.Subject;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +33,7 @@ class SubjectListServletMockTest {
     void initMocks() throws Exception {
         servlet = new SubjectListServlet();
         subject = new Subject(1L,"Math", " fdsd fsd", true,
-                new GregorianCalendar(2000, 10, 15));
+                LocalDate.of(1996,05, 12));
         MockitoAnnotations.initMocks(this);
         field = servlet.getClass().getDeclaredField("subjectDao");
         field.setAccessible(true);
