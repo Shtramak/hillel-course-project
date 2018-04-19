@@ -1,7 +1,5 @@
 package com.courses.tellus.dto;
 
-import java.util.Objects;
-
 public class SubjectDTO {
 
     private String subjectId;
@@ -67,36 +65,5 @@ public class SubjectDTO {
 
     public void setDateOfCreation(final String dateOfCreation) {
         this.dateOfCreation = dateOfCreation;
-    }
-
-    @Override
-    public String toString() {
-        return "SubjectDTO{"
-                + "subjectId='" + subjectId + '\''
-                + ", name='" + name + '\''
-                + ", description='" + description + '\''
-                + ", valid='" + valid + '\''
-                + ", dateOfCreation='" + dateOfCreation + '\'' + '}';
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof SubjectDTO)) {
-            return false;
-        }
-        final SubjectDTO that = (SubjectDTO) obj;
-        return Objects.equals(getSubjectId(), that.getSubjectId())
-                && Objects.equals(getName(), that.getName())
-                && Objects.equals(getDescription(), that.getDescription())
-                && Objects.equals(getValid(), that.getValid())
-                && Objects.equals(getDateOfCreation(), that.getDateOfCreation());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getSubjectId(), getName(), getDescription(), getValid(), getDateOfCreation());
     }
 }

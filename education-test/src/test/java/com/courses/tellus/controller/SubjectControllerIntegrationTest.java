@@ -57,13 +57,12 @@ class SubjectControllerIntegrationTest {
 
     @Test
     void subjectInsertEntityTestAndSendSubjectData() throws Exception {
-        SubjectDTO subject = new SubjectDTO("Math", "dfgdf", "Y", "2000-05-12");
         mvc.perform(post("/subject/add")
                 .param("name", "Math")
                 .param("description", "dfgdf")
                 .param("valid", "Y")
                 .param("dateOfCreation", "2000-05-12"))
-                .andExpect(model().attribute("subject", subject));
+                .andExpect(model().size(1));
     }
 
     @Test
@@ -87,6 +86,6 @@ class SubjectControllerIntegrationTest {
                 .param("description", "dfgdf")
                 .param("valid", "Y")
                 .param("dateOfCreation", "2000-05-12"))
-                .andExpect(model().attribute("subject", subject));
+                .andExpect(model().size(1));
     }
 }
