@@ -3,12 +3,12 @@ package com.courses.tellus.config.hibernate;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-public final class EntityFactory {
+public final class HibernateUtils {
 
     private static final String PERSIST_UNIT = "education";
     private static EntityManagerFactory managerFactory;
 
-    private EntityFactory() {
+    private HibernateUtils() {
     }
 
     /**

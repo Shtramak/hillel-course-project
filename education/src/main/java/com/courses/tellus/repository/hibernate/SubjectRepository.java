@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 public class SubjectRepository implements MainRepo<Subject> {
 
     private static final Logger LOGGER = Logger.getLogger(SubjectRepository.class);
-
     private final transient EntityManager entityManager;
 
     public SubjectRepository(final EntityManager entityManager) {
