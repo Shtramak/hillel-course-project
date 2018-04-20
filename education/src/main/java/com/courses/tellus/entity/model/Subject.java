@@ -5,14 +5,18 @@ import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "SUBJECT")
+@Table(name = "subject")
 public class Subject {
 
     @Id
@@ -29,10 +33,16 @@ public class Subject {
     @Column(name = "date_of_creation")
     private LocalDate dateOfCreation;
 
-    @OneToMany
-    private Set<University> universities;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "uni_id")
+    private University university;
 
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "subject_student",
+            joinColumns = @JoinColumn(name = "subject_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
     private Set<Student> students;
 
     /**
@@ -63,15 +73,15 @@ public class Subject {
      * @param description small description
      * @param valid deprecation mark
      * @param dateOfCreation of creation this object
-     * @param universities collection with universities where is been this subject.
+     * @param university collection with universities where is been this subject.
      */
     public Subject(String name, String description, boolean valid, LocalDate dateOfCreation,
-                   Set<University> universities) {
+                   University university) {
         this.name = name;
         this.description = description;
         this.valid = valid;
         this.dateOfCreation = dateOfCreation;
-        this.universities = universities;
+        this.university = university;
     }
 
     /**
@@ -132,12 +142,12 @@ public class Subject {
         this.dateOfCreation = date;
     }
 
-    public Set<University> getUniversities() {
-        return universities;
+    public University getUniversity() {
+        return university;
     }
 
-    public void setUniversities(Set<University> universities) {
-        this.universities = universities;
+    public void setUniversities(University university) {
+        this.university = university;
     }
 
     public Set<Student> getStudents() {
