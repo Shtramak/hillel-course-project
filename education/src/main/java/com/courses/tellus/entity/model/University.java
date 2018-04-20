@@ -18,6 +18,7 @@ public class University  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "uni_id")
     private Long uniId;
 
     @Column(name = "name_of_university")
@@ -32,13 +33,21 @@ public class University  {
 
     @ManyToMany
     @JoinTable(
-            name = "univerity_student",
+            name = "university_student",
             joinColumns = @JoinColumn(name = "uni_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
     private Set<Student> students;
 
     public University() {
+    }
+
+    public University(String nameOfUniversity, String address, String specialization, Set<Subject> subjects, Set<Student> students) {
+        this.nameOfUniversity = nameOfUniversity;
+        this.address = address;
+        this.specialization = specialization;
+        this.subjects = subjects;
+        this.students = students;
     }
 
     public University(final Long uniId, final String nameOfUniversity) {
@@ -90,6 +99,22 @@ public class University  {
 
     public void setSpecialization(final String specialization) {
         this.specialization = specialization;
+    }
+
+    public Set<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(Set<Subject> subjects) {
+        this.subjects = subjects;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 
     @Override

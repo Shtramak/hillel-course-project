@@ -31,7 +31,7 @@ public class Student {
 
     @ManyToMany
     @JoinTable(
-            name = "univerity_student",
+            name = "university_student",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "uni_id")
     )
