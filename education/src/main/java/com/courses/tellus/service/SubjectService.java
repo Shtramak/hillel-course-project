@@ -3,8 +3,8 @@ package com.courses.tellus.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.dto.SubjectDTO;
-import com.courses.tellus.model.Subject;
+import com.courses.tellus.entity.dto.SubjectDTO;
+import com.courses.tellus.entity.model.Subject;
 
 public interface SubjectService {
 

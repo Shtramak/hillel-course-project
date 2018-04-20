@@ -3,15 +3,14 @@ package com.courses.tellus.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.dao.spring.UniversityDao;
-import com.courses.tellus.model.University;
-
+import com.courses.tellus.entity.model.University;
+import com.courses.tellus.persistence.dao.spring.UniversityDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 @Service
-@ComponentScan("com.courses.tellus.dao.spring.jdbc")
+@ComponentScan("com.courses.tellus.persistence.dao.spring.jdbc")
 public class UniversityServiceImpl implements UniversityService {
 
     @Autowired
