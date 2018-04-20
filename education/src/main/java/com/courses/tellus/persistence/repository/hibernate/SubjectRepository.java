@@ -9,10 +9,10 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TransactionRequiredException;
 
 import com.courses.tellus.entity.model.Subject;
-import com.courses.tellus.persistence.repository.MainRepo;
+import com.courses.tellus.persistence.BasicDao;
 import org.apache.log4j.Logger;
 
-public class SubjectRepository implements MainRepo<Subject> {
+public class SubjectRepository implements BasicDao<Subject> {
 
     private static final Logger LOGGER = Logger.getLogger(SubjectRepository.class);
     private final transient EntityManager entityManager;
@@ -23,7 +23,7 @@ public class SubjectRepository implements MainRepo<Subject> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Subject> findAll() {
+    public List<Subject> getAll() {
         try {
             return entityManager.createQuery("select subject from Subject subject").getResultList();
         } catch (IllegalArgumentException exception) {
@@ -33,7 +33,7 @@ public class SubjectRepository implements MainRepo<Subject> {
     }
 
     @Override
-    public Optional<Subject> findById(final Long subjectId) {
+    public Optional<Subject> getById(final Long subjectId) {
         try {
             return Optional.of(entityManager.find(Subject.class, subjectId));
         } catch (IllegalArgumentException exception) {
@@ -43,7 +43,7 @@ public class SubjectRepository implements MainRepo<Subject> {
     }
 
     @Override
-    public int persist(final Subject subject) {
+    public int insert(final Subject subject) {
         final EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
@@ -58,7 +58,7 @@ public class SubjectRepository implements MainRepo<Subject> {
     }
 
     @Override
-    public int merge(final Subject subject) {
+    public int update(final Subject subject) {
         final EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
@@ -73,7 +73,7 @@ public class SubjectRepository implements MainRepo<Subject> {
     }
 
     @Override
-    public int remove(final Long subjectId) {
+    public int delete(final Long subjectId) {
         final EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();

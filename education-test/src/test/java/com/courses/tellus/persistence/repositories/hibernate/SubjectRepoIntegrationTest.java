@@ -26,63 +26,63 @@ class SubjectRepoIntegrationTest {
         repository = new SubjectRepository(manager);
         subject = new Subject("math", "fdsfs", true,
                 LocalDate.of(2000, 05, 12));
-        if (repository.findAll().size() == 0) {
-            repository.persist(subject);
+        if (repository.getAll().size() == 0) {
+            repository.insert(subject);
         }
     }
 
     @AfterEach
     void clean(){
-        while (repository.findAll().size() > 1) {
-            final List<Subject> subjects = repository.findAll();
-            repository.remove(subjects.get(subjects.size() - 1).getSubjectId());
+        while (repository.getAll().size() > 1) {
+            final List<Subject> subjects = repository.getAll();
+            repository.delete(subjects.get(subjects.size() - 1).getSubjectId());
         }
     }
 
     @Test
     void findAllTestAndReturnEntityList() {
-        assertEquals(1, repository.findAll().size());
+        assertEquals(1, repository.getAll().size());
     }
 
     @Test
     void getByIdTestAndReturnEntity() {
-        assertTrue(repository.findById(1L).isPresent());
+        assertTrue(repository.getById(1L).isPresent());
     }
 
     @Test
     void mergeTestAndReturnSuccessfulValue() {
         subject.setValid(false);
-        assertEquals(1, repository.merge(subject));
+        assertEquals(1, repository.update(subject));
     }
 
     @Test
     void persistTestAndReturnSuccessfulValue() {
-        assertEquals(1, repository.persist(subject));
+        assertEquals(1, repository.insert(subject));
     }
 
     @Test
     void removeTestAndReturnSuccessfulValue() {
-        assertEquals(1, repository.remove(1L));
+        assertEquals(1, repository.delete(1L));
     }
 
 
     @Test
     void findByIdTestAndThrowException() {
-        assertFalse(repository.findById(null).isPresent());
+        assertFalse(repository.getById(null).isPresent());
     }
 
     @Test
     void mergeTestAndThrowException() {
-        assertEquals(0, repository.merge(null));
+        assertEquals(0, repository.update(null));
     }
 
     @Test
     void persistTestAndThrowException() {
-        assertEquals(0, repository.persist(null));
+        assertEquals(0, repository.insert(null));
     }
 
     @Test
     void removeTestAndThrowException() {
-        assertEquals(0, repository.remove(null));
+        assertEquals(0, repository.delete(null));
     }
 }
