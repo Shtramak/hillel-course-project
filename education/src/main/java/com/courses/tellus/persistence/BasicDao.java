@@ -1,4 +1,4 @@
-package com.courses.tellus.persistence.dao;
+package com.courses.tellus.persistence;
 
 import java.util.List;
 import java.util.Optional;

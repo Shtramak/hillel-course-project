@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import com.courses.tellus.config.jdbc.ConnectionFactory;
 import com.courses.tellus.entity.model.University;
-import com.courses.tellus.persistence.dao.BasicDao;
+import com.courses.tellus.persistence.BasicDao;
 import org.apache.log4j.Logger;
 
 public class UniversityDao implements BasicDao<University> {

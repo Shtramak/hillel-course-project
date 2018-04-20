@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.courses.tellus.entity.model.Student;
-import com.courses.tellus.persistence.dao.BasicDao;
+import com.courses.tellus.persistence.BasicDao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
