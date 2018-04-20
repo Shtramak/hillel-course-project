@@ -25,7 +25,7 @@ public class UniversityRepository implements BasicDao<University> {
     @SuppressWarnings("unchecked")
     public List<University> getAll() {
         try {
-            return entityManager.createQuery("SELECT university FROM Universities university").getResultList();
+            return entityManager.createQuery("SELECT university FROM University university").getResultList();
         } catch (IllegalArgumentException exception) {
             LOGGER.debug(exception.getMessage());
             return Collections.emptyList();
