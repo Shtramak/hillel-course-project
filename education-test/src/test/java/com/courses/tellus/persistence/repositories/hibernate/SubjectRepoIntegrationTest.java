@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.courses.tellus.config.hibernate.HibernateUtils;
 import com.courses.tellus.entity.model.Subject;
+import com.courses.tellus.entity.model.University;
 import com.courses.tellus.persistence.repository.hibernate.SubjectRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,15 +25,16 @@ class SubjectRepoIntegrationTest {
     void setup() {
         EntityManager manager = HibernateUtils.getManagerFactory().createEntityManager();
         repository = new SubjectRepository(manager);
+        University university = new University("KPI", "peromohy 27 st.", "tech");
         subject = new Subject("math", "fdsfs", true,
-                LocalDate.of(2000, 05, 12));
+                LocalDate.of(2000, 05, 12), university);
         if (repository.getAll().size() == 0) {
             repository.insert(subject);
         }
     }
 
     @AfterEach
-    void clean(){
+    void clean() {
         while (repository.getAll().size() > 1) {
             final List<Subject> subjects = repository.getAll();
             repository.delete(subjects.get(subjects.size() - 1).getSubjectId());

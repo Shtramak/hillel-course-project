@@ -16,6 +16,7 @@ public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "student_id")
     private long studentId;
 
     @Column(name = "first_name")
@@ -31,7 +32,7 @@ public class Student {
 
     @ManyToMany
     @JoinTable(
-            name = "univerity_student",
+            name = "university_student",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "uni_id")
     )
