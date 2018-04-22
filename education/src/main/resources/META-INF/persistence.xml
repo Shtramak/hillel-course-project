@@ -37,8 +37,9 @@
             <property name="javax.persistence.jdbc.password" value="admin"/>
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL82Dialect" />
-            <property name="hibernate.format_sql" value="true"/>
-            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="hibernate.hbm2ddl.import_files" value="database/init_values.sql" />
+            <property name="hibernate.hbm2ddl.auto" value="create" />
+            <property name="hibernate.format_sql" value="true" />
         </properties>
     </persistence-unit>
 

@@ -2,9 +2,12 @@ package com.courses.tellus.persistence.repositories.hibernate;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.courses.tellus.config.hibernate.HibernateUtils;
+import com.courses.tellus.entity.model.Student;
 import com.courses.tellus.entity.model.Subject;
 import com.courses.tellus.entity.model.University;
 import com.courses.tellus.persistence.repository.hibernate.SubjectRepository;
@@ -19,23 +22,32 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class SubjectRepoIntegrationTest {
 
     private SubjectRepository repository;
+    private Set<Student> students;
+    private University university;
     private Subject subject;
 
     @BeforeEach
     void setup() {
         EntityManager manager = HibernateUtils.getManagerFactory().createEntityManager();
         repository = new SubjectRepository(manager);
-        University university = new University("KPI", "peromohy 27 st.", "tech");
-        subject = new Subject("math", "fdsfs", true,
-                LocalDate.of(2000, 05, 12), university);
-        if (repository.getAll().size() == 0) {
+
+        university = new University(2L, "KPI", "peremohy 27 str.", "technical");
+
+        students = new HashSet<>();
+        students.add(new Student(2L, "John", "Shepard", "423541646", "Lvivska 3 str"));
+
+        subject = new Subject("history", "fdsfs", true, LocalDate.of(2000, 5, 12));
+        subject.setStudents(students);
+        subject.setUniversity(university);
+
+        if (repository.getAll().size() == 1) {
             repository.insert(subject);
         }
     }
 
     @AfterEach
     void clean() {
-        while (repository.getAll().size() > 1) {
+        while (repository.getAll().size() > 2) {
             final List<Subject> subjects = repository.getAll();
             repository.delete(subjects.get(subjects.size() - 1).getSubjectId());
         }
@@ -43,12 +55,15 @@ class SubjectRepoIntegrationTest {
 
     @Test
     void findAllTestAndReturnEntityList() {
-        assertEquals(1, repository.getAll().size());
+        Subject subject = repository.getAll().get(1);
+        assertEquals(2, repository.getAll().size());
+        assertEquals(university, subject.getUniversity());
+        assertEquals(students, subject.getStudents());
     }
 
     @Test
     void getByIdTestAndReturnEntity() {
-        assertTrue(repository.getById(1L).isPresent());
+        assertTrue(repository.getById(2L).isPresent());
     }
 
     @Test
@@ -64,7 +79,7 @@ class SubjectRepoIntegrationTest {
 
     @Test
     void removeTestAndReturnSuccessfulValue() {
-        assertEquals(1, repository.delete(1L));
+        assertEquals(1, repository.delete(2L));
     }
 
 

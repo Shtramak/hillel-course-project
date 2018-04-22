@@ -65,24 +65,6 @@ public class Subject {
     }
 
     /**
-     * Constructor for creating new Object (hibernate).
-     *
-     * @param name title of the subject
-     * @param description small description
-     * @param valid deprecation mark
-     * @param dateOfCreation of creation this object
-     * @param university collection with universities where is been this subject.
-     */
-    public Subject(String name, String description, boolean valid, LocalDate dateOfCreation,
-                   University university) {
-        this.name = name;
-        this.description = description;
-        this.valid = valid;
-        this.dateOfCreation = dateOfCreation;
-        this.university = university;
-    }
-
-    /**
      * Constructor for creating new Object obtained from database (servlets and first version mvc).
      *
      * @param subjectId object database id
@@ -144,7 +126,7 @@ public class Subject {
         return university;
     }
 
-    public void setUniversities(University university) {
+    public void setUniversity(University university) {
         this.university = university;
     }
 
