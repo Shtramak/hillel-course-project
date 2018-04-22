@@ -5,6 +5,7 @@ import javax.persistence.Persistence;
 
 @SuppressWarnings("PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal")
 public class EntityFactory {
+
     private static final String PERSISTANCE_NAME = "autosalon";
     private static EntityManagerFactory factory;
 
