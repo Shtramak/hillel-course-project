@@ -13,10 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "subject")
 public class Subject {
 
     @Id
@@ -64,24 +62,6 @@ public class Subject {
         this.description = description;
         this.valid = valid;
         this.dateOfCreation = date;
-    }
-
-    /**
-     * Constructor for creating new Object (hibernate).
-     *
-     * @param name title of the subject
-     * @param description small description
-     * @param valid deprecation mark
-     * @param dateOfCreation of creation this object
-     * @param university collection with universities where is been this subject.
-     */
-    public Subject(String name, String description, boolean valid, LocalDate dateOfCreation,
-                   University university) {
-        this.name = name;
-        this.description = description;
-        this.valid = valid;
-        this.dateOfCreation = dateOfCreation;
-        this.university = university;
     }
 
     /**
@@ -146,7 +126,7 @@ public class Subject {
         return university;
     }
 
-    public void setUniversities(University university) {
+    public void setUniversity(University university) {
         this.university = university;
     }
 

@@ -16,6 +16,7 @@ public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "student_id")
     private long studentId;
 
     @Column(name = "first_name")

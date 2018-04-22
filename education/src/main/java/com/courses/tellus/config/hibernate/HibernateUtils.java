@@ -5,7 +5,7 @@ import javax.persistence.Persistence;
 
 public final class HibernateUtils {
 
-    private static final String PERSIST_UNIT = "education";
+    private static final String PERSIST_UNIT = "education-h2-mem";
     private static EntityManagerFactory managerFactory;
 
     private HibernateUtils() {
