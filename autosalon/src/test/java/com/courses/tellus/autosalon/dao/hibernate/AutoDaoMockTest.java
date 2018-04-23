@@ -79,6 +79,7 @@ public class AutoDaoMockTest {
         when(entityManager.getTransaction()).thenReturn(transaction);
         doThrow(IllegalArgumentException.class).when(entityManager).persist(anyObject());
         assertThat(autoDao.insert(auto), is(-1));
+        verify(transaction).rollback();
     }
 
     @Test
@@ -93,6 +94,7 @@ public class AutoDaoMockTest {
         when(entityManager.getTransaction()).thenReturn(transaction);
         doThrow(IllegalArgumentException.class).when(entityManager).merge(anyObject());
         assertThat(autoDao.update(auto), is(-1));
+        verify(transaction).rollback();
     }
 
     @Test void testDeleteWhenResultTrue(){
@@ -106,5 +108,6 @@ public class AutoDaoMockTest {
         when(entityManager.getTransaction()).thenReturn(transaction);
         doThrow(IllegalArgumentException.class).when(entityManager).remove(anyLong());
         assertThat(autoDao.delete(1L), is(-1));
+        verify(transaction).rollback();
     }
 }
