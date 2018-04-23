@@ -3,7 +3,7 @@ package com.courses.tellus.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.courses.tellus.model.University;
+import com.courses.tellus.entity.model.University;
 
 public interface UniversityService {
 
