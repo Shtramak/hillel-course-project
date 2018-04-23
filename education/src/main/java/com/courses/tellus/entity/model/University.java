@@ -2,7 +2,6 @@ package com.courses.tellus.entity.model;
 
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Universities")
+@Table(name = "university")
 public class University  {
 
     @Id
@@ -30,7 +29,7 @@ public class University  {
 
     private String specialization;
 
-    @OneToMany(mappedBy = "university", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "university")
     private Set<Subject> subjects;
 
     @ManyToMany
@@ -42,14 +41,6 @@ public class University  {
     private Set<Student> students;
 
     public University() {
-    }
-
-    public University(String nameOfUniversity, String address, String specialization, Set<Subject> subjects, Set<Student> students) {
-        this.nameOfUniversity = nameOfUniversity;
-        this.address = address;
-        this.specialization = specialization;
-        this.subjects = subjects;
-        this.students = students;
     }
 
     public University(final Long uniId, final String nameOfUniversity) {
