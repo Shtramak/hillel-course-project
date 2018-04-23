@@ -3,7 +3,7 @@ package com.courses.tellus.autosalon.controller;
 import java.util.Optional;
 
 import com.courses.tellus.autosalon.model.Auto;
-import com.courses.tellus.autosalon.service.AutoServiceImpl;
+import com.courses.tellus.autosalon.service.AutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/autosalon/auto")
 public class AutoController {
 
-    private final transient AutoServiceImpl autoService;
+    private final transient AutoService autoService;
 
     @Autowired
-    public AutoController(final AutoServiceImpl autoService) {
+    public AutoController(final AutoService autoService) {
         this.autoService = autoService;
     }
 
