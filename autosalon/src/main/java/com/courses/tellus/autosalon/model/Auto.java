@@ -26,7 +26,7 @@ public class Auto {
     private String producerCountry;
     private BigDecimal price;
     @ManyToOne
-    @JoinColumn(name = "autosalon_id")
+    @JoinColumn(name = "autosalon_id", nullable = false)
     private Autosalon autosalon;
 
     public Auto() {
