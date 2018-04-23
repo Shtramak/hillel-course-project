@@ -1,43 +1,13 @@
 package com.courses.tellus.entity.model;
 
 import java.util.Objects;
-import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 
-@Entity
 public class University  {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "uni_id")
     private Long uniId;
-
-    @Column(name = "name_of_university")
     private String nameOfUniversity;
-
     private String address;
-
     private String specialization;
-
-    @OneToMany(mappedBy = "university", cascade = CascadeType.ALL)
-    private Set<Subject> subjects;
-
-    @ManyToMany
-    @JoinTable(
-            name = "university_student",
-            joinColumns = @JoinColumn(name = "uni_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id")
-    )
-    private Set<Student> students;
 
     public University() {
     }
