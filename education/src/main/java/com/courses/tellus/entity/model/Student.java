@@ -126,6 +126,22 @@ public class Student {
         this.address = address;
     }
 
+    public Set<University> getUniversities() {
+        return universities;
+    }
+
+    public void setUniversities(Set<University> universities) {
+        this.universities = universities;
+    }
+
+    public Set<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(Set<Subject> subjects) {
+        this.subjects = subjects;
+    }
+
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
