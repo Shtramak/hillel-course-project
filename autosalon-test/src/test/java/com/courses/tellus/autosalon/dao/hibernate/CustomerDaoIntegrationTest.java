@@ -31,11 +31,6 @@ public class CustomerDaoIntegrationTest {
         factory = EntityFactory.getFactory();
     }
 
-    @AfterAll
-    static void closeEntityManagerFactory(){
-        factory.close();
-    }
-
     @BeforeEach
     void setup() {
         entityManager = factory.createEntityManager();
