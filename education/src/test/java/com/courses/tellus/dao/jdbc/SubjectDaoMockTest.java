@@ -37,8 +37,7 @@ class SubjectDaoMockTest {
         when(connFactory.getConnection()).thenReturn(mockConnection);
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreState);
         when(mockPreState.executeQuery()).thenReturn(mockResSet);
-        subject = new Subject(
-                1L, "Biology", "Lessons about building of humans", true,
+        subject = new Subject(1L, "Biology", "Lessons about building of humans", true,
                 LocalDate.of(1996,05, 12));
     }
 

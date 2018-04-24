@@ -2,7 +2,6 @@ package com.courses.tellus.dao.jdbc;
 
 import java.io.FileReader;
 import java.time.LocalDate;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 
