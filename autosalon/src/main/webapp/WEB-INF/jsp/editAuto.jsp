@@ -7,9 +7,13 @@
 </head>
 <body>
 <div align="center">
-    <h3>Create Auto</h3>
-    <form method="post" action="create">
+    <h3>Edit Auto By Id ${auto.id}</h3>
+    <form method="post" action="${pageContext.request.contextPath}/springmvc/autosalon/auto/update">
         <table border="2" cellpadding="5" cellspacing="5">
+            <tr>
+                <td>Id: </td>
+                <td><input type="text" name="id" value="${auto.id}"></td>
+            </tr>
             <tr>
                 <td>Auto Brend: </td>
                 <td><input type="text" name="brand" value="${auto.brand}"></td>
@@ -33,7 +37,7 @@
             <tr>
                 <td colspan="3" align="center">
                     <input type="submit" value="Submit">
-                    <a href="${pageContext.request.contextPath}/index.jsp">Cancel</a>
+                    <a href="${pageContext.request.contextPath}/springmvc/autosalon/auto/list">Cancel</a>
                 </td>
             </tr>
         </table>

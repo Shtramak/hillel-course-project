@@ -8,7 +8,7 @@
 <body>
 <div align="center">
     <h3>Create Autosalon</h3>
-    <form method="POST" action="/autosalon/autosalon/">
+    <form method="POST" action="${pageContext.request.contextPath}/autosalon/autosalon/">
         <table border="2" cellpadding="5" cellspacing="5">
             <tr>
                 <td>Autosalon Name: </td>
@@ -25,7 +25,7 @@
             <tr>
                 <td colspan="3" align="center">
                     <input type="submit" value="Submit">
-                    <a href="/index.jsp">Cancel</a>
+                    <a href="${pageContext.request.contextPath}/index-servlets.jsp">Cancel</a>
                 </td>
             </tr>
         </table>
