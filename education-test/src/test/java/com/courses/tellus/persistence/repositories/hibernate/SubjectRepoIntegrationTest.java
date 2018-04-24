@@ -26,18 +26,20 @@ class SubjectRepoIntegrationTest {
     private Set<Student> students;
     private University university;
     private Subject subject;
+    private Subject subject2;
 
     @BeforeEach
     void setup() {
         EntityManager manager = HibernateUtils.getManagerFactory().createEntityManager();
         repository = new SubjectRepository(manager);
 
-        university = new University(2L, "KPI", "peremohy 27 str.", "technical");
+        university = new University(2L, "KPI", "peremohy 30 str.", "technical");
 
         students = new HashSet<>();
-        students.add(new Student(2L, "John", "Shepard", "423541646", "Lvivska 3 str"));
+        students.add(new Student(2L, "John", "Shepard", "423541646", "Lvivska 4 str"));
 
         subject = new Subject("history", "fdsfs", true, LocalDate.of(2000, 5, 12));
+        subject2 = new Subject(5L,"history", "fdsfs", true, LocalDate.of(2000, 5, 12));
         subject.setStudents(students);
         subject.setUniversity(university);
 
@@ -51,13 +53,13 @@ class SubjectRepoIntegrationTest {
 
     @Test
     void getByIdTestAndReturnEntity() {
-        assertTrue(repository.getById(2L).isPresent());
+        assertTrue(repository.getById(3L).isPresent());
     }
 
     @Test
     void mergeTestAndReturnSuccessfulValue() {
         subject.setValid(false);
-        assertEquals(1, repository.update(subject));
+        assertEquals(1, repository.update(subject2));
     }
 
     @Test
@@ -67,7 +69,7 @@ class SubjectRepoIntegrationTest {
 
     @Test
     void removeTestAndReturnSuccessfulValue() {
-        assertEquals(1, repository.delete(2L));
+        assertEquals(1, repository.delete(4L));
     }
 
 

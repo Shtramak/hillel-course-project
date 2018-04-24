@@ -5,18 +5,14 @@ import com.courses.tellus.entity.model.Student;
 import com.courses.tellus.entity.model.Subject;
 import com.courses.tellus.entity.model.University;
 import com.courses.tellus.persistence.repository.hibernate.UniversityRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
-import static org.h2.expression.Function.TO_DATE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -31,32 +27,16 @@ class UniversityRepositoryIntegrTest {
     private Student student;
     private Subject subject;
 
-
-
     @BeforeEach
     void setup() {
         EntityManager manager = HibernateUtils.getManagerFactory().createEntityManager();
         universityRepository = new UniversityRepository(manager);
-        subjects =new HashSet<>();
-        students = new HashSet<>();
-        student = new Student(2L, "John", "Shepard", "Lvivska 3 str",
-                "423541646" );
-        subject = new Subject (2L, "Math", "Science about nums and count",
-                true, LocalDate.of(2000,5,12));
-
-        subjects.add(subject);
-        students.add(student);
-
-        university = new University("testName", "testAddress", "testSpecialization");
-        university.setSubjects(subjects);
-        university.setStudents(students);
-
     }
 
 
     @Test
     void getByIdWhenReturnUniversity(){
-        assertTrue(universityRepository.getById(2L).isPresent());
+        assertTrue(universityRepository.getById(3L).isPresent());
     }
 
     @Test
@@ -71,7 +51,20 @@ class UniversityRepositoryIntegrTest {
 
     @Test
     void insertTestWhenSuccessful(){
-        assertEquals(1,universityRepository.insert(university));
+        subjects =new HashSet<>();
+        subject = new Subject (3L, "Math", "Science about count",
+                true, LocalDate.of(2000,5,12));
+        subjects.add(subject);
+
+        students = new HashSet<>();
+        student = new Student(3L, "John", "Shepard", "Lvivska 4 str",
+                "423541646" );
+        students.add(student);
+
+        university = new University("testName", "testAddress", "testSpecialization");
+        university.setSubjects(subjects);
+        university.setStudents(students);
+        assertEquals(1, universityRepository.insert(university));
     }
 
     @Test
@@ -80,7 +73,7 @@ class UniversityRepositoryIntegrTest {
     }
     @Test
     void updateTestWhenSuccessful(){
-        university.setAddress("testAddressUpdated");
+        University university = new University(5L,"testName", "testAddressUpdated", "testSpecialization");
         assertEquals(1,universityRepository.update(university));
         }
 
@@ -91,7 +84,7 @@ class UniversityRepositoryIntegrTest {
 
         @Test
     void deleteTestWhenEntityIsDeleted(){
-        assertEquals(1,universityRepository.delete(2L));
+        assertEquals(1,universityRepository.delete(4L));
         }
 
         @Test
