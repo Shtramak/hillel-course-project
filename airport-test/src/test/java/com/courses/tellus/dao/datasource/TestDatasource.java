@@ -1,4 +1,4 @@
-package com.courses.tellus.persistence.dao.datasource;
+package com.courses.tellus.dao.datasource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
