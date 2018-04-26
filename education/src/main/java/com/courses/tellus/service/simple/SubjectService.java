@@ -1,4 +1,4 @@
-package com.courses.tellus.service;
+package com.courses.tellus.service.simple;
 
 import java.util.List;
 import java.util.Optional;

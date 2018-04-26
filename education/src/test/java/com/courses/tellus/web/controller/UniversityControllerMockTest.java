@@ -2,7 +2,7 @@ package com.courses.tellus.web.controller;
 
 
 import com.courses.tellus.entity.model.University;
-import com.courses.tellus.service.UniversityService;
+import com.courses.tellus.service.simple.UniversityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

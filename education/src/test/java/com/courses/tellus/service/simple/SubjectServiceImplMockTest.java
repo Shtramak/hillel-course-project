@@ -1,4 +1,4 @@
-package com.courses.tellus.service;
+package com.courses.tellus.service.simple;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,7 @@ import java.util.Optional;
 import com.courses.tellus.persistence.dao.spring.SubjectDao;
 import com.courses.tellus.entity.dto.SubjectDTO;
 import com.courses.tellus.entity.model.Subject;
+import com.courses.tellus.service.simple.SubjectServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

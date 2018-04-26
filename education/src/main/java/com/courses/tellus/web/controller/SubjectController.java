@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import com.courses.tellus.entity.dto.SubjectDTO;
 import com.courses.tellus.entity.model.Subject;
-import com.courses.tellus.service.SubjectServiceImpl;
+import com.courses.tellus.service.simple.SubjectServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
