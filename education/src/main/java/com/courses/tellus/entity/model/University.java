@@ -18,7 +18,7 @@ import javax.persistence.Table;
 public class University  {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "uni_id")
     private Long uniId;
 
@@ -112,31 +112,36 @@ public class University  {
 
     @Override
     public String toString() {
-        return "university{"
+        return "University{"
                 + "uniId=" + uniId
                 + ", nameOfUniversity='" + nameOfUniversity + '\''
                 + ", address='" + address + '\''
                 + ", specialization='" + specialization + '\''
+                + ", subjects=" + subjects
+                + ", students=" + students
                 + '}';
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
         if (!(obj instanceof University)) {
             return false;
         }
-        final University that = (University) obj;
-        return getUniId() == that.getUniId()
+        University that = (University) obj;
+        return Objects.equals(getUniId(), that.getUniId())
                 && Objects.equals(getNameOfUniversity(), that.getNameOfUniversity())
                 && Objects.equals(getAddress(), that.getAddress())
-                && Objects.equals(getSpecialization(), that.getSpecialization());
+                && Objects.equals(getSpecialization(), that.getSpecialization())
+                && Objects.equals(getSubjects(), that.getSubjects())
+                && Objects.equals(getStudents(), that.getStudents());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUniId(), getNameOfUniversity(), getAddress(), getSpecialization());
+        return Objects.hash(getUniId(), getNameOfUniversity(), getAddress(), getSpecialization(), getSubjects(),
+                getStudents());
     }
 }

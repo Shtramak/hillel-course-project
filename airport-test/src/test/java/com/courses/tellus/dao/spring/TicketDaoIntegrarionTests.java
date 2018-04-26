@@ -1,8 +1,8 @@
-package com.courses.tellus.persistence.dao.spring;
+package com.courses.tellus.dao.spring;
 
 import com.courses.tellus.airport.dao.spring.jdbc.TicketsDao;
 import com.courses.tellus.airport.model.Ticket;
-import com.courses.tellus.persistence.dao.datasource.TestDatasource;
+import com.courses.tellus.dao.datasource.TestDatasource;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

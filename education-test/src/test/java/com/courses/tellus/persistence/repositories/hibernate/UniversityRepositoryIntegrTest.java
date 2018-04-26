@@ -17,15 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
 class UniversityRepositoryIntegrTest {
 
     private UniversityRepository universityRepository;
-    private University university;
-    private Set<Student> students;
-    private Set<Subject> subjects;
-    private Student student;
-    private Subject subject;
 
     @BeforeEach
     void setup() {
@@ -36,7 +30,7 @@ class UniversityRepositoryIntegrTest {
 
     @Test
     void getByIdWhenReturnUniversity(){
-        assertTrue(universityRepository.getById(3L).isPresent());
+        assertTrue(universityRepository.getById(4L).isPresent());
     }
 
     @Test
@@ -51,17 +45,17 @@ class UniversityRepositoryIntegrTest {
 
     @Test
     void insertTestWhenSuccessful(){
-        subjects =new HashSet<>();
-        subject = new Subject (3L, "Math", "Science about count",
+        Set<Subject> subjects = new HashSet<>();
+        Subject subject = new Subject (6L, "Math", "Science about count",
                 true, LocalDate.of(2000,5,12));
         subjects.add(subject);
 
-        students = new HashSet<>();
-        student = new Student(3L, "John", "Shepard", "Lvivska 4 str",
-                "423541646" );
+        Set<Student> students = new HashSet<>();
+        Student student = new Student(6L, "John", "Shepard", "Lvivska 4 str",
+                "423541646");
         students.add(student);
 
-        university = new University("testName", "testAddress", "testSpecialization");
+        University university = new University("testIn", "testIn", "testIn");
         university.setSubjects(subjects);
         university.setStudents(students);
         assertEquals(1, universityRepository.insert(university));
@@ -71,9 +65,10 @@ class UniversityRepositoryIntegrTest {
     void insertTestWhenThrowsException(){
         assertEquals(0,universityRepository.insert(null));
     }
+
     @Test
     void updateTestWhenSuccessful(){
-        University university = new University(5L,"testName", "testAddressUpdated", "testSpecialization");
+        University university = new University(3L,"testUp", "testUp", "testUp");
         assertEquals(1,universityRepository.update(university));
         }
 
@@ -84,7 +79,7 @@ class UniversityRepositoryIntegrTest {
 
         @Test
     void deleteTestWhenEntityIsDeleted(){
-        assertEquals(1,universityRepository.delete(4L));
+        assertEquals(1,universityRepository.delete(2L));
         }
 
         @Test

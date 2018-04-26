@@ -9,21 +9,20 @@ import com.courses.tellus.config.hibernate.HibernateUtils;
 import com.courses.tellus.entity.model.Student;
 import com.courses.tellus.entity.model.Subject;
 import com.courses.tellus.entity.model.University;
-import com.courses.tellus.persistence.repository.hibernate.SubjectRepository;
-import org.junit.jupiter.api.*;
+import com.courses.tellus.persistence.repository.hibernate.StudentRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-class SubjectRepoIntegrationTest {
+class StudentRepoIntegrationTest {
 
-    private SubjectRepository repository;
+    private StudentRepository repository;
 
     @BeforeEach
     void setup() {
         EntityManager manager = HibernateUtils.getManagerFactory().createEntityManager();
-        repository = new SubjectRepository(manager);
+        repository = new StudentRepository(manager);
     }
 
     @Test
@@ -38,22 +37,24 @@ class SubjectRepoIntegrationTest {
 
     @Test
     void mergeTestAndReturnSuccessfulValue() {
-        Subject DATABASE_SUBJECT = new Subject(3L,"testUp", "testUp", true,
-                LocalDate.of(2000, 5, 12));
-        assertEquals(1, repository.update(DATABASE_SUBJECT));
+        Student DATABASE_STUDENT = new Student(3L,"testUp", "testUp", "testUp", "testUp");
+        assertEquals(1, repository.update(DATABASE_STUDENT));
     }
 
     @Test
     void persistTestAndReturnSuccessfulValue() {
-        University university = new University(4L, "KPI", "peremohy 30 str.", "technical");
+        Set<University> universities = new HashSet<>();
+        University university = new University(5L, "KPI", "peremohy 30 str.", "technical");
+        universities.add(university);
 
-        Set<Student> students = new HashSet<>();
-        students.add(new Student(4L, "John", "Shepard", "423541646", "Lvivska 4 str"));
+        Set<Subject> subjects = new HashSet<>();
+        Subject subject = new Subject(5L, "Math", "Science about count", true, LocalDate.of(2000, 5, 12));
+        subjects.add(subject);
 
-        Subject subject = new Subject("testIn", "testIn", true, LocalDate.of(2000, 5, 12));
-        subject.setStudents(students);
-        subject.setUniversity(university);
-        assertEquals(1, repository.insert(subject));
+        Student student = new Student("testIn", "testIn", "testIn", "testIn");
+        student.setUniversities(universities);
+        student.setSubjects(subjects);
+        assertEquals(1, repository.insert(student));
     }
 
     @Test
