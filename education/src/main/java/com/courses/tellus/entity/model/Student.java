@@ -10,12 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "student")
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "student_id")
     private long studentId;
 
@@ -143,27 +145,6 @@ public class Student {
     }
 
     @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        final Student student = (Student) obj;
-        return studentId == student.studentId
-                && Objects.equals(firstName, student.firstName)
-                && Objects.equals(lastName, student.lastName)
-                && Objects.equals(studentCardNumber, student.studentCardNumber)
-                && Objects.equals(address, student.address);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(studentId, firstName, lastName, studentCardNumber, address);
-    }
-
-    @Override
     public String toString() {
         return "Student{"
                 + "studentId=" + studentId
@@ -171,6 +152,32 @@ public class Student {
                 + ", lastName='" + lastName + '\''
                 + ", studentCardNumber='" + studentCardNumber + '\''
                 + ", address='" + address + '\''
+                + ", universities=" + universities
+                + ", subjects=" + subjects
                 + '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Student)) {
+            return false;
+        }
+        Student student = (Student) obj;
+        return getStudentId() == student.getStudentId()
+                && Objects.equals(getFirstName(), student.getFirstName())
+                && Objects.equals(getLastName(), student.getLastName())
+                && Objects.equals(getStudentCardNumber(), student.getStudentCardNumber())
+                && Objects.equals(getAddress(), student.getAddress())
+                && Objects.equals(getUniversities(), student.getUniversities())
+                && Objects.equals(getSubjects(), student.getSubjects());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getStudentId(), getFirstName(), getLastName(), getStudentCardNumber(), getAddress(),
+                getUniversities(), getSubjects());
     }
 }

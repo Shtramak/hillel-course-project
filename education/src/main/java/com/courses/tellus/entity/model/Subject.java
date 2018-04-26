@@ -13,12 +13,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "subject")
 public class Subject {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "subject_id")
     private Long subjectId;
 
@@ -146,27 +148,32 @@ public class Subject {
                 + ", description='" + description + '\''
                 + ", valid=" + valid
                 + ", dateOfCreation=" + dateOfCreation
+                + ", university=" + university
+                + ", students=" + students
                 + '}';
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
         if (!(obj instanceof Subject)) {
             return false;
         }
-        final Subject subject = (Subject) obj;
+        Subject subject = (Subject) obj;
         return isValid() == subject.isValid()
                 && Objects.equals(getSubjectId(), subject.getSubjectId())
                 && Objects.equals(getName(), subject.getName())
                 && Objects.equals(getDescription(), subject.getDescription())
-                && Objects.equals(getDateOfCreation(), subject.getDateOfCreation());
+                && Objects.equals(getDateOfCreation(), subject.getDateOfCreation())
+                && Objects.equals(getUniversity(), subject.getUniversity())
+                && Objects.equals(getStudents(), subject.getStudents());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getSubjectId(), getName(), getDescription(), isValid(), getDateOfCreation());
+        return Objects.hash(getSubjectId(), getName(), getDescription(), isValid(), getDateOfCreation(),
+                getUniversity(), getStudents());
     }
 }
