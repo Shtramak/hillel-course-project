@@ -18,26 +18,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class StudentRepoIntegrationTest {
 
     private StudentRepository repository;
-    private Student student;
-    private Set<University> universities;
-    private Set<Subject> subjects;
 
     @BeforeEach
     void setup() {
         EntityManager manager = HibernateUtils.getManagerFactory().createEntityManager();
         repository = new StudentRepository(manager);
-
-        universities = new HashSet<>();
-        University university = new University(2L, "KPI", "peremohy 27 str.", "technical");
-        universities.add(university);
-
-        subjects = new HashSet<>();
-        Subject subject = new Subject(2L, "history", "fdsfs", true, LocalDate.of(2000, 5, 12));
-        subjects.add(subject);
-
-        student = new Student("John", "Shepard", "423541646", "Lvivska 3 str");
-        student.setUniversities(universities);
-        student.setSubjects(subjects);
     }
 
     @Test
@@ -47,17 +32,28 @@ class StudentRepoIntegrationTest {
 
     @Test
     void getByIdTestAndReturnEntity() {
-        assertTrue(repository.getById(2L).isPresent());
+        assertTrue(repository.getById(4L).isPresent());
     }
 
     @Test
     void mergeTestAndReturnSuccessfulValue() {
-        student.setFirstName("George");
-        assertEquals(1, repository.update(student));
+        Student DATABASE_STUDENT = new Student(3L,"testUp", "testUp", "testUp", "testUp");
+        assertEquals(1, repository.update(DATABASE_STUDENT));
     }
 
     @Test
     void persistTestAndReturnSuccessfulValue() {
+        Set<University> universities = new HashSet<>();
+        University university = new University(5L, "KPI", "peremohy 30 str.", "technical");
+        universities.add(university);
+
+        Set<Subject> subjects = new HashSet<>();
+        Subject subject = new Subject(5L, "Math", "Science about count", true, LocalDate.of(2000, 5, 12));
+        subjects.add(subject);
+
+        Student student = new Student("testIn", "testIn", "testIn", "testIn");
+        student.setUniversities(universities);
+        student.setSubjects(subjects);
         assertEquals(1, repository.insert(student));
     }
 
