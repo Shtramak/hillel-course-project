@@ -26,6 +26,9 @@
                 <td><c:out value="${currCustomer.dateOfBirth}"/></td>
                 <td><c:out value="${currCustomer.phoneNumber}"/></td>
                 <td><c:out value="${currCustomer.availableFunds}"/></td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/springmvc/autosalon/customer/delete/${currCustomer.id}">Delete</a>
+                </td>
             </tr>
         </c:forEach>
     </table>
