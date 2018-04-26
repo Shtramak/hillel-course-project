@@ -27,7 +27,7 @@
         </tr>
     </table>
     <br>
-    <a href="/springmvc/autosalon/auto/list">GO TO LIST OF AUTO</a>
+    <a href="${pageContext.request.contextPath}/springmvc/autosalon/auto/list">GO TO LIST OF AUTO</a>
 </div>
 </body>
 </html>
