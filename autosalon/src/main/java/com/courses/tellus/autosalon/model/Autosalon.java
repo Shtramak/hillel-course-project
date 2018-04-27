@@ -1,9 +1,6 @@
 package com.courses.tellus.autosalon.model;
 
-import java.util.Objects;
-
 public class Autosalon {
-
     private Long id;
     private String name;
     private String address;
@@ -55,26 +52,6 @@ public class Autosalon {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Autosalon autosalon = (Autosalon) o;
-        return Objects.equals(id, autosalon.id)
-                && Objects.equals(name, autosalon.name)
-                && Objects.equals(address, autosalon.address)
-                && Objects.equals(telephone, autosalon.telephone);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, address, telephone);
     }
 
     @Override

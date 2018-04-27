@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Customer implements Serializable {
-
     private long id;
     private String name;
     private String surname;
@@ -95,12 +94,11 @@ public class Customer implements Serializable {
 
     @Override
     public String toString() {
-        return "Customer{"
+        return "{"
                 + "id=" + id
                 + ", name='" + name + '\''
                 + ", surname='" + surname + '\''
                 + ", dateOfBirth=" + dateOfBirth
-                + ", phoneNumber='" + phoneNumber + '\''
                 + ", availableFunds=" + availableFunds
                 + '}';
     }
