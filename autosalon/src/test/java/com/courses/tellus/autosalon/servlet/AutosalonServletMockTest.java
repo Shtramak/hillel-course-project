@@ -59,6 +59,7 @@ public class AutosalonServletMockTest {
         Autosalon autosalon = new Autosalon("Toyota", "Japan", "208990");
         autosalonDao.insert(autosalon);
         autosalonServlet.doPost(request, response);
+        verify(autosalonDao, times(1)).insert(autosalon);
         verify(dispatcher, times(1)).forward(request, response);
     }
 
