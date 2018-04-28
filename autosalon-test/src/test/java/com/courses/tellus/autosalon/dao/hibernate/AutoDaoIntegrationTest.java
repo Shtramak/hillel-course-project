@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class AutoDaoIntegrationTest {
 
     private AutoDao autoDao;
-    private final Autosalon autosalon = new Autosalon(1L, "Bavaria", "kyiv", "102");
     private Auto auto = new Auto(null, "BMW", "X7", 2012, "Germany", new BigDecimal(200000));
     private final Auto AUTO_IN_DATABASE = new Auto(5L, "BMW", "X7", 2012, "Germany", new BigDecimal(200000));
 
@@ -44,7 +43,6 @@ public class AutoDaoIntegrationTest {
 
     @Test
     public void testInsertWhenResultTrue(){
-        auto.setAutosalon(autosalon);
         assertThat(autoDao.insert(auto), is(1));
     }
 
@@ -57,7 +55,6 @@ public class AutoDaoIntegrationTest {
     public void testUpdateWhenResultTrue(){
         AUTO_IN_DATABASE.setBrand("Toyota");
         AUTO_IN_DATABASE.setModel("Camry");
-        AUTO_IN_DATABASE.setAutosalon(autosalon);
         assertThat(autoDao.update(AUTO_IN_DATABASE), is(1));
     }
 
