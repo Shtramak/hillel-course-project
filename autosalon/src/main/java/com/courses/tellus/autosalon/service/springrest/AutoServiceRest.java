@@ -1,8 +1,9 @@
 package com.courses.tellus.autosalon.service.springrest;
 
-import com.courses.tellus.autosalon.model.Auto;
-
 import java.util.Optional;
+
+import com.courses.tellus.autosalon.model.Auto;
+import com.courses.tellus.autosalon.model.dto.AutoDto;
 
 public interface AutoServiceRest {
 
@@ -17,14 +18,14 @@ public interface AutoServiceRest {
      * @param autoDto auto.
      * @return number of affected rows in database.
      */
-    Auto insert(final Auto autoDto);
+    Auto insert(final AutoDto autoDto);
 
     /**
      * Update auto in database.
      * @param autoDto auto.
      * @return number of affected rows in database.
      */
-    Auto update(final Auto autoDto);
+    Auto update(final AutoDto autoDto);
 
     /**
      * Delete auto from database.

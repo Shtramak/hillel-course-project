@@ -1,4 +1,4 @@
-package com.courses.tellus.autosalon.controller;
+package com.courses.tellus.autosalon.controller.springmvc;
 
 import com.courses.tellus.autosalon.config.springmvc.WebConfig;
 import org.junit.jupiter.api.BeforeAll;
@@ -42,21 +42,21 @@ public class AutoControllerIntegrationTest {
 
     @Test
     public void testListAuto() throws Exception {
-        this.mockMvc.perform(get("/autosalon/auto/list"))
+        this.mockMvc.perform(get("/springmvc/autosalon/auto/list"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("listAuto"));
     }
 
     @Test
     public void testCreateAutoGetMethod() throws Exception {
-        this.mockMvc.perform(get("/autosalon/auto/create"))
+        this.mockMvc.perform(get("/springmvc/autosalon/auto/create"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("createAuto"));
     }
 
     @Test
     public void testCreateAutoPostMethod() throws Exception {
-        MockHttpServletRequestBuilder builder = post("/autosalon/auto/create")
+        MockHttpServletRequestBuilder builder = post("/springmvc/autosalon/auto/create")
                 .param("id", "6")
                 .param("brand", "Toyota")
                 .param("model", "Camry")
@@ -69,21 +69,21 @@ public class AutoControllerIntegrationTest {
 
     @Test
     public void testGetAutoById() throws Exception {
-        this.mockMvc.perform(get("/autosalon/auto/id/1"))
+        this.mockMvc.perform(get("/springmvc/autosalon/auto/id/1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("showAuto"));
     }
 
     @Test
     public void testUpdateAutoGetMethod() throws Exception {
-        this.mockMvc.perform(get("/autosalon/auto/update/2"))
+        this.mockMvc.perform(get("/springmvc/autosalon/auto/update/1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("editAuto"));
     }
 
     @Test
     public void testUpdateAutoPostMethod() throws Exception {
-        MockHttpServletRequestBuilder builder = post("/autosalon/auto/update")
+        MockHttpServletRequestBuilder builder = post("/springmvc/autosalon/auto/update")
                 .param("id", "6")
                 .param("brand", "Toyota")
                 .param("model", "Camry")

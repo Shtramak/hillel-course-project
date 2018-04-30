@@ -1,5 +1,6 @@
-package com.courses.tellus.autosalon.controller;
+package com.courses.tellus.autosalon.controller.springmvc;
 
+import com.courses.tellus.autosalon.controller.AutosalonController;
 import com.courses.tellus.autosalon.dao.springjdbc.AutosalonDao;
 import com.courses.tellus.autosalon.model.Autosalon;
 import com.courses.tellus.autosalon.service.AutosalonService;

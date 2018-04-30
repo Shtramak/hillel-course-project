@@ -1,4 +1,4 @@
-package com.courses.tellus.autosalon.controller;
+package com.courses.tellus.autosalon.controller.springmvc;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -53,7 +53,7 @@ public class CustomerControllerIntegrationTest {
     @Test
     void customerListReturnsListCustomersJspPage() throws Exception {
         this.mockMvc
-                .perform(get("/autosalon/customer/list"))
+                .perform(get("/springmvc/autosalon/customer/list"))
                 .andDo(print())
                 .andExpect(view().name("listCustomers"));
     }
@@ -62,7 +62,7 @@ public class CustomerControllerIntegrationTest {
     @Test
     void customerByIdWhenCustomerExistsReturnsCustomerByIdJspPage() throws Exception {
         this.mockMvc
-                .perform(get("/autosalon/customer/1"))
+                .perform(get("/springmvc/autosalon/customer/1"))
                 .andDo(print())
                 .andExpect(view().name("customerById"));
     }
@@ -70,7 +70,7 @@ public class CustomerControllerIntegrationTest {
     @Test
     void customerByIdWhenCustomerNotExistsReturnscustomerNotFoundJspPage() throws Exception {
         this.mockMvc
-                .perform(get("/autosalon/customer/123"))
+                .perform(get("/springmvc/autosalon/customer/123"))
                 .andDo(print())
                 .andExpect(view().name("customerNotFound"));
     }
@@ -78,7 +78,7 @@ public class CustomerControllerIntegrationTest {
     @Test
     void deleteByIdWhenCustomerExistsReturnsCustomerByIdJspPage() throws Exception {
         this.mockMvc
-                .perform(get("/autosalon/customer/delete/1"))
+                .perform(get("/springmvc/autosalon/customer/delete/1"))
                 .andDo(print())
                 .andExpect(view().name("customerDeletedById"));
     }
@@ -86,7 +86,7 @@ public class CustomerControllerIntegrationTest {
     @Test
     void deleteByIdWhenCustomerNotExistsReturnscustomerNotFoundJspPage() throws Exception {
         this.mockMvc
-                .perform(get("/autosalon/customer/delete/123"))
+                .perform(get("/springmvc/autosalon/customer/delete/123"))
                 .andDo(print())
                 .andExpect(view().name("customerNotFound"));
     }
@@ -94,14 +94,14 @@ public class CustomerControllerIntegrationTest {
     @Test
     void addCustomerPageReturnsAddCustomerJspPage() throws Exception {
         this.mockMvc
-                .perform(get("/autosalon/customer/add"))
+                .perform(get("/springmvc/autosalon/customer/add"))
                 .andDo(print())
                 .andExpect(view().name("addCustomer"));
     }
 
     @Test
     void addCustomerToBdReturnsSuccessfulAddJspPage() throws Exception {
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/autosalon/customer/add")
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/springmvc/autosalon/customer/add")
                 .param("id", "2")
                 .param("name", "John")
                 .param("surname", "Rambo")

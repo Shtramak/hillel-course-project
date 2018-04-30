@@ -15,6 +15,6 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected String[] getServletMappings() {
-        return new String[]{"/springmvc/*"};
+        return new String[]{"/"};
     }
 }

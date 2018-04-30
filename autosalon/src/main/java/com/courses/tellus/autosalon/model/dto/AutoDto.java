@@ -1,8 +1,8 @@
-package com.courses.tellus.autosalon.dto;
-
-import com.courses.tellus.autosalon.model.Auto;
+package com.courses.tellus.autosalon.model.dto;
 
 import java.util.Objects;
+
+import com.courses.tellus.autosalon.model.Auto;
 
 public class AutoDto {
 

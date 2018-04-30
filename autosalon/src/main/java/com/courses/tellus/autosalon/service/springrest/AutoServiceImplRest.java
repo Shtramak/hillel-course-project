@@ -1,18 +1,17 @@
 package com.courses.tellus.autosalon.service.springrest;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 import com.courses.tellus.autosalon.model.Auto;
+import com.courses.tellus.autosalon.model.dto.AutoDto;
 import com.courses.tellus.autosalon.repository.AutoRepository;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AutoServiceImplRest implements AutoServiceRest {
-
-    private static final Logger LOGGER = Logger.getLogger(AutoServiceImplRest.class);
 
     private final transient AutoRepository autoRepository;
 
@@ -26,7 +25,7 @@ public class AutoServiceImplRest implements AutoServiceRest {
      * @return list of auto.
      */
     @Override
-    public Iterable<Auto> getAll() {
+    public List<Auto> getAll() {
         return autoRepository.findAll();
     }
 
@@ -36,42 +35,32 @@ public class AutoServiceImplRest implements AutoServiceRest {
      * @return result.
      */
     @Override
-    public Auto insert(final Auto autoDto) {
-        try {
-            final Auto auto = new Auto();
-            auto.setBrand(autoDto.getBrand());
-            auto.setModel(autoDto.getModel());
-            auto.setManufactYear(Integer.valueOf(autoDto.getManufactYear()));
-            auto.setProducerCountry(autoDto.getProducerCountry());
-            auto.setPrice(BigDecimal.valueOf(Long.parseLong(String.valueOf(autoDto.getPrice()))));
-            return autoRepository.save(auto);
-        } catch (IllegalArgumentException ex) {
-            LOGGER.debug(ex.getMessage());
-            return null;
-        }
+    public Auto insert(final AutoDto autoDto) {
+        final Auto auto = new Auto();
+        auto.setBrand(autoDto.getBrand());
+        auto.setModel(autoDto.getModel());
+        auto.setManufactYear(Integer.valueOf(autoDto.getManufactYear()));
+        auto.setProducerCountry(autoDto.getProducerCountry());
+        auto.setPrice(BigDecimal.valueOf(Long.parseLong(String.valueOf(autoDto.getPrice()))));
+        return autoRepository.save(auto);
 
     }
 
     /**
      * Update auto in database.
      * @param autoDto auto.
-     * @return result.
+     * @return auto.
      */
     @Override
-    public Auto update(final Auto autoDto) {
-        try {
-            final Auto auto = new Auto();
-            auto.setId(autoDto.getId());
-            auto.setBrand(autoDto.getBrand());
-            auto.setModel(autoDto.getModel());
-            auto.setManufactYear(Integer.valueOf(autoDto.getManufactYear()));
-            auto.setProducerCountry(autoDto.getProducerCountry());
-            auto.setPrice(BigDecimal.valueOf(Long.parseLong(String.valueOf(autoDto.getPrice()))));
-            return autoRepository.save(auto);
-        } catch (IllegalArgumentException ex) {
-            LOGGER.debug(ex.getMessage());
-            return null;
-        }
+    public Auto update(final AutoDto autoDto) {
+        final Auto auto = new Auto();
+        auto.setId(autoDto.getId());
+        auto.setBrand(autoDto.getBrand());
+        auto.setModel(autoDto.getModel());
+        auto.setManufactYear(Integer.valueOf(autoDto.getManufactYear()));
+        auto.setProducerCountry(autoDto.getProducerCountry());
+        auto.setPrice(BigDecimal.valueOf(Long.parseLong(String.valueOf(autoDto.getPrice()))));
+        return autoRepository.save(auto);
     }
 
     /**
