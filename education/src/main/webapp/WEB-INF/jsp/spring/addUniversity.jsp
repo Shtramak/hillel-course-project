@@ -16,7 +16,7 @@
 
 <div class="container col-6 text-center ">
     <hr>
-    <form class="form-horizontal " action="/springmvc/university/add" method="POST">
+    <form class="form-horizontal " action="/spring/mvc/university/add" method="POST">
         <div class="form-group text-center">
 
             <label class="control-label col-md-3">NameOfUniversity</label>

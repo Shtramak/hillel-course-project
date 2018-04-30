@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/subject")
+@RequestMapping("/mvc/subject")
 public class SubjectController {
 
     private final transient SubjectServiceImpl subjectService;
-    private static final String REDIRECT_PATH = "redirect:/springmvc/subject";
+    private static final String REDIRECT_PATH = "redirect:/spring/mvc/subject";
 
     @Autowired
     public SubjectController(final SubjectServiceImpl subjectService) {

@@ -1,4 +1,4 @@
-package com.courses.tellus.service;
+package com.courses.tellus.service.mvc;
 
 import com.courses.tellus.persistence.dao.spring.TestDataSource;
 import com.courses.tellus.persistence.dao.spring.UniversityDao;
@@ -54,7 +54,6 @@ class UniversityServiceImplTest {
     void testServiceImplInsert() {
         assertEquals(1, service.insert(university));
     }
-
 
     @Test
     void testServiceImplUpdate() {

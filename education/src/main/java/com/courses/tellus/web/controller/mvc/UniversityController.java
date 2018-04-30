@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/university")
+@RequestMapping("/mvc/university")
 public class UniversityController {
 
     @Autowired
@@ -49,7 +49,7 @@ public class UniversityController {
     @PostMapping("/add")
     public String addUniversity(@ModelAttribute("university") final University university) {
      serviceImpl.insert(university);
-     return "redirect:/springmvc/university/list";
+     return "redirect:/spring/mvc/university/list";
     }
 
     /**
@@ -59,7 +59,7 @@ public class UniversityController {
     @GetMapping("/delete/{uniId}")
     public String deleteUniversity(@PathVariable("uniId") final Long uniId) {
     serviceImpl.delete(uniId);
-    return "redirect:/springmvc/university/list";
+    return "redirect:/spring/mvc/university/list";
     }
 
     /**
@@ -81,7 +81,7 @@ public class UniversityController {
     @PostMapping("/edit")
     public String updateUniversity(@ModelAttribute("university") final University university) {
         serviceImpl.update(university);
-        return "redirect:/springmvc/university/list";
+        return "redirect:/spring/mvc/university/list";
     }
 }
 
