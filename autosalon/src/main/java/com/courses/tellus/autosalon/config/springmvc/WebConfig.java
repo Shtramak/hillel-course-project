@@ -1,5 +1,8 @@
 package com.courses.tellus.autosalon.config.springmvc;
 
+import com.courses.tellus.autosalon.controller.AutoController;
+import com.courses.tellus.autosalon.controller.springrest.AutoControllerRest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +15,9 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebMvc
 @ComponentScan("com.courses.tellus.autosalon")
 public class WebConfig implements WebMvcConfigurer {
+
+    @Autowired
+    AutoController autoController;
     @Bean
     InternalResourceViewResolver getViewResolver() {
         final InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
