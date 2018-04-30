@@ -29,12 +29,6 @@ class StudentDaoIntegrationTest {
         studentDao.insert(student);
     }
 
-    @AfterEach
-    void clearTable() throws Exception {
-        RunScript.execute(ConnectionFactory.getInstance().getConnection(),
-                new FileReader("src/test/resources/initial/h2/util/trunc.sql"));
-    }
-
     @Test
     void testGetAllAndReturnEntityList() throws Exception {
         List<Student> subjectList = studentDao.getAll();
@@ -61,7 +55,7 @@ class StudentDaoIntegrationTest {
     }
 
     @Test
-    void testUpdateSubject() throws Exception {
+    void testUpdateStudent() throws Exception {
         student.setStudentCardNumber("0321456789");
         Assertions.assertEquals(1, studentDao.update(student));
     }
