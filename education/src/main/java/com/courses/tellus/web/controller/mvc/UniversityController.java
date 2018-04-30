@@ -1,7 +1,7 @@
-package com.courses.tellus.web.controller;
+package com.courses.tellus.web.controller.mvc;
 
 import com.courses.tellus.entity.model.University;
-import com.courses.tellus.service.UniversityService;
+import com.courses.tellus.service.mvc.UniversityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
