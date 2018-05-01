@@ -1,9 +1,8 @@
-package com.courses.tellus.service.simple;
+package com.courses.tellus.service.mvc;
 
 import com.courses.tellus.persistence.dao.spring.TestDataSource;
 import com.courses.tellus.persistence.dao.spring.UniversityDao;
 import com.courses.tellus.entity.model.University;
-import com.courses.tellus.service.simple.UniversityServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,7 +54,6 @@ class UniversityServiceImplTest {
     void testServiceImplInsert() {
         assertEquals(1, service.insert(university));
     }
-
 
     @Test
     void testServiceImplUpdate() {

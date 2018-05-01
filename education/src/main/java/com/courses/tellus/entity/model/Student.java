@@ -12,6 +12,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "student")
 public class Student {
@@ -33,14 +35,16 @@ public class Student {
     private String address;
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
             name = "university_student",
             joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "uni_id")
+            inverseJoinColumns = @JoinColumn(name = "univer_id")
     )
     private Set<University> universities;
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
             name = "subject_student",
             joinColumns = @JoinColumn(name = "student_id"),

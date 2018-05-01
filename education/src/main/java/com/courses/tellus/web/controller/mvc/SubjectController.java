@@ -1,11 +1,11 @@
-package com.courses.tellus.web.controller;
+package com.courses.tellus.web.controller.mvc;
 
 import java.util.List;
 import java.util.Optional;
 
 import com.courses.tellus.entity.dto.SubjectDTO;
 import com.courses.tellus.entity.model.Subject;
-import com.courses.tellus.service.simple.SubjectServiceImpl;
+import com.courses.tellus.service.mvc.SubjectServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/subject")
+@RequestMapping("/mvc/subject")
 public class SubjectController {
 
     private final transient SubjectServiceImpl subjectService;
-    private static final String REDIRECT_PATH = "redirect:/springmvc/subject";
+    private static final String REDIRECT_PATH = "redirect:/spring/mvc/subject";
 
     @Autowired
     public SubjectController(final SubjectServiceImpl subjectService) {

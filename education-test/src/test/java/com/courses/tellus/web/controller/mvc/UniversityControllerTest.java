@@ -1,4 +1,4 @@
-package com.courses.tellus.web.controller;
+package com.courses.tellus.web.controller.mvc;
 
 import com.courses.tellus.config.spring.mvc.WebAppConfig;
 import com.courses.tellus.entity.model.University;
@@ -57,7 +57,7 @@ public class UniversityControllerTest {
     @Test
     void testGetAllUniversitiesWhenReturnListWithUniversities() throws Exception {
         this.mockMvc
-                .perform(get("/university/list"))
+                .perform(get("/mvc/university/list"))
                 .andDo(print())
                 .andExpect(view().name("listOfUniversities"));
     }
@@ -66,7 +66,7 @@ public class UniversityControllerTest {
     @Test
     void deleteByIdWhenDeletingIsSuccess() throws Exception {
         this.mockMvc
-                .perform(get("/university/delete/1"))
+                .perform(get("/mvc/university/delete/1"))
                 .andDo(print())
                 .andExpect(status().isFound());
     }
@@ -74,14 +74,14 @@ public class UniversityControllerTest {
     @Test
     void addUniversityMethodGet() throws Exception {
         this.mockMvc
-                .perform(get("/university/add"))
+                .perform(get("/mvc/university/add"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
     void addUniversityMethodPost() throws Exception {
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/university/add")
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/mvc/university/add")
                 .param("uniId", "1")
                 .param("nameOfUniversity", "nameTest")
                 .param("address", "addressTest")
@@ -91,11 +91,11 @@ public class UniversityControllerTest {
     }
     @Test
     void updateUniversityMethodGet() throws Exception{
-        mockMvc.perform(get("/university/edit/1")).andExpect(status().isOk());
+        mockMvc.perform(get("/mvc/university/edit/1")).andExpect(status().isOk());
     }
     @Test
     void updateUniversityMethodPost() throws Exception {
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/university/edit")
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/mvc/university/edit")
                 .param("uniId", "1")
                 .param("nameOfUniversity", "nameTest")
                 .param("address", "addressTest")

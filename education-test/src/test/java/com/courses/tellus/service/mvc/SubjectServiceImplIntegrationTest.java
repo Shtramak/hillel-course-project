@@ -1,9 +1,8 @@
-package com.courses.tellus.service.simple;
+package com.courses.tellus.service.mvc;
 
 import com.courses.tellus.persistence.dao.spring.SubjectDao;
 import com.courses.tellus.persistence.dao.spring.TestDataSource;
 import com.courses.tellus.entity.dto.SubjectDTO;
-import com.courses.tellus.service.simple.SubjectServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

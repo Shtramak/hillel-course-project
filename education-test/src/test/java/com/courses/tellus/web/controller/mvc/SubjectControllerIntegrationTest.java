@@ -1,4 +1,4 @@
-package com.courses.tellus.web.controller;
+package com.courses.tellus.web.controller.mvc;
 
 import javax.servlet.ServletContext;
 
@@ -47,17 +47,17 @@ class SubjectControllerIntegrationTest {
 
     @Test
     void subjectListTestAndReturnsJspPageWithSubjects() throws Exception {
-        mvc.perform(get("/subject")).andExpect(status().isOk());
+        mvc.perform(get("/mvc/subject")).andExpect(status().isOk());
     }
 
     @Test
     void subjectInsertEntityTestAndReturnJspCreatePage() throws Exception {
-        mvc.perform(get("/subject/add")).andExpect(status().isOk());
+        mvc.perform(get("/mvc/subject/add")).andExpect(status().isOk());
     }
 
     @Test
     void subjectInsertEntityTestAndSendSubjectData() throws Exception {
-        mvc.perform(post("/subject/add")
+        mvc.perform(post("/mvc/subject/add")
                 .param("name", "Math")
                 .param("description", "dfgdf")
                 .param("valid", "Y")
@@ -67,20 +67,20 @@ class SubjectControllerIntegrationTest {
 
     @Test
     void subjectDeleteTestAndReloadPage() throws Exception {
-        mvc.perform(get("/subject/delete/1")).andExpect(status().isFound());
+        mvc.perform(get("/mvc/subject/delete/1")).andExpect(status().isFound());
     }
 
     @Test
     @Sql("classpath:initial/h2/table/spring/subject_test_table.sql")
     void subjectEditTestAndReturnJspEditPage() throws Exception {
-        mvc.perform(get("/subject/edit/1")).andExpect(status().isOk());
+        mvc.perform(get("/mvc/subject/edit/1")).andExpect(status().isOk());
     }
 
     @Test
     void subjectEditTestAndSendSubjectData() throws Exception {
         SubjectDTO subject = new SubjectDTO("1", "Math", "dfgdf", "Y",
                 "2000-05-12");
-        mvc.perform(post("/subject/edit")
+        mvc.perform(post("/mvc/subject/edit")
                 .param("subjectId", "1")
                 .param("name", "Math")
                 .param("description", "dfgdf")

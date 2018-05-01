@@ -1,8 +1,8 @@
-package com.courses.tellus.web.controller;
+package com.courses.tellus.web.controller.mvc;
 
 
 import com.courses.tellus.entity.model.University;
-import com.courses.tellus.service.simple.UniversityService;
+import com.courses.tellus.service.mvc.UniversityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -51,7 +51,7 @@ public class UniversityControllerMockTest {
     @Test
     public void  testAddUniversityMethodPost() {
         when(universityServiceImpl.insert(anyObject())).thenReturn(1);
-        assertEquals("redirect:/springmvc/university/list", universityController.addUniversity(university));
+        assertEquals("redirect:/spring/mvc/university/list", universityController.addUniversity(university));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class UniversityControllerMockTest {
     @Test
     public void testUpdateUniversityMethodPost() {
         when(universityServiceImpl.update(anyObject())).thenReturn(1);
-        assertEquals("redirect:/springmvc/university/list", universityController.updateUniversity(university));
+        assertEquals("redirect:/spring/mvc/university/list", universityController.updateUniversity(university));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class UniversityControllerMockTest {
     @Test
     public void testDeleteUniversity() {
         when(universityServiceImpl.delete(anyLong())).thenReturn(1);
-        assertEquals("redirect:/springmvc/university/list", universityController.deleteUniversity(anyLong()));
+        assertEquals("redirect:/spring/mvc/university/list", universityController.deleteUniversity(anyLong()));
     }
 
 }

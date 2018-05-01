@@ -1,11 +1,11 @@
-package com.courses.tellus.web.controller;
+package com.courses.tellus.web.controller.mvc;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 import com.courses.tellus.entity.dto.SubjectDTO;
 import com.courses.tellus.entity.model.Subject;
-import com.courses.tellus.service.simple.SubjectServiceImpl;
+import com.courses.tellus.service.mvc.SubjectServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -47,14 +47,14 @@ class SubjectControllerMockTest {
     void insertEntityPostRequestTest() {
         given(service.insert(subjectDTO)).willReturn(1);
 
-        assertEquals("redirect:/springmvc/subject", controller.insertEntity(subjectDTO).getViewName());
+        assertEquals("redirect:/spring/mvc/subject", controller.insertEntity(subjectDTO).getViewName());
     }
 
     @Test
     void deleteEntityGetRequestTest() {
         given(service.delete(anyLong())).willReturn(1);
 
-        assertEquals("redirect:/springmvc/subject", controller.deleteEntity(anyLong()).getViewName());
+        assertEquals("redirect:/spring/mvc/subject", controller.deleteEntity(anyLong()).getViewName());
     }
 
     @Test
@@ -69,13 +69,13 @@ class SubjectControllerMockTest {
     void updateEntityGetRequestAndIsAbsentTest() {
         given(service.getById(anyLong())).willReturn(Optional.empty());
 
-        assertEquals("redirect:/springmvc/subject", controller.updateEntity(anyLong()).getViewName());
+        assertEquals("redirect:/spring/mvc/subject", controller.updateEntity(anyLong()).getViewName());
     }
 
     @Test
     void updateEntityPostRequestTest() {
         given(service.update(subjectDTO)).willReturn(1);
 
-        assertEquals("redirect:/springmvc/subject", controller.updateEntity(subjectDTO).getViewName());
+        assertEquals("redirect:/spring/mvc/subject", controller.updateEntity(subjectDTO).getViewName());
     }
 }

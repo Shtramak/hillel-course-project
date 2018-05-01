@@ -14,7 +14,7 @@
     <body>
 		<jsp:include page="in_nav.jsp" />
 		<div  class="container-fluid">
-			<form class="form" method="POST" action="/springmvc/subject/add">
+			<form class="form" method="POST" action="/spring/mvc/subject/add">
 				<!-- name -->
 				<div class="form-group col-6 mx-auto mt-5">
 					<label class="control-label col-9 text-center" >Subject name</label>
