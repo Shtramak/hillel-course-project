@@ -19,12 +19,10 @@ public class AutosalonDaoIntegrationTest {
     private final Autosalon autosalon = new Autosalon(1L, "Geely", "China", "00000");
     private Autosalon autoSALON = new Autosalon(1L, "Bavaria", "Kyiv", "00001");
 
-    private EntityManager entityManager;
-
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        entityManager = EntityFactory.getFactory().createEntityManager();
+        final EntityManager entityManager = EntityFactory.getFactory().createEntityManager();
         autosalonDao = new AutosalonDao(entityManager);
     }
 

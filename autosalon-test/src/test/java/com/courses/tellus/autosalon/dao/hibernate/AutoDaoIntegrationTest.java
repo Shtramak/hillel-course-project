@@ -2,7 +2,6 @@ package com.courses.tellus.autosalon.dao.hibernate;
 
 import com.courses.tellus.autosalon.config.hibernate.EntityFactory;
 import com.courses.tellus.autosalon.model.Auto;
-import com.courses.tellus.autosalon.model.Autosalon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -22,12 +21,10 @@ public class AutoDaoIntegrationTest {
     private Auto auto = new Auto(null, "BMW", "X7", 2012, "Germany", new BigDecimal(200000));
     private final Auto AUTO_IN_DATABASE = new Auto(5L, "BMW", "X7", 2012, "Germany", new BigDecimal(200000));
 
-    private EntityManager entityManager;
-
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        entityManager = EntityFactory.getFactory().createEntityManager();
+        final EntityManager entityManager = EntityFactory.getFactory().createEntityManager();
         autoDao = new AutoDao(entityManager);
     }
 

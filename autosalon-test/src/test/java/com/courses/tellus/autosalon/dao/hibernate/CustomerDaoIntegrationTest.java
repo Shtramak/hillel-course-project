@@ -1,21 +1,20 @@
 package com.courses.tellus.autosalon.dao.hibernate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
 import com.courses.tellus.autosalon.config.hibernate.EntityFactory;
 import com.courses.tellus.autosalon.model.Customer;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CustomerDaoIntegrationTest {
     private static final Customer CUSTOMER =

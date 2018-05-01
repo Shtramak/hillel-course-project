@@ -27,12 +27,6 @@ class SubjectDaoIntegrationTest {
         subjectDao.insert(subject);
     }
 
-    @AfterEach
-    void clearTable() throws Exception {
-        RunScript.execute(ConnectionFactory.getInstance().getConnection(),
-                new FileReader("src/test/resources/initial/h2/util/trunc.sql"));
-    }
-
     @Test
     void testGetAllAndReturnEntityList() throws Exception {
         List<Subject> subjectList = subjectDao.getAll();
