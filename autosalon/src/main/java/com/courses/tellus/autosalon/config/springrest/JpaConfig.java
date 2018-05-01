@@ -1,6 +1,5 @@
 package com.courses.tellus.autosalon.config.springrest;
 
-import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
@@ -44,13 +43,6 @@ public class JpaConfig {
         final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         factoryBean.setJpaVendorAdapter(vendorAdapter);
         factoryBean.setDataSource(dataSource());
-        final Properties props = new Properties();
-        props.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
-        props.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-        props.setProperty("hibernate.hbm2ddl.import_files", "import.sql");
-        props.setProperty("hibernate.format_sql", "true");
-        factoryBean.setJpaProperties(props);
-        factoryBean.setPackagesToScan("com.courses.tellus");
         return factoryBean;
     }
 
