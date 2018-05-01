@@ -3,32 +3,14 @@ package com.courses.tellus.autosalon.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "Customer")
 public class Customer implements Serializable {
-    @Id
-    @Column(name = "customer_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     private String surname;
-    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
-    @Column(name = "phone_number")
     private String phoneNumber;
-    @Column(name = "available_funds")
     private double availableFunds;
-    @ManyToMany(mappedBy = "customers")
-    private Set<Autosalon> autosalons;
 
     public Customer() {
     }
@@ -90,14 +72,6 @@ public class Customer implements Serializable {
         this.availableFunds = availableFunds;
     }
 
-    public Set<Autosalon> getAutosalons() {
-        return autosalons;
-    }
-
-    public void setAutosalons(Set<Autosalon> autosalons) {
-        this.autosalons = autosalons;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -120,14 +94,12 @@ public class Customer implements Serializable {
 
     @Override
     public String toString() {
-        return "Customer{"
+        return "{"
                 + "id=" + id
                 + ", name='" + name + '\''
                 + ", surname='" + surname + '\''
                 + ", dateOfBirth=" + dateOfBirth
-                + ", phoneNumber='" + phoneNumber + '\''
                 + ", availableFunds=" + availableFunds
-                + ", autosalons=" + autosalons
                 + '}';
     }
 }

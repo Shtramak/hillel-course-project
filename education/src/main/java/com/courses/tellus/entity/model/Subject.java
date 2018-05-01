@@ -2,14 +2,48 @@ package com.courses.tellus.entity.model;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "subject")
 public class Subject {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "subject_id")
     private Long subjectId;
+
     private String name;
+
     private String description;
+
     private boolean valid;
+
+    @Column(name = "date_of_creation")
     private LocalDate dateOfCreation;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "uni_id")
+    private University university;
+
+    @ManyToMany
+    @JoinTable(
+            name = "subject_student",
+            joinColumns = @JoinColumn(name = "subject_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
+    private Set<Student> students;
 
     /**
      * Empty Object constructor.
@@ -90,6 +124,22 @@ public class Subject {
         this.dateOfCreation = date;
     }
 
+    public University getUniversity() {
+        return university;
+    }
+
+    public void setUniversity(University university) {
+        this.university = university;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
+    }
+
     @Override
     public String toString() {
         return "Subject{"
@@ -98,27 +148,32 @@ public class Subject {
                 + ", description='" + description + '\''
                 + ", valid=" + valid
                 + ", dateOfCreation=" + dateOfCreation
+                + ", university=" + university
+                + ", students=" + students
                 + '}';
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
         if (!(obj instanceof Subject)) {
             return false;
         }
-        final Subject subject = (Subject) obj;
+        Subject subject = (Subject) obj;
         return isValid() == subject.isValid()
                 && Objects.equals(getSubjectId(), subject.getSubjectId())
                 && Objects.equals(getName(), subject.getName())
                 && Objects.equals(getDescription(), subject.getDescription())
-                && Objects.equals(getDateOfCreation(), subject.getDateOfCreation());
+                && Objects.equals(getDateOfCreation(), subject.getDateOfCreation())
+                && Objects.equals(getUniversity(), subject.getUniversity())
+                && Objects.equals(getStudents(), subject.getStudents());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getSubjectId(), getName(), getDescription(), isValid(), getDateOfCreation());
+        return Objects.hash(getSubjectId(), getName(), getDescription(), isValid(), getDateOfCreation(),
+                getUniversity(), getStudents());
     }
 }
