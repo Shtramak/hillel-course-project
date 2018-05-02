@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +28,7 @@ public class Customer implements Serializable {
     private String phoneNumber;
     @Column(name = "available_funds")
     private double availableFunds;
-    @ManyToMany(mappedBy = "customers")
+    @ManyToMany(mappedBy = "customers", fetch = FetchType.EAGER)
     private Set<Autosalon> autosalons;
 
     public Customer() {
