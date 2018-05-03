@@ -22,14 +22,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 class CustomerControllerRestUnitTest {
-
     @Mock
     private Customer customer;
     @Mock
     private CustomerDto customerDto;
     @Mock
     private CustomerServiceImplRest customerService;
-    @Mock
+
     private CustomerControllerRest customerController;
 
     @BeforeEach
