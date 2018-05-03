@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/springrest/autosalon/autos")
+@RequestMapping("/springrest/autosalon/auto")
 public class AutoControllerRest {
 
     private final transient AutoServiceImplRest autoService;

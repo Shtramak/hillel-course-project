@@ -43,14 +43,14 @@ public class AutoIntegrationRestTest {
 
     @Test
     public void testListAuto() throws Exception {
-        this.mockMvc.perform(get("/springrest/autosalon/autos"))
+        this.mockMvc.perform(get("/springrest/autosalon/auto"))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
     public void testCreateAuto() throws Exception {
-        MockHttpServletRequestBuilder builder = post("/springrest/autosalon/autos")
+        MockHttpServletRequestBuilder builder = post("/springrest/autosalon/auto")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "\"brand\": \"BMW\",\n" +
@@ -66,7 +66,7 @@ public class AutoIntegrationRestTest {
 
     @Test
     public void testUpdateAuto() throws Exception {
-        MockHttpServletRequestBuilder builder = put("/springrest/autosalon/autos")
+        MockHttpServletRequestBuilder builder = put("/springrest/autosalon/auto")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "\"id\":\"1\",\n" +
@@ -83,14 +83,14 @@ public class AutoIntegrationRestTest {
 
     @Test
     public void testGetAutoById() throws Exception {
-        this.mockMvc.perform(get("/springrest/autosalon/autos/1"))
+        this.mockMvc.perform(get("/springrest/autosalon/auto/1"))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
     public void testDelete() throws Exception {
-        this.mockMvc.perform(delete("/springrest/autosalon/autos/1"))
+        this.mockMvc.perform(delete("/springrest/autosalon/auto/1"))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
