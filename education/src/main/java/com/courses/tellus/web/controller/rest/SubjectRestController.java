@@ -11,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,7 +64,7 @@ public class SubjectRestController {
      * @param subject dto object parsed from json
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<String> insertEntity(@RequestBody final SubjectDTO subject) {
+    public ResponseEntity<String> insertEntity(@Validated @RequestBody final SubjectDTO subject) {
         subjectService.insert(subject);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -86,7 +87,7 @@ public class SubjectRestController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(value = "/{subjectId:[\\d]+}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<String> updateEntity(@PathVariable final Long subjectId, @RequestBody final SubjectDTO subject) {
+    public ResponseEntity<String> updateEntity(@Validated @PathVariable final Long subjectId, @RequestBody final SubjectDTO subject) {
         subjectService.update(subjectId, subject);
         return new ResponseEntity<>(HttpStatus.OK);
     }
