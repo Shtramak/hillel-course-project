@@ -89,7 +89,7 @@ public class AutoIntegrationRestTest {
     }
 
     @Test
-    public void testDelete() throws Exception {
+    public void testDeleteAutoById() throws Exception {
         this.mockMvc.perform(delete("/springrest/autosalon/auto/1"))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());

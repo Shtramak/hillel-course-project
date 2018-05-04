@@ -1,5 +1,6 @@
 package com.courses.tellus.autosalon.service.springrest;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.courses.tellus.autosalon.model.Auto;
@@ -11,7 +12,7 @@ public interface AutoServiceRest {
      *Get all auto from database.
      * @return list auto.
      */
-    Iterable<Auto> getAll();
+    List<Auto> getAll();
 
     /**
      * Add auto to database.
