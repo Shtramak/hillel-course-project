@@ -9,79 +9,96 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.verify;
 
 public class UniversityRestServiceMockTest {
 
-    @Mock
-    private UniversityDto universityDto;
-
-    @Mock
-    private University university;
-
-    @Mock
-    private UniversityRepository repository;
-
+    @Mock private UniversityRepository repository;
+    @Mock private University university;
+    @Mock private UniversityDto universityDto;
 
     @InjectMocks
-    private UniversityRestServiceImpl universityRestService;
+    private UniversityRestServiceImpl service;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void getAllTest(){
+    void getAllTestAndReturnEntityList() {
         List<University> universities = new ArrayList<>();
         universities.add(university);
-        given(universityRestService.getAll()).willReturn(universities);
+        given(repository.findAll()).willReturn(universities);
 
-        assertEquals(1, universityRestService.getAll().size());
-        verify(repository, atLeastOnce()).findAll();
+        assertEquals(1, service.getAll().size());
     }
 
     @Test
-    void getById(){
-        universityRestService.getById(anyLong());
-        verify(repository,atLeastOnce()).findById(anyLong());
+    void getAllTestAndReturnEmptyEntityList() {
+        assertEquals(0, service.getAll().size());
     }
 
     @Test
-    void insert(){
-        given(universityDto.getNameOfUniversity()).willReturn("testN");
-        given(universityDto.getAddress()).willReturn("testA");
-        given(universityDto.getSpecialization()).willReturn("testS");
-
-        universityRestService.insert(universityDto);
-        verify(repository, atLeastOnce()).save(any());
+    void getByIdTest() {
+        given(repository.findById(anyLong())).willReturn(Optional.of(university));
+        assertTrue(service.getEntityById(anyLong()).isPresent());
     }
 
     @Test
-    void delete(){
-        universityRestService.delete(anyLong());
-        verify(repository, atLeastOnce()).deleteById(anyLong());
-
+    void deleteTest() {
+        assertTrue(service.delete(anyLong()));
     }
 
     @Test
-    void update(){
-        given(universityDto.getUniId()).willReturn("1");
-        given(universityDto.getNameOfUniversity()).willReturn("testN");
-        given(universityDto.getAddress()).willReturn("testA");
-        given(universityDto.getSpecialization()).willReturn("testS");
+    void deleteTestAndThrowException() {
+        willThrow(IllegalArgumentException.class).given(repository).deleteById(anyLong());
+        assertThrows(IllegalArgumentException.class, () -> service.delete(anyLong()));
+    }
 
-        universityRestService.update(universityDto);
-        verify(repository, atLeastOnce()).save(any());
+    @Test
+    void insertTestWhenItSuccessful() {
+        UniversityDto universityDto = new UniversityDto("testN", "testA", "testS");
+        assertTrue(service.insert(universityDto));
+    }
+
+    @Test
+    void insertTestWhenItGetException() {
+        UniversityDto universityDto = new UniversityDto("", " ", " ", " ");
+        assertThrows(NumberFormatException.class, () -> service.insert(universityDto));
+    }
+
+
+    @Test
+    void updateTestWhenItFailed() {
+        UniversityDto universityDto = new UniversityDto("1", "testN", "testA", "testS");
+
+        given(repository.findById(anyLong())).willReturn(Optional.empty());
+
+        assertFalse(service.update(1L, universityDto));
+    }
+
+    @Test
+    void updateTestWhenItSuccessful() {
+        UniversityDto universityDto = new UniversityDto("1", "testN", "testA", "testS");
+       University university = new University(1L, "testN", "testA","testS");
+        given(service.getEntityById(anyLong())).willReturn(Optional.of(university));
+
+        assertTrue(service.update(1L, universityDto));
+    }
 
     }
 
-}
+

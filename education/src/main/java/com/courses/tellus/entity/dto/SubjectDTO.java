@@ -5,27 +5,13 @@ import java.util.Set;
 import com.courses.tellus.entity.model.Student;
 import com.courses.tellus.entity.model.University;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 public class SubjectDTO {
 
     private String subjectId;
-
-    @NotBlank
-    @Size(min = 3, max = 50)
     private String name;
-
-    @NotBlank
-    @Size(min = 5, max = 45)
     private String description;
-
     private String valid;
-
-    @NotNull
     private String dateOfCreation;
-
     private Set<Student> students;
     private University university;
 

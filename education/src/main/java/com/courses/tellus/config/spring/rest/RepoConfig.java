@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -99,11 +98,4 @@ public class RepoConfig {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
-    @Bean(name = "messageSource")
-    public ReloadableResourceBundleMessageSource messageSource() {
-        ReloadableResourceBundleMessageSource messageBundle = new ReloadableResourceBundleMessageSource();
-        messageBundle.setBasename("classpath:ValidationMessages");
-        messageBundle.setDefaultEncoding("UTF-8");
-        return messageBundle;
-    }
 }

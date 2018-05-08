@@ -1,25 +1,18 @@
 package com.courses.tellus.entity.dto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import java.util.Set;
+
+import com.courses.tellus.entity.model.Student;
+import com.courses.tellus.entity.model.Subject;
 
 public class UniversityDto {
 
-
-
     private String uniId;
-
-    @NotBlank
-    @Size(min = 3, max = 5)
     private String nameOfUniversity;
-
-    @NotBlank
-    @Size(min = 5, max = 45)
     private String address;
-
-    @NotBlank
-    @Size(min=5, max = 35)
     private String specialization;
+    private Set<Subject> subjects;
+    private Set<Student> students;
 
     public UniversityDto(){
     }
@@ -69,5 +62,21 @@ public class UniversityDto {
 
     public void setSpecialization(final String specialization) {
         this.specialization = specialization;
+    }
+
+    public Set<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(final Set<Subject> subjects) {
+        this.subjects = subjects;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(final Set<Student> students) {
+        this.students = students;
     }
 }
