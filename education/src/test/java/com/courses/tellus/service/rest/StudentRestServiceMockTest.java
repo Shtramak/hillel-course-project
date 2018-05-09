@@ -1,8 +1,8 @@
 package com.courses.tellus.service.rest;
 
-import com.courses.tellus.entity.dto.UniversityDto;
-import com.courses.tellus.entity.model.University;
-import com.courses.tellus.persistence.repository.rest.UniversityRestRepository;
+import com.courses.tellus.entity.dto.StudentDto;
+import com.courses.tellus.entity.model.Student;
+import com.courses.tellus.persistence.repository.rest.StudentRestRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -14,21 +14,18 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.verify;
 
-public class UniversityRestServiceMockTest {
+public class StudentRestServiceMockTest {
 
-    @Mock private UniversityRestRepository repository;
-    @Mock private University university;
-    @Mock private UniversityDto universityDto;
+    @Mock private StudentRestRepository repository;
+    @Mock private Student student;
+    @Mock private StudentDto studentDto;
 
     @InjectMocks
-    private UniversityRestServiceImpl service;
+    private StudentRestServiceImpl service;
 
     @BeforeEach
     void setup() {
@@ -37,9 +34,9 @@ public class UniversityRestServiceMockTest {
 
     @Test
     void getAllTestAndReturnEntityList() {
-        List<University> universities = new ArrayList<>();
-        universities.add(university);
-        given(repository.findAll()).willReturn(universities);
+        List<Student> students = new ArrayList<>();
+        students.add(student);
+        given(repository.findAll()).willReturn(students);
 
         assertEquals(1, service.getAll().size());
     }
@@ -51,7 +48,7 @@ public class UniversityRestServiceMockTest {
 
     @Test
     void getByIdTest() {
-        given(repository.findById(anyLong())).willReturn(Optional.of(university));
+        given(repository.findById(anyLong())).willReturn(Optional.of(student));
         assertTrue(service.getEntityById(anyLong()).isPresent());
     }
 
@@ -68,33 +65,37 @@ public class UniversityRestServiceMockTest {
 
     @Test
     void insertTestWhenItSuccessful() {
-        UniversityDto universityDto = new UniversityDto("testN", "testA", "testS");
-        assertTrue(service.insert(universityDto));
+        StudentDto studentDto = new StudentDto("testIn", "testIN",
+                "testIN","tesIn");
+        assertTrue(service.insert(studentDto));
     }
 
     @Test
     void insertTestWhenItGetException() {
-        UniversityDto universityDto = new UniversityDto("", " ", " ", " ");
-        assertThrows(NumberFormatException.class, () -> service.insert(universityDto));
+        StudentDto studentDto = new StudentDto("","", " ", " ", " ");
+        assertThrows(NumberFormatException.class, () -> service.insert(studentDto));
     }
 
 
     @Test
     void updateTestWhenItFailed() {
-        UniversityDto universityDto = new UniversityDto("1", "testN", "testA", "testS");
+        StudentDto studentDto = new StudentDto("1","testUp", "testUp",
+                "testUp","tesUp");
 
         given(repository.findById(anyLong())).willReturn(Optional.empty());
 
-        assertFalse(service.update(1L, universityDto));
+        assertFalse(service.update(1L, studentDto));
     }
 
     @Test
     void updateTestWhenItSuccessful() {
-        UniversityDto universityDto = new UniversityDto("1", "testN", "testA", "testS");
-       University university = new University(1L, "testN", "testA","testS");
-        given(service.getEntityById(anyLong())).willReturn(Optional.of(university));
+        StudentDto studentDto = new StudentDto("1","testUp", "testUp",
+                "testUp","tesUp");
+        Student student = new Student(1L, "testUp", "testUp",
+               "testUp","testUp");
+        given(service.getEntityById(anyLong())).willReturn(Optional.of(student));
 
-        assertTrue(service.update(1L, universityDto));
+        assertTrue(service.update(1L, studentDto));
     }
 
     }

@@ -23,7 +23,7 @@ import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
-class UniversityRepositoryMockTest {
+class UniversityRestRepositoryMockTest {
 
     @Mock private EntityManager entityManager;
     @Mock private EntityTransaction transaction;

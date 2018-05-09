@@ -5,17 +5,17 @@ import java.util.Optional;
 
 import com.courses.tellus.entity.dto.UniversityDto;
 import com.courses.tellus.entity.model.University;
-import com.courses.tellus.persistence.repository.rest.UniversityRepository;
+import com.courses.tellus.persistence.repository.rest.UniversityRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UniversityRestServiceImpl implements RestService<University, UniversityDto> {
 
-    private final transient UniversityRepository repository;
+    private final transient UniversityRestRepository repository;
 
     @Autowired
-    public UniversityRestServiceImpl(final UniversityRepository repository) {
+    public UniversityRestServiceImpl(final UniversityRestRepository repository) {
         this.repository = repository;
     }
 
