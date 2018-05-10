@@ -6,11 +6,11 @@ import com.courses.tellus.config.spring.mvc.WebAppConfig;
 import com.courses.tellus.entity.dto.SubjectDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,11 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebAppConfiguration
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {WebAppConfig.class})
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class SubjectControllerIntegrationTest {
 
     @Autowired
@@ -71,9 +73,8 @@ class SubjectControllerIntegrationTest {
     }
 
     @Test
-    @Sql("classpath:initial/h2/table/spring/subject_test_table.sql")
     void subjectEditTestAndReturnJspEditPage() throws Exception {
-        mvc.perform(get("/mvc/subject/edit/1")).andExpect(status().isOk());
+        mvc.perform(get("/mvc/subject/edit/3")).andExpect(status().isOk());
     }
 
     @Test

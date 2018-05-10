@@ -3,7 +3,6 @@ package com.courses.tellus.web.controller.rest;
 import javax.servlet.ServletContext;
 
 import com.courses.tellus.config.spring.mvc.WebAppConfig;
-import com.courses.tellus.config.spring.rest.RepoConfig;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -26,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = {WebAppConfig.class, RepoConfig.class})
+@ContextConfiguration(classes = {WebAppConfig.class})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class SubjectRestControllerIntegrationTest {
 

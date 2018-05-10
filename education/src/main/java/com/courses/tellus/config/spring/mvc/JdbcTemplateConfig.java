@@ -21,7 +21,6 @@ public class JdbcTemplateConfig {
     public DataSource dataSource() {
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("database/h2/init.sql")
                 .build();
     }
 
