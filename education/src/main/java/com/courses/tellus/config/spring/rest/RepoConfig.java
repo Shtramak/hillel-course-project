@@ -82,4 +82,5 @@ public class RepoConfig {
     public HibernateExceptionTranslator exceptionTranslation() {
         return new HibernateExceptionTranslator();
     }
+
 }

@@ -48,8 +48,8 @@ public class UniversityController {
      */
     @PostMapping("/add")
     public String addUniversity(@ModelAttribute("university") final University university) {
-     serviceImpl.insert(university);
-     return "redirect:/spring/mvc/university/list";
+        serviceImpl.insert(university);
+        return "redirect:/spring/mvc/university/list";
     }
 
     /**
@@ -58,8 +58,8 @@ public class UniversityController {
      */
     @GetMapping("/delete/{uniId}")
     public String deleteUniversity(@PathVariable("uniId") final Long uniId) {
-    serviceImpl.delete(uniId);
-    return "redirect:/spring/mvc/university/list";
+        serviceImpl.delete(uniId);
+        return "redirect:/spring/mvc/university/list";
     }
 
     /**
@@ -68,7 +68,7 @@ public class UniversityController {
      */
     @GetMapping("/edit/{uniId}")
     public String updateUniversity(@PathVariable("uniId") final Long uniId, final Model model) {
-       model.addAttribute("university", serviceImpl.getById(uniId).get());
+        model.addAttribute("university", serviceImpl.getById(uniId).get());
         return "updateUniversity";
     }
 
@@ -84,4 +84,3 @@ public class UniversityController {
         return "redirect:/spring/mvc/university/list";
     }
 }
-
