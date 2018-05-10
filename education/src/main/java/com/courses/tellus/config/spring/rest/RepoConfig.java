@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.hibernate5.HibernateExceptionTranslator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -30,24 +28,12 @@ public class RepoConfig {
     private transient Environment env;
 
     /**
-     * Method for creation stable connection for datasource.
-     *
-     * @return h2 datasource
-     */
-    @Bean
-    public DataSource repoDataSource() {
-        return new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.H2)
-                .build();
-    }
-
-    /**
      * Method for setup additional hibernate properties.
      *
      * @return additional properties for hibernate
      */
     @Bean
-    public Properties advancedProperties() {
+    public Properties advancedProp() {
         final Properties properties = new Properties();
         properties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
         properties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
@@ -59,18 +45,18 @@ public class RepoConfig {
     /**
      * Create entity manager factory from data source.
      *
-     * @param repoDataSource datasource config
-     * @param advancedProperties advanced hibernate properties
+     * @param dataSource datasource config
+     * @param advancedProp advanced hibernate properties
      * @return javax.persistence.EntityManagerFactory
      */
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(final DataSource repoDataSource,
-                                                                       final Properties advancedProperties) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(final DataSource dataSource,
+                                                                       final Properties advancedProp) {
         final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         factoryBean.setJpaVendorAdapter(vendorAdapter);
-        factoryBean.setDataSource(repoDataSource);
-        factoryBean.setJpaProperties(advancedProperties);
+        factoryBean.setDataSource(dataSource);
+        factoryBean.setJpaProperties(advancedProp);
         factoryBean.setPackagesToScan("com.courses.tellus");
         return factoryBean;
     }

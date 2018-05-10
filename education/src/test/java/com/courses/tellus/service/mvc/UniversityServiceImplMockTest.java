@@ -1,23 +1,22 @@
 package com.courses.tellus.service.mvc;
 
-import com.courses.tellus.persistence.dao.spring.UniversityDao;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import com.courses.tellus.entity.model.University;
+import com.courses.tellus.persistence.dao.spring.UniversityDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 

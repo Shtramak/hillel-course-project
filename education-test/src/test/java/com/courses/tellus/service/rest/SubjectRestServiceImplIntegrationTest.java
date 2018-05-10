@@ -1,8 +1,8 @@
 package com.courses.tellus.service.rest;
 
+import com.courses.tellus.config.spring.mvc.JdbcTemplateConfig;
 import com.courses.tellus.config.spring.rest.RepoConfig;
 import com.courses.tellus.entity.dto.SubjectDTO;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +13,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {SubjectRestServiceImpl.class, RepoConfig.class})
+@ContextConfiguration(classes = {SubjectRestServiceImpl.class, RepoConfig.class, JdbcTemplateConfig.class})
 class SubjectRestServiceImplIntegrationTest {
 
     @Autowired
     private SubjectRestServiceImpl restService;
     private SubjectDTO subjectDTO;
-
-    @BeforeEach
-    void setup() {
-
-    }
 
     @Test
     void testGetAll() {
