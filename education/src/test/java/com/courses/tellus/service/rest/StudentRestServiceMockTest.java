@@ -1,5 +1,9 @@
 package com.courses.tellus.service.rest;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import com.courses.tellus.entity.dto.StudentDto;
 import com.courses.tellus.entity.model.Student;
 import com.courses.tellus.persistence.repository.rest.StudentRestRepository;
@@ -9,14 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Matchers.anyLong;
 
 public class StudentRestServiceMockTest {
 

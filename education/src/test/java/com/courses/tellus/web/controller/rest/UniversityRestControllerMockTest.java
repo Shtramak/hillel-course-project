@@ -1,5 +1,9 @@
 package com.courses.tellus.web.controller.rest;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import com.courses.tellus.entity.dto.UniversityDto;
 import com.courses.tellus.entity.model.University;
 import com.courses.tellus.service.rest.UniversityRestServiceImpl;
@@ -11,14 +15,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
