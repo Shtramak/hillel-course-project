@@ -1,4 +1,4 @@
-package com.courses.tellus.service;
+package com.courses.tellus.service.mvc;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;

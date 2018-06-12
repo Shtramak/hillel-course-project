@@ -13,13 +13,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "university")
 public class University  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "uni_id")
+    @Column(name = "univer_id")
     private Long uniId;
 
     @Column(name = "name_of_university")
@@ -30,12 +32,14 @@ public class University  {
     private String specialization;
 
     @OneToMany(mappedBy = "university")
+    @JsonIgnore
     private Set<Subject> subjects;
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
             name = "university_student",
-            joinColumns = @JoinColumn(name = "uni_id"),
+            joinColumns = @JoinColumn(name = "univer_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
     private Set<Student> students;

@@ -40,10 +40,10 @@
                                 <td>${subject.description}</td>
                                 <td>${subject.valid}</td>
                                 <td>${subject.dateOfCreation}</td>
-                                <td><a href="/springmvc/subject/edit/${subject.subjectId}">
+                                <td><a href="/spring/mvc/subject/edit/${subject.subjectId}">
                                     <span class="fa fa-pencil text-center"></span></a>
                                 </td>
-                                <td><a href="/springmvc/subject/delete/${subject.subjectId}">
+                                <td><a href="/spring/mvc/subject/delete/${subject.subjectId}">
                                     <span class="fa fa-trash text-center"></span></a>
                                 </td>
                             </tr>

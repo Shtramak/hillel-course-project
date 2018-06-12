@@ -1,17 +1,16 @@
-package com.courses.tellus.service;
+package com.courses.tellus.service.mvc;
 
-import com.courses.tellus.persistence.dao.spring.UniversityDao;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import com.courses.tellus.entity.model.University;
+import com.courses.tellus.persistence.dao.spring.UniversityDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -47,34 +46,33 @@ public class UniversityServiceImplMockTest {
 
         assertEquals(1, universityServiceImpl.insert(university));
         verify(universityDao, atLeastOnce()).insert(any());
-        }
+    }
 
-        @Test
+    @Test
     void testUpdateUniversity() {
-            given(university.getNameOfUniversity()).willReturn("testN");
-            given(university.getAddress()).willReturn("testA");
-            given(university.getSpecialization()).willReturn("testS");
-            given(universityDao.update(any())).willReturn(1);
+        given(university.getNameOfUniversity()).willReturn("testN");
+        given(university.getAddress()).willReturn("testA");
+        given(university.getSpecialization()).willReturn("testS");
+        given(universityDao.update(any())).willReturn(1);
 
-            assertEquals(1, universityServiceImpl.update(university));
-            verify(universityDao, atLeastOnce()).update(any());
-        }
+        assertEquals(1, universityServiceImpl.update(university));
+        verify(universityDao, atLeastOnce()).update(any());
+    }
 
-        @Test
+    @Test
     void testDeleteUniversity(){
         given(universityDao.delete(anyLong())).willReturn(1);
 
         assertEquals(1,universityServiceImpl.delete(anyLong()));
         verify(universityDao, atLeastOnce()).delete(anyLong());
+    }
 
-        }
-
-        @Test
+    @Test
     void testGetById(){
             given(universityServiceImpl.getById(anyLong())).willReturn(Optional.of(university));
             assertTrue(universityServiceImpl.getById(anyLong()).isPresent());
             verify(universityDao, atLeastOnce()).getById(anyLong());
-        }
+    }
 
         @Test
     void testGetAll(){
@@ -84,5 +82,5 @@ public class UniversityServiceImplMockTest {
 
             assertEquals(1, universityServiceImpl.getAll().size());
             verify(universityDao, atLeastOnce()).getAll();
-        }
+    }
 }

@@ -19,16 +19,16 @@
             <div class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-light" href="#" data-toggle="dropdown">Spring create</a>
                 <div class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/springmvc/university/add">University</a></li>
+                    <li><a class="dropdown-item" href="/spring/mvc/university/add">University</a></li>
                     <li><a class="dropdown-item" href="#">Student</a></li>
-                    <li><a class="dropdown-item" href="/springmvc/subject/add">Subject</a></li>
+                    <li><a class="dropdown-item" href="/spring/mvc/subject/add">Subject</a></li>
                 </div>
             </div><div class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-light" href="#" data-toggle="dropdown">Spring list</a>
                 <div class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/springmvc/university/list">University</a></li>
+                    <li><a class="dropdown-item" href="/spring/mvc/university/list">University</a></li>
                     <li><a class="dropdown-item" href="#">Student</a></li>
-                    <li><a class="dropdown-item" href="/springmvc/subject">Subject</a></li>
+                    <li><a class="dropdown-item" href="/spring/mvc/subject">Subject</a></li>
                 </div>
             </div><div class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-light" href="#" data-toggle="dropdown">Servlets create</a>

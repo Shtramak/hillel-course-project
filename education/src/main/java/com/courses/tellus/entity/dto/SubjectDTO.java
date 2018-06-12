@@ -1,5 +1,10 @@
 package com.courses.tellus.entity.dto;
 
+import java.util.Set;
+
+import com.courses.tellus.entity.model.Student;
+import com.courses.tellus.entity.model.University;
+
 public class SubjectDTO {
 
     private String subjectId;
@@ -7,6 +12,8 @@ public class SubjectDTO {
     private String description;
     private String valid;
     private String dateOfCreation;
+    private Set<Student> students;
+    private University university;
 
     public SubjectDTO() {
     }
@@ -65,5 +72,21 @@ public class SubjectDTO {
 
     public void setDateOfCreation(final String dateOfCreation) {
         this.dateOfCreation = dateOfCreation;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(final Set<Student> students) {
+        this.students = students;
+    }
+
+    public University getUniversity() {
+        return university;
+    }
+
+    public void setUniversity(final University university) {
+        this.university = university;
     }
 }

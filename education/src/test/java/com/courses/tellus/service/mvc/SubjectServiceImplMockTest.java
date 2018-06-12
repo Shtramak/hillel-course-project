@@ -1,4 +1,4 @@
-package com.courses.tellus.service;
+package com.courses.tellus.service.mvc;
 
 import java.util.ArrayList;
 import java.util.List;

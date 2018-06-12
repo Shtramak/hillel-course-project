@@ -1,4 +1,4 @@
-package com.courses.tellus.service;
+package com.courses.tellus.service.mvc;
 
 import com.courses.tellus.persistence.dao.spring.SubjectDao;
 import com.courses.tellus.persistence.dao.spring.TestDataSource;

@@ -36,9 +36,9 @@
                     <td>${university.nameOfUniversity}</td>
                     <td>${university.address}</td>
                     <td>${university.specialization}</td>
-                    <td><a href="/springmvc/university/edit/${university.uniId}"><span
+                    <td><a href="/spring/mvc/university/edit/${university.uniId}"><span
                             class="fa fa-pencil text-center"></span></a></td>
-                    <td><a href="/springmvc/university/delete/${university.uniId}"><span
+                    <td><a href="/spring/mvc/university/delete/${university.uniId}"><span
                             class="fa fa-trash text-center"></span></a></td>
                 </tr>
             </c:forEach>

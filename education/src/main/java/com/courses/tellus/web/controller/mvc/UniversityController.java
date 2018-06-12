@@ -1,7 +1,7 @@
-package com.courses.tellus.web.controller;
+package com.courses.tellus.web.controller.mvc;
 
 import com.courses.tellus.entity.model.University;
-import com.courses.tellus.service.UniversityService;
+import com.courses.tellus.service.mvc.UniversityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/university")
+@RequestMapping("/mvc/university")
 public class UniversityController {
 
     @Autowired
@@ -48,8 +48,8 @@ public class UniversityController {
      */
     @PostMapping("/add")
     public String addUniversity(@ModelAttribute("university") final University university) {
-     serviceImpl.insert(university);
-     return "redirect:/springmvc/university/list";
+        serviceImpl.insert(university);
+        return "redirect:/spring/mvc/university/list";
     }
 
     /**
@@ -58,8 +58,8 @@ public class UniversityController {
      */
     @GetMapping("/delete/{uniId}")
     public String deleteUniversity(@PathVariable("uniId") final Long uniId) {
-    serviceImpl.delete(uniId);
-    return "redirect:/springmvc/university/list";
+        serviceImpl.delete(uniId);
+        return "redirect:/spring/mvc/university/list";
     }
 
     /**
@@ -68,7 +68,7 @@ public class UniversityController {
      */
     @GetMapping("/edit/{uniId}")
     public String updateUniversity(@PathVariable("uniId") final Long uniId, final Model model) {
-       model.addAttribute("university", serviceImpl.getById(uniId).get());
+        model.addAttribute("university", serviceImpl.getById(uniId).get());
         return "updateUniversity";
     }
 
@@ -81,7 +81,6 @@ public class UniversityController {
     @PostMapping("/edit")
     public String updateUniversity(@ModelAttribute("university") final University university) {
         serviceImpl.update(university);
-        return "redirect:/springmvc/university/list";
+        return "redirect:/spring/mvc/university/list";
     }
 }
-

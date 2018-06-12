@@ -5,7 +5,6 @@ import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +13,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "subject")
@@ -26,6 +27,7 @@ public class Subject {
 
     private String name;
 
+    @Column(name = "descr")
     private String description;
 
     private boolean valid;
@@ -33,11 +35,12 @@ public class Subject {
     @Column(name = "date_of_creation")
     private LocalDate dateOfCreation;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "uni_id")
+    @ManyToOne
+    @JoinColumn(name = "univer_id")
     private University university;
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
             name = "subject_student",
             joinColumns = @JoinColumn(name = "subject_id"),
