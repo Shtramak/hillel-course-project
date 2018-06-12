@@ -12,6 +12,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebMvc
 @ComponentScan("com.courses.tellus.autosalon")
 public class WebConfig implements WebMvcConfigurer {
+
     @Bean
     InternalResourceViewResolver getViewResolver() {
         final InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -22,6 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(final ViewControllerRegistry registry) {
-        registry.addViewController("/springmvc").setViewName("forward:/index.html");
+        registry.addViewController("/").setViewName("forward:/index.html");
+        registry.addViewController("/login").setViewName("forward:/index.html");
     }
 }

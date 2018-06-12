@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/autosalon/customer")
+@RequestMapping("/springmvc/autosalon/customer")
 public class CustomerController {
     private final transient CustomerService service;
 

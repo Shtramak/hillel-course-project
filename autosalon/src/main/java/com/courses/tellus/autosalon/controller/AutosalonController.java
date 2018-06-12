@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/autosalon/autosalon")
+@RequestMapping("/springmvc/autosalon/autosalon")
 public class AutosalonController {
 
     private final transient AutosalonServiceImpl autosalonService;

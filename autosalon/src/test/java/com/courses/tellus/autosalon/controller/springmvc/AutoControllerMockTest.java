@@ -1,6 +1,7 @@
-package com.courses.tellus.autosalon.controller;
+package com.courses.tellus.autosalon.controller.springmvc;
 
 
+import com.courses.tellus.autosalon.controller.AutoController;
 import com.courses.tellus.autosalon.model.Auto;
 import com.courses.tellus.autosalon.service.AutoService;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,4 +1,4 @@
-package com.courses.tellus.autosalon.controller;
+package com.courses.tellus.autosalon.controller.springmvc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
+import com.courses.tellus.autosalon.controller.CustomerController;
 import com.courses.tellus.autosalon.dao.springjdbc.CustomerDao;
 import com.courses.tellus.autosalon.model.Customer;
 import com.courses.tellus.autosalon.service.CustomerService;

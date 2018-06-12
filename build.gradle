@@ -40,6 +40,12 @@ project("autosalon") {
         compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
         compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.2.11.Final'
         compile group: 'org.springframework', name: 'spring-webmvc', version: "5.0.4.RELEASE"
+        compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: '2.9.5'
+        compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '2.0.5.RELEASE'
+        compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+        compile group: 'org.springframework.security', name: 'spring-security-web', version: '5.0.3.RELEASE'
+        compile group: 'org.springframework.security', name: 'spring-security-config', version: '5.0.3.RELEASE'
+        compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.0.9.Final'
     }
     war {
         archiveName='autosalon.war'

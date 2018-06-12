@@ -1,4 +1,4 @@
-package com.courses.tellus.autosalon.controller;
+package com.courses.tellus.autosalon.controller.springmvc;
 
 import com.courses.tellus.autosalon.config.springmvc.WebConfig;
 import org.junit.jupiter.api.BeforeAll;
@@ -41,21 +41,21 @@ public class AutosalonControllerIntegrationTest {
 
     @Test
     public void testListAutosalon() throws Exception {
-        this.mockMvc.perform(get("/autosalon/autosalon/allAutosalon"))
+        this.mockMvc.perform(get("/springmvc/autosalon/autosalon/allAutosalon"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("allAutosalon"));
     }
 
     @Test
     public void testCreateAutosalonGetMethod() throws Exception {
-        this.mockMvc.perform(get("/autosalon/autosalon/createautosalon"))
+        this.mockMvc.perform(get("/springmvc/autosalon/autosalon/createautosalon"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("createautosalon"));
     }
 
     @Test
     public void testCreateAutosalonPostMethod() throws Exception {
-        MockHttpServletRequestBuilder builder = post("/autosalon/autosalon/createautosalon")
+        MockHttpServletRequestBuilder builder = post("/springmvc/autosalon/autosalon/createautosalon")
                 .param("id", "6")
                 .param("name", "Toyota")
                 .param("address", "Japan")
@@ -66,7 +66,7 @@ public class AutosalonControllerIntegrationTest {
 
     @Test
     public void testIndex() throws Exception {
-        this.mockMvc.perform(get("/autosalon/autosalon/"))
+        this.mockMvc.perform(get("/springmvc/autosalon/autosalon/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"));
     }
